@@ -106,7 +106,8 @@ namespace CoreTest
         [TestCase]
         public void ToString_SimpleClient_ContainsfullName()
         {
-
+            var client = CreateClient();
+            Assert.IsTrue(client.ToString().Contains("Иванов Иван Иванович"));
         }
 
 
