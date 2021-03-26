@@ -109,6 +109,12 @@ namespace CoreTest
             var client = CreateClient();
             Assert.IsTrue(client.ToString().Contains("Иванов Иван Иванович"));
         }
+        [TestCase]
+        public void Balance_NewClient_BalanceZero()
+        {
+            var client = CreateClient();
+            Assert.AreEqual(0, client.Balance);
+        }
 
 
         private Client CreateClient()
