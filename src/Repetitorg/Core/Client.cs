@@ -71,5 +71,10 @@ namespace Repetitorg.Core
         {
             return fullName;
         }
+
+        public void MakePayment(DateTime dateTime, long kopeks)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
