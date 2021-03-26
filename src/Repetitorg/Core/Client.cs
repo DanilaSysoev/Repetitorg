@@ -7,6 +7,14 @@ namespace Repetitorg.Core
 {
     public class Client
     {
+        public long Balance 
+        {
+            get
+            {
+                return balance;
+            }
+        }
+
         public static double ClientsCount 
         {
             get 
@@ -43,9 +51,11 @@ namespace Repetitorg.Core
         private Client(string fullName)
         {
             this.fullName = fullName;
+            this.balance = 0;
         }
 
         private string fullName;
+        private long balance;
 
         private static List<Client> clients;
 
