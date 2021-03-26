@@ -8,12 +8,25 @@ namespace Repetitorg.Core
     {
         public static double ClientsCount 
         {
-            get { return clients.Count; }
+            get 
+            {
+                return clients.Count; 
+            }
         }
 
-        public static void CreateNew(string fullName)
+        public static IEnumerable<Client> All
         {
-            clients.Add(new Client(fullName));
+            get
+            {
+                return clients;
+            }
+        }
+
+        public static Client CreateNew(string fullName)
+        {
+            var client = new Client(fullName);
+            clients.Add(client);
+            return client;
         }
 
         public static void Initialize()
