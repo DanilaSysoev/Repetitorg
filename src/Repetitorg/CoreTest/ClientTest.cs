@@ -80,7 +80,8 @@ namespace CoreTest
             var allClients = CreateClients();
             var clients = Client.FilterByName("Петров Петр Петрович");
             Assert.AreEqual(2, clients.Count);
-            Assert.AreEqual(allClients[0], clients[0]);
+            Assert.IsTrue(clients.Contains(allClients[1]));
+            Assert.IsTrue(clients.Contains(allClients[3]));
         }
 
         private List<Client> CreateClients()
