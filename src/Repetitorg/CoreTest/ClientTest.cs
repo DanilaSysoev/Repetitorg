@@ -134,6 +134,18 @@ namespace CoreTest
 
             Assert.AreEqual(3, client.Payments.Count);
         }
+        [TestCase]
+        public void Payments_MakeThreePayments_PaymentsContainsAll()
+        {
+            var client = CreateClient();
+            client.MakePayment(new DateTime(2020, 10, 10), 100000);
+            client.MakePayment(new DateTime(2020, 10, 15), 200000);
+            client.MakePayment(new DateTime(2020, 10, 21), 300000);
+
+            Assert.IsTrue(client.Payments.Any(p => p.Date == new DateTime(2020, 10, 10) && p.ValueInKopeks == 100000));
+            Assert.IsTrue(client.Payments.Any(p => p.Date == new DateTime(2020, 10, 15) && p.ValueInKopeks == 200000));
+            Assert.IsTrue(client.Payments.Any(p => p.Date == new DateTime(2020, 10, 21) && p.ValueInKopeks == 300000));
+        }
 
         private Client CreateClient()
         {
