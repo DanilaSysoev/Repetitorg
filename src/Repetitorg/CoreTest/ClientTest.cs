@@ -56,6 +56,14 @@ namespace CoreTest
             Assert.AreEqual(1, clients.Count);
             Assert.AreEqual(allClients[0], clients[0]);
         }
+        [TestCase]
+        public void FilterByName_UsePartialNameWithOneEntry_GettingOneObject()
+        {
+            var allClients = CreateClients();
+            var clients = Client.FilterByName("Иванов");
+            Assert.AreEqual(1, clients.Count);
+            Assert.AreEqual(allClients[0], clients[0]);
+        }
 
         private List<Client> CreateClients()
         {
