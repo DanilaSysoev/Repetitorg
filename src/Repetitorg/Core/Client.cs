@@ -53,7 +53,7 @@ namespace Repetitorg.Core
         {
             return 
                 (from client in clients
-                 where client.fullName.Contains(condition)
+                 where client.fullName.ToLower().Contains(condition.ToLower())
                  select client).ToList();
         }
     }
