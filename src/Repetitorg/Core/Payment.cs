@@ -11,12 +11,22 @@ namespace Repetitorg.Core
         public PaymentDocumentType DocumentType { get; private set; }
         public long DocumentNumber { get; private set; }
 
-        public Payment(DateTime date, long valueInKopeks, PaymentDocumentType documentType, long documentNumber)
+        private Payment(DateTime date, long valueInKopeks, PaymentDocumentType documentType, long documentNumber)
         {
             Date = date;
             ValueInKopeks = valueInKopeks;
             documentType = DocumentType;
             DocumentNumber = documentNumber;
+        }
+
+        public static Payment CreateNew(
+            DateTime date, 
+            long valueInKopeks,
+            PaymentDocumentType documentType,
+            long documentNumber
+        )
+        {
+            return new Payment(date, valueInKopeks, documentType, documentNumber);
         }
     }
 }
