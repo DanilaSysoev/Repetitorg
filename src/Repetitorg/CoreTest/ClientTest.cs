@@ -33,11 +33,21 @@ namespace CoreTest
         {
             Assert.AreEqual(0, Client.ClientsCount);
         }
-
-        private void CreateClients()
+        [TestCase]
+        public void All_CreateTwoClients_AllExist()
         {
-            Client.CreateNew("Иванов Иван Иванович");
-            Client.CreateNew("Петров Петр Петрович");
+
+        }
+
+
+        private List<Client> CreateClients()
+        {
+            List<Client> clients = new List<Client>();
+
+            clients.Add(Client.CreateNew("Иванов Иван Иванович"));
+            clients.Add(Client.CreateNew("Петров Петр Петрович"));
+
+            return clients;
         }
     }
 }
