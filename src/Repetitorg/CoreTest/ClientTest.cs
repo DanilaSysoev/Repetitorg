@@ -124,7 +124,16 @@ namespace CoreTest
             client.MakePayment(new DateTime(2020, 10, 15), 200000);
             Assert.AreEqual(300000, client.BalanceInKopeks);
         }
+        [TestCase]
+        public void Payments_MakeThreePayments_CountEqualsThree()
+        {
+            var client = CreateClient();
+            client.MakePayment(new DateTime(2020, 10, 10), 100000);
+            client.MakePayment(new DateTime(2020, 10, 15), 200000);
+            client.MakePayment(new DateTime(2020, 10, 21), 300000);
 
+            Assert.AreEqual(3, client.Payments.Count);
+        }
 
         private Client CreateClient()
         {
