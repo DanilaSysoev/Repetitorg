@@ -18,10 +18,10 @@ namespace CoreTest
         }
 
         [TestCase]
-        public void CreateNew_CreateTwoClients_IncrementClientsCount()
+        public void CreateNew_CreateFourClients_IncrementClientsCount()
         {
             CreateClients();
-            Assert.AreEqual(2, Client.ClientsCount);
+            Assert.AreEqual(4, Client.ClientsCount);
         }
         [TestCase]
         public void ClientsCount_EmptyClients_EqualZero()
@@ -86,6 +86,8 @@ namespace CoreTest
             List<Client> clients = new List<Client>();
 
             clients.Add(Client.CreateNew("Иванов Иван Иванович"));
+            clients.Add(Client.CreateNew("Петров Петр Петрович"));
+            clients.Add(Client.CreateNew("Петровa Aнфстасия Владимировна"));
             clients.Add(Client.CreateNew("Петров Петр Петрович"));
 
             return clients;
