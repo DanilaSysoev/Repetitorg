@@ -28,6 +28,11 @@ namespace CoreTest
             CreateClients();
             Assert.AreEqual(2, Client.ClientsCount);
         }
+        [TestCase]
+        public void ClientsCount_EmptyClients_EqualZero()
+        {
+            Assert.AreEqual(0, Client.ClientsCount);
+        }
 
         private void CreateClients()
         {
