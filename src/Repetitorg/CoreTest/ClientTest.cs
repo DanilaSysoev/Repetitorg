@@ -14,7 +14,7 @@ namespace CoreTest
         [TestCase]
         public void CreateNew_CreateSimpleClient_IncrementClientsCount()
         {
-            Client c = Client.CreateNew("Иванов Иван Иванович");
+            Client.CreateNew("Иванов Иван Иванович");
             Assert.AreEqual(1, Client.ClientsCount);
         }
     }

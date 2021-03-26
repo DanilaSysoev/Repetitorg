@@ -2,9 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core
+namespace Repetitorg.Core
 {
-    class Client
+    public class Client
     {
+        public static double ClientsCount 
+        {
+            get { return 1; } 
+        }
+
+        public static void CreateNew(string v)
+        {
+        }
     }
 }
