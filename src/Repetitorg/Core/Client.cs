@@ -47,5 +47,10 @@ namespace Repetitorg.Core
         private string fullName;
 
         private static List<Client> clients;
+
+        public static IReadOnlyList<Client> FilterByName(string condition)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
