@@ -15,6 +15,12 @@ namespace Repetitorg.Core
             }
         }
 
+        public void MakePayment(DateTime date, long valueInKopeks)
+        {
+            balanceInKopeks += valueInKopeks;
+            payments.Add(new Payment(date, valueInKopeks));
+        }
+
         public static double ClientsCount 
         {
             get 
@@ -22,7 +28,6 @@ namespace Repetitorg.Core
                 return clients.Count; 
             }
         }
-
         public static IEnumerable<Client> All
         {
             get
@@ -30,14 +35,12 @@ namespace Repetitorg.Core
                 return clients;
             }
         }
-
         public static Client CreateNew(string fullName)
         {
             var client = new Client(fullName);
             clients.Add(client);
             return client;
         }
-
         public static void Clear()
         {
             clients.Clear();
@@ -51,11 +54,13 @@ namespace Repetitorg.Core
         private Client(string fullName)
         {
             this.fullName = fullName;
-            this.balanceInKopeks = 0;
+            balanceInKopeks = 0;
+            payments = new List<Payment>();
         }
 
         private string fullName;
         private long balanceInKopeks;
+        private List<Payment> payments;
 
         private static List<Client> clients;
 
@@ -70,11 +75,6 @@ namespace Repetitorg.Core
         public override string ToString()
         {
             return fullName;
-        }
-
-        public void MakePayment(DateTime dateTime, long kopeks)
-        {
-            throw new NotImplementedException();
         }
     }
 }
