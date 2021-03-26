@@ -29,10 +29,6 @@ namespace Repetitorg.Core
             return client;
         }
 
-        public static void Initialize()
-        {
-        }
-
         public static void Clear()
         {
             clients.Clear();

@@ -11,11 +11,6 @@ namespace CoreTest
     [TestFixture]
     class ClientTest
     {
-        [SetUp]
-        public void Initialize()
-        {
-            Client.Initialize();
-        }
         [TearDown]
         public void Clear()
         {
