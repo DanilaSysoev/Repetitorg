@@ -155,13 +155,6 @@ namespace CoreTest
                                               p.DocumentType == PaymentDocumentType.PaymentOrder &&
                                               p.DocumentNumber == 127));
         }
-        [TestCase]
-        public void MakePayment_ClientMakesPaymentWithDocumentData_PaymentExist()
-        {
-            var client = CreateClient();
-            client.MakePayment(new DateTime(2020, 10, 10), 100000, PaymentDocumentType.PaymentOrder, 123);
-            Assert.IsTrue(client.Payments.Any(p => p.DocumentNumber == 123 && p.DocumentType == PaymentDocumentType.PaymentOrder));
-        }
 
 
         private Client CreateClient()
