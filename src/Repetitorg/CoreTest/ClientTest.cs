@@ -93,6 +93,7 @@ namespace CoreTest
             Assert.IsTrue(clients.Contains(allClients[2]));
             Assert.IsTrue(clients.Contains(allClients[3]));
         }
+        [TestCase]
         public void FilterByName_UseLowercasePartialNameWithThreeEntry_GettingThreeObject()
         {
             var allClients = CreateClients();
@@ -102,7 +103,18 @@ namespace CoreTest
             Assert.IsTrue(clients.Contains(allClients[2]));
             Assert.IsTrue(clients.Contains(allClients[3]));
         }
+        [TestCase]
+        public void ToString_SimpleClient_ContainsfullName()
+        {
 
+        }
+
+
+        private Client CreateClient()
+        {
+            var c = Client.CreateNew("Иванов Иван Иванович");
+            return c;
+        }
         private List<Client> CreateClients()
         {
             List<Client> clients = new List<Client>();
