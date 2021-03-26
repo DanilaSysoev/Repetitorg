@@ -8,11 +8,15 @@ namespace Repetitorg.Core
     {
         public DateTime Date { get; private set; }
         public long ValueInKopeks { get; private set; }
+        public PaymentDocumentType DocumentType { get; private set; }
+        public long DocumentNumber { get; private set; }
 
-        public Payment(DateTime date, long valueInKopeks)
+        public Payment(DateTime date, long valueInKopeks, PaymentDocumentType documentType, long documentNumber)
         {
             Date = date;
             ValueInKopeks = valueInKopeks;
+            documentType = DocumentType;
+            DocumentNumber = documentNumber;
         }
     }
 }

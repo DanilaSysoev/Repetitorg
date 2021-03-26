@@ -22,10 +22,10 @@ namespace Repetitorg.Core
             }
         }
 
-        public void MakePayment(DateTime date, long valueInKopeks)
+        public void MakePayment(DateTime date, long valueInKopeks, PaymentDocumentType documentType, long documentNumber)
         {
             balanceInKopeks += valueInKopeks;
-            payments.Add(new Payment(date, valueInKopeks));
+            payments.Add(new Payment(date, valueInKopeks, documentType, documentNumber));
         }
 
         public static double ClientsCount 

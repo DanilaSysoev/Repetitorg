@@ -119,18 +119,18 @@ namespace CoreTest
         public void MakePayment_ClientMakesPayment_BalanceIncreases()
         {
             var client = CreateClient();
-            client.MakePayment(new DateTime(2020, 10, 10), 100000);
+            client.MakePayment(new DateTime(2020, 10, 10), 100000, PaymentDocumentType.PaymentOrder, 123);
             Assert.AreEqual(100000, client.BalanceInKopeks);
-            client.MakePayment(new DateTime(2020, 10, 15), 200000);
+            client.MakePayment(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125);
             Assert.AreEqual(300000, client.BalanceInKopeks);
         }
         [TestCase]
         public void Payments_MakeThreePayments_CountEqualsThree()
         {
             var client = CreateClient();
-            client.MakePayment(new DateTime(2020, 10, 10), 100000);
-            client.MakePayment(new DateTime(2020, 10, 15), 200000);
-            client.MakePayment(new DateTime(2020, 10, 21), 300000);
+            client.MakePayment(new DateTime(2020, 10, 10), 100000, PaymentDocumentType.PaymentOrder, 123);
+            client.MakePayment(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125);
+            client.MakePayment(new DateTime(2020, 10, 21), 300000, PaymentDocumentType.PaymentOrder, 127);
 
             Assert.AreEqual(3, client.Payments.Count);
         }
@@ -138,9 +138,9 @@ namespace CoreTest
         public void Payments_MakeThreePayments_PaymentsContainsAll()
         {
             var client = CreateClient();
-            client.MakePayment(new DateTime(2020, 10, 10), 100000);
-            client.MakePayment(new DateTime(2020, 10, 15), 200000);
-            client.MakePayment(new DateTime(2020, 10, 21), 300000);
+            client.MakePayment(new DateTime(2020, 10, 10), 100000, PaymentDocumentType.PaymentOrder, 123);
+            client.MakePayment(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125);
+            client.MakePayment(new DateTime(2020, 10, 21), 300000, PaymentDocumentType.PaymentOrder, 127);
 
             Assert.IsTrue(client.Payments.Any(p => p.Date == new DateTime(2020, 10, 10) && p.ValueInKopeks == 100000));
             Assert.IsTrue(client.Payments.Any(p => p.Date == new DateTime(2020, 10, 15) && p.ValueInKopeks == 200000));
