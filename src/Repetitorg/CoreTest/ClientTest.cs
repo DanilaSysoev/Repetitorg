@@ -19,7 +19,7 @@ namespace CoreTest
         [TearDown]
         public void Clear()
         {
-            object p = Client.Clear();
+            Client.Clear();
         }
 
         [TestCase]

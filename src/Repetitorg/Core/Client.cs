@@ -16,14 +16,23 @@ namespace Repetitorg.Core
             clients.Add(new Client(fullName));
         }
 
+        public static void Initialize()
+        {
+        }
+
+        public static void Clear()
+        {
+            clients.Clear();
+        }
+
+        static Client()
+        {
+            clients = new List<Client>();
+        }
 
         private Client(string fullName)
         {
             this.fullName = fullName;
-        }
-        static Client()
-        {
-            clients = new List<Client>();
         }
 
         private string fullName;
