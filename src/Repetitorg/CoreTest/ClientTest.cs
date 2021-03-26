@@ -146,6 +146,14 @@ namespace CoreTest
             Assert.IsTrue(client.Payments.Any(p => p.Date == new DateTime(2020, 10, 15) && p.ValueInKopeks == 200000));
             Assert.IsTrue(client.Payments.Any(p => p.Date == new DateTime(2020, 10, 21) && p.ValueInKopeks == 300000));
         }
+        [TestCase]
+        public void MakePayment_ClientMakesPaymentWithDocumentData_PaymentExist()
+        {
+            var client = CreateClient();
+            client.MakePayment(new DateTime(2020, 10, 10), 100000, PaymentDocumentType.PaymentOrder, 123);
+            Assert.IsTrue(client.Payments.Any(p => p.DocumentNumber == 123 && p.DocumentType == PaymentDocumentType.PaymentOrder));
+        }
+
 
         private Client CreateClient()
         {
