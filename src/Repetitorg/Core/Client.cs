@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Repetitorg.Core
@@ -50,7 +51,10 @@ namespace Repetitorg.Core
 
         public static IReadOnlyList<Client> FilterByName(string condition)
         {
-            throw new NotImplementedException();
+            return 
+                (from client in clients
+                 where client.fullName.Contains(condition)
+                 select client).ToList();
         }
     }
 }
