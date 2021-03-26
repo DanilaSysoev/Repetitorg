@@ -56,5 +56,10 @@ namespace Repetitorg.Core
                  where client.fullName.ToLower().Contains(condition.ToLower())
                  select client).ToList();
         }
+
+        public override string ToString()
+        {
+            return fullName;
+        }
     }
 }
