@@ -7,11 +7,11 @@ namespace Repetitorg.Core
 {
     public class Client
     {
-        public long Balance 
+        public long BalanceInKopeks 
         {
             get
             {
-                return balance;
+                return balanceInKopeks;
             }
         }
 
@@ -51,11 +51,11 @@ namespace Repetitorg.Core
         private Client(string fullName)
         {
             this.fullName = fullName;
-            this.balance = 0;
+            this.balanceInKopeks = 0;
         }
 
         private string fullName;
-        private long balance;
+        private long balanceInKopeks;
 
         private static List<Client> clients;
 

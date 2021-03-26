@@ -113,7 +113,7 @@ namespace CoreTest
         public void Balance_NewClient_BalanceZero()
         {
             var client = CreateClient();
-            Assert.AreEqual(0, client.Balance);
+            Assert.AreEqual(0, client.BalanceInKopeks);
         }
 
 
