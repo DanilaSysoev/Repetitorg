@@ -115,6 +115,15 @@ namespace CoreTest
             var client = CreateClient();
             Assert.AreEqual(0, client.BalanceInKopeks);
         }
+        [TestCase]
+        public void MakePayment_ClientMakesPayment_BalanceIncreases()
+        {
+            var client = CreateClient();
+            client.MakePayment(new DateTime(2020, 10, 10), 100000);
+            Assert.AreEqual(100000, client.BalanceInKopeks);
+            client.MakePayment(new DateTime(2020, 10, 15), 200000);
+            Assert.AreEqual(300000, client.BalanceInKopeks);
+        }
 
 
         private Client CreateClient()
