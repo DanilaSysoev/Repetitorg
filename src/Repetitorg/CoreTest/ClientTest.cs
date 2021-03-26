@@ -36,7 +36,15 @@ namespace CoreTest
         [TestCase]
         public void All_CreateTwoClients_AllExist()
         {
-
+            var clients = CreateClients();
+            foreach(var client in Client.All)
+            {
+                Assert.IsTrue(clients.Contains(client));
+            }
+            foreach(var client in clients)
+            {
+                Assert.IsTrue(Client.All.Contains(client));
+            }
         }
 
 
