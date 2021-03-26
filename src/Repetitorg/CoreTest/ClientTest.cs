@@ -48,6 +48,14 @@ namespace CoreTest
             Client c2 = Client.CreateNew("Иванов Иван Иванович");
             Assert.IsFalse(c1.Equals(c2));
         }
+        [TestCase]
+        public void FilterByName_UseFullNameWithOneEntry_GettingOneObject()
+        {
+            var allClients = CreateClients();
+            var clients = Client.FilterByName("Иванов Иван Иванович");
+            Assert.AreEqual(1, clients.Count);
+            Assert.AreEqual(allClients[0], clients[0]);
+        }
 
         private List<Client> CreateClients()
         {
