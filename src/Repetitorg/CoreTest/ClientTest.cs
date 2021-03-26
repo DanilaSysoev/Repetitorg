@@ -41,7 +41,13 @@ namespace CoreTest
                 Assert.IsTrue(Client.All.Contains(client));
             }
         }
-
+        [TestCase]
+        public void Equals_differentObjectsWithSameName_IsDifferent()
+        {
+            Client c1 = Client.CreateNew("Иванов Иван Иванович");
+            Client c2 = Client.CreateNew("Иванов Иван Иванович");
+            Assert.IsFalse(c1.Equals(c2));
+        }
 
         private List<Client> CreateClients()
         {
