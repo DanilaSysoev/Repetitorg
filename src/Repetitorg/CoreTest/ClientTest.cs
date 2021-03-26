@@ -32,15 +32,9 @@ namespace CoreTest
         public void All_CreateTwoClients_AllExist()
         {
             var clients = CreateClients();
-            foreach(var client in Client.All)
-            {
-                Assert.IsTrue(clients.Contains(client));
-            }
-            foreach(var client in clients)
-            {
-                Assert.IsTrue(Client.All.Contains(client));
-            }
+            EqualsOfTwoCollections(clients, Client.All);
         }
+
         [TestCase]
         public void Equals_differentObjectsWithSameName_IsDifferent()
         {
@@ -80,6 +74,14 @@ namespace CoreTest
             Assert.AreEqual(1, clients.Count);
             Assert.AreEqual(allClients[0], clients[0]);
         }
+        [TestCase]
+        public void FilterByName_UseFullNameWithTwoEntry_GettingTwoObject()
+        {
+            var allClients = CreateClients();
+            var clients = Client.FilterByName("Петров Петр Петрович");
+            Assert.AreEqual(2, clients.Count);
+            Assert.AreEqual(allClients[0], clients[0]);
+        }
 
         private List<Client> CreateClients()
         {
@@ -91,6 +93,17 @@ namespace CoreTest
             clients.Add(Client.CreateNew("Петров Петр Петрович"));
 
             return clients;
+        }
+        private void EqualsOfTwoCollections(IEnumerable<Client> first, IEnumerable<Client> second)
+        {
+            foreach (var client in second)
+            {
+                Assert.IsTrue(first.Contains(client));
+            }
+            foreach (var client in first)
+            {
+                Assert.IsTrue(second.Contains(client));
+            }
         }
     }
 }
