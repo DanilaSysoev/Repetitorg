@@ -16,7 +16,10 @@ namespace Repetitorg.Core
         }
         public IReadOnlyList<Payment> Payments
         {
-            get;
+            get
+            {
+                return payments;
+            }
         }
 
         public void MakePayment(DateTime date, long valueInKopeks)
