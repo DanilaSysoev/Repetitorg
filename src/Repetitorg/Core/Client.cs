@@ -27,18 +27,25 @@ namespace Repetitorg.Core
             balanceInKopeks += payment.ValueInKopeks;
             payments.Add(payment);
         }
-        public IList<Payment> GetPaymentsLater(DateTime date)
+        public IList<Payment> GetPaymentsLater(DateTime dateExclude)
         {
             return
                 (from payment in payments
-                 where payment.Date > date
+                 where payment.Date > dateExclude
                  select payment).ToList();
         }
-        public IList<Payment> GetPaymentsBefore(DateTime date)
+        public IList<Payment> GetPaymentsBefore(DateTime dateExclude)
         {
             return
                 (from payment in payments
-                 where payment.Date < date
+                 where payment.Date < dateExclude
+                 select payment).ToList();
+        }
+        public IList<Payment> GetPaymentsBetween(DateTime beginInclude, DateTime endExclude)
+        {
+            return
+                (from payment in payments
+                 where payment.Date >= beginInclude && payment.Date < endExclude
                  select payment).ToList();
         }
 
