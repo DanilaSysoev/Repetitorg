@@ -148,6 +148,9 @@ namespace CoreTest
 
             EqualsOfTwoCollections(payments, client.Payments);
         }
+        [TestCase]
+        public void GetPaymentsLater_ExistTwoPaymentsLater_ReturnBoth()
+        { }
 
         private List<Payment> CreatePayments()
         {
@@ -165,6 +168,16 @@ namespace CoreTest
             payments.Add(
                 Payment.CreateNew(
                     new DateTime(2020, 10, 21), 300000, PaymentDocumentType.PaymentOrder, 127
+                )
+            );
+            payments.Add(
+                Payment.CreateNew(
+                    new DateTime(2021, 1, 12), 150000, PaymentDocumentType.PaymentOrder, 129
+                )
+            );
+            payments.Add(
+                Payment.CreateNew(
+                    new DateTime(2021, 2, 15), 250000, PaymentDocumentType.PaymentOrder, 131
                 )
             );
             return payments;
