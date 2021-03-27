@@ -231,6 +231,13 @@ namespace CoreTest
             var client = CreateClient();
             Assert.AreEqual("Иванов Иван Иванович", client.FullName);
         }
+        [TestCase]
+        public void PhoneNumber_CreateNewClientWithoutPhoneNumber_PhoneNumberIsEmpty()
+        {
+            var client = CreateClient();
+            Assert.AreEqual("", client.PhoneNumber);
+        }
+
 
         private List<Payment> CreatePayments()
         {
