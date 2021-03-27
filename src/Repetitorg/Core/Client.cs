@@ -77,7 +77,7 @@ namespace Repetitorg.Core
                 return clients;
             }
         }
-        public static Client CreateNew(string fullName)
+        public static Client CreateNew(string fullName, string phoneNumber = "")
         {
             var client = new Client(fullName);
             clients.Add(client);
