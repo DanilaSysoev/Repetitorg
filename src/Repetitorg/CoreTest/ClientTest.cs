@@ -237,6 +237,12 @@ namespace CoreTest
             var client = CreateClient();
             Assert.AreEqual("", client.PhoneNumber);
         }
+        [TestCase]
+        public void PhoneNumber_CreateNewClientWithPhoneNumber_PhoneNumberIsCorrect()
+        {
+            var client = CreateClientWithPhoneNumber();
+            Assert.AreEqual("+7(900)111-22-33", client.PhoneNumber);
+        }
 
 
         private List<Payment> CreatePayments()
