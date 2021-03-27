@@ -170,6 +170,19 @@ namespace CoreTest
             var filteredPayments = client.GetPaymentsLater(new DateTime(2021, 2, 15));
             Assert.AreEqual(0, filteredPayments.Count);
         }
+        [TestCase]
+        public void GetPaymentsBefore_ExistTwoPaymentsBefore_ReturnBoth()
+        {
+            var client = CreateClient();
+            var payments = CreatePayments();
+            foreach (var p in payments)
+                client.MakePayment(p);
+            var filteredPayments = client.GetPaymentsBefore(new DateTime(2020, 10, 17));
+            Assert.IsTrue(filteredPayments.Contains(payments[0]));
+            Assert.IsTrue(filteredPayments.Contains(payments[1]));
+            Assert.AreEqual(2, filteredPayments.Count);
+        }
+
 
         private List<Payment> CreatePayments()
         {
@@ -212,7 +225,7 @@ namespace CoreTest
 
             clients.Add(Client.CreateNew("Иванов Иван Иванович"));
             clients.Add(Client.CreateNew("Петров Петр Петрович"));
-            clients.Add(Client.CreateNew("Петровa Aнфстасия Владимировна"));
+            clients.Add(Client.CreateNew("Петровa Aнастасия Владимировна"));
             clients.Add(Client.CreateNew("Петров Петр Петрович"));
 
             return clients;
