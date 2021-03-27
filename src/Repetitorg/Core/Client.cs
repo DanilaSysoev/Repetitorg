@@ -27,6 +27,13 @@ namespace Repetitorg.Core
             balanceInKopeks += payment.ValueInKopeks;
             payments.Add(payment);
         }
+        public IList<Payment> GetPaymentsLater(DateTime date)
+        {
+            return
+                (from payment in payments
+                 where payment.Date > date
+                 select payment).ToList();
+        }
 
         public static double ClientsCount 
         {
@@ -71,7 +78,7 @@ namespace Repetitorg.Core
 
         private static List<Client> clients;
 
-        public static IReadOnlyList<Client> FilterByName(string condition)
+        public static IList<Client> FilterByName(string condition)
         {
             return 
                 (from client in clients
