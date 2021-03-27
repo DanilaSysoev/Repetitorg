@@ -7,6 +7,13 @@ namespace Repetitorg.Core
 {
     public class Client
     {
+        public string FullName
+        {
+            get
+            {
+                return fullName;
+            }
+        }
         public long BalanceInKopeks 
         {
             get
