@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Repetitorg.Core;
+using Repetitorg.Core.Exceptions;
 
 namespace CoreTest
 {
