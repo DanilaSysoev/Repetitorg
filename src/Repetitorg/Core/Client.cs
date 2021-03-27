@@ -103,7 +103,7 @@ namespace Repetitorg.Core
         private Client(string fullName, string phoneNumber)
         {
             this.fullName = fullName;
-            this.phoneNumber = phoneNumber;
+            PhoneNumber = phoneNumber;
             balanceInKopeks = 0;
             payments = new List<Payment>();
         }
