@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Repetitorg.Core.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace Repetitorg.Core
             }
             set
             {
+                if (value == null)
+                    throw new InvalidPhoneNumberException("PhoneNumber can't be null");
                 phoneNumber = value;
             }
         }
