@@ -161,7 +161,7 @@ namespace CoreTest
             Assert.AreEqual(2, filteredPayments.Count);
         }
         [TestCase]
-        public void GetPaymentsLater_DateEqualOnePayment_ReturnEmptyBecauseExclude()
+        public void GetPaymentsLater_DateEqualLastByDatePayment_ReturnEmptyBecauseExclude()
         {
             var client = CreateClient();
             var payments = CreatePayments();
@@ -182,7 +182,16 @@ namespace CoreTest
             Assert.IsTrue(filteredPayments.Contains(payments[1]));
             Assert.AreEqual(2, filteredPayments.Count);
         }
-
+        [TestCase]
+        public void GetPaymentsBefore_DateEqualFirstByDatePayment_ReturnEmptyBecauseExclude()
+        {
+            var client = CreateClient();
+            var payments = CreatePayments();
+            foreach (var p in payments)
+                client.MakePayment(p);
+            var filteredPayments = client.GetPaymentsBefore(new DateTime(2020, 10, 10));
+            Assert.AreEqual(0, filteredPayments.Count);
+        }
 
         private List<Payment> CreatePayments()
         {
