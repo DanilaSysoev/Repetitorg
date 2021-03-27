@@ -34,6 +34,13 @@ namespace Repetitorg.Core
                  where payment.Date > date
                  select payment).ToList();
         }
+        public IList<Payment> GetPaymentsBefore(DateTime date)
+        {
+            return
+                (from payment in payments
+                 where payment.Date < date
+                 select payment).ToList();
+        }
 
         public static double ClientsCount 
         {
