@@ -18,7 +18,7 @@ namespace Repetitorg.Core
         {
             get
             {
-                return "";
+                return phoneNumber;
             }
         }
         public long BalanceInKopeks 
@@ -79,7 +79,7 @@ namespace Repetitorg.Core
         }
         public static Client CreateNew(string fullName, string phoneNumber = "")
         {
-            var client = new Client(fullName);
+            var client = new Client(fullName, phoneNumber);
             clients.Add(client);
             return client;
         }
@@ -93,14 +93,16 @@ namespace Repetitorg.Core
             clients = new List<Client>();
         }
 
-        private Client(string fullName)
+        private Client(string fullName, string phoneNumber)
         {
             this.fullName = fullName;
+            this.phoneNumber = phoneNumber;
             balanceInKopeks = 0;
             payments = new List<Payment>();
         }
 
         private string fullName;
+        private string phoneNumber;
         private long balanceInKopeks;
         private List<Payment> payments;
 
