@@ -14,6 +14,13 @@ namespace Repetitorg.Core
                 return fullName;
             }
         }
+        public string PhoneNumber
+        {
+            get
+            {
+                return "";
+            }
+        }
         public long BalanceInKopeks 
         {
             get
