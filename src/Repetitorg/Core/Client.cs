@@ -20,6 +20,10 @@ namespace Repetitorg.Core
             {
                 return phoneNumber;
             }
+            set
+            {
+                phoneNumber = value;
+            }
         }
         public long BalanceInKopeks 
         {
