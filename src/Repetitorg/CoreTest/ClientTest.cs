@@ -150,7 +150,16 @@ namespace CoreTest
         }
         [TestCase]
         public void GetPaymentsLater_ExistTwoPaymentsLater_ReturnBoth()
-        { }
+        {
+            var client = CreateClient();
+            var payments = CreatePayments();
+            foreach (var p in payments)
+                client.MakePayment(p);
+            var filteredPayments = client.GetPaymentsLater(new DateTime(2020, 12, 31));
+            Assert.IsTrue(filteredPayments.Contains(payments[3]));
+            Assert.IsTrue(filteredPayments.Contains(payments[4]));
+            Assert.AreEqual(2, filteredPayments.Count);
+        }
 
         private List<Payment> CreatePayments()
         {
