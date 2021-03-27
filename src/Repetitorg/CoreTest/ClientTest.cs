@@ -243,6 +243,14 @@ namespace CoreTest
             var client = CreateClientWithPhoneNumber();
             Assert.AreEqual("+7(900)111-22-33", client.PhoneNumber);
         }
+        [TestCase]
+        public void PhoneNumber_ChangePhoneNumber_PhoneNumberIsCorrect()
+        {
+            var client = CreateClient();
+            Assert.AreEqual("", client.PhoneNumber);
+            client.PhoneNumber = "+7(900)111-22-33";
+            Assert.AreEqual("+7(900)111-22-33", client.PhoneNumber);
+        }
 
         private Client CreateClientWithPhoneNumber()
         {
