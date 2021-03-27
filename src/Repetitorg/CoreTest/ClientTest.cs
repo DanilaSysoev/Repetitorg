@@ -225,6 +225,12 @@ namespace CoreTest
             Assert.IsTrue(filteredPayments.Contains(payments[4]));
             Assert.AreEqual(1, filteredPayments.Count);
         }
+        [TestCase]
+        public void FullName_CreateNewClient_FullNameSetupCorrect()
+        {
+            var client = CreateClient();
+            Assert.AreEqual("Иванов Иван Иванович", client.FullName);
+        }
 
         private List<Payment> CreatePayments()
         {
