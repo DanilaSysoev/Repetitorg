@@ -204,6 +204,16 @@ namespace CoreTest
             Assert.IsTrue(filteredPayments.Contains(payments[2]));
             Assert.AreEqual(2, filteredPayments.Count);
         }
+        [TestCase]
+        public void GetPaymentsBetween_EndDateEqualFirstPaymentByDate_ReturnEmptyBecauseExclude()
+        {
+            var client = CreateClient();
+            var payments = CreatePayments();
+            foreach (var p in payments)
+                client.MakePayment(p);
+            var filteredPayments = client.GetPaymentsBetween(new DateTime(2020, 9, 5), new DateTime(2020, 10, 10));
+            Assert.AreEqual(0, filteredPayments.Count);
+        }
 
         private List<Payment> CreatePayments()
         {
