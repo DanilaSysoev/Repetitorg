@@ -251,6 +251,13 @@ namespace CoreTest
             client.PhoneNumber = "+7(900)111-22-33";
             Assert.AreEqual("+7(900)111-22-33", client.PhoneNumber);
         }
+        [TestCase]
+        public void PhoneNumber_PhoneNumberIsNull_ThrowsException()
+        {
+            var client = CreateClient();
+            Assert.AreEqual("", client.PhoneNumber);
+            Assert.Throws<InvalidPhoneNumberException>(() => client.PhoneNumber = null);
+        }
 
         private Client CreateClientWithPhoneNumber()
         {
