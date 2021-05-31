@@ -48,9 +48,10 @@ namespace Core
         {
             return new List<Task>(tasks);
         }
-        public static void Remove(Task task2)
+        public static void Remove(Task task)
         {
-            throw new NotImplementedException();
+            tasks.Remove(task);
+            tasksByDate[task.Date].Remove(task);
         }
 
         public static void Save(string path)
