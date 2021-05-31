@@ -15,6 +15,7 @@ namespace CoreTest
         public void Clear()
         {
             Task.Clear();
+            Task.Save(TEST_DATA_PATH);
         }
 
         [TestCase]
