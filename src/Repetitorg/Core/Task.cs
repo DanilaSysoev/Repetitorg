@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Core.Base;
 using Core.Exceptions;
 using Newtonsoft.Json;
 
@@ -124,8 +125,10 @@ namespace Core
         }
 
 
+        private static ITaskStorage taskStorage;
         private static List<Task> tasks;
         private static Dictionary<DateTime, List<Task>> tasksByDate;
+
         private string taskName;
         private DateTime date;
         private bool completed;
