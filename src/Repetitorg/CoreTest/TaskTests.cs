@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Exceptions;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -144,6 +145,13 @@ namespace CoreTest
             Assert.AreEqual(3, Task.TasksCount);
             Task.Clear();
             Assert.AreEqual(0, Task.GetAll().Count);
+        }
+        [TestCase]
+        public void AddOnDate_Duplicate_ThrowsException()
+        {
+            Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            var exception = Assert.Throws<TaskAlreadyExistException>(() => Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30)));
+            Assert.IsTrue(exception.Message.Contains("The task with this name has already been defined for this date"));
         }
 
         private const string TEST_DATA_PATH = "D:\\YandexDisk\\YandexDisk\\Danila\\Work\\Repetitorg";

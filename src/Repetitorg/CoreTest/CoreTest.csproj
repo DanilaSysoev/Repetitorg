@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientTests.cs" />
+    <Compile Include="ProjectTests.cs" />
     <Compile Include="TaskTests.cs" />
   </ItemGroup>
   <ItemGroup>
