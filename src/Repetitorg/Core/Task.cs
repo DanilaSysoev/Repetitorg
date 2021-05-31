@@ -35,7 +35,7 @@ namespace Core
         }
         public static List<Task> GetAll()
         {
-            throw new NotImplementedException();
+            return new List<Task>(tasks);
         }
 
         public static void Save(string path)
