@@ -57,6 +57,14 @@ namespace Core
             using (StreamReader reader = new StreamReader(dataPath))
                 data = reader.ReadToEnd();
             tasks = JsonConvert.DeserializeObject<List<Task>>(data);
+
+            tasksByDate = new Dictionary<DateTime, List<Task>>();
+            foreach(var task in tasks)
+            {
+                if (!tasksByDate.ContainsKey(task.Date))
+                    tasksByDate.Add(task.Date, new List<Task>());
+                tasksByDate[task.Date].Add(task);
+            }
         }
 
         public string Name
