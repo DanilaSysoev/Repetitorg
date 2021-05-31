@@ -122,7 +122,7 @@ namespace CoreTest
         }
 
         [TestCase]
-        public void FindByName_FindThreeStrjngOverlap_ReturnAll()
+        public void FindByName_FindThreeStrongOverlap_ReturnAll()
         {
             Project p1 = Project.Add("Test Project 1");
             Project p2 = Project.Add("Oops Test Project 2");
@@ -131,6 +131,22 @@ namespace CoreTest
             Project p5 = Project.Add("Project 5");
 
             List<Project> projects = Project.FindByName("Test");
+
+            Assert.AreEqual(3, projects.Count);
+            Assert.IsTrue(projects.Contains(p1));
+            Assert.IsTrue(projects.Contains(p2));
+            Assert.IsTrue(projects.Contains(p3));
+        }
+        [TestCase]
+        public void FindByName_FindThreeCaseIgnoreOverlap_ReturnAll()
+        {
+            Project p1 = Project.Add("test Project 1");
+            Project p2 = Project.Add("Oops TeSt Project 2");
+            Project p3 = Project.Add("OOPSTEST Project 3");
+            Project p4 = Project.Add("Project 4");
+            Project p5 = Project.Add("Project 5");
+
+            List<Project> projects = Project.FindByName("test");
 
             Assert.AreEqual(3, projects.Count);
             Assert.IsTrue(projects.Contains(p1));
