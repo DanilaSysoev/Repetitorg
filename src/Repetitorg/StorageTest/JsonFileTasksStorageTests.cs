@@ -9,7 +9,7 @@ using System.Text;
 namespace Repetitorg.StorageTest
 {
     [TestFixture]
-    class JsonFileTaskStorageTests
+    class JsonFileTasksStorageTests
     {
         [TearDown]
         public void Clear()
