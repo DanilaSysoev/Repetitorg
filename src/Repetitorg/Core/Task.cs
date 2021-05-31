@@ -32,7 +32,9 @@ namespace Core
         }
         public static List<Task> GetByDate(DateTime dateTime)
         {
-            throw new NotImplementedException();
+            return (from task in tasks
+                    where task.Date == dateTime
+                    select task).ToList();
         }
         public static List<Task> GetTomorrowTasks()
         {
