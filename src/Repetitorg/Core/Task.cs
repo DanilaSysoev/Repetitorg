@@ -61,11 +61,11 @@ namespace Repetitorg.Core
 
             task.completed = true;
         }
-        public static void Save(ITasksStorage tasksStorage)
+        public static void Save(IStorage<Task> tasksStorage)
         {
             tasksStorage.Save(tasks);
         }
-        public static void Load(ITasksStorage tasksStorage)
+        public static void Load(IStorage<Task> tasksStorage)
         {
             tasks = tasksStorage.Load();
 

@@ -47,11 +47,11 @@ namespace Repetitorg.Core
 
             project.completed = true;
         }
-        public static void Save(IProjectsStorage projectsStorage)
+        public static void Save(IStorage<Project> projectsStorage)
         {
             projectsStorage.Save(projects.ToList());        
         }
-        public static void Load(IProjectsStorage projectsStorage)
+        public static void Load(IStorage<Project> projectsStorage)
         {
             projects = new HashSet<Project>(projectsStorage.Load());
         }
