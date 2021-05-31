@@ -9,7 +9,7 @@ using Repetitorg.Core;
 
 namespace Repetitorg.Storage
 {
-    public class JsonFileTasksStorage : ITasksStorage
+    public class JsonFileTasksStorage : IStorage<Task>
     {
         private string path;
 

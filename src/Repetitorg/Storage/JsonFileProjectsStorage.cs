@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Repetitorg.Storage
 {
-    public class JsonFileProjectsStorage : IProjectsStorage
+    public class JsonFileProjectsStorage : IStorage<Project>
     {
         private string path;
 
