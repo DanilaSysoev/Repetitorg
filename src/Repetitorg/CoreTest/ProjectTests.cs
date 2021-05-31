@@ -44,5 +44,16 @@ namespace CoreTest
 
             Assert.AreEqual(3, Project.ProjectsCount);
         }
+        [TestCase]
+        public void Add_AddWithDuplicateName_ThrowsException()
+        {
+            Project.Add("Test Project");
+
+            var exception = Assert.Throws<InvalidOperationException>(() => Project.Add("Test Project"));
+
+            Assert.IsTrue(exception.Message.Contains(
+                "Project with name \"Test Project\" already exist"
+            ));
+        }
     }
 }
