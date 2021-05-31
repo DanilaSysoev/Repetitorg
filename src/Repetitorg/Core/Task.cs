@@ -38,9 +38,7 @@ namespace Core
         }
         public static List<Task> GetTomorrowTasks()
         {
-            return (from task in tasks
-                    where task.Date == DateTime.Today.AddDays(1)
-                    select task).ToList();
+            return GetByDate(DateTime.Today.AddDays(1));
         }
 
         public string Name
