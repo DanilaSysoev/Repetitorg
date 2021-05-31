@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Core.Exceptions;
 using Newtonsoft.Json;
 
 namespace Core
@@ -24,10 +25,18 @@ namespace Core
 
         public static Task AddOnDate(string taskName, DateTime date)
         {
-            Task task = new Task(taskName, date);
-            tasks.Add(task);
+            Task task = new Task(taskName, date.Date);
             if (!tasksByDate.ContainsKey(date))
                 tasksByDate.Add(date, new List<Task>());
+
+            if (tasksByDate[date].Contains(task))
+            {
+                throw new TaskAlreadyExistException(
+                    string.Format("The task with name \"{0}\" has already been defined for date \"{1}\"", taskName, date)
+                );
+            }
+
+            tasks.Add(task);
             tasksByDate[date].Add(task);
             return task;
         }
