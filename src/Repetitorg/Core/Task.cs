@@ -60,6 +60,9 @@ namespace Core
         }
         public static void Setup(IEnumerable<Task> tasks)
         {
+            if (Task.tasks.Count > 0)
+                throw new InvalidOperationException("Setup can be calld only for clear Task collection");
+
             Task.tasks = new List<Task>(tasks);
             tasksByDate = new Dictionary<DateTime, List<Task>>();
             foreach (var task in tasks)
