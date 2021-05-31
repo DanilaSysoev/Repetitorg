@@ -108,6 +108,19 @@ namespace CoreTest
             Assert.IsTrue(tasks.Contains(task2));
             Assert.IsTrue(tasks.Contains(task3));
         }
+        [TestCase]
+        public void GetAll_AddThreeOnDifferentDate_ReturnAll()
+        {
+            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.AddOnDate("2020/11/10 test task 2", new DateTime(2020, 11, 10));
+            Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
+
+            var tasks = Task.GetAll();
+            Assert.AreEqual(3, tasks.Count);
+            Assert.IsTrue(tasks.Contains(task1));
+            Assert.IsTrue(tasks.Contains(task2));
+            Assert.IsTrue(tasks.Contains(task3));
+        }
 
 
         [TestCase]
