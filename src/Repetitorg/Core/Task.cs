@@ -30,6 +30,10 @@ namespace Core
             tasks.Add(task);
             return task;
         }
+        public static List<Task> GetByDate(DateTime dateTime)
+        {
+            throw new NotImplementedException();
+        }
         public static List<Task> GetTomorrowTasks()
         {
             return (from task in tasks
