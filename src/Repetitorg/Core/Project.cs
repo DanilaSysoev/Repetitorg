@@ -28,6 +28,10 @@ namespace Repetitorg.Core
         {
             return new List<Project>(projects);
         }
+        public static void Remove(Project project)
+        {
+            projects.Remove(project);
+        }
         public static void Clear()
         {
             projects.Clear();
