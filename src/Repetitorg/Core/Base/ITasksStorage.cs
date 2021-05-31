@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Core.Base
 {
-    public interface ITaskStorage
+    public interface ITasksStorage
     {
         void Save();
         void Load();
