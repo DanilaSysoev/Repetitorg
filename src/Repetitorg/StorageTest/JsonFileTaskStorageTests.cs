@@ -16,7 +16,7 @@ namespace Repetitorg.StorageTest
         {
             Task.Clear();
             var storage = new JsonFileTasksStorage(TEST_DATA_PATH);
-            storage.Save();
+            Task.Save(storage);
         }
 
         [TestCase]
@@ -27,9 +27,9 @@ namespace Repetitorg.StorageTest
             Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
 
             var storage = new JsonFileTasksStorage(TEST_DATA_PATH);
-            storage.Save();
+            Task.Save(storage);
             Task.Clear();
-            storage.Load();
+            Task.Load(storage);
 
             Assert.AreEqual(3, Task.TasksCount);
         }
@@ -41,9 +41,9 @@ namespace Repetitorg.StorageTest
             Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
 
             var storage = new JsonFileTasksStorage(TEST_DATA_PATH);
-            storage.Save();
+            Task.Save(storage);
             Task.Clear();
-            storage.Load();
+            Task.Load(storage);
 
             var tasks = Task.GetByDate(new DateTime(2020, 12, 30));
             Assert.AreEqual(3, tasks.Count);
@@ -60,9 +60,9 @@ namespace Repetitorg.StorageTest
 
             Task.Complete(task2);
             var storage = new JsonFileTasksStorage(TEST_DATA_PATH);
-            storage.Save();
+            Task.Save(storage);
             Task.Clear();
-            storage.Load();
+            Task.Load(storage);
 
             Assert.IsTrue(Task.GetByDate(new DateTime(2020, 11, 10))[0].Completed);
 
