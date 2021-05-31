@@ -16,6 +16,19 @@ namespace CoreTest
             Project.Clear();
         }
 
+
+        [TestCase]
+        public void Clear_ClearAfterThreeAddition_ProjectsCountEqualsZero()
+        {
+            Project.Add("Test Project 1");
+            Project.Add("Test Project 2");
+            Project.Add("Test Project 3");
+
+            Project.Clear();
+
+            Assert.AreEqual(0, Project.ProjectsCount);
+        }
+
         [TestCase]
         public void Add_SimpleAdd_ProjectsCountIncrease()
         {
