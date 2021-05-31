@@ -152,7 +152,7 @@ namespace Repetitorg.CoreTest
         public void AddOnDate_Duplicate_ThrowsException()
         {
             Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            var exception = Assert.Throws<TaskAlreadyExistException>(() => Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30)));
+            var exception = Assert.Throws<InvalidOperationException>(() => Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30)));
             Assert.IsTrue(
                 exception.Message.Contains(
                     string.Format("The task with name \"2020/12/30 test task 1\" has already been defined for date \"{0}\"", new DateTime(2020, 12, 30))

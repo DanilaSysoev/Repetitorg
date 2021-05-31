@@ -32,7 +32,7 @@ namespace Repetitorg.Core
 
             if (tasksByDate[date].Contains(task))
             {
-                throw new TaskAlreadyExistException(
+                throw new InvalidOperationException(
                     string.Format("The task with name \"{0}\" has already been defined for date \"{1}\"", taskName, date)
                 );
             }
