@@ -84,10 +84,10 @@ namespace CoreTest
             List<Task> tasks4 = Task.GetByDate(new DateTime(2017, 10, 5));
 
             Assert.AreEqual(4, Task.TasksCount);
-            Assert.AreEqual(1, tasks1);
-            Assert.AreEqual(1, tasks2);
-            Assert.AreEqual(1, tasks3);
-            Assert.AreEqual(1, tasks4);
+            Assert.AreEqual(1, tasks1.Count);
+            Assert.AreEqual(1, tasks2.Count);
+            Assert.AreEqual(1, tasks3.Count);
+            Assert.AreEqual(1, tasks4.Count);
             Assert.IsTrue(tasks1.Contains(task1));
             Assert.IsTrue(tasks2.Contains(task2));
             Assert.IsTrue(tasks3.Contains(task3));
