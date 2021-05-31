@@ -58,6 +58,17 @@ namespace Core
         {
             task.completed = true;
         }
+        public static void Setup(IEnumerable<Task> tasks)
+        {
+            Task.tasks = new List<Task>(tasks);
+            tasksByDate = new Dictionary<DateTime, List<Task>>();
+            foreach (var task in tasks)
+            {
+                if (!tasksByDate.ContainsKey(task.Date))
+                    tasksByDate.Add(task.Date, new List<Task>());
+                tasksByDate[task.Date].Add(task);
+            }
+        }
 
         public static void Save(string path)
         {
