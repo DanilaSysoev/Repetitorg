@@ -70,7 +70,7 @@ namespace Repetitorg.Core
                  select payment).ToList();
         }
 
-        public static double ClientsCount 
+        public static int ClientsCount 
         {
             get 
             {
