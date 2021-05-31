@@ -95,6 +95,28 @@ namespace CoreTest
             Assert.IsTrue(tasks.Contains(task2));
             Assert.IsTrue(tasks.Contains(task3));
         }
+        [TestCase]
+        public void Clear_ClearAfterAdding_TasksCountEqualsZero()
+        {
+            Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
+
+            Assert.AreEqual(3, Task.TasksCount);
+            Task.Clear();
+            Assert.AreEqual(0, Task.TasksCount);
+        }
+        [TestCase]
+        public void Clear_ClearAfterAdding_TasksIsempty()
+        {
+            Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
+
+            Assert.AreEqual(3, Task.TasksCount);
+            Task.Clear();
+            Assert.AreEqual(0, Task.GetAll().Count);
+        }
 
         private const string TEST_DATA_PATH = "D:\\YandexDisk\\YandexDisk\\Danila\\Work\\Repetitorg";
     }
