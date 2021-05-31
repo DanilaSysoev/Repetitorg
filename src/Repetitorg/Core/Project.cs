@@ -17,7 +17,7 @@ namespace Repetitorg.Core
         }
         public static Project Add(string name)
         {
-            Project project = new Project(name);
+            Project project = new Project(name, false);
             if (projects.Contains(project))
                 throw new InvalidOperationException(string.Format("Project with name \"{0}\" already exist", name));
 
@@ -39,6 +39,13 @@ namespace Repetitorg.Core
                     where project.Name.ToLower().Contains(subname.ToLower())
                     select project).ToList();
         }
+        public static void Complete(Project project)
+        {
+            if(projects.Contains(project))
+                projects.First(p => p.Name == project.Name).completed = true;
+
+            project.completed = true;
+        }
         public static void Clear()
         {
             projects.Clear();
@@ -50,6 +57,13 @@ namespace Repetitorg.Core
             get
             {
                 return name;
+            }
+        }
+        public bool Completed
+        {
+            get
+            {
+                return completed;
             }
         }
 
@@ -77,11 +91,13 @@ namespace Repetitorg.Core
 
 
         private string name;
+        private bool completed;
 
         [JsonConstructor]
-        private Project(string name)
+        private Project(string name, bool completed)
         {
             this.name = name;
+            this.completed = completed;
         }
     }
 }
