@@ -16,7 +16,11 @@ namespace Repetitorg.Core
         }
         public static void Add(string name)
         {
-            projects.Add(new Project(name));
+            Project project = new Project(name);
+            if (projects.Contains(project))
+                throw new InvalidOperationException(string.Format("Project with name \"{0}\" already exist", name));
+
+            projects.Add(project);
         }
         public static void Clear()
         {
@@ -48,10 +52,10 @@ namespace Repetitorg.Core
         }
 
 
-        private static List<Project> projects;
+        private static HashSet<Project> projects;
         static Project()
         {
-            projects = new List<Project>();
+            projects = new HashSet<Project>();
         }
 
 
