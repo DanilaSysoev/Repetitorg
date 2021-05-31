@@ -73,34 +73,6 @@ namespace Core
             }
         }
 
-        public static void Save(string path)
-        {
-            var dataPath = Path.Combine(path + DATA_PATH);
-            if (!Directory.Exists(Path.GetDirectoryName(dataPath)))
-                Directory.CreateDirectory(Path.GetDirectoryName(dataPath));
-
-            var data = JsonConvert.SerializeObject(tasks, Formatting.Indented);
-
-            using (StreamWriter writer = new StreamWriter(dataPath))
-                writer.Write(data);
-        }
-        public static void Load(string path)
-        {
-            var data = "";
-            var dataPath = Path.Combine(path + DATA_PATH);
-            using (StreamReader reader = new StreamReader(dataPath))
-                data = reader.ReadToEnd();
-            tasks = JsonConvert.DeserializeObject<List<Task>>(data);
-
-            tasksByDate = new Dictionary<DateTime, List<Task>>();
-            foreach(var task in tasks)
-            {
-                if (!tasksByDate.ContainsKey(task.Date))
-                    tasksByDate.Add(task.Date, new List<Task>());
-                tasksByDate[task.Date].Add(task);
-            }
-        }
-
         public string Name
         {
             get
