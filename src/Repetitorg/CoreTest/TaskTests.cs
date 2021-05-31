@@ -43,5 +43,12 @@ namespace CoreTest
             Assert.IsTrue(tomorrowTasks.Contains(task1));
             Assert.IsTrue(tomorrowTasks.Contains(task1));
         }
+        [TestCase]
+        public void AddOnDate_SimpleAddTask_TasksCountIncrease()
+        {
+            Assert.AreEqual(0, Task.TasksCount);
+            Task task = Task.AddOnDate("Tomorrow test task", new DateTime(2020, 12, 30));
+            Assert.AreEqual(1, Task.TasksCount);
+        }
     }
 }
