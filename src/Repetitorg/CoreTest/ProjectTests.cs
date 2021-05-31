@@ -153,5 +153,19 @@ namespace CoreTest
             Assert.IsTrue(projects.Contains(p2));
             Assert.IsTrue(projects.Contains(p3));
         }
+
+        [TestCase]
+        public void Complete_CompleteExisting_CompleteSuccess()
+        {
+            Project p1 = Project.Add("Test Project 1");
+            Project p2 = Project.Add("Test Project 2");
+            Project p3 = Project.Add("Test Project 3");
+
+            Project.Complete(p1);
+
+            Assert.IsTrue(p1.Completed);
+            Assert.IsFalse(p2.Completed);
+            Assert.IsFalse(p3.Completed);
+        }
     }
 }
