@@ -16,7 +16,7 @@ namespace Repetitorg.StorageTest
         public void Clear()
         {
             Project.Clear();
-            var storage = new JsonFileProjectsStorage(TEST_DATA_PATH);
+            var storage = new JsonFileStorage<Project>(TEST_DATA_PATH);
             Project.Save(storage);
         }
 
@@ -27,7 +27,7 @@ namespace Repetitorg.StorageTest
             Project p2 = Project.Add("Test Project 2");
             Project p3 = Project.Add("Test Project 3");
 
-            var storage = new JsonFileProjectsStorage(TEST_DATA_PATH);
+            var storage = new JsonFileStorage<Project>(TEST_DATA_PATH);
             Project.Save(storage);
             Project.Clear();
             Project.Load(storage);
