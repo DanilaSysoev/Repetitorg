@@ -66,10 +66,18 @@ namespace CoreTest
             Assert.IsTrue(tasks3.Contains(task3));
             Assert.IsTrue(tasks4.Contains(task4));
         }
-        [TestCase]
-        public void GetToday_GettingExistTasks_SuccessGettingAll()
-        {
 
+        [TestCase]
+        public void SaveLoad_SaveLoadTreeTasks_TasksCountEqualsThree()
+        {
+            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
+            Task.Save();
+            Task.Clear();
+            Task.Load();
+
+            Assert.AreEqual(3, Task.TasksCount);
         }
     }
 }
