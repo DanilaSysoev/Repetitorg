@@ -20,7 +20,7 @@ namespace Core
             tasks.Clear();
         }
 
-        public static Task AddTomorrowTask(string taskName)
+        public static Task AddTomorrow(string taskName)
         {
             Task task = new Task(taskName, DateTime.Today.AddDays(1));
             tasks.Add(task);
