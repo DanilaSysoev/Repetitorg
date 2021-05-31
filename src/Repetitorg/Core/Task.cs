@@ -61,12 +61,14 @@ namespace Repetitorg.Core
 
             task.completed = true;
         }
-        public static void Setup(IEnumerable<Task> tasks)
+        public static void Save(ITasksStorage tasksStorage)
         {
-            if (Task.tasks.Count > 0)
-                throw new InvalidOperationException("Setup can be calld only for clear Task collection");
+            tasksStorage.Save(tasks);
+        }
+        public static void Load(ITasksStorage tasksStorage)
+        {
+            tasks = tasksStorage.Load();
 
-            Task.tasks = new List<Task>(tasks);
             tasksByDate = new Dictionary<DateTime, List<Task>>();
             foreach (var task in tasks)
             {
