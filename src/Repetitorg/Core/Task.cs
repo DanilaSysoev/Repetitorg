@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Core
 {
@@ -35,11 +36,16 @@ namespace Core
 
         public static void Save()
         {
-            throw new NotImplementedException();
+            var data = JsonConvert.SerializeObject(tasks);
+            using (StreamWriter writer = new StreamWriter(DATA_PATH))
+                writer.Write(data);
         }
         public static void Load()
         {
-            throw new NotImplementedException();
+            var data = "";
+            using (StreamReader reader = new StreamReader(DATA_PATH))
+                data = reader.ReadToEnd();
+            tasks = JsonConvert.DeserializeObject<List<Task>>(data);
         }
 
         public string Name
@@ -62,6 +68,7 @@ namespace Core
         private string taskName;
         private DateTime date;
 
+        [JsonConstructor]
         private Task(string taskName, DateTime date)
         {
             this.taskName = taskName;
@@ -71,7 +78,11 @@ namespace Core
         static Task()
         {
             tasks = new List<Task>();
+            if (!Directory.Exists(DATA_DIR))
+                Directory.CreateDirectory(DATA_DIR);
         }
 
+        private const string DATA_PATH = "/data/tasks.json";
+        private const string DATA_DIR = "/data";
     }
 }
