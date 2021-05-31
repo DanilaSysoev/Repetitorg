@@ -13,10 +13,36 @@ namespace Repetitorg.Core
                 return 0;
             }
         }
-
         public static void Add(string name)
         { }
         public static void Clear()
         { }
+
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is Project)
+                return ((Project)obj).Name == Name;
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        private string name;
+
     }
 }
