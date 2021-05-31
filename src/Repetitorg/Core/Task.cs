@@ -48,6 +48,10 @@ namespace Core
         {
             return new List<Task>(tasks);
         }
+        public static void Remove(Task task2)
+        {
+            throw new NotImplementedException();
+        }
 
         public static void Save(string path)
         {
