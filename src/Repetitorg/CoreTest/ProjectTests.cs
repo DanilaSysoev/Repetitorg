@@ -167,5 +167,22 @@ namespace CoreTest
             Assert.IsFalse(p2.Completed);
             Assert.IsFalse(p3.Completed);
         }
+        [TestCase]
+        public void Complete_CompleteAfterRemoveAndRestore_CompleteSuccess()
+        {
+            Project p1 = Project.Add("Test Project 1");
+            Project p2 = Project.Add("Test Project 2");
+            Project p3 = Project.Add("Test Project 3");
+
+            Project.Remove(p1);
+            Project p1new = Project.Add("Test Project 1");
+
+            Project.Complete(p1);
+
+            Assert.IsTrue(p1.Completed);
+            Assert.IsTrue(p1new.Completed);
+            Assert.IsFalse(p2.Completed);
+            Assert.IsFalse(p3.Completed);
+        }
     }
 }
