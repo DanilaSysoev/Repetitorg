@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Core
@@ -19,9 +20,17 @@ namespace Core
             tasks.Clear();
         }
 
-        public static void AddTomorrowTask(string taskName)
+        public static Task AddTomorrowTask(string taskName)
         {
-            tasks.Add(new Task(taskName, DateTime.Today.AddDays(1)));
+            Task task = new Task(taskName, DateTime.Today.AddDays(1));
+            tasks.Add(task);
+            return task;
+        }
+        public static List<Task> GetTomorrowTasks()
+        {
+            return (from task in tasks
+                    where task.Date == DateTime.Today.AddDays(1)
+                    select task).ToList();
         }
 
         public string Name
@@ -38,7 +47,7 @@ namespace Core
                 return date;
             }
         }
-
+        
 
         private static List<Task> tasks;
         private string taskName;

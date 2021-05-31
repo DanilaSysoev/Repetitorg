@@ -28,8 +28,7 @@ namespace CoreTest
         {
             Task task = Task.AddTomorrowTask("Tomorrow test task");
             List<Task> tomorrowTasks = Task.GetTomorrowTasks();
-            Assert.AreEqual(1, tomorrowTasks.Count);
-            Assert.AreEqual(task, tomorrowTasks[0].Name);
+            Assert.AreEqual(task, tomorrowTasks[0]);
         }
     }
 }
