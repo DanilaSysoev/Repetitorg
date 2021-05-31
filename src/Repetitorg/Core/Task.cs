@@ -79,6 +79,14 @@ namespace Core
                 return ((Task)obj).Name.Equals(Name) && ((Task)obj).Date.Equals(Date);
             return false;
         }
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() + Date.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return Date.ToString() + ": " + Name;
+        }
 
 
         private static List<Task> tasks;
