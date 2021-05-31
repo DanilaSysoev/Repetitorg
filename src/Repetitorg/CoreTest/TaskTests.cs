@@ -69,6 +69,7 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(tasks4.Contains(task4));
         }
 
+
         [TestCase]
         public void GetAll_AddThreeOnSameDate_ReturnAll()
         {
