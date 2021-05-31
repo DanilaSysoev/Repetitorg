@@ -216,6 +216,24 @@ namespace Repetitorg.CoreTest
             Assert.IsFalse(task2.Completed);
             Task.Complete(task2);
             Assert.IsTrue(task2.Completed);
+            Assert.IsFalse(task2.Completed);
+            Assert.IsFalse(task3.Completed);
+        }
+        [TestCase]
+        public void Complete_CompleteAfterRemoveAndRestore_CompleteSuccess()
+        {
+            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.AddOnDate("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.AddOnDate("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
+
+            Task.Remove(task1);
+            Task task1new = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
+
+            Task.Complete(task1);
+            Assert.IsTrue(task1.Completed);
+            Assert.IsTrue(task1new.Completed);
+            Assert.IsFalse(task2.Completed);
+            Assert.IsFalse(task3.Completed);
         }
 
         [TestCase]
