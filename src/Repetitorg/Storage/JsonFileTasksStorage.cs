@@ -30,7 +30,7 @@ namespace Repetitorg.Storage
                 writer.Write(data);
         }
 
-        List<Task> ITasksStorage.Load()
+        public List<Task> Load()
         {
             var data = "";
             var dataPath = Path.Combine(path + DATA_PATH);
