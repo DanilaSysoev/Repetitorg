@@ -14,13 +14,19 @@ namespace Repetitorg.Core
                 return projects.Count;
             }
         }
-        public static void Add(string name)
+        public static Project Add(string name)
         {
             Project project = new Project(name);
             if (projects.Contains(project))
                 throw new InvalidOperationException(string.Format("Project with name \"{0}\" already exist", name));
 
             projects.Add(project);
+
+            return project;
+        }
+        public static List<Project> GetAll()
+        {
+            return new List<Project>(projects);
         }
         public static void Clear()
         {
