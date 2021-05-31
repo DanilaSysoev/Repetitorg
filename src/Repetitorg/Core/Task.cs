@@ -56,6 +56,9 @@ namespace Repetitorg.Core
         }
         public static void Complete(Task task)
         {
+            if (tasks.Contains(task))
+                tasksByDate[task.Date].Find(t => t.Name == task.Name).completed = true;
+
             task.completed = true;
         }
         public static void Setup(IEnumerable<Task> tasks)

@@ -216,7 +216,7 @@ namespace Repetitorg.CoreTest
             Assert.IsFalse(task2.Completed);
             Task.Complete(task2);
             Assert.IsTrue(task2.Completed);
-            Assert.IsFalse(task2.Completed);
+            Assert.IsFalse(task1.Completed);
             Assert.IsFalse(task3.Completed);
         }
         [TestCase]
