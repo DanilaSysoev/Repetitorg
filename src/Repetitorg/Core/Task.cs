@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Repetitorg.Core.Base;
-using Core.Exceptions;
+using Repetitorg.Core.Exceptions;
 using Newtonsoft.Json;
 
 namespace Repetitorg.Core
