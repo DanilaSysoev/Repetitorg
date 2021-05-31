@@ -21,9 +21,8 @@ namespace Core
 
         public static void AddTomorrowTask(string taskName)
         {
-            tasks.Add(new Task(taskName, DateTime.Now.Date.AddDays(1)));
+            tasks.Add(new Task(taskName, DateTime.Today.AddDays(1)));
         }
-
 
         public string Name
         {
@@ -39,6 +38,7 @@ namespace Core
                 return date;
             }
         }
+
 
         private static List<Task> tasks;
         private string taskName;
