@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -44,5 +45,10 @@ namespace Repetitorg.Core
 
         private string name;
 
+        [JsonConstructor]
+        private Project(string name)
+        {
+            this.name = name;
+        }
     }
 }
