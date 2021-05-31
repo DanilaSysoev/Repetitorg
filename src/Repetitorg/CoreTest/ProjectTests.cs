@@ -103,5 +103,22 @@ namespace CoreTest
             Assert.IsTrue(projects.Contains(p2));
             Assert.IsTrue(projects.Contains(p3));
         }
+        [TestCase]
+        public void Remove_RemoveNonExistent_NothingHappens()
+        {
+            Project p1 = Project.Add("Test Project 1");
+            Project.Clear();
+
+            Project p2 = Project.Add("Test Project 2");
+            Project p3 = Project.Add("Test Project 3");
+            Project.Remove(p1);
+
+            List<Project> projects = Project.GetAll();
+
+            Assert.AreEqual(2, projects.Count);
+            Assert.IsFalse(projects.Contains(p1));
+            Assert.IsTrue(projects.Contains(p2));
+            Assert.IsTrue(projects.Contains(p3));
+        }
     }
 }
