@@ -70,5 +70,21 @@ namespace CoreTest
             Assert.IsTrue(projects.Contains(p2));
             Assert.IsTrue(projects.Contains(p3));
         }
+        [TestCase]
+        public void GetAll_AddedThreeProjects_ReturnCopyOfCollection()
+        {
+            Project p1 = Project.Add("Test Project 1");
+            Project p2 = Project.Add("Test Project 2");
+            Project p3 = Project.Add("Test Project 3");
+
+            List<Project> projects = Project.GetAll();
+            projects.Remove(p1);
+            List<Project> projectsOld = Project.GetAll();
+
+            Assert.AreEqual(3, projectsOld.Count);
+            Assert.IsTrue(projectsOld.Contains(p1));
+            Assert.IsTrue(projectsOld.Contains(p2));
+            Assert.IsTrue(projectsOld.Contains(p3));
+        }
     }
 }
