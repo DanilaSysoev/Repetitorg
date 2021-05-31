@@ -1,12 +1,12 @@
-﻿using Core;
-using Core.Exceptions;
+﻿using Repetitorg.Core;
+using Repetitorg.Core.Exceptions;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CoreTest
+namespace Repetitorg.CoreTest
 {
     [TestFixture]
     class TaskTests
@@ -253,6 +253,7 @@ namespace CoreTest
                         
             Task.Complete(task2);
             Task.Save(TEST_DATA_PATH);
+            new JsonFileTasksStorage(TEST_DATA_PATH)
             Task.Clear();
             Task.Load(TEST_DATA_PATH);
 

@@ -53,6 +53,10 @@
       <Project>{7d2d916e-9aea-4ed3-ac2c-714aa0b51e7d}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Storage\Storage.csproj">
+      <Project>{4982fa3e-7601-4d63-b9e8-46f22961d7b9}</Project>
+      <Name>Storage</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

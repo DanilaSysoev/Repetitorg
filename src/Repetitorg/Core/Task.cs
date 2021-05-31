@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Core.Base;
+using Repetitorg.Core.Base;
 using Core.Exceptions;
 using Newtonsoft.Json;
 
-namespace Core
+namespace Repetitorg.Core
 {
     public class Task
     {

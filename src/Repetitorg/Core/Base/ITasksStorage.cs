@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Base
+namespace Repetitorg.Core.Base
 {
     public interface ITasksStorage
     {

@@ -1,13 +1,13 @@
-﻿using Core;
-using Core.Base;
+﻿using Repetitorg.Core.Base;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Repetitorg.Core;
 
-namespace Storage
+namespace Repetitorg.Storage
 {
     public class JsonFileTasksStorage : ITasksStorage
     {
