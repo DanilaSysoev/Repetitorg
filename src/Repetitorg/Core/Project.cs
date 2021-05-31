@@ -36,7 +36,7 @@ namespace Repetitorg.Core
         public static List<Project> FindByName(string subname)
         {
             return (from project in projects
-                    where project.Name.Contains(subname)
+                    where project.Name.ToLower().Contains(subname.ToLower())
                     select project).ToList();
         }
         public static void Clear()
