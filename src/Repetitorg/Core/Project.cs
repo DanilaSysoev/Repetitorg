@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Repetitorg.Core
@@ -31,6 +32,12 @@ namespace Repetitorg.Core
         public static void Remove(Project project)
         {
             projects.Remove(project);
+        }
+        public static List<Project> FindByName(string subname)
+        {
+            return (from project in projects
+                    where project.Name.Contains(subname)
+                    select project).ToList();
         }
         public static void Clear()
         {
