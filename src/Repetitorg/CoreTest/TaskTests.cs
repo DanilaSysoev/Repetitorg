@@ -233,6 +233,18 @@ namespace CoreTest
             Assert.AreEqual(3, Task.TasksCount);
         }
 
+        [TestCase]
+        public void Complete_CompleteExisting_CompleteSuccess()
+        {
+            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.AddOnDate("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.AddOnDate("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
+
+            Assert.IsFalse(task2.Completed);
+            Task.Complete(task2);
+            Assert.IsTrue(task2.Completed);
+        }
+
         private const string TEST_DATA_PATH = "D:\\YandexDisk\\YandexDisk\\Danila\\Work\\Repetitorg";
     }
 }
