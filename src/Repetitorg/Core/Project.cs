@@ -46,6 +46,10 @@ namespace Repetitorg.Core
 
             project.completed = true;
         }
+        public static void Save(IProjectsStorage projectsStorage)
+        { }
+        public static void Load(IProjectsStorage projectsStorage)
+        { }
         public static void Clear()
         {
             projects.Clear();
