@@ -38,7 +38,7 @@ namespace Core
         {
             var dataPath = Path.Combine(path + DATA_PATH);
             if (!Directory.Exists(Path.GetDirectoryName(dataPath)))
-                Directory.CreateDirectory(dataPath);
+                Directory.CreateDirectory(Path.GetDirectoryName(dataPath));
 
             var data = JsonConvert.SerializeObject(tasks);
 
@@ -82,9 +82,9 @@ namespace Core
         private DateTime date;
 
         [JsonConstructor]
-        private Task(string taskName, DateTime date)
+        private Task(string name, DateTime date)
         {
-            this.taskName = taskName;
+            this.taskName = name;
             this.date = date;
         }
 
