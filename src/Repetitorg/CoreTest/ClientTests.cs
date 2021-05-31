@@ -10,7 +10,7 @@ using Repetitorg.Core.Exceptions;
 namespace CoreTest
 {
     [TestFixture]
-    class ClientTest
+    class ClientTests
     {
         [TearDown]
         public void Clear()
