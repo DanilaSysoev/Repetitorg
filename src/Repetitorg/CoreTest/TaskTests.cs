@@ -179,6 +179,17 @@ namespace CoreTest
 
             Assert.AreEqual(1, Task.GetByDate(new DateTime(2020, 12, 30)).Count);
         }
+        [TestCase]
+        public void Remove_RemoveExisting_CountDecreaseInGetAll()
+        {
+            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
+
+            Task.Remove(task2);
+
+            Assert.AreEqual(2, Task.GetAll().Count);
+        }
 
         private const string TEST_DATA_PATH = "D:\\YandexDisk\\YandexDisk\\Danila\\Work\\Repetitorg";
     }
