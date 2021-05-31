@@ -40,8 +40,8 @@ namespace CoreTest
 
             Assert.AreEqual(3, tomorrowTasks.Count);
             Assert.IsTrue(tomorrowTasks.Contains(task1));
-            Assert.IsTrue(tomorrowTasks.Contains(task1));
-            Assert.IsTrue(tomorrowTasks.Contains(task1));
+            Assert.IsTrue(tomorrowTasks.Contains(task2));
+            Assert.IsTrue(tomorrowTasks.Contains(task3));
         }
         [TestCase]
         public void AddOnDate_SimpleAddTask_TasksCountIncrease()
@@ -57,6 +57,19 @@ namespace CoreTest
             List<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
             Assert.AreEqual(task, tasks[0]);
             Assert.AreEqual(1, Task.TasksCount);
+        }
+        [TestCase]
+        public void AddOnDate_AddThreeTask_AllTasksExist()
+        {
+            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
+            List<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
+
+            Assert.AreEqual(3, tasks.Count);
+            Assert.IsTrue(tasks.Contains(task1));
+            Assert.IsTrue(tasks.Contains(task2));
+            Assert.IsTrue(tasks.Contains(task3));
         }
     }
 }
