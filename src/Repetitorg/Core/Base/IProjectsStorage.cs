@@ -6,5 +6,7 @@ namespace Repetitorg.Core.Base
 {
     public interface IProjectsStorage
     {
+        void Save(List<Project> projects);
+        List<Project> Load();
     }
 }
