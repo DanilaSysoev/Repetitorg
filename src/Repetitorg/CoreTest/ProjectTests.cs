@@ -120,5 +120,22 @@ namespace CoreTest
             Assert.IsTrue(projects.Contains(p2));
             Assert.IsTrue(projects.Contains(p3));
         }
+
+        [TestCase]
+        public void FindByName_FindThreeStrjngOverlap_ReturnAll()
+        {
+            Project p1 = Project.Add("Test Project 1");
+            Project p2 = Project.Add("Oops Test Project 2");
+            Project p3 = Project.Add("OOPSTest Project 3");
+            Project p4 = Project.Add("Project 4");
+            Project p5 = Project.Add("Project 5");
+
+            List<Project> projects = Project.FindByName("Test");
+
+            Assert.AreEqual(3, projects.Count);
+            Assert.IsTrue(projects.Contains(p1));
+            Assert.IsTrue(projects.Contains(p2));
+            Assert.IsTrue(projects.Contains(p3));
+        }
     }
 }
