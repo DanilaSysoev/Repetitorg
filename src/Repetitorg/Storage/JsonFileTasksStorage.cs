@@ -18,26 +18,25 @@ namespace Repetitorg.Storage
             this.path = path;
         }
 
-        public void Save()
+        public void Save(List<Task> tasks)
         {
             var dataPath = Path.Combine(path + DATA_PATH);
             if (!Directory.Exists(Path.GetDirectoryName(dataPath)))
                 Directory.CreateDirectory(Path.GetDirectoryName(dataPath));
 
-            var data = JsonConvert.SerializeObject(Task.GetAll(), Formatting.Indented);
+            var data = JsonConvert.SerializeObject(tasks, Formatting.Indented);
 
             using (StreamWriter writer = new StreamWriter(dataPath))
                 writer.Write(data);
         }
-        public void Load()
+
+        List<Task> ITasksStorage.Load()
         {
             var data = "";
             var dataPath = Path.Combine(path + DATA_PATH);
             using (StreamReader reader = new StreamReader(dataPath))
                 data = reader.ReadToEnd();
-            var tasks = JsonConvert.DeserializeObject<List<Task>>(data);
-
-            Task.Setup(tasks);
+            return JsonConvert.DeserializeObject<List<Task>>(data);
         }
 
         private const string DATA_PATH = "/data/tasks.json";
