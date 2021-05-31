@@ -55,5 +55,20 @@ namespace CoreTest
                 "Project with name \"Test Project\" already exist"
             ));
         }
+
+        [TestCase]
+        public void GetAll_AddedThreeProjects_ReturnAll()
+        {
+            Project p1 = Project.Add("Test Project 1");
+            Project p2 = Project.Add("Test Project 2");
+            Project p3 = Project.Add("Test Project 3");
+
+            List<Project> projects = Project.GetAll();
+
+            Assert.AreEqual(3, projects.Count);
+            Assert.IsTrue(projects.Contains(p1));
+            Assert.IsTrue(projects.Contains(p2));
+            Assert.IsTrue(projects.Contains(p3));
+        }
     }
 }
