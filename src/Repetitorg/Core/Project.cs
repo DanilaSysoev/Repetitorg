@@ -11,13 +11,17 @@ namespace Repetitorg.Core
         {
             get
             {
-                return 0;
+                return projects.Count;
             }
         }
         public static void Add(string name)
-        { }
+        {
+            projects.Add(new Project(name));
+        }
         public static void Clear()
-        { }
+        {
+            projects.Clear();
+        }
 
 
         public string Name
@@ -42,6 +46,14 @@ namespace Repetitorg.Core
         {
             return Name;
         }
+
+
+        private static List<Project> projects;
+        static Project()
+        {
+            projects = new List<Project>();
+        }
+
 
         private string name;
 
