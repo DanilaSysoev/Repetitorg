@@ -236,41 +236,6 @@ namespace Repetitorg.CoreTest
             Assert.IsFalse(task3.Completed);
         }
 
-        [TestCase]
-        public void Setup_SetupAfterClearing_SetupSuccess()
-        {
-            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("NEW 2020/11/10 test task 2", new DateTime(2020, 11, 10));
-            Task task3 = Task.AddOnDate("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
-
-            Task.Complete(task2);
-            Task.Clear();
-            Task.Setup(new List<Task> { task1, task2, task3 });
-
-            Assert.AreEqual(3, Task.TasksCount);
-            Assert.AreEqual(3, Task.GetAll().Count);
-            Assert.IsTrue(Task.GetAll().Contains(task1));
-            Assert.IsTrue(Task.GetAll().Contains(task2));
-            Assert.IsTrue(Task.GetAll().Contains(task3));
-
-            Assert.IsTrue(Task.GetByDate(new DateTime(2020, 11, 10))[0].Completed);
-
-            Assert.IsFalse(Task.GetByDate(new DateTime(2020, 12, 30))[0].Completed);
-            Assert.IsFalse(Task.GetByDate(new DateTime(2020, 10, 20))[0].Completed);
-        }
-        [TestCase]
-        public void Setup_SetupWithoutClearing_ThrowingException()
-        {
-            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("NEW 2020/11/10 test task 2", new DateTime(2020, 11, 10));
-            Task task3 = Task.AddOnDate("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
-
-            Task.Complete(task2);
-
-            var exception = Assert.Throws<InvalidOperationException>(() => Task.Setup(new List<Task> { task1, task2, task3 }));
-            Assert.IsTrue(exception.Message.Contains("Setup can be calld only for clear Task collection"));
-        }
-
         private const string TEST_DATA_PATH = "D:\\YandexDisk\\YandexDisk\\Danila\\Work\\Repetitorg";
     }
 }
