@@ -16,6 +16,12 @@ namespace CoreTest
             Task.Clear();
         }
 
-
+        [TestCase]
+        public void AddTomorrow_SimpleAddTask_TasksCountIncrease()
+        {
+            Assert.AreEqual(0, Task.TasksCount);
+            Task.AddTomorrowTask("Tomorrow test task");
+            Assert.AreEqual(1, Task.TasksCount);
+        }
     }
 }
