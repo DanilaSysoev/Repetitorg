@@ -47,7 +47,15 @@ namespace CoreTest
         public void AddOnDate_SimpleAddTask_TasksCountIncrease()
         {
             Assert.AreEqual(0, Task.TasksCount);
-            Task task = Task.AddOnDate("Tomorrow test task", new DateTime(2020, 12, 30));
+            Task task = Task.AddOnDate("2020/12/30 test task", new DateTime(2020, 12, 30));
+            Assert.AreEqual(1, Task.TasksCount);
+        }
+        [TestCase]
+        public void AddOnDate_SimpleAddTask_TasksAddedOnCorrectDate()
+        {
+            Task task = Task.AddOnDate("2020/12/30 test task", new DateTime(2020, 12, 30));
+            List<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
+            Assert.AreEqual(task, tasks[0]);
             Assert.AreEqual(1, Task.TasksCount);
         }
     }
