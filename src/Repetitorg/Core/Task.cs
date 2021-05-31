@@ -25,7 +25,7 @@ namespace Core
 
         public static Task AddOnDate(string taskName, DateTime date)
         {
-            Task task = new Task(taskName, date.Date);
+            Task task = new Task(taskName, date.Date, false);
             if (!tasksByDate.ContainsKey(date))
                 tasksByDate.Add(date, new List<Task>());
 
@@ -52,6 +52,10 @@ namespace Core
         {
             tasks.Remove(task);
             tasksByDate[task.Date].Remove(task);
+        }
+        public static void Complete(Task task)
+        {
+            task.completed = true;
         }
 
         public static void Save(string path)
@@ -96,6 +100,13 @@ namespace Core
                 return date;
             }
         }
+        public bool Completed
+        {
+            get
+            {
+                return completed;
+            }
+        }
 
         public override bool Equals(object obj)
         {
@@ -117,12 +128,14 @@ namespace Core
         private static Dictionary<DateTime, List<Task>> tasksByDate;
         private string taskName;
         private DateTime date;
+        private bool completed;
 
         [JsonConstructor]
-        private Task(string name, DateTime date)
+        private Task(string name, DateTime date, bool completed)
         {
             this.taskName = name;
             this.date = date;
+            this.completed = completed;
         }
 
         static Task()
