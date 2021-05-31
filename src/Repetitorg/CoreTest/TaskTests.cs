@@ -73,9 +73,9 @@ namespace CoreTest
             Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
             Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
             Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
-            Task.Save("");
+            Task.Save(TEST_DATA_PATH);
             Task.Clear();
-            Task.Load("");
+            Task.Load(TEST_DATA_PATH);
 
             Assert.AreEqual(3, Task.TasksCount);
         }
@@ -85,9 +85,9 @@ namespace CoreTest
             Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
             Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
             Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
-            Task.Save("");
+            Task.Save(TEST_DATA_PATH);
             Task.Clear();
-            Task.Load("");
+            Task.Load(TEST_DATA_PATH);
 
             var tasks = Task.GetByDate(new DateTime(2020, 12, 30));
             Assert.AreEqual(3, tasks.Count);
@@ -95,5 +95,7 @@ namespace CoreTest
             Assert.IsTrue(tasks.Contains(task2));
             Assert.IsTrue(tasks.Contains(task3));
         }
+
+        private const string TEST_DATA_PATH = "D:\\YandexDisk\\YandexDisk\\Danila\\Work\\Repetitorg";
     }
 }

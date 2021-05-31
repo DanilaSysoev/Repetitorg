@@ -40,7 +40,7 @@ namespace Core
             if (!Directory.Exists(Path.GetDirectoryName(dataPath)))
                 Directory.CreateDirectory(Path.GetDirectoryName(dataPath));
 
-            var data = JsonConvert.SerializeObject(tasks);
+            var data = JsonConvert.SerializeObject(tasks, Formatting.Indented);
 
             using (StreamWriter writer = new StreamWriter(dataPath))
                 writer.Write(data);
