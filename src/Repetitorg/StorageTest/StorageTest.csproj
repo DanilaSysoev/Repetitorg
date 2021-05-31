@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JsonFileProjectsStorage.cs" />
+    <Compile Include="JsonFileProjectsStorageTests.cs" />
     <Compile Include="JsonFileTasksStorageTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
