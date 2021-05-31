@@ -1,14 +1,21 @@
-﻿using NUnit.Framework;
+﻿using Core;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CoreTest
 {
     [TestFixture]
     class TaskTests
     {
+        [TearDown]
+        public void Clear()
+        {
+            Task.Clear();
+        }
+
+
     }
 }
