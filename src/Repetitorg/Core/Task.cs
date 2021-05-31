@@ -22,9 +22,7 @@ namespace Core
 
         public static Task AddTomorrow(string taskName)
         {
-            Task task = new Task(taskName, DateTime.Today.AddDays(1));
-            tasks.Add(task);
-            return task;
+            return AddOnDate(taskName, DateTime.Today.AddDays(1));
         }
         public static Task AddOnDate(string taskName, DateTime date)
         {
