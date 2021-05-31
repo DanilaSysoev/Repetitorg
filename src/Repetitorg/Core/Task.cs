@@ -19,6 +19,7 @@ namespace Core
         public static void Clear()
         {
             tasks.Clear();
+            tasksByDate.Clear();
         }
 
         public static Task AddOnDate(string taskName, DateTime date)
