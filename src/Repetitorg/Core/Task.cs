@@ -33,6 +33,10 @@ namespace Core
                     where task.Date == dateTime
                     select task).ToList();
         }
+        public static List<Task> GetAll()
+        {
+            throw new NotImplementedException();
+        }
 
         public static void Save(string path)
         {
