@@ -20,10 +20,6 @@ namespace Core
             tasks.Clear();
         }
 
-        public static Task AddTomorrow(string taskName)
-        {
-            return AddOnDate(taskName, DateTime.Today.AddDays(1));
-        }
         public static Task AddOnDate(string taskName, DateTime date)
         {
             Task task = new Task(taskName, date);
@@ -35,10 +31,6 @@ namespace Core
             return (from task in tasks
                     where task.Date == dateTime
                     select task).ToList();
-        }
-        public static List<Task> GetTomorrowTasks()
-        {
-            return GetByDate(DateTime.Today.AddDays(1));
         }
 
         public string Name

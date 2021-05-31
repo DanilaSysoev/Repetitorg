@@ -17,33 +17,6 @@ namespace CoreTest
         }
 
         [TestCase]
-        public void AddTomorrow_SimpleAddTask_TasksCountIncrease()
-        {
-            Assert.AreEqual(0, Task.TasksCount);
-            Task.AddTomorrow("Tomorrow test task");
-            Assert.AreEqual(1, Task.TasksCount);
-        }
-        [TestCase]
-        public void AddTomorrow_SimpleAddTask_TaskAddedWithTomorrowDate()
-        {
-            Task task = Task.AddTomorrow("Tomorrow test task");
-            List<Task> tomorrowTasks = Task.GetTomorrowTasks();
-            Assert.AreEqual(task, tomorrowTasks[0]);
-        }
-        [TestCase]
-        public void AddTomorrow_AddThreeTasks_AllTasksExist()
-        {
-            Task task1 = Task.AddTomorrow("Tomorrow test task 1");
-            Task task2 = Task.AddTomorrow("Tomorrow test task 2");
-            Task task3 = Task.AddTomorrow("Tomorrow test task 3");
-            List<Task> tomorrowTasks = Task.GetTomorrowTasks();
-
-            Assert.AreEqual(3, tomorrowTasks.Count);
-            Assert.IsTrue(tomorrowTasks.Contains(task1));
-            Assert.IsTrue(tomorrowTasks.Contains(task2));
-            Assert.IsTrue(tomorrowTasks.Contains(task3));
-        }
-        [TestCase]
         public void AddOnDate_SimpleAddTask_TasksCountIncrease()
         {
             Assert.AreEqual(0, Task.TasksCount);
@@ -92,6 +65,11 @@ namespace CoreTest
             Assert.IsTrue(tasks2.Contains(task2));
             Assert.IsTrue(tasks3.Contains(task3));
             Assert.IsTrue(tasks4.Contains(task4));
+        }
+        [TestCase]
+        public void GetToday_GettingExistTasks_SuccessGettingAll()
+        {
+
         }
     }
 }
