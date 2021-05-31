@@ -20,20 +20,6 @@ namespace Repetitorg.StorageTest
         }
 
         [TestCase]
-        public void SaveLoad_SaveLoadThreeTasks_TasksCountEqualsThree()
-        {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
-
-            var storage = new JsonFileStorage<Task>(TEST_DATA_PATH);
-            Task.Save(storage);
-            Task.Clear();
-            Task.Load(storage);
-
-            Assert.AreEqual(3, Task.TasksCount);
-        }
-        [TestCase]
         public void SaveLoad_SaveLoadTreeTasks_TasksContainsAllAfterLoading()
         {
             Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
