@@ -137,6 +137,20 @@ namespace CoreTest
             Assert.AreEqual(2, tasks.Count);
             Assert.AreEqual(3, tasksOld.Count);
         }
+        [TestCase]
+        public void GetByDate_GettingAllBydate_ReturnCopyOfCollection()
+        {
+            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
+
+            var tasks = Task.GetByDate(new DateTime(2020, 12, 30));
+            tasks.Remove(task2);
+            var tasksOld = Task.GetByDate(new DateTime(2020, 12, 30));
+
+            Assert.AreEqual(2, tasks.Count);
+            Assert.AreEqual(3, tasksOld.Count);
+        }
 
 
         [TestCase]
