@@ -6,7 +6,7 @@ namespace Repetitorg.Core.Base
 {
     public interface ITasksStorage
     {
-        void Save();
-        void Load();
+        void Save(List<Task> tasks);
+        List<Task> Load();
     }
 }
