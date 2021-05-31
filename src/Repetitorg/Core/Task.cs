@@ -33,6 +33,15 @@ namespace Core
                     select task).ToList();
         }
 
+        public static void Save()
+        {
+            throw new NotImplementedException();
+        }
+        public static void Load()
+        {
+            throw new NotImplementedException();
+        }
+
         public string Name
         {
             get
@@ -63,5 +72,6 @@ namespace Core
         {
             tasks = new List<Task>();
         }
+
     }
 }
