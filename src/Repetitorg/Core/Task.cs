@@ -34,16 +34,22 @@ namespace Core
                     select task).ToList();
         }
 
-        public static void Save()
+        public static void Save(string path)
         {
+            var dataPath = Path.Combine(path + DATA_PATH);
+            if (!Directory.Exists(Path.GetDirectoryName(dataPath)))
+                Directory.CreateDirectory(dataPath);
+
             var data = JsonConvert.SerializeObject(tasks);
-            using (StreamWriter writer = new StreamWriter(DATA_PATH))
+
+            using (StreamWriter writer = new StreamWriter(dataPath))
                 writer.Write(data);
         }
-        public static void Load()
+        public static void Load(string path)
         {
             var data = "";
-            using (StreamReader reader = new StreamReader(DATA_PATH))
+            var dataPath = Path.Combine(path + DATA_PATH);
+            using (StreamReader reader = new StreamReader(dataPath))
                 data = reader.ReadToEnd();
             tasks = JsonConvert.DeserializeObject<List<Task>>(data);
         }
@@ -62,7 +68,14 @@ namespace Core
                 return date;
             }
         }
-        
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Task)
+                return ((Task)obj).Name.Equals(Name) && ((Task)obj).Date.Equals(Date);
+            return false;
+        }
+
 
         private static List<Task> tasks;
         private string taskName;
@@ -77,12 +90,9 @@ namespace Core
 
         static Task()
         {
-            tasks = new List<Task>();
-            if (!Directory.Exists(DATA_DIR))
-                Directory.CreateDirectory(DATA_DIR);
+            tasks = new List<Task>();            
         }
 
         private const string DATA_PATH = "/data/tasks.json";
-        private const string DATA_DIR = "/data";
     }
 }
