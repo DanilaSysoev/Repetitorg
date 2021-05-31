@@ -35,5 +35,14 @@ namespace CoreTest
             Project.Add("Test Project");
             Assert.AreEqual(1, Project.ProjectsCount);
         }
+        [TestCase]
+        public void Add_AddThreeProjects_ProjectsCountEqualsThree()
+        {
+            Project.Add("Test Project 1");
+            Project.Add("Test Project 2");
+            Project.Add("Test Project 3");
+
+            Assert.AreEqual(3, Project.ProjectsCount);
+        }
     }
 }
