@@ -28,7 +28,9 @@ namespace Core
         }
         public static Task AddOnDate(string taskName, DateTime date)
         {
-            throw new NotImplementedException();
+            Task task = new Task(taskName, date);
+            tasks.Add(task);
+            return task;
         }
         public static List<Task> GetTomorrowTasks()
         {
