@@ -125,7 +125,6 @@ namespace Core
         }
 
 
-        private static ITaskStorage taskStorage;
         private static List<Task> tasks;
         private static Dictionary<DateTime, List<Task>> tasksByDate;
 
