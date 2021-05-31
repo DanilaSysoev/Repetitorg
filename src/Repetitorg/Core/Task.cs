@@ -25,13 +25,14 @@ namespace Core
         {
             Task task = new Task(taskName, date);
             tasks.Add(task);
+            if (!tasksByDate.ContainsKey(date))
+                tasksByDate.Add(date, new List<Task>());
+            tasksByDate[date].Add(task);
             return task;
         }
-        public static List<Task> GetByDate(DateTime dateTime)
+        public static List<Task> GetByDate(DateTime date)
         {
-            return (from task in tasks
-                    where task.Date == dateTime
-                    select task).ToList();
+            return new List<Task>(tasksByDate[date.Date]);
         }
         public static List<Task> GetAll()
         {
@@ -90,6 +91,7 @@ namespace Core
 
 
         private static List<Task> tasks;
+        private static Dictionary<DateTime, List<Task>> tasksByDate;
         private string taskName;
         private DateTime date;
 
@@ -102,7 +104,8 @@ namespace Core
 
         static Task()
         {
-            tasks = new List<Task>();            
+            tasks = new List<Task>();
+            tasksByDate = new Dictionary<DateTime, List<Task>>();
         }
 
         private const string DATA_PATH = "/data/tasks.json";
