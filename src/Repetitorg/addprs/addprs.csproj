@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\Storage\Storage.csproj" />
     <ProjectReference Include="..\UtilitesSharedService\UtilitesSharedService.csproj" />
   </ItemGroup>
 
