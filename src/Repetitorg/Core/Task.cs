@@ -85,9 +85,11 @@ namespace Repetitorg.Core
                 tasksByDate[task.Date].Add(task);
             }
         }
-        public static List<Task> GetByProject(Project p1)
+        public static List<Task> GetByProject(Project project)
         {
-            return new List<Task>();
+            return (from task in tasks
+                    where project.Equals(task.Project)
+                    select task).ToList();
         }
 
         public string Name
