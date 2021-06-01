@@ -26,7 +26,7 @@ namespace Repetitorg.Core
 
         public static Task AddOnDate(string taskName, DateTime date)
         {
-            Task task = new Task(taskName, date.Date, false);
+            Task task = new Task(taskName, date.Date, false, null);
             if (!tasksByDate.ContainsKey(date))
                 tasksByDate.Add(date, new List<Task>());
 
@@ -60,6 +60,15 @@ namespace Repetitorg.Core
                 tasksByDate[task.Date].Find(t => t.Name == task.Name).completed = true;
 
             task.completed = true;
+        }
+        public static void AttachToProject(Task task, Project project)
+        {
+            if (task.Project == null)
+                task.project = project;
+            else
+                throw new InvalidOperationException(
+                    string.Format("Task \"{0}\" already attached to \"{1}\" project", task, project)
+                );
         }
         public static void Save(IStorage<Task> tasksStorage)
         {
@@ -99,6 +108,13 @@ namespace Repetitorg.Core
                 return completed;
             }
         }
+        public Project Project
+        {
+            get
+            {
+                return project;
+            }
+        }
 
         public override bool Equals(object obj)
         {
@@ -122,13 +138,15 @@ namespace Repetitorg.Core
         private string taskName;
         private DateTime date;
         private bool completed;
+        private Project project;
 
         [JsonConstructor]
-        private Task(string name, DateTime date, bool completed)
+        private Task(string name, DateTime date, bool completed, Project project)
         {
             this.taskName = name;
             this.date = date;
             this.completed = completed;
+            this.project = project;
         }
 
         static Task()
