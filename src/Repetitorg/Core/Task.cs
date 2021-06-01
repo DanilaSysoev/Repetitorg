@@ -87,6 +87,11 @@ namespace Repetitorg.Core
         }
         public static List<Task> GetByProject(Project project)
         {
+            if(project == null)
+                return (from task in tasks
+                        where task.Project == null
+                        select task).ToList();
+
             return (from task in tasks
                     where project.Equals(task.Project)
                     select task).ToList();
