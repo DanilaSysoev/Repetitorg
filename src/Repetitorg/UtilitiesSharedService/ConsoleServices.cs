@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Repetitorg.Core;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -37,6 +38,31 @@ namespace Repetitorg.UtilitiesSharedService
                 Console.WriteLine(exc.StackTrace);
             }
         }
+        public static void PrintMenu(List<Project> projects)
+        {
+            Console.WriteLine("What project did you mean?");
+            for (int i = 0; i < projects.Count; ++i)
+            {
+                if (projects[i].Completed)
+                    Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("{0, 5}. {1}", i + 1, projects[i]);
+                Console.ResetColor();
+            }
+            Console.Write("Other. Nothing and exit\n>");
+        }
+        public static Project SelectionProjectMenu(List<Project> projects)
+        {
+            ConsoleServices.PrintMenu(projects);
+            int projectNumber = -1;
+            var input = Console.ReadLine();
+            if (!int.TryParse(input, out projectNumber) ||
+                projectNumber <= 0 ||
+                projectNumber > projects.Count)
+            {
+                return null;
+            }
+            return projects[projectNumber - 1];
+        }
 
         private static void WriteInfoFile(string utilityName, Exception e)
         {
@@ -51,7 +77,7 @@ namespace Repetitorg.UtilitiesSharedService
 
         private const string INFO_DIR = "info";
         private const string CONFIG_NAME = "config.json";
-        private const string DATA_PATH = "data_path";
+        public const string DATA_PATH = "data_path";
         private static string DEFAULT_DATA_PATH = Environment.CurrentDirectory;
     }
 }
