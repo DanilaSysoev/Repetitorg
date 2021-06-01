@@ -17,6 +17,14 @@ namespace Repetitorg.StorageTest
         }
 
         [TestCase]
+        public void Load_LoadUnexistingTasks_ReturnEmptyCollection()
+        {
+            var storage = new JsonFileStorage<Task>(TEST_DATA_PATH);
+            Task.Load(storage);
+
+            Assert.AreEqual(0, Task.TasksCount);
+        }
+        [TestCase]
         public void SaveLoad_SaveLoadTreeTasks_TasksContainsAllAfterLoading()
         {
             Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));

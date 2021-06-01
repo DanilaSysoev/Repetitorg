@@ -16,13 +16,13 @@ namespace Repetitorg.Storage
             this.path = path;
         }
 
-        public void Save(List<T> tasks)
+        public void Save(List<T> objects)
         {
             var dataPath = Path.Combine(path + DATA_PATH);
             if (!Directory.Exists(Path.GetDirectoryName(dataPath)))
                 Directory.CreateDirectory(Path.GetDirectoryName(dataPath));
 
-            var data = JsonConvert.SerializeObject(tasks, Formatting.Indented);
+            var data = JsonConvert.SerializeObject(objects, Formatting.Indented);
 
             using (StreamWriter writer = new StreamWriter(dataPath))
                 writer.Write(data);
@@ -32,6 +32,9 @@ namespace Repetitorg.Storage
         {
             var data = "";
             var dataPath = Path.Combine(path + DATA_PATH);
+            if (!File.Exists(dataPath))
+                Save(new List<T>());
+
             using (StreamReader reader = new StreamReader(dataPath))
                 data = reader.ReadToEnd();
             return JsonConvert.DeserializeObject<List<T>>(data);
