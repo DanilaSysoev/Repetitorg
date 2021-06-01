@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Config\Config.csproj" />
+    <ProjectReference Include="..\UtilitesSharedService\UtilitesSharedService.csproj" />
   </ItemGroup>
 
 </Project>

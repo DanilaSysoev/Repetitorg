@@ -2,13 +2,13 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Repetitorg.Config
+namespace Repetitorg.UtilitesSharedService
 {
-    public class Configurations
+    public class Config
     {
         private Dictionary<string, string> values;
 
-        public Configurations()
+        public Config()
         {
             values = new Dictionary<string, string>();
         }

@@ -1,37 +1,24 @@
 ﻿using Repetitorg.Core;
 using Repetitorg.Storage;
-using Repetitorg.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Repetitorg.UtilitesSharedService;
 
 namespace Repetitorg.addtmrw
 {
     class Program
-    {   
-        private static Configurations config;
-
+    {
         static void Main(string[] args)
         {
             try
             {
-                ReadConfig();
+                ConsoleServices.ReadConfig();
                 MainProcess(args);
             }
             catch (Exception e)
             {
-                ExceptionHandle(e);
-            }
-        }
-
-        private static void ReadConfig()
-        {
-            config = new Configurations();
-            config.Read(CONFIG_NAME);
-            if(config.GetField(DATA_PATH) == null)
-            {
-                config.AddField("data_path", DEFAULT_DATA_PATH);
-                config.Write(CONFIG_NAME);
+                ConsoleServices.ExceptionHandle("addtmrw", e);
             }
         }
 
@@ -47,7 +34,7 @@ namespace Repetitorg.addtmrw
 
         private static void AddTomorrowWithoutProject(string taskName)
         {
-            var storage = new JsonFileStorage<Task>(config.GetField(DATA_PATH));
+            var storage = new JsonFileStorage<Task>(ConsoleServices.Config.GetField(DATA_PATH));
             Task.Load(storage);
             Task.AddOnDate(taskName, DateTime.Now.AddDays(1).Date);
             Task.Save(storage);
@@ -55,8 +42,8 @@ namespace Repetitorg.addtmrw
 
         private static void AddTomorrowWithProject(string taskName, string projectName)
         {
-            var taskStorage = new JsonFileStorage<Task>(config.GetField(DATA_PATH));
-            var projectStorage = new JsonFileStorage<Project>(config.GetField(DATA_PATH));
+            var taskStorage = new JsonFileStorage<Task>(ConsoleServices.Config.GetField(DATA_PATH));
+            var projectStorage = new JsonFileStorage<Project>(ConsoleServices.Config.GetField(DATA_PATH));
             Task.Load(taskStorage);
             Project.Load(projectStorage);
 
@@ -122,39 +109,6 @@ namespace Repetitorg.addtmrw
             Console.WriteLine("format");
         }
 
-        private static void ExceptionHandle(Exception e)
-        {
-            Console.WriteLine(e.Message);
-            Console.WriteLine(e.StackTrace);
-            Console.WriteLine();
-            Console.WriteLine("Trying create info file...");
-            try
-            {
-                WriteInfoFile(e);
-                Console.WriteLine("OK!");
-            }
-            catch(Exception exc)
-            {
-                Console.WriteLine("Can not write info file:");
-                Console.WriteLine(exc.Message);
-                Console.WriteLine(exc.StackTrace);
-            }
-        }
-
-        private static void WriteInfoFile(Exception e)
-        {
-            if (!Directory.Exists(INFO_DIR))
-                Directory.CreateDirectory(INFO_DIR);
-            using (StreamWriter writer = new StreamWriter(INFO_DIR + "/add_tomorrow_crash_" + DateTime.Now.ToString("dd.MM.yyyy.HH.mm.ss") + ".txt"))
-            {
-                writer.Write(e.Message);
-                writer.Write(e.StackTrace);
-            }
-        }        
-
-        private const string INFO_DIR = "info";
-        private const string CONFIG_NAME = "config.json";
         private const string DATA_PATH = "data_path";
-        private static string DEFAULT_DATA_PATH = Environment.CurrentDirectory;
     }
 }
