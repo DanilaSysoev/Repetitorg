@@ -236,6 +236,18 @@ namespace Repetitorg.CoreTest
             Assert.IsFalse(task3.Completed);
         }
 
+        [TestCase]
+        public void AttachToProject_AttachNotAttachedTask_AttachSuccess()
+        {
+            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
+
+            Project p1 = Project.Add("Test project 1");
+
+            Assert.IsNull(task1.Project);
+            Task.AttachToProject(task1, p1);
+            Assert.AreEqual(p1, task1.Project);
+        }
+
         private const string TEST_DATA_PATH = "D:\\YandexDisk\\YandexDisk\\Danila\\Work\\Repetitorg";
     }
 }
