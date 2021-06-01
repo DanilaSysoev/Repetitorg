@@ -2,7 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Repetitorg.UtilitesSharedService
+namespace Repetitorg.UtilitiesSharedService
 {
     public class Config
     {

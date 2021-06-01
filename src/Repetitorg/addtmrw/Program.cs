@@ -3,7 +3,7 @@ using Repetitorg.Storage;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Repetitorg.UtilitesSharedService;
+using Repetitorg.UtilitiesSharedService;
 
 namespace Repetitorg.addtmrw
 {

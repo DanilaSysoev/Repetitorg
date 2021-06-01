@@ -1,6 +1,6 @@
 ﻿using Repetitorg.Core;
 using Repetitorg.Storage;
-using Repetitorg.UtilitesSharedService;
+using Repetitorg.UtilitiesSharedService;
 using System;
 
 namespace Repetitorg.addprs

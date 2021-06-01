@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Repetitorg.UtilitesSharedService
+namespace Repetitorg.UtilitiesSharedService
 {
     public class ConsoleServices
     {

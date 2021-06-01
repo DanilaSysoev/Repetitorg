@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "curdir", "curdir\curdir.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "addtmrw", "addtmrw\addtmrw.csproj", "{64D17781-CD60-4545-8C91-D16911D69B05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "addprs", "addprs\addprs.csproj", "{FAF82F46-CDC2-4901-BB23-D859A1409D80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "addprs", "addprs\addprs.csproj", "{FAF82F46-CDC2-4901-BB23-D859A1409D80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilitesSharedService", "UtilitesSharedService\UtilitesSharedService.csproj", "{A7AA8F19-7762-4351-AD28-2390B8C20A6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilitiesSharedService", "UtilitiesSharedService\UtilitiesSharedService.csproj", "{A7AA8F19-7762-4351-AD28-2390B8C20A6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
