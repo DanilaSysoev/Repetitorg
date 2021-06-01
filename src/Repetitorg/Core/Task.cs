@@ -23,7 +23,6 @@ namespace Repetitorg.Core
             tasks.Clear();
             tasksByDate.Clear();
         }
-
         public static Task AddOnDate(string taskName, DateTime date)
         {
             Task task = new Task(taskName, date.Date, false, null);
@@ -85,6 +84,10 @@ namespace Repetitorg.Core
                     tasksByDate.Add(task.Date, new List<Task>());
                 tasksByDate[task.Date].Add(task);
             }
+        }
+        public static List<Task> GetByProject(Project p1)
+        {
+            return new List<Task>();
         }
 
         public string Name
