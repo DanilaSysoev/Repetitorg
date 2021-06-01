@@ -239,13 +239,30 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void AttachToProject_AttachNotAttachedTask_AttachSuccess()
         {
-            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
 
             Project p1 = Project.Add("Test project 1");
 
             Assert.IsNull(task1.Project);
             Task.AttachToProject(task1, p1);
             Assert.AreEqual(p1, task1.Project);
+        }
+        [TestCase]
+        public void AttachToProject_AttachAlreadyAttachedTask_TrowsException()
+        {
+            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+
+            Project p1 = Project.Add("Test project 1");
+            Project p2 = Project.Add("Test project 2");
+
+            Task.AttachToProject(task1, p1);
+            var exception = 
+                Assert.Throws<InvalidOperationException>(() => Task.AttachToProject(task1, p2));
+            Assert.IsTrue(
+                exception.Message.Contains(
+                    string.Format("Task \"{0}\" already attached to \"{1}\" project", task1, p1)
+                )
+            );
         }
 
         private const string TEST_DATA_PATH = "D:\\YandexDisk\\YandexDisk\\Danila\\Work\\Repetitorg";
