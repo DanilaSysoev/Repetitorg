@@ -76,6 +76,7 @@ namespace Repetitorg.Core
             }
         }
 
+
         public override bool Equals(object obj)
         {
             if(obj is Project)

@@ -162,7 +162,5 @@ namespace Repetitorg.Core
             tasks = new List<Task>();
             tasksByDate = new Dictionary<DateTime, List<Task>>();
         }
-
-        private const string DATA_PATH = "/data/tasks.json";
     }
 }
