@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageTest", "StorageTest\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "curdir", "curdir\curdir.csproj", "{0397DDAE-7BFB-4CB5-80CA-8AE91D1B39E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "add_tomorrow", "add_tomorrow\add_tomorrow.csproj", "{64D17781-CD60-4545-8C91-D16911D69B05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0397DDAE-7BFB-4CB5-80CA-8AE91D1B39E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0397DDAE-7BFB-4CB5-80CA-8AE91D1B39E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0397DDAE-7BFB-4CB5-80CA-8AE91D1B39E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64D17781-CD60-4545-8C91-D16911D69B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64D17781-CD60-4545-8C91-D16911D69B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64D17781-CD60-4545-8C91-D16911D69B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64D17781-CD60-4545-8C91-D16911D69B05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
