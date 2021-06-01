@@ -144,7 +144,7 @@ namespace add_tomorrow
         {
             if (!Directory.Exists(INFO_DIR))
                 Directory.CreateDirectory(INFO_DIR);
-            using (StreamWriter writer = new StreamWriter(INFO_DIR + "/add_tomorrow_crash_" + DateTime.Now + ".txt"))
+            using (StreamWriter writer = new StreamWriter(INFO_DIR + "/add_tomorrow_crash_" + DateTime.Now.ToString("dd.MM.yyyy.HH.mm.ss") + ".txt"))
             {
                 writer.Write(e.Message);
                 writer.Write(e.StackTrace);
@@ -154,6 +154,6 @@ namespace add_tomorrow
         private const string INFO_DIR = "info";
         private const string CONFIG_NAME = "config.json";
         private const string DATA_PATH = "data_path";
-        private const string DEFAULT_DATA_PATH = "";
+        private static string DEFAULT_DATA_PATH = Environment.CurrentDirectory;
     }
 }
