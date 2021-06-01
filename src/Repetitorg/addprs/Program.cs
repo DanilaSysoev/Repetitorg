@@ -14,7 +14,7 @@ namespace Repetitorg.addprs
             }
             catch (Exception e)
             {
-                ConsoleServices.ExceptionHandle("addtmrw", e);
+                ConsoleServices.ExceptionHandle("addprjs", e);
             }
         }
 
