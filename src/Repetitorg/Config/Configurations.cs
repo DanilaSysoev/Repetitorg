@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace Repetitorg.Config
 {
-    class Config
+    class Configurations
     {
         private Dictionary<string, string> values;
 
-        public Config()
+        public Configurations()
         {
             values = new Dictionary<string, string>();
         }

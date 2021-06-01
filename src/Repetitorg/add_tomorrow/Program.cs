@@ -1,10 +1,11 @@
 ﻿using Repetitorg.Core;
 using Repetitorg.Storage;
+using Repetitorg.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace add_tomorrow
+namespace Repetitorg.add_tomorrow
 {
     class Program
     {
