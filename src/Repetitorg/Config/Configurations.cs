@@ -26,6 +26,10 @@ namespace Repetitorg.Config
 
         public void Read(string filename)
         {
+            values = new Dictionary<string, string>();
+            if (!File.Exists(filename))
+                Write(filename);
+
             string configData = "";
             using (StreamReader reader = new StreamReader(filename))
                 configData = reader.ReadToEnd();

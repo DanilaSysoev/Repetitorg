@@ -27,12 +27,12 @@ namespace Repetitorg.add_tomorrow
         private static void ReadConfig()
         {
             config = new Configurations();
-            if (!File.Exists(CONFIG_NAME))
+            config.Read(CONFIG_NAME);
+            if(config.GetField(DATA_PATH) == null)
             {
                 config.AddField("data_path", DEFAULT_DATA_PATH);
                 config.Write(CONFIG_NAME);
             }
-            config.Read(CONFIG_NAME);
         }
 
         private static void MainProcess(string[] args)
