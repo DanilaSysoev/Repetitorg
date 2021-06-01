@@ -287,6 +287,16 @@ namespace Repetitorg.CoreTest
             Task.AttachToProject(task1, null);
             Assert.IsNull(task1.Project);
         }
+        [TestCase]
+        public void AttachToProject_AttachToNullProjectForNotAttachedTask_NothingHappens()
+        {
+            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+
+            Project p1 = Project.Add("Test project 1");
+
+            Task.AttachToProject(task1, null);
+            Assert.IsNull(task1.Project);
+        }
 
         [TestCase]
         public void GetByProject_GettingByProjectWithotTasks_ReturnEmpty()
