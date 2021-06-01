@@ -36,10 +36,10 @@ namespace add_tomorrow
 
         private static void MainProcess(string[] args)
         {
-            if (args.Length == 3)
-                AddTomorrowWithProject(args[1], args[2]);
-            else if (args.Length == 2)
-                AddTomorrowWithoutProject(args[1]);
+            if (args.Length == 2)
+                AddTomorrowWithProject(args[0], args[1]);
+            else if (args.Length == 1)
+                AddTomorrowWithoutProject(args[0]);
             else
                 ArgumentsCountError();
         }
@@ -109,7 +109,7 @@ namespace add_tomorrow
                 Console.WriteLine("{0, 5}. {1}", i + 1, projects[i]);
                 Console.ResetColor();
             }
-            Console.WriteLine("Other. Nothing\n>");
+            Console.Write("Other. Nothing\n>");
         }
 
         private static void ArgumentsCountError()
