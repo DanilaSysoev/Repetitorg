@@ -21,6 +21,14 @@ namespace Repetitorg.StorageTest
         }
 
         [TestCase]
+        public void Load_LoadUnexistingProjects_ReturnEmptyCollection()
+        {
+            var storage = new JsonFileStorage<Project>(TEST_DATA_PATH);
+            Project.Load(storage);
+
+            Assert.AreEqual(0, Project.ProjectsCount);
+        }
+        [TestCase]
         public void SaveLoad_AddThreeSaveThenClearLoad_AllThreeExist()
         {
             Project p1 = Project.Add("Test Project 1");
