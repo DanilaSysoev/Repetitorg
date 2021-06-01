@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
 namespace Repetitorg.Config
 {
-    class Configurations
+    public class Configurations
     {
         private Dictionary<string, string> values;
 

@@ -8,8 +8,8 @@ using System.IO;
 namespace Repetitorg.add_tomorrow
 {
     class Program
-    {
-        private static Config config;
+    {   
+        private static Configurations config;
 
         static void Main(string[] args)
         {
@@ -26,7 +26,7 @@ namespace Repetitorg.add_tomorrow
 
         private static void ReadConfig()
         {
-            config = new Config();
+            config = new Configurations();
             if (!File.Exists(CONFIG_NAME))
             {
                 config.AddField("data_path", DEFAULT_DATA_PATH);
