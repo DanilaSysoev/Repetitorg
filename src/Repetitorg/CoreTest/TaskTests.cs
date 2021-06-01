@@ -293,6 +293,24 @@ namespace Repetitorg.CoreTest
             List<Task> tasks = Task.GetByProject(p1);
             Assert.AreEqual(0, tasks.Count);
         }
+        [TestCase]
+        public void GetByProject_GettingByProjectWithTasks_ReturnAll()
+        {
+            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.AddOnDate("2020/11/30 test task 2", new DateTime(2020, 11, 30));
+            Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
+
+            Project p1 = Project.Add("Test project 1");
+            Project p2 = Project.Add("Test project 2");
+
+            Task.AttachToProject(task1, p2);
+            Task.AttachToProject(task3, p2);
+
+            List<Task> tasks = Task.GetByProject(p2);
+            Assert.AreEqual(2, tasks.Count);
+            Assert.IsTrue(tasks.Contains(task1));
+            Assert.IsTrue(tasks.Contains(task3));
+        }
 
         private const string TEST_DATA_PATH = "D:\\YandexDisk\\YandexDisk\\Danila\\Work\\Repetitorg";
     }
