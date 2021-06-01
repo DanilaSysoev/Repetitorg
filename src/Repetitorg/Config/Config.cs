@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace add_tomorrow
+namespace Repetitorg.Config
 {
     class Config
     {
