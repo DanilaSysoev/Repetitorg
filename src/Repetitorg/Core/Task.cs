@@ -62,7 +62,7 @@ namespace Repetitorg.Core
         }
         public static void AttachToProject(Task task, Project project)
         {
-            if (task.Project == null)
+            if(task.Project == null || project == null)
                 task.project = project;
             else if(!task.Project.Equals(project))
                 throw new InvalidOperationException(
