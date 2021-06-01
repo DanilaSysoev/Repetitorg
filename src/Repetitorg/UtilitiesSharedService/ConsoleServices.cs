@@ -63,6 +63,19 @@ namespace Repetitorg.UtilitiesSharedService
             }
             return projects[projectNumber - 1];
         }
+        public static Project SelectProjectFromFilteringResult(string projectName, List<Project> projects)
+        {
+            Project project = null;
+            if (projects.Count == 0)
+            {
+                Console.WriteLine(string.Format("Project \"{0}\" is not exist.", projectName));
+            }
+            else if (projects.Count == 1)
+                project = projects[0];
+            else
+                project = ConsoleServices.SelectionProjectMenu(projects);
+            return project;
+        }
 
         private static void WriteInfoFile(string utilityName, Exception e)
         {

@@ -52,7 +52,8 @@ namespace Repetitorg.addtmrw
             Project.Load(projectStorage);
 
             var projects = Project.FindByName(projectName);
-            Project project = SelectProjectFromFilteringResult(projectName, projects);
+            Project project = 
+                ConsoleServices.SelectProjectFromFilteringResult(projectName, projects);
 
             if (project == null)
                 return;
@@ -61,20 +62,6 @@ namespace Repetitorg.addtmrw
             Task.AttachToProject(task, project);
 
             Task.Save(taskStorage);
-        }
-
-        private static Project SelectProjectFromFilteringResult(string projectName, List<Project> projects)
-        {
-            Project project = null;
-            if (projects.Count == 0)
-            {
-                Console.WriteLine(string.Format("Project \"{0}\" is not exist.", projectName));
-            }
-            else if (projects.Count == 1)
-                project = projects[0];
-            else
-                project = ConsoleServices.SelectionProjectMenu(projects);
-            return project;
         }
 
         private static void ArgumentsCountError()
