@@ -67,7 +67,7 @@ namespace Repetitorg.Core
                 task.project = project;
             else
                 throw new InvalidOperationException(
-                    string.Format("Task \"{0}\" already attached to \"{1}\" project", task, project)
+                    string.Format("Task \"{0}\" already attached to \"{1}\" project", task, task.Project)
                 );
         }
         public static void Save(IStorage<Task> tasksStorage)
