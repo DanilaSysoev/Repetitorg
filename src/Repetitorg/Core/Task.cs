@@ -63,9 +63,9 @@ namespace Repetitorg.Core
         }
         public static void AttachToProject(Task task, Project project)
         {
-            if (task.Project == null || task.Project.Equals(project))
+            if (task.Project == null)
                 task.project = project;
-            else
+            else if(!task.Project.Equals(project))
                 throw new InvalidOperationException(
                     string.Format("Task \"{0}\" already attached to \"{1}\" project", task, task.Project)
                 );
