@@ -1,10 +1,24 @@
-﻿using System;
+﻿using Repetitorg.UtilitesSharedService;
+using System;
 
 namespace Repetitorg.addprs
 {
     class Program
     {
         static void Main(string[] args)
+        {
+            try
+            {
+                ConsoleServices.ReadConfig();
+                MainProcess(args);
+            }
+            catch (Exception e)
+            {
+                ConsoleServices.ExceptionHandle("addtmrw", e);
+            }
+        }
+
+        private static void MainProcess(string[] args)
         {
         }
 
