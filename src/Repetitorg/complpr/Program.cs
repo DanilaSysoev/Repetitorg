@@ -46,6 +46,7 @@ namespace complpr
                 );
             if (project != null)
                 Project.Complete(project);
+            Project.Save(storage);
         }
     }
 }

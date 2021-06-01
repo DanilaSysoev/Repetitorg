@@ -70,7 +70,7 @@ namespace Repetitorg.UtilitiesSharedService
             {
                 Console.WriteLine(string.Format("Project \"{0}\" is not exist.", projectName));
             }
-            else if (projects.Count == 1)
+            else if (projects.Count == 1 && projects[0].Name == projectName)
                 project = projects[0];
             else
                 project = ConsoleServices.SelectionProjectMenu(projects);
