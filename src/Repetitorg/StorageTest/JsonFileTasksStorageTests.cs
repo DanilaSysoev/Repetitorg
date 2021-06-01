@@ -2,9 +2,6 @@
 using Repetitorg.Core;
 using Repetitorg.Storage;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Repetitorg.StorageTest
 {
