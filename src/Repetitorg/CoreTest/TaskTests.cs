@@ -16,6 +16,7 @@ namespace Repetitorg.CoreTest
         public void Clear()
         {
             Task.Clear();
+            Project.Clear();
         }
 
         [TestCase]
