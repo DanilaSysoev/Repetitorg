@@ -39,6 +39,7 @@ namespace prs
                 Console.WriteLine("Please, use");
                 Console.WriteLine("prs [part_of_name]");
                 Console.WriteLine("format");
+                return;
             }
             PrintProjects(projects);
         }
