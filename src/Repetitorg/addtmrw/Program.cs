@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Repetitorg.add_tomorrow
+namespace Repetitorg.addtmrw
 {
     class Program
     {   
