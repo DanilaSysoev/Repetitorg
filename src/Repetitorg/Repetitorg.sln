@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "complpr", "complpr\complpr.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gettdy", "gettdy\gettdy.csproj", "{D9744256-9446-4496-B0EA-62043D1B3352}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "copltdy", "copltdy\copltdy.csproj", "{BB3AD265-6670-4218-B1CC-A7D07469C0C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{D9744256-9446-4496-B0EA-62043D1B3352}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9744256-9446-4496-B0EA-62043D1B3352}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9744256-9446-4496-B0EA-62043D1B3352}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB3AD265-6670-4218-B1CC-A7D07469C0C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB3AD265-6670-4218-B1CC-A7D07469C0C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB3AD265-6670-4218-B1CC-A7D07469C0C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB3AD265-6670-4218-B1CC-A7D07469C0C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
