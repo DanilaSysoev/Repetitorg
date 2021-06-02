@@ -40,6 +40,10 @@ namespace Repetitorg.Core
         }
         public static List<Task> GetByDate(DateTime date)
         {
+            if(!tasksByDate.ContainsKey(date.Date))
+            {
+                return new List<Task>();
+            }
             return new List<Task>(tasksByDate[date.Date]);
         }
         public static List<Task> GetAll()
