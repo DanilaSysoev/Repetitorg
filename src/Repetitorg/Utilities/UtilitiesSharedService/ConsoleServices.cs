@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace Repetitorg.UtilitiesSharedService
@@ -89,8 +90,9 @@ namespace Repetitorg.UtilitiesSharedService
         }
 
         private const string INFO_DIR = "info";
-        private const string CONFIG_NAME = "config.json";
+        private static string CONFIG_NAME = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
         public const string DATA_PATH = "data_path";
-        private static string DEFAULT_DATA_PATH = Environment.CurrentDirectory;
+        private static string DEFAULT_DATA_PATH = 
+            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     }
 }
