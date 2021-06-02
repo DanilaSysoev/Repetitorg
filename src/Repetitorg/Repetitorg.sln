@@ -11,21 +11,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storage", "Storage\Storage.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageTest", "StorageTest\StorageTest.csproj", "{1C129AC6-5F17-433E-AD8C-FA405EB11F29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "curdir", "curdir\curdir.csproj", "{0397DDAE-7BFB-4CB5-80CA-8AE91D1B39E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddTomorrowTasksUtility", "AddTomorrowTasksUtility\AddTomorrowTasksUtility.csproj", "{64D17781-CD60-4545-8C91-D16911D69B05}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "addtmrw", "addtmrw\addtmrw.csproj", "{64D17781-CD60-4545-8C91-D16911D69B05}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "addprs", "addprs\addprs.csproj", "{FAF82F46-CDC2-4901-BB23-D859A1409D80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddProjectsUtility", "AddProjectsUtility\AddProjectsUtility.csproj", "{FAF82F46-CDC2-4901-BB23-D859A1409D80}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilitiesSharedService", "UtilitiesSharedService\UtilitiesSharedService.csproj", "{A7AA8F19-7762-4351-AD28-2390B8C20A6B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "prs", "prs\prs.csproj", "{70584B6D-DCE7-4378-91D8-0027BF04383F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetProjectsUtility", "GetProjectsUtility\GetProjectsUtility.csproj", "{70584B6D-DCE7-4378-91D8-0027BF04383F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "complpr", "complpr\complpr.csproj", "{3F30FC3A-A0EB-41E8-AEA1-1A362EA9FBC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompleteProjectUtility", "CompleteProjectUtility\CompleteProjectUtility.csproj", "{3F30FC3A-A0EB-41E8-AEA1-1A362EA9FBC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gettdy", "gettdy\gettdy.csproj", "{D9744256-9446-4496-B0EA-62043D1B3352}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetTodayTasksUtility", "GetTodayTasksUtility\GetTodayTasksUtility.csproj", "{D9744256-9446-4496-B0EA-62043D1B3352}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "compltdy", "compltdy\compltdy.csproj", "{BB3AD265-6670-4218-B1CC-A7D07469C0C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompleteTodayTasksUtility", "CompleteTodayTasksUtility\CompleteTodayTasksUtility.csproj", "{BB3AD265-6670-4218-B1CC-A7D07469C0C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +47,6 @@ Global
 		{1C129AC6-5F17-433E-AD8C-FA405EB11F29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C129AC6-5F17-433E-AD8C-FA405EB11F29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C129AC6-5F17-433E-AD8C-FA405EB11F29}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0397DDAE-7BFB-4CB5-80CA-8AE91D1B39E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0397DDAE-7BFB-4CB5-80CA-8AE91D1B39E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0397DDAE-7BFB-4CB5-80CA-8AE91D1B39E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0397DDAE-7BFB-4CB5-80CA-8AE91D1B39E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{64D17781-CD60-4545-8C91-D16911D69B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{64D17781-CD60-4545-8C91-D16911D69B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64D17781-CD60-4545-8C91-D16911D69B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
