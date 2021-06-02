@@ -39,6 +39,7 @@ namespace Repetitorg.copltdy
 
             PrintTasks(tasks);
             CompleteSelectedTasks(tasks);
+            Task.Save(storage);
         }
 
         private static void CompleteSelectedTasks(List<Task> tasks)
