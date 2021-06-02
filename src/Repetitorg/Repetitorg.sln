@@ -19,9 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "addprs", "addprs\addprs.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilitiesSharedService", "UtilitiesSharedService\UtilitiesSharedService.csproj", "{A7AA8F19-7762-4351-AD28-2390B8C20A6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "prs", "prs\prs.csproj", "{70584B6D-DCE7-4378-91D8-0027BF04383F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "prs", "prs\prs.csproj", "{70584B6D-DCE7-4378-91D8-0027BF04383F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "complpr", "complpr\complpr.csproj", "{3F30FC3A-A0EB-41E8-AEA1-1A362EA9FBC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "complpr", "complpr\complpr.csproj", "{3F30FC3A-A0EB-41E8-AEA1-1A362EA9FBC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gettdy", "gettdy\gettdy.csproj", "{D9744256-9446-4496-B0EA-62043D1B3352}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{3F30FC3A-A0EB-41E8-AEA1-1A362EA9FBC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F30FC3A-A0EB-41E8-AEA1-1A362EA9FBC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F30FC3A-A0EB-41E8-AEA1-1A362EA9FBC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9744256-9446-4496-B0EA-62043D1B3352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9744256-9446-4496-B0EA-62043D1B3352}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9744256-9446-4496-B0EA-62043D1B3352}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9744256-9446-4496-B0EA-62043D1B3352}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
