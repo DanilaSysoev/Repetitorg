@@ -140,6 +140,9 @@ namespace Repetitorg.Core
         }
         public override string ToString()
         {
+            if (Project != null)
+                return string.Format("({0}) {1}: {2}", Project, Date, Name);
+
             return Date.ToString() + ": " + Name;
         }
 
