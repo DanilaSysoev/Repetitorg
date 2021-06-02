@@ -67,9 +67,9 @@ namespace Repetitorg.AddTomorrowTasksUtility
         private static void ArgumentsCountError()
         {
             Console.WriteLine("Please use");
-            Console.WriteLine("add_tomorrow <task_name> <project_name>");
+            Console.WriteLine("addtmrw <task_name> <part_of_project_name>");
             Console.WriteLine("or");
-            Console.WriteLine("add_tomorrow <task_name>");
+            Console.WriteLine("addtmrw <task_name>");
             Console.WriteLine("format");
         }
     }

@@ -46,11 +46,12 @@ namespace Repetitorg.GetProjectsUtility
 
         private static void PrintProjects(List<Project> projects)
         {
+            int num = 1;
             foreach(var project in projects)
             {
                 if (project.Completed)
                     Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine(project);
+                Console.WriteLine("{0}. {1}", num++, project);
                 Console.ResetColor();
             }
         }

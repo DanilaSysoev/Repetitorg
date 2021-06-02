@@ -89,8 +89,10 @@ namespace Repetitorg.UtilitiesSharedService
             }
         }
 
-        private const string INFO_DIR = "info";
-        private static string CONFIG_NAME = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
+        private static string INFO_DIR = 
+            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "info");
+        private static string CONFIG_NAME = 
+            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
         public const string DATA_PATH = "data_path";
         private static string DEFAULT_DATA_PATH = 
             Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
