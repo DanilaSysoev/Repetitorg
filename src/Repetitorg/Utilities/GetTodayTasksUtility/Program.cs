@@ -4,7 +4,7 @@ using Repetitorg.UtilitiesSharedService;
 using System;
 using System.Collections.Generic;
 
-namespace Repetitorg.gettdy
+namespace Repetitorg.GetTodayTasksUtility
 {
     class Program
     {

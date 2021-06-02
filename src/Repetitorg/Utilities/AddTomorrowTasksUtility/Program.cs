@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Repetitorg.UtilitiesSharedService;
 
-namespace Repetitorg.addtmrw
+namespace Repetitorg.AddTomorrowTasksUtility
 {
     class Program
     {

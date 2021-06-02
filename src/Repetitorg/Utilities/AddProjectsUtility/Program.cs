@@ -3,7 +3,7 @@ using Repetitorg.Storage;
 using Repetitorg.UtilitiesSharedService;
 using System;
 
-namespace Repetitorg.addprs
+namespace Repetitorg.AddProjectsUtility
 {
     class Program
     {

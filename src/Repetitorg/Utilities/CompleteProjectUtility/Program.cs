@@ -3,7 +3,7 @@ using Repetitorg.Storage;
 using Repetitorg.UtilitiesSharedService;
 using System;
 
-namespace complpr
+namespace Repetitorg.CompleteProjectUtility
 {
     class Program
     {

@@ -4,7 +4,7 @@ using Repetitorg.UtilitiesSharedService;
 using System;
 using System.Collections.Generic;
 
-namespace prs
+namespace Repetitorg.GetProjectsUtility
 {
     class Program
     {
