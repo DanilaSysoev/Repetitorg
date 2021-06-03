@@ -26,6 +26,10 @@ namespace Repetitorg.Core
             long documentNumber
         )
         {
+            if (valueInKopeks <= 0)
+                throw new ArgumentException(
+                    "Payment should has positive value"
+                );
             return new Payment(date, valueInKopeks, documentType, documentNumber);
         }
     }

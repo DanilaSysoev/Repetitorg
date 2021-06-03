@@ -150,7 +150,7 @@ namespace CoreTest
             );
 
             Assert.IsTrue(exception.Message.Contains(
-                "Payment with negative value is impossible"
+                "Payment should has positive value"
             ));
         }
 
