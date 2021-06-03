@@ -15,7 +15,11 @@
 
 
 2. Project subsystem
-	-
+	+ Addition new project with some name
+		+ Addition projects with same names throws exception
+		+ Addition projects with null name throws exception
+
+		
 	-
 	-
 

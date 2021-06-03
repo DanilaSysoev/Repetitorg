@@ -55,6 +55,17 @@ namespace CoreTest
                 "Project with name \"Test Project\" already exist"
             ));
         }
+        [TestCase]
+        public void Add_AddWithNullName_ThrowsException()
+        {
+            var exception = Assert.Throws<ArgumentException>(
+                () => Project.Add(null)
+            );
+
+            Assert.IsTrue(exception.Message.Contains(
+                "Can't create project with NULL name"
+            ));
+        }
 
         [TestCase]
         public void GetAll_AddedThreeProjects_ReturnAll()
