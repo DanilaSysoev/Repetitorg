@@ -18,6 +18,11 @@ namespace Repetitorg.Core
         }
         public static Project Add(string name)
         {
+            if (name == null)
+                throw new ArgumentException(
+                    "Can't create project with NULL name"
+                );
+
             Project project = new Project(name, false);
             if (projects.Contains(project))
                 throw new InvalidOperationException(string.Format("Project with name \"{0}\" already exist", name));
