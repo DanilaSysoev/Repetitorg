@@ -133,6 +133,23 @@ namespace CoreTest
         }
 
         [TestCase]
+        public void FindByName_FindByNull_ThrowsException()
+        {
+            Project p1 = Project.Add("Test Project 1");
+            Project p2 = Project.Add("Oops Test Project 2");
+            Project p3 = Project.Add("OOPSTest Project 3");
+            Project p4 = Project.Add("Project 4");
+            Project p5 = Project.Add("Project 5");
+
+            var exception = Assert.Throws<ArgumentException>(
+                () => Project.FindByName(null)
+            );
+            Assert.IsTrue(exception.Message.Contains(
+                "Filter pattern can't be null"
+            ));
+
+        }
+        [TestCase]
         public void FindByName_FindThreeStrongOverlap_ReturnAll()
         {
             Project p1 = Project.Add("Test Project 1");

@@ -18,10 +18,13 @@
 	+ Addition new project with some name
 		+ Addition projects with same names throws exception
 		+ Addition projects with null name throws exception
+	+ Getting all projects
+	+ Comparision projects
+	+ Removing projects
+		- Removing with existing tasks throws exception
+	+ Filtering by name
+		- Filtering by null throws exception
 
-		
-	-
-	-
 
 3. Tasks subsystem
 	-
