@@ -86,6 +86,9 @@ namespace Repetitorg.Core
         }
         public static Client CreateNew(string fullName, string phoneNumber = "")
         {
+            if (fullName == null)
+                throw new ArgumentException("Can not create client with NULL name");
+
             var client = new Client(fullName, phoneNumber);
             clients.Add(client);
             return client;
