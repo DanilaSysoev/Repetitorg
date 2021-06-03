@@ -1,10 +1,13 @@
 ﻿1. Clients subsystem
 	+ New collection of clients has no clients
 	+ Create new client with some name
-		- Create new client with null name throws error
+		+ Create new client with null name throws error
 	+ Clients with same names are different clients
 	+ Filter by name ignore case
 	+ Convert to string
+	+ Creation of new clients with zero balance
+	+ Payments of a client increase his balance
+		- Payment with negative value throws exception
 
 2. Project subsystem
 	-

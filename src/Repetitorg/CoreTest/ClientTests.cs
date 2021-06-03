@@ -119,6 +119,7 @@ namespace CoreTest
             var client = CreateClient();
             Assert.IsTrue(client.ToString().Contains("Иванов Иван Иванович"));
         }
+
         [TestCase]
         public void Balance_NewClient_BalanceZero()
         {
@@ -138,6 +139,22 @@ namespace CoreTest
             );
             Assert.AreEqual(300000, client.BalanceInKopeks);
         }
+        [TestCase]
+        public void MakePayment_NegativePayment_ThrowsException()
+        {
+            var client = CreateClient();
+            var exception = Assert.Throws<ArgumentException>(
+                () => client.MakePayment(
+                    Payment.CreateNew(new DateTime(2020, 10, 10), -100000, PaymentDocumentType.PaymentOrder, 123)
+                )
+            );
+
+            Assert.IsTrue(exception.Message.Contains(
+                "Payment with negative value is impossible"
+            ));
+        }
+
+
         [TestCase]
         public void Payments_MakeThreePayments_CountEqualsThree()
         {
