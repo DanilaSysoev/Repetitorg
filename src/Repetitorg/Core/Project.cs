@@ -18,10 +18,7 @@ namespace Repetitorg.Core
         }
         public static Project Add(string name)
         {
-            if (name == null)
-                throw new ArgumentException(
-                    "Can't create project with NULL name"
-                );
+            ArgumentNullCheck(name, "Can't create project with NULL name");
 
             Project project = new Project(name, false);
             if (projects.Contains(project))
@@ -41,10 +38,7 @@ namespace Repetitorg.Core
         }
         public static List<Project> FindByName(string subname)
         {
-            if (subname == null)
-                throw new ArgumentException(
-                    "Filter pattern can't be null"
-                );
+            ArgumentNullCheck(subname, "Filter pattern can't be null");
 
             return (from project in projects
                     where project.Name.ToLower().Contains(subname.ToLower())
@@ -109,6 +103,11 @@ namespace Repetitorg.Core
             projects = new HashSet<Project>();
         }
 
+        private static void ArgumentNullCheck(string argument, string message)
+        {
+            if (argument == null)
+                throw new ArgumentException(message);
+        }
 
         private string name;
         private bool completed;
