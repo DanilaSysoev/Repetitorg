@@ -153,6 +153,20 @@ namespace CoreTest
                 "Payment should has positive value"
             ));
         }
+        [TestCase]
+        public void MakePayment_ZeroPayment_ThrowsException()
+        {
+            var client = CreateClient();
+            var exception = Assert.Throws<ArgumentException>(
+                () => client.MakePayment(
+                    Payment.CreateNew(new DateTime(2020, 10, 10), 0, PaymentDocumentType.PaymentOrder, 123)
+                )
+            );
+
+            Assert.IsTrue(exception.Message.Contains(
+                "Payment should has positive value"
+            ));
+        }
 
 
         [TestCase]
