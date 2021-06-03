@@ -106,6 +106,10 @@ namespace Repetitorg.Core
                     where project.Equals(task.Project)
                     select task).ToList();
         }
+        public static List<Task> GetWithoutProject()
+        {
+            return GetByProject(null);
+        }
 
         public string Name
         {
