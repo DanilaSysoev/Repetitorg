@@ -41,6 +41,11 @@ namespace Repetitorg.Core
         }
         public static List<Project> FindByName(string subname)
         {
+            if (subname == null)
+                throw new ArgumentException(
+                    "Filter pattern can't be null"
+                );
+
             return (from project in projects
                     where project.Name.ToLower().Contains(subname.ToLower())
                     select project).ToList();
