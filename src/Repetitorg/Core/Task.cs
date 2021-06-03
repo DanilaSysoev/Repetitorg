@@ -70,6 +70,8 @@ namespace Repetitorg.Core
         }
         public static void AttachToProject(Task task, Project project)
         {
+            new NullChecker().Add(task, "Task can't be null").Check();
+
             if(task.Project == null || project == null)
                 task.project = project;
             else if(!task.Project.Equals(project))
