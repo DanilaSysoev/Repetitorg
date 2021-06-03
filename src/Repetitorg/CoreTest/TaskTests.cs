@@ -19,6 +19,17 @@ namespace Repetitorg.CoreTest
             Project.Clear();
         }
 
+
+        [TestCase]
+        public void AddOnDate_AddWithNullName_ThrowsException()
+        {
+            var exception = Assert.Throws<ArgumentException>(
+                () => Task.AddOnDate(null, new DateTime(2020, 12, 30))
+            );
+            Assert.IsTrue(
+                exception.Message.Contains("Can't add task with NULL name")
+            );
+        }
         [TestCase]
         public void AddOnDate_SimpleAddTask_TasksCountIncrease()
         {

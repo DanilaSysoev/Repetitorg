@@ -23,10 +23,13 @@
 	+ Removing projects
 		- Removing with existing tasks throws exception
 	+ Filtering by name
-		- Filtering by null throws exception
+		+ Filtering by null throws exception
+	+ Completing projects
+		- Completing projects with existing non completed tasks throws exception
 
 
 3. Tasks subsystem
-	-
+	+ Add task on date
+		+ Add with null name throws exception
 	-
 	-
