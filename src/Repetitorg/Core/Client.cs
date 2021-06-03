@@ -45,6 +45,8 @@ namespace Repetitorg.Core
 
         public void MakePayment(Payment payment)
         {
+            if (payment == null)
+                throw new ArgumentException("Payment can't be NULL");
             balanceInKopeks += payment.ValueInKopeks;
             payments.Add(payment);
         }
