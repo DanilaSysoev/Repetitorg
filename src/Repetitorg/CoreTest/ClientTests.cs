@@ -324,12 +324,6 @@ namespace CoreTest
             var exception = Assert.Throws<InvalidPhoneNumberException>(() => client.PhoneNumber = null);
             Assert.IsTrue(exception.Message.Contains("PhoneNumber can't be null"));
         }
-        [TestCase]
-        public void PhoneNumber_CreateClientWithNullPhoneNumber_ThrowsException()
-        {
-            var exception = Assert.Throws<InvalidPhoneNumberException>(() => Client.CreateNew("Иванов Иван Иванович", null));
-            Assert.IsTrue(exception.Message.Contains("PhoneNumber can't be null"));
-        }
 
         private Client CreateClientWithPhoneNumber()
         {

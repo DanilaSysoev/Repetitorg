@@ -88,12 +88,18 @@ namespace Repetitorg.Core
         }
         public static Client CreateNew(string fullName, string phoneNumber = "")
         {
-            if (fullName == null)
-                throw new ArgumentException("Can not create client with NULL name");
+            ArgumentsCheck(fullName, phoneNumber);
 
             var client = new Client(fullName, phoneNumber);
             clients.Add(client);
             return client;
+        }
+        public static IList<Client> FilterByName(string condition)
+        {
+            return
+                (from client in clients
+                 where client.fullName.ToLower().Contains(condition.ToLower())
+                 select client).ToList();
         }
         public static void Clear()
         {
@@ -104,6 +110,18 @@ namespace Repetitorg.Core
         {
             clients = new List<Client>();
         }
+
+        private static void ArgumentsCheck(string fullName, string phoneNumber)
+        {
+            string argsError = "";
+            if (fullName == null)
+                argsError += "Can not create client with NULL name";
+            if (phoneNumber == null)
+                argsError += "\nCan not create client with NULL phone number";
+            if (argsError != "")
+                throw new ArgumentException(argsError);
+        }
+
 
         private Client(string fullName, string phoneNumber)
         {
@@ -119,14 +137,6 @@ namespace Repetitorg.Core
         private List<Payment> payments;
 
         private static List<Client> clients;
-
-        public static IList<Client> FilterByName(string condition)
-        {
-            return 
-                (from client in clients
-                 where client.fullName.ToLower().Contains(condition.ToLower())
-                 select client).ToList();
-        }
 
         public override string ToString()
         {
