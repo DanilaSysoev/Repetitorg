@@ -31,5 +31,9 @@
 3. Tasks subsystem
 	+ Add task on date
 		+ Add with null name throws exception
-	-
-	-
+	+ Getting all tasks
+	+ Getting tasks by date
+	+ Clearing collection of tasks
+	+ Removing task
+		+ Removing nonexistent task has no effect
+		+ Removing null has no effect

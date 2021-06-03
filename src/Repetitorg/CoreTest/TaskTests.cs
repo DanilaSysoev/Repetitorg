@@ -229,6 +229,20 @@ namespace Repetitorg.CoreTest
             Task.Remove(taskOld);
             Assert.AreEqual(3, Task.TasksCount);
         }
+        [TestCase]
+        public void Remove_RemoveNull_ThrowsException()
+        {
+            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.AddOnDate("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.AddOnDate("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
+
+            var exception = Assert.Throws<ArgumentException>(
+                () => Task.Remove(null)
+            );
+            Assert.IsTrue(exception.Message.Contains(
+                "Task can't be null"
+            ));
+        }
 
         [TestCase]
         public void Complete_CompleteExisting_CompleteSuccess()
