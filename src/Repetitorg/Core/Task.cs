@@ -56,6 +56,8 @@ namespace Repetitorg.Core
         }
         public static void Remove(Task task)
         {
+            new NullChecker().Add(task, "Task can't be null").Check();
+
             tasks.Remove(task);
             tasksByDate[task.Date].Remove(task);
         }
