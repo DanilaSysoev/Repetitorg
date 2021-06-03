@@ -88,7 +88,10 @@ namespace Repetitorg.Core
         }
         public static Client CreateNew(string fullName, string phoneNumber = "")
         {
-            ArgumentsCheck(fullName, phoneNumber);
+            new NullChecker().
+                Add(fullName, "Can not create client with NULL name").
+                Add(phoneNumber, "Can not create client with NULL phone number").
+                Check();
 
             var client = new Client(fullName, phoneNumber);
             clients.Add(client);
@@ -109,17 +112,6 @@ namespace Repetitorg.Core
         static Client()
         {
             clients = new List<Client>();
-        }
-
-        private static void ArgumentsCheck(string fullName, string phoneNumber)
-        {
-            string argsError = "";
-            if (fullName == null)
-                argsError += "Can not create client with NULL name";
-            if (phoneNumber == null)
-                argsError += "\nCan not create client with NULL phone number";
-            if (argsError != "")
-                throw new ArgumentException(argsError);
         }
 
 
