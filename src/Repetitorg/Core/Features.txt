@@ -45,3 +45,5 @@
 		- Attach to complete project throws exception
 		- Attach to null project equal unattaching task
 		- Attach null task throws exception
+	+ Getting by project
+		+ Gettyng by null project return tasks without project
