@@ -1,0 +1,17 @@
+﻿1. Clients subsystem
+	+ New collection of clients has no clients
+	+ Create new client with some name
+		- Create new client with null name throws error
+	+ Clients with same names are different clients
+	+ Filter by name ignore case
+	+ Convert to string
+
+2. Project subsystem
+	-
+	-
+	-
+
+3. Tasks subsystem
+	-
+	-
+	-

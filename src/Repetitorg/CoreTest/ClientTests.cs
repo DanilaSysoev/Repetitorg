@@ -25,6 +25,15 @@ namespace CoreTest
             Assert.AreEqual(4, Client.ClientsCount);
         }
         [TestCase]
+        public void CreateNew_NameIsNull_ThrowsException()
+        {
+            var exception = 
+                Assert.Throws<ArgumentException>(() => Client.CreateNew(null));
+            Assert.IsTrue(exception.Message.Contains(
+                "Can not create client with NULL name"
+            ));
+        }
+        [TestCase]
         public void ClientsCount_EmptyClients_EqualZero()
         {
             Assert.AreEqual(0, Client.ClientsCount);
@@ -105,7 +114,7 @@ namespace CoreTest
             Assert.IsTrue(clients.Contains(allClients[3]));
         }
         [TestCase]
-        public void ToString_SimpleClient_ContainsfullName()
+        public void ToString_SimpleClient_ContainsFullName()
         {
             var client = CreateClient();
             Assert.IsTrue(client.ToString().Contains("Иванов Иван Иванович"));
