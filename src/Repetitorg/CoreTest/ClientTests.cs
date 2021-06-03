@@ -34,6 +34,17 @@ namespace CoreTest
             ));
         }
         [TestCase]
+        public void CreateNew_PhoneNumberIsNull_ThrowsException()
+        {
+            var exception =
+                Assert.Throws<ArgumentException>(
+                    () => Client.CreateNew("some name", null)
+                );
+            Assert.IsTrue(exception.Message.Contains(
+                "Can not create client with NULL phone number"
+            ));
+        }
+        [TestCase]
         public void ClientsCount_EmptyClients_EqualZero()
         {
             Assert.AreEqual(0, Client.ClientsCount);
