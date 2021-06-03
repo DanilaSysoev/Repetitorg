@@ -275,6 +275,18 @@ namespace Repetitorg.CoreTest
         }
 
         [TestCase]
+        public void AttachToProject_AttachNullTask_ThrowsException()
+        {
+            Project p1 = Project.Add("Test project 1");
+
+            var exception = Assert.Throws<ArgumentException>(
+                () => Task.AttachToProject(null, p1)
+            );
+            Assert.IsTrue(exception.Message.Contains(
+                "Task can't be null"
+            ));
+        }
+        [TestCase]
         public void AttachToProject_AttachNotAttachedTask_AttachSuccess()
         {
             Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));

@@ -37,3 +37,11 @@
 	+ Removing task
 		+ Removing nonexistent task has no effect
 		+ Removing null has no effect
+	+ Comparision tasks
+	+ Completing tasks
+	+ Attach to project
+		+ Attach already attached task throws exception
+		+ Attach task to came project has no effect
+		- Attach to complete project throws exception
+		- Attach to null project equal unattaching task
+		- Attach null task throws exception
