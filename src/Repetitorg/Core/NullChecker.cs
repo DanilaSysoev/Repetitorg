@@ -14,7 +14,7 @@ namespace Repetitorg.Core
                 this.message += message + "\n";
             return this;
         }
-        public void Check(object argument, string message)
+        public void Check()
         {
             if (message != "")
                 throw new ArgumentException(message);

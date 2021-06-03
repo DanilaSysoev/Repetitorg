@@ -23,7 +23,9 @@ namespace Repetitorg.Core
         }
         public static Task AddOnDate(string taskName, DateTime date)
         {
-            new NullChecker().Add(taskName).
+            new NullChecker().
+                Add(taskName, "Can't add task with NULL name").
+                Check();
 
             Task task = new Task(taskName, date.Date, false, null);
             if (!tasksByDate.ContainsKey(date))
