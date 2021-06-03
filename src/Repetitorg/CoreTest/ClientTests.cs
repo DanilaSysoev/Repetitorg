@@ -170,6 +170,19 @@ namespace CoreTest
 
 
         [TestCase]
+        public void Payments_MakeNullPayments_ThrowsException()
+        {
+            var client = CreateClient();
+
+            var exception = Assert.Throws<ArgumentException>(
+                () => client.MakePayment(null)
+            );
+
+            Assert.IsTrue(exception.Message.Contains(
+                "Payment can't be NULL"
+            ));
+        }
+        [TestCase]
         public void Payments_MakeThreePayments_CountEqualsThree()
         {
             var client = CreateClient();

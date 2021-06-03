@@ -6,8 +6,10 @@
 	+ Filter by name ignore case
 	+ Convert to string
 	+ Creation of new clients with zero balance
+	+ Creation payments with value in copex, date, payment document ad document number properties
 	+ Payments of a client increase his balance
-		- Payment with negative value throws exception
+		+ Payment with negative or zero value throws exception
+		- Null-payments throws exception
 
 2. Project subsystem
 	-
