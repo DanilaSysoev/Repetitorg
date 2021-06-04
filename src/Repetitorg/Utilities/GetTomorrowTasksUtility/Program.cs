@@ -48,9 +48,9 @@ namespace GetTomorrowTasksUtility
                 if (task.Completed)
                     Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(
-                    "{0, 2}. ({1}){2}",
+                    "{0, 2}. {1}{2}",
                     num++,
-                    (task.Project == null ? "" : task.Project.Name),
+                    (task.Project == null ? "" : "(" + task.Project.Name + ")"),
                     task.Name
                 );
                 Console.ResetColor();

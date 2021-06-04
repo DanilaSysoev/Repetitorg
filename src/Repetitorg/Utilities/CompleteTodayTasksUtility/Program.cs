@@ -68,7 +68,12 @@ namespace Repetitorg.CompleteTodayTasksUtility
             {
                 if (task.Completed)
                     Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("{0, 2}. {1}", num++, task.Name);
+                Console.WriteLine(
+                    "{0, 2}. {2}{1}", 
+                    num++, 
+                    task.Name,
+                    (task.Project == null ? "" : "(" + task.Project.Name + ")")
+                );
                 Console.ResetColor();
             }
         }
