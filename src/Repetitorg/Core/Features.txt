@@ -13,6 +13,7 @@
 		+ Null-payments throws exception
 	+ Filtering payments by date
 	- Getting all clients (as copy of collection)
+	+ Clearing collection of clients
 
 
 2. Students subsystem
@@ -25,6 +26,7 @@
 	- Filter by name ignore case
 	- Convert to string
 	- Getting all students (as copy of collection)
+	- Clearing collection of students
 
 
 3. Project subsystem

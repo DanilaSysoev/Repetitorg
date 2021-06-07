@@ -25,5 +25,12 @@ namespace Repetitorg.CoreTest
             Student.CreateNew("Test Student");
             Assert.AreEqual(1, Student.StudentsCount);
         }
+
+        [TestCase]
+        public static void Clear_ClearEmptuStudents_StudentsCountStillZero()
+        {
+            Student.Clear();
+            Assert.AreEqual(0, Student.StudentsCount);
+        }
     }
 }
