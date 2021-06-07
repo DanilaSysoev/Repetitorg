@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Repetitorg.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,10 @@ namespace Repetitorg.CoreTest
     class StudentTests
     {
         [TestCase]
-        public static void Create_CreateStudentWithCorrectArgs_StudentsCountIncrease()
+        public static void CreateNew_CreateStudentWithCorrectArgs_StudentsCountIncrease()
         {
             Assert.AreEqual(0, Student.StudentsCount);
-            Student.Create("Test Student");
+            Student.CreateNew("Test Student");
             Assert.AreEqual(1, Student.StudentsCount);
         }
     }
