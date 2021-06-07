@@ -79,13 +79,6 @@ namespace Repetitorg.Core
                 return clients.Count; 
             }
         }
-        public static IEnumerable<Client> All
-        {
-            get
-            {
-                return clients;
-            }
-        }
         public static Client CreateNew(string fullName, string phoneNumber = "")
         {
             new NullChecker().

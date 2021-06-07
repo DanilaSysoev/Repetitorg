@@ -51,10 +51,16 @@ namespace CoreTest
         }
 
         [TestCase]
-        public void All_CreateTwoClients_AllExist()
+        public void GetAll_CreateTwo_AllReturned()
         {
-            var clients = CreateClients();
-            EqualsOfTwoCollections(clients, Client.All);
+            Client c1 = Client.CreateNew("Иванов Иван Иванович");
+            Client c2 = Client.CreateNew("Петров Петр Петрович");
+
+            List<Client> clients = Client.GetAll();
+
+            Assert.AreEqual(2, clients.Count);
+            Assert.IsTrue(clients.Contains(c1));
+            Assert.IsTrue(clients.Contains(c2));
         }
 
         [TestCase]
