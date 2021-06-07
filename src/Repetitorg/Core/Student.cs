@@ -16,6 +16,7 @@ namespace Repetitorg.Core
 
         public static void CreateNew(string fullName)
         {
+            new NullChecker().Add(fullName, "Name of the student can't be null").Check();
             students.Add(new Student(fullName));
         }
         public static void Clear()
