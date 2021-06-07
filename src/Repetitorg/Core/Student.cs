@@ -18,6 +18,10 @@ namespace Repetitorg.Core
         {
             students.Add(new Student(fullName));
         }
+        public static void Clear()
+        {
+            students.Clear();
+        }
 
 
         private Student(string fullName)
