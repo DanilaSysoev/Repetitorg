@@ -62,6 +62,19 @@ namespace CoreTest
             Assert.IsTrue(clients.Contains(c1));
             Assert.IsTrue(clients.Contains(c2));
         }
+        [TestCase]
+        public void GetAll_CreateTwo_ReturnedCopyOfCollection()
+        {
+            Client c1 = Client.CreateNew("Иванов Иван Иванович");
+            Client c2 = Client.CreateNew("Петров Петр Петрович");
+
+            List<Client> clients_old = Client.GetAll();
+            clients_old.Remove(c1);
+            List<Client> clients = Client.GetAll();
+
+            Assert.AreEqual(2, clients.Count);
+            Assert.AreEqual(1, clients_old.Count);
+        }
 
         [TestCase]
         public void Equals_differentObjectsWithSameName_IsDifferent()
