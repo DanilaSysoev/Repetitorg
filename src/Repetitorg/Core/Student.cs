@@ -14,16 +14,28 @@ namespace Repetitorg.Core
             }
         }
 
-        public static void CreateNew(string fullName)
+        public static Student CreateNew(string fullName)
         {
             new NullChecker().Add(fullName, "Name of the student can't be null").Check();
-            students.Add(new Student(fullName));
+
+            Student student = new Student(fullName);
+            students.Add(student);
+
+            return student;
         }
         public static void Clear()
         {
             students.Clear();
         }
 
+
+        public string PhoneNumber
+        {
+            get
+            {
+                return "";
+            }
+        }
 
         private Student(string fullName)
         {
