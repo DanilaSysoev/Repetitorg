@@ -49,6 +49,7 @@ namespace CoreTest
         {
             Assert.AreEqual(0, Client.ClientsCount);
         }
+
         [TestCase]
         public void All_CreateTwoClients_AllExist()
         {

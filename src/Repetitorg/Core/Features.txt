@@ -17,7 +17,7 @@
 
 
 2. Students subsystem
-	- New collection of students has no clients
+	+ New collection of students has no students
 	- Create new student with some name and phone number
 		- Create new student with null name throws error
 		- Create new student with null phone number throws error
