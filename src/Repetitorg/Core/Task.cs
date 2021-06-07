@@ -72,7 +72,12 @@ namespace Repetitorg.Core
         {
             new NullChecker().Add(task, "Task can't be null").Check();
 
-            if(task.Project == null || project == null)
+            if (task.Project != project && project != null && project.Completed)
+                throw new InvalidOperationException(
+                    "Can't attach new task to complete project"
+                );
+
+            if (task.Project == null || project == null)
                 task.project = project;
             else if(!task.Project.Equals(project))
                 throw new InvalidOperationException(
