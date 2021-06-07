@@ -30,6 +30,17 @@ namespace Repetitorg.CoreTest
             Student.CreateNew("Test Student");
             Assert.AreEqual(1, Student.StudentsCount);
         }
+        [TestCase]
+        public static void CreateNew_CreateStudentWithNullName_ThrowsException()
+        {
+            var exception = Assert.Throws<ArgumentException>(
+                () => Student.CreateNew(null)
+            );
+
+            Assert.IsTrue(exception.Message.Contains(
+                "Name of the student can't be null"
+            ));
+        }
 
         [TestCase]
         public static void Clear_ClearEmptuStudents_StudentsCountStillZero()
