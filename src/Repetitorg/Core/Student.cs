@@ -16,7 +16,10 @@ namespace Repetitorg.Core
 
         public static Student CreateNew(string fullName, string phoneNumber = "")
         {
-            new NullChecker().Add(fullName, "Name of the student can't be null").Check();
+            new NullChecker().
+                Add(fullName, "Name of the student can't be null").
+                Add(phoneNumber, "Phone number of the student can't be null").
+                Check();
 
             Student student = new Student(fullName, phoneNumber);
             students.Add(student);
