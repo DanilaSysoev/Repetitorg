@@ -31,6 +31,13 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(1, Student.StudentsCount);
         }
         [TestCase]
+        public static void CreateNew_CreateStudentWithOnlyName_PhoneNumberIsEmpty()
+        {
+            Student s = Student.CreateNew("Test Student");
+
+            Assert.AreEqual("", s.PhoneNumber);
+        }
+        [TestCase]
         public static void CreateNew_CreateStudentWithNullName_ThrowsException()
         {
             var exception = Assert.Throws<ArgumentException>(
