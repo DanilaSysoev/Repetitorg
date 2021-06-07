@@ -14,6 +14,7 @@ namespace CoreTest
         public void Clear()
         {
             Project.Clear();
+            Task.Clear();
         }
 
 
