@@ -90,6 +90,10 @@ namespace Repetitorg.Core
             clients.Add(client);
             return client;
         }
+        public static List<Client> GetAll()
+        {
+            return new List<Client>(clients);
+        }
         public static IList<Client> FilterByName(string condition)
         {
             return
