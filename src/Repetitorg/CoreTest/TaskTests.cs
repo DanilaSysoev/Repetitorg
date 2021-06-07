@@ -346,6 +346,22 @@ namespace Repetitorg.CoreTest
             Task.AttachToProject(task1, null);
             Assert.IsNull(task1.Project);
         }
+        [TestCase]
+        public void AttachToProject_AttachToCompleteProject_ThrowsException()
+        {
+            Project p = Project.Add("Test project");
+            Project.Complete(p);
+
+            Task t = Task.AddOnDate("Test task", new DateTime(2020, 10, 10));
+
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => Task.AttachToProject(t, p)
+            );
+            Assert.IsTrue(exception.Message.Contains(
+                "Can't attach new task to complete project"
+            ));
+        }
+
 
         [TestCase]
         public void GetByProject_GettingByProjectWithotTasks_ReturnEmpty()
