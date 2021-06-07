@@ -11,6 +11,13 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class StudentTests
     {
+        [TearDown]
+        public static void Clear()
+        {
+            Student.Clear();
+            Client.Clear();            
+        }
+
         [TestCase]
         public static void CreateNew_CreateStudentWithCorrectArgs_StudentsCountIncrease()
         {
