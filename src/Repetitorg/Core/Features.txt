@@ -12,9 +12,22 @@
 		+ Payment with negative or zero value throws exception
 		+ Null-payments throws exception
 	+ Filtering payments by date
+	- Getting all clients (as copy of collection)
 
 
-2. Project subsystem
+2. Students subsystem
+	- New collection of students has no clients
+	- Create new student with some name and phone number
+		- Create new student with null name throws error
+		- Create new student with null phone number throws error
+	- Students with same names and phoneNumber are equals students
+	- Students with same names are different students
+	- Filter by name ignore case
+	- Convert to string
+	- Getting all students (as copy of collection)
+
+
+3. Project subsystem
 	+ Addition new project with some name
 		+ Addition projects with same names throws exception
 		+ Addition projects with null name throws exception
@@ -28,7 +41,7 @@
 		+ Simple completing
 
 
-3. Tasks subsystem
+4. Tasks subsystem
 	+ Add task on date
 		+ Add with null name throws exception
 	+ Getting all tasks
