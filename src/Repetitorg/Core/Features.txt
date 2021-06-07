@@ -39,12 +39,12 @@
 		+ Removing null has no effect
 	+ Comparision tasks
 	+ Completing tasks
-	- Attach to project
+	+ Attach to project
 		+ Simple attach to project
 		+ Attach already attached task throws exception
 		+ Attach task to came project has no effect
-		- Attach to complete project throws exception
-		- Attach to null project equal unattaching task
+		+ Attach to complete project throws exception
+		+ Attach to null project equal unattaching task
 		+ Attach null task throws exception
 	+ Getting by project
 		+ Gettyng by null project return tasks without project
