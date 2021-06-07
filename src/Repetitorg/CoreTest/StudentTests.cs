@@ -19,9 +19,14 @@ namespace Repetitorg.CoreTest
         }
 
         [TestCase]
-        public static void CreateNew_CreateStudentWithCorrectArgs_StudentsCountIncrease()
+        public static void StudentsCount_EmptyStudents_StudentsCountIsZero()
         {
             Assert.AreEqual(0, Student.StudentsCount);
+        }
+
+        [TestCase]
+        public static void CreateNew_CreateStudentWithCorrectArgs_StudentsCountIncrease()
+        {
             Student.CreateNew("Test Student");
             Assert.AreEqual(1, Student.StudentsCount);
         }
