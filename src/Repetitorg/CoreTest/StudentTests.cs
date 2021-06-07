@@ -55,6 +55,17 @@ namespace Repetitorg.CoreTest
                 "Name of the student can't be null"
             ));
         }
+        [TestCase]
+        public static void CreateNew_CreateStudentWithNullPhoneNumber_ThrowsException()
+        {
+            var exception = Assert.Throws<ArgumentException>(
+                () => Student.CreateNew("Test student", null)
+            );
+
+            Assert.IsTrue(exception.Message.Contains(
+                "Phone number of the student can't be null"
+            ));
+        }
 
         [TestCase]
         public static void Clear_ClearEmptuStudents_StudentsCountStillZero()
