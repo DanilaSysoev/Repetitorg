@@ -14,11 +14,11 @@ namespace Repetitorg.Core
             }
         }
 
-        public static Student CreateNew(string fullName)
+        public static Student CreateNew(string fullName, string phoneNumber = "")
         {
             new NullChecker().Add(fullName, "Name of the student can't be null").Check();
 
-            Student student = new Student(fullName);
+            Student student = new Student(fullName, phoneNumber);
             students.Add(student);
 
             return student;
@@ -33,13 +33,14 @@ namespace Repetitorg.Core
         {
             get
             {
-                return "";
+                return phoneNumber;
             }
         }
 
-        private Student(string fullName)
+        private Student(string fullName, string phoneNumber)
         {
             this.fullName = fullName;
+            this.phoneNumber = phoneNumber;
         }
 
         static Student()
@@ -50,6 +51,7 @@ namespace Repetitorg.Core
         private static List<Student> students;
 
         private string fullName;
+        private string phoneNumber;
     }
 
 }
