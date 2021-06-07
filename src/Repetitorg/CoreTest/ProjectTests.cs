@@ -132,23 +132,6 @@ namespace CoreTest
             Assert.IsTrue(projects.Contains(p2));
             Assert.IsTrue(projects.Contains(p3));
         }
-        [TestCase]
-        public void Remove_RemoveWithExistingTask_ThrowsException()
-        {
-            Project p = Project.Add("Test Project");
-            Task t = Task.AddOnDate("Test task", new DateTime(2010, 10, 20));
-            Task.AttachToProject(t, p);
-
-            var exception = Assert.Throws<InvalidOperationException>(
-                () => Project.Remove(p)
-            );
-            Assert.IsTrue(
-                exception.Message.Contains(
-                    "Renoving project with attached task is impossible"
-                )
-            );
-        }
-
 
         [TestCase]
         public void FindByName_FindByNull_ThrowsException()
