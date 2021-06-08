@@ -83,10 +83,18 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Equals_DifferentObjectsWithSameNameAndDifferentPhonNumbers_IsDifferent()
         {
-            Student c1 = Student.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
-            Student c2 = Student.CreateNew("Иванов Иван Иванович", "8-999-456-78-90");
-            Assert.IsFalse(c1.Equals(c2));
+            Student s1 = Student.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+            Student s2 = Student.CreateNew("Иванов Иван Иванович", "8-999-456-78-90");
+            Assert.IsFalse(s1.Equals(s2));
         }
+        [TestCase]
+        public void Equals_EqualsWithClientWitSameNameAndPhoneNumber_IsDifferent()
+        {
+            Student s = Student.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+            Client c = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+            Assert.IsFalse(s.Equals(c));
+        }
+
 
         [TestCase]
         public static void Clear_ClearEmptuStudents_StudentsCountStillZero()
