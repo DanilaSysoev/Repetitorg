@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Student
+    public class Student : Person
     {        
         public static int StudentsCount
         {
@@ -37,34 +37,9 @@ namespace Repetitorg.Core
             students.Clear();
         }
 
-        public string FullName
-        {
-            get
-            {
-                return fullName;
-            }
-        }
-        public string PhoneNumber
-        {
-            get
-            {
-                return phoneNumber;
-            }
-        }
-        public override bool Equals(object obj)
-        {
-            if (obj is Student)
-            {
-                Student client = (Student)obj;
-                return client.PhoneNumber == PhoneNumber && client.FullName == FullName;
-            }
-            return false;
-        }
-
         private Student(string fullName, string phoneNumber)
+            : base(fullName, phoneNumber)
         {
-            this.fullName = fullName;
-            this.phoneNumber = phoneNumber;
         }
 
         static Student()
@@ -73,9 +48,6 @@ namespace Repetitorg.Core
         }
 
         private static List<Student> students;
-
-        private string fullName;
-        private string phoneNumber;
     }
 
 }
