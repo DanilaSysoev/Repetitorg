@@ -13,7 +13,7 @@ namespace Repetitorg.Core
         { }
 
 
-        private static List<T> entities;
+        protected static List<T> entities;
 
         public static int Count
         {
@@ -32,7 +32,11 @@ namespace Repetitorg.Core
                 Check();
 
             object[] objects = { fullName, phoneNumber };
-            var entity = typeof(T).GetConstructors()[0].Invoke(objects) as T;
+            var entity = typeof(T).GetConstructors(
+                System.Reflection.BindingFlags.NonPublic |
+                System.Reflection.BindingFlags.Instance
+            )[0].Invoke(objects) as T;
+
             if (entities.Contains(entity))
                 throw new InvalidOperationException(
                     "Creation clients with same names and phone numbers is impossible"

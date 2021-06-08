@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Client : Person
+    public class Client : PersonsCollection<Client>
     {
         public long BalanceInKopeks 
         {
@@ -56,48 +56,11 @@ namespace Repetitorg.Core
         {
             get 
             {
-                return clients.Count; 
+                return entities.Count; 
             }
         }
-        public static Client CreateNew(string fullName, string phoneNumber = "")
-        {
-            new NullChecker().
-                Add(fullName, "Can not create client with NULL name").
-                Add(phoneNumber, "Can not create client with NULL phone number").
-                Check();
 
-            var client = new Client(fullName, phoneNumber);
-
-            if (clients.Contains(client))
-                throw new InvalidOperationException(
-                    "Creation clients with same names and phone numbers is impossible"
-                );
-
-            clients.Add(client);
-            return client;
-        }
-        public static List<Client> GetAll()
-        {
-            return new List<Client>(clients);
-        }
-        public static IList<Client> FilterByName(string condition)
-        {
-            return
-                (from client in clients
-                 where client.FullName.ToLower().Contains(condition.ToLower())
-                 select client).ToList();
-        }
-        public static void Clear()
-        {
-            clients.Clear();
-        }
-
-        static Client()
-        {
-            clients = new List<Client>();
-        }
-
-        private Client(string fullName, string phoneNumber)
+        internal Client(string fullName, string phoneNumber)
             : base(fullName, phoneNumber)
         {
             balanceInKopeks = 0;
@@ -106,7 +69,5 @@ namespace Repetitorg.Core
 
         private long balanceInKopeks;
         private List<Payment> payments;
-
-        private static List<Client> clients;
     }
 }

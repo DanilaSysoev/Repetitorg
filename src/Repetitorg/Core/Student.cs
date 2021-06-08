@@ -37,7 +37,7 @@ namespace Repetitorg.Core
             students.Clear();
         }
 
-        private Student(string fullName, string phoneNumber)
+        public Student(string fullName, string phoneNumber)
             : base(fullName, phoneNumber)
         {
         }

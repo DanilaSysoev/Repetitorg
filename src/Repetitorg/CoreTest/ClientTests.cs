@@ -16,6 +16,7 @@ namespace CoreTest
         public void Clear()
         {
             Client.Clear();
+            Student.Clear();
         }
 
         [TestCase]
@@ -70,7 +71,7 @@ namespace CoreTest
             Client c1 = Client.CreateNew("Иванов Иван Иванович");
             Client c2 = Client.CreateNew("Петров Петр Петрович");
 
-            List<Client> clients = Client.GetAll();
+            IList<Client> clients = Client.GetAll();
 
             Assert.AreEqual(2, clients.Count);
             Assert.IsTrue(clients.Contains(c1));
@@ -82,9 +83,9 @@ namespace CoreTest
             Client c1 = Client.CreateNew("Иванов Иван Иванович");
             Client c2 = Client.CreateNew("Петров Петр Петрович");
 
-            List<Client> clients_old = Client.GetAll();
+            IList<Client> clients_old = Client.GetAll();
             clients_old.Remove(c1);
-            List<Client> clients = Client.GetAll();
+            IList<Client> clients = Client.GetAll();
 
             Assert.AreEqual(2, clients.Count);
             Assert.AreEqual(1, clients_old.Count);
