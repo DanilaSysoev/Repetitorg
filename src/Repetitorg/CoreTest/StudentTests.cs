@@ -51,8 +51,8 @@ namespace Repetitorg.CoreTest
                 () => Student.CreateNew(null)
             );
 
-            Assert.IsTrue(exception.Message.Contains(
-                "Name of the student can't be null"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "can not create student with null name"
             ));
         }
         [TestCase]
@@ -62,8 +62,8 @@ namespace Repetitorg.CoreTest
                 () => Student.CreateNew("Test student", null)
             );
 
-            Assert.IsTrue(exception.Message.Contains(
-                "Phone number of the student can't be null"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "can not create student with null phone numbe"
             ));
         }
         [TestCase]
@@ -75,8 +75,8 @@ namespace Repetitorg.CoreTest
                 () => Student.CreateNew("Test student", "Test Phone")
             );
 
-            Assert.IsTrue(exception.Message.Contains(
-                "Creation student with same names and phone numbers is impossible"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "creation student with same names and phone numbers is impossible"
             ));
         }
 

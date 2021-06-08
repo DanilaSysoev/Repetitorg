@@ -27,7 +27,7 @@ namespace Repetitorg.CoreTest
                 () => Task.AddOnDate(null, new DateTime(2020, 12, 30))
             );
             Assert.IsTrue(
-                exception.Message.Contains("Can't add task with NULL name")
+                exception.Message.ToLower().Contains("can't add task with null name")
             );
         }
         [TestCase]
@@ -178,8 +178,8 @@ namespace Repetitorg.CoreTest
             Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
             var exception = Assert.Throws<InvalidOperationException>(() => Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30)));
             Assert.IsTrue(
-                exception.Message.Contains(
-                    string.Format("The task with name \"2020/12/30 test task 1\" has already been defined for date \"{0}\"", new DateTime(2020, 12, 30))
+                exception.Message.ToLower().Contains(
+                    string.Format("the task with name \"2020/12/30 test task 1\" has already been defined for date \"{0}\"", new DateTime(2020, 12, 30))
                 )
             );
         }
@@ -239,8 +239,8 @@ namespace Repetitorg.CoreTest
             var exception = Assert.Throws<ArgumentException>(
                 () => Task.Remove(null)
             );
-            Assert.IsTrue(exception.Message.Contains(
-                "Task can't be null"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "task can't be null"
             ));
         }
 
@@ -282,8 +282,8 @@ namespace Repetitorg.CoreTest
             var exception = Assert.Throws<ArgumentException>(
                 () => Task.AttachToProject(null, p1)
             );
-            Assert.IsTrue(exception.Message.Contains(
-                "Task can't be null"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "task can't be null"
             ));
         }
         [TestCase]
@@ -302,15 +302,15 @@ namespace Repetitorg.CoreTest
         {
             Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
 
-            Project p1 = Project.Add("Test project 1");
+            Project p1 = Project.Add("test project 1");
             Project p2 = Project.Add("Test project 2");
 
             Task.AttachToProject(task1, p1);
             var exception = 
                 Assert.Throws<InvalidOperationException>(() => Task.AttachToProject(task1, p2));
             Assert.IsTrue(
-                exception.Message.Contains(
-                    string.Format("Task \"{0}\" already attached to \"{1}\" project", task1, p1)
+                exception.Message.ToLower().Contains(
+                    string.Format("task \"{0}\" already attached to \"{1}\" project", task1, p1)
                 )
             );
         }
@@ -357,8 +357,8 @@ namespace Repetitorg.CoreTest
             var exception = Assert.Throws<InvalidOperationException>(
                 () => Task.AttachToProject(t, p)
             );
-            Assert.IsTrue(exception.Message.Contains(
-                "Can't attach new task to complete project"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "can't attach new task to complete project"
             ));
         }
 

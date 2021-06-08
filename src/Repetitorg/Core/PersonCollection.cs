@@ -27,19 +27,22 @@ namespace Repetitorg.Core
             var nc = new NullChecker();
 
             new NullChecker().
-                Add(fullName, "Can not create client with NULL name").
-                Add(phoneNumber, "Can not create client with NULL phone number").
+                Add(fullName, string.Format("Can not create {0} with NULL name", typeof(T).Name)).
+                Add(phoneNumber, string.Format("Can not create {0} with NULL phone number", typeof(T).Name)).
                 Check();
 
-            object[] objects = { fullName, phoneNumber };
+            object[] argsForConstructor = { fullName, phoneNumber };
             var entity = typeof(T).GetConstructors(
                 System.Reflection.BindingFlags.NonPublic |
                 System.Reflection.BindingFlags.Instance
-            )[0].Invoke(objects) as T;
+            )[0].Invoke(argsForConstructor) as T;
 
             if (entities.Contains(entity))
                 throw new InvalidOperationException(
-                    "Creation clients with same names and phone numbers is impossible"
+                    string.Format(
+                        "Creation {0} with same names and phone numbers is impossible",
+                        typeof(T).Name
+                    )
                 );
 
             entities.Add(entity);

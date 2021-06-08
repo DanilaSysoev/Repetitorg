@@ -30,8 +30,8 @@ namespace CoreTest
         {
             var exception = 
                 Assert.Throws<ArgumentException>(() => Client.CreateNew(null));
-            Assert.IsTrue(exception.Message.Contains(
-                "Can not create client with NULL name"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "can not create client with null name"
             ));
         }
         [TestCase]
@@ -41,12 +41,12 @@ namespace CoreTest
                 Assert.Throws<ArgumentException>(
                     () => Client.CreateNew("some name", null)
                 );
-            Assert.IsTrue(exception.Message.Contains(
-                "Can not create client with NULL phone number"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "can not create client with null phone number"
             ));
         }
         [TestCase]
-        public void CreateNew_CreateTwowithSameNameAndPhoneNumber_ThrowsException()
+        public void CreateNew_CreateTwoWithSameNameAndPhoneNumber_ThrowsException()
         {
             Client c1 = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
 
@@ -54,8 +54,8 @@ namespace CoreTest
                 () => Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67")
             );
 
-            Assert.IsTrue(exception.Message.Contains(
-                "Creation clients with same names and phone numbers is impossible"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "creation client with same names and phone numbers is impossible"
             ));
         }
 
@@ -196,8 +196,8 @@ namespace CoreTest
                 )
             );
 
-            Assert.IsTrue(exception.Message.Contains(
-                "Payment should has positive value"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "payment should has positive value"
             ));
         }
         [TestCase]
@@ -210,8 +210,8 @@ namespace CoreTest
                 )
             );
 
-            Assert.IsTrue(exception.Message.Contains(
-                "Payment should has positive value"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "payment should has positive value"
             ));
         }
 
@@ -225,8 +225,8 @@ namespace CoreTest
                 () => client.MakePayment(null)
             );
 
-            Assert.IsTrue(exception.Message.Contains(
-                "Payment can't be NULL"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "payment can't be null"
             ));
         }
         [TestCase]
@@ -358,7 +358,7 @@ namespace CoreTest
             var client = CreateClient();
             Assert.AreEqual("", client.PhoneNumber);
             var exception = Assert.Throws<InvalidPhoneNumberException>(() => client.PhoneNumber = null);
-            Assert.IsTrue(exception.Message.Contains("PhoneNumber can't be null"));
+            Assert.IsTrue(exception.Message.ToLower().Contains("phonenumber can't be null"));
         }
 
         private Client CreateClientWithPhoneNumber()

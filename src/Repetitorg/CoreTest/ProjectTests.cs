@@ -52,8 +52,8 @@ namespace CoreTest
 
             var exception = Assert.Throws<InvalidOperationException>(() => Project.Add("Test Project"));
 
-            Assert.IsTrue(exception.Message.Contains(
-                "Project with name \"Test Project\" already exist"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "project with name \"test project\" already exist"
             ));
         }
         [TestCase]
@@ -63,8 +63,8 @@ namespace CoreTest
                 () => Project.Add(null)
             );
 
-            Assert.IsTrue(exception.Message.Contains(
-                "Can't create project with NULL name"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "can't create project with null name"
             ));
         }
 
@@ -145,8 +145,8 @@ namespace CoreTest
             var exception = Assert.Throws<ArgumentException>(
                 () => Project.FindByName(null)
             );
-            Assert.IsTrue(exception.Message.Contains(
-                "Filter pattern can't be null"
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "filter pattern can't be null"
             ));
 
         }
