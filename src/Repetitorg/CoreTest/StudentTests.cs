@@ -66,6 +66,19 @@ namespace Repetitorg.CoreTest
                 "Phone number of the student can't be null"
             ));
         }
+        [TestCase]
+        public static void CreateNew_CreateStudentsWithSameNameAndPhoneNumber_ThrowsException()
+        {
+            Student.CreateNew("Test student", "Test Phone");
+
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => Student.CreateNew("Test student", "Test Phone")
+            );
+
+            Assert.IsTrue(exception.Message.Contains(
+                "Creation student with same names and phone numbers is impossible"
+            ));
+        }
 
         [TestCase]
         public static void Clear_ClearEmptuStudents_StudentsCountStillZero()

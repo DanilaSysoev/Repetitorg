@@ -3,7 +3,7 @@
 	+ Create new client with some name and phone number
 		+ Create new client with null name throws error
 		+ Create new client with null phone number throws error
-	- Clients with same names and phoneNumber are equals clients
+	+ Clients with same names and phoneNumber are equals clients
 	+ Clients with same names are different clients
 	+ Filter by name ignore case
 	+ Convert to string
