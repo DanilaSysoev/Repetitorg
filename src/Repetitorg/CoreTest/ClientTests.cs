@@ -405,9 +405,9 @@ namespace CoreTest
             List<Client> clients = new List<Client>();
 
             clients.Add(Client.CreateNew("Иванов Иван Иванович"));
-            clients.Add(Client.CreateNew("Петров Петр Петрович"));
+            clients.Add(Client.CreateNew("Петров Петр Петрович", "Phone_1"));
             clients.Add(Client.CreateNew("Петровa Aнастасия Владимировна"));
-            clients.Add(Client.CreateNew("Сидоров Петр Петрович"));
+            clients.Add(Client.CreateNew("Петров Петр Петрович", "Phone_2"));
 
             return clients;
         }
