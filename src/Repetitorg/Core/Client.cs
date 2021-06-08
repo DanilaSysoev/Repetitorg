@@ -131,6 +131,15 @@ namespace Repetitorg.Core
 
         private static List<Client> clients;
 
+        public override bool Equals(object obj)
+        {
+            if(obj is Client)
+            {
+                Client client = (Client)obj;
+                return client.PhoneNumber == PhoneNumber && client.FullName == FullName;
+            }
+            return false;
+        }
         public override string ToString()
         {
             return fullName;
