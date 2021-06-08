@@ -6,28 +6,8 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Client
+    public class Client : Person
     {
-        public string FullName
-        {
-            get
-            {
-                return fullName;
-            }
-        }
-        public string PhoneNumber
-        {
-            get
-            {
-                return phoneNumber;
-            }
-            set
-            {
-                if (value == null)
-                    throw new InvalidPhoneNumberException("PhoneNumber can't be null");
-                phoneNumber = value;
-            }
-        }
         public long BalanceInKopeks 
         {
             get
@@ -104,7 +84,7 @@ namespace Repetitorg.Core
         {
             return
                 (from client in clients
-                 where client.fullName.ToLower().Contains(condition.ToLower())
+                 where client.FullName.ToLower().Contains(condition.ToLower())
                  select client).ToList();
         }
         public static void Clear()
@@ -117,34 +97,16 @@ namespace Repetitorg.Core
             clients = new List<Client>();
         }
 
-
         private Client(string fullName, string phoneNumber)
+            : base(fullName, phoneNumber)
         {
-            this.fullName = fullName;
-            PhoneNumber = phoneNumber;
             balanceInKopeks = 0;
             payments = new List<Payment>();
         }
 
-        private string fullName;
-        private string phoneNumber;
         private long balanceInKopeks;
         private List<Payment> payments;
 
         private static List<Client> clients;
-
-        public override bool Equals(object obj)
-        {
-            if(obj is Client)
-            {
-                Client client = (Client)obj;
-                return client.PhoneNumber == PhoneNumber && client.FullName == FullName;
-            }
-            return false;
-        }
-        public override string ToString()
-        {
-            return fullName;
-        }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using Repetitorg.Core.Base;
+using Repetitorg.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Repetitorg.Core
 {
-    class Person
+    public class Person
     {
         private string fullName;
         private string phoneNumber;
@@ -22,6 +23,12 @@ namespace Repetitorg.Core
             get
             {
                 return phoneNumber;
+            }
+            set
+            {
+                if (value == null)
+                    throw new InvalidPhoneNumberException("PhoneNumber can't be null");
+                phoneNumber = value;
             }
         }
 
