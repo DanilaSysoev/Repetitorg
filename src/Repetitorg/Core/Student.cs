@@ -37,13 +37,28 @@ namespace Repetitorg.Core
             students.Clear();
         }
 
-
+        public string FullName
+        {
+            get
+            {
+                return fullName;
+            }
+        }
         public string PhoneNumber
         {
             get
             {
                 return phoneNumber;
             }
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is Student)
+            {
+                Student client = (Student)obj;
+                return client.PhoneNumber == PhoneNumber && client.FullName == FullName;
+            }
+            return false;
         }
 
         private Student(string fullName, string phoneNumber)
