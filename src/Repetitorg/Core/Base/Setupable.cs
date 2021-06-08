@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Repetitorg.Core.Base
 {
-    public interface SelfFactory<T>
+    abstract class Setupable<T>
     {
-        T CreateInstance(params object[] argumenst);
+        internal abstract void Setup(params object[] argumenst);
     }
 }

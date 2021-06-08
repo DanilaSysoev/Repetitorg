@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    class EntityCollection<T>
+    class EntityCollection<T> where T : SelfFactory<T>
     {
         private static List<T> entities;
 
