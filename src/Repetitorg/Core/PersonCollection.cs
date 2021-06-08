@@ -6,8 +6,13 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    class PersonsCollection<T> where T : Person
+    public class PersonsCollection<T> : Person where T : Person
     {
+        internal PersonsCollection(string fullName, string phoneNumber)
+            : base(fullName, phoneNumber)
+        { }
+
+
         private static List<T> entities;
 
         public static int Count
