@@ -45,6 +45,20 @@ namespace CoreTest
             ));
         }
         [TestCase]
+        public void CreateNew_CreateTwowithSameNameAndPhoneNumber_ThrowsException()
+        {
+            Client c1 = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67")
+            );
+
+            Assert.IsTrue(exception.Message.Contains(
+                "Creation clients with same names and phone numbers is impossible"
+            ));
+        }
+
+        [TestCase]
         public void ClientsCount_EmptyClients_EqualZero()
         {
             Assert.AreEqual(0, Client.ClientsCount);
@@ -77,7 +91,7 @@ namespace CoreTest
         }
 
         [TestCase]
-        public void Equals_differentObjectsWithSameName_IsDifferent()
+        public void Equals_DifferentObjectsWithSameName_IsDifferent()
         {
             Client c1 = Client.CreateNew("Иванов Иван Иванович");
             Client c2 = Client.CreateNew("Иванов Иван Иванович");
