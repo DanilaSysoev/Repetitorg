@@ -99,7 +99,14 @@ namespace CoreTest
             Assert.IsFalse(c1.Equals(c2));
         }
         [TestCase]
+        public void Equals_EqualsWithStudentWitSameNameAndPhoneNumber_IsDifferent()
+        {
+            Student s = Student.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+            Client c = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+            Assert.IsFalse(c.Equals(s));
+        }
 
+        [TestCase]
         public void FilterByName_UseFullNameWithOneEntry_GettingOneObject()
         {
             var allClients = CreateClients();

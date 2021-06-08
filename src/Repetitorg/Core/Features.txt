@@ -22,8 +22,8 @@
 	+ Create new student with some name and phone number
 		+ Create new student with null name throws error
 		+ Create new student with null phone number throws error
-	- Students with same names and phoneNumber are equals students
-	- Students with same names are different students
+	+ Students with same names and phoneNumber are equals students
+	+ Students with same names are different students
 	- Filter by name ignore case
 	- Convert to string
 	- Getting all students (as copy of collection)
