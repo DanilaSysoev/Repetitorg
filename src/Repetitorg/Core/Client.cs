@@ -87,6 +87,10 @@ namespace Repetitorg.Core
                 Check();
 
             var client = new Client(fullName, phoneNumber);
+
+            if (clients.Contains(client))
+                throw new InvalidOperationException("Creation clients with same names and phone numbers is impossible");
+
             clients.Add(client);
             return client;
         }
