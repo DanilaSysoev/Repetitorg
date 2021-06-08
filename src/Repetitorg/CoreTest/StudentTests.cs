@@ -81,6 +81,14 @@ namespace Repetitorg.CoreTest
         }
 
         [TestCase]
+        public void Equals_DifferentObjectsWithSameNameAndDifferentPhonNumbers_IsDifferent()
+        {
+            Student c1 = Student.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+            Student c2 = Student.CreateNew("Иванов Иван Иванович", "8-999-456-78-90");
+            Assert.IsFalse(c1.Equals(c2));
+        }
+
+        [TestCase]
         public static void Clear_ClearEmptuStudents_StudentsCountStillZero()
         {
             Student.Clear();
