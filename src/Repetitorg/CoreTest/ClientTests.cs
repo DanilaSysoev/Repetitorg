@@ -407,7 +407,7 @@ namespace CoreTest
             clients.Add(Client.CreateNew("Иванов Иван Иванович"));
             clients.Add(Client.CreateNew("Петров Петр Петрович"));
             clients.Add(Client.CreateNew("Петровa Aнастасия Владимировна"));
-            clients.Add(Client.CreateNew("Петров Петр Петрович"));
+            clients.Add(Client.CreateNew("Сидоров Петр Петрович"));
 
             return clients;
         }
