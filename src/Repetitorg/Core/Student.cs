@@ -22,6 +22,12 @@ namespace Repetitorg.Core
                 Check();
 
             Student student = new Student(fullName, phoneNumber);
+
+            if (students.Contains(student))
+                throw new InvalidOperationException(
+                    "Creation student with same names and phone numbers is impossible"
+                );
+
             students.Add(student);
 
             return student;
