@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Repetitorg.Core.Base
 {
-    abstract class Setupable<T>
+    abstract class Setupable
     {
         internal abstract void Setup(params object[] argumenst);
     }
