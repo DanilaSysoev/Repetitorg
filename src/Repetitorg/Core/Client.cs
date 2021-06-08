@@ -52,14 +52,6 @@ namespace Repetitorg.Core
                  select payment).ToList();
         }
 
-        public static int ClientsCount 
-        {
-            get 
-            {
-                return entities.Count; 
-            }
-        }
-
         internal Client(string fullName, string phoneNumber)
             : base(fullName, phoneNumber)
         {

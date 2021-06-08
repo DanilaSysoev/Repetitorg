@@ -9,14 +9,6 @@ namespace Repetitorg.Core
         internal Student(string fullName, string phoneNumber)
             : base(fullName, phoneNumber)
         { }
-
-        public static int StudentsCount
-        {
-            get
-            {
-                return entities.Count;
-            }
-        }
     }
 
 }

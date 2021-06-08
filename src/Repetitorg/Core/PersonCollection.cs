@@ -8,13 +8,6 @@ namespace Repetitorg.Core
 {
     public class PersonsCollection<T> : Person where T : Person
     {
-        internal PersonsCollection(string fullName, string phoneNumber)
-            : base(fullName, phoneNumber)
-        { }
-
-
-        protected static List<T> entities;
-
         public static int Count
         {
             get
@@ -63,6 +56,12 @@ namespace Repetitorg.Core
         {
             entities.Clear();
         }
+
+
+        internal PersonsCollection(string fullName, string phoneNumber)
+            : base(fullName, phoneNumber)
+        { }
+        protected static List<T> entities;
         static PersonsCollection()
         {
             entities = new List<T>();

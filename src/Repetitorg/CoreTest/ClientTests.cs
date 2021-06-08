@@ -23,7 +23,7 @@ namespace CoreTest
         public void CreateNew_CreateFourClients_IncrementClientsCount()
         {
             CreateClients();
-            Assert.AreEqual(4, Client.ClientsCount);
+            Assert.AreEqual(4, Client.Count);
         }
         [TestCase]
         public void CreateNew_NameIsNull_ThrowsException()
@@ -62,7 +62,7 @@ namespace CoreTest
         [TestCase]
         public void ClientsCount_EmptyClients_EqualZero()
         {
-            Assert.AreEqual(0, Client.ClientsCount);
+            Assert.AreEqual(0, Client.Count);
         }
 
         [TestCase]

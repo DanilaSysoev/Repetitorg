@@ -21,14 +21,14 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public static void StudentsCount_EmptyStudents_StudentsCountIsZero()
         {
-            Assert.AreEqual(0, Student.StudentsCount);
+            Assert.AreEqual(0, Student.Count);
         }
 
         [TestCase]
         public static void CreateNew_CreateStudentWithOnlyName_StudentsCountIncrease()
         {
             Student.CreateNew("Test Student");
-            Assert.AreEqual(1, Student.StudentsCount);
+            Assert.AreEqual(1, Student.Count);
         }
         [TestCase]
         public static void CreateNew_CreateStudentWithOnlyName_PhoneNumberIsEmpty()
@@ -131,7 +131,7 @@ namespace Repetitorg.CoreTest
         public static void Clear_ClearEmptuStudents_StudentsCountStillZero()
         {
             Student.Clear();
-            Assert.AreEqual(0, Student.StudentsCount);
+            Assert.AreEqual(0, Student.Count);
         }
     }
 }
