@@ -107,7 +107,7 @@ namespace Repetitorg.CoreTest
             students.Add(Student.CreateNew("Test student 3", "Phone_2"));
 
             var filtered_students = Student.FilterByName("Test student 1");
-            Assert.AreEqual(1, students.Count);
+            Assert.AreEqual(1, filtered_students.Count);
             Assert.AreEqual(students[0], filtered_students[0]);
         }
 
