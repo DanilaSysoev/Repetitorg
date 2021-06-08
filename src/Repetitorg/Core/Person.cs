@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    class Person : Setupable
+    class Person
     {
         private string fullName;
         private string phoneNumber;
@@ -25,10 +25,10 @@ namespace Repetitorg.Core
             }
         }
 
-        internal override void Setup(params object[] argumenst)
+        internal Person(string fullName, string phoneNumber)
         {
-            fullName = (string)(argumenst[0]);
-            phoneNumber = (string)(argumenst[1]);
+            this.fullName = fullName;
+            this.phoneNumber = phoneNumber;
         }
     }
 }

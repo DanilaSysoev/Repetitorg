@@ -1,11 +1,12 @@
 ﻿using Repetitorg.Core.Base;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Repetitorg.Core
 {
-    class EntityCollection<T> where T : Setupable, new()
+    class PersonsCollection<T> where T : Person
     {
         private static List<T> entities;
 
@@ -18,14 +19,15 @@ namespace Repetitorg.Core
         }
         public static T CreateNew(string fullName, string phoneNumber = "")
         {
+            var nc = new NullChecker();
+
             new NullChecker().
                 Add(fullName, "Can not create client with NULL name").
                 Add(phoneNumber, "Can not create client with NULL phone number").
                 Check();
 
-            var entity = new T();
-            entity.Setup(fullName, phoneNumber);
-
+            object[] objects = { fullName, phoneNumber };
+            var entity = typeof(T).GetConstructors()[0].Invoke(objects) as T;
             if (entities.Contains(entity))
                 throw new InvalidOperationException(
                     "Creation clients with same names and phone numbers is impossible"
@@ -42,14 +44,14 @@ namespace Repetitorg.Core
         {
             return
                 (from entity in entities
-                 where client.fullName.ToLower().Contains(condition.ToLower())
-                 select client).ToList();
+                 where entity.FullName.ToLower().Contains(condition.ToLower())
+                 select entity).ToList();
         }
         public static void Clear()
         {
             entities.Clear();
         }
-        static EntityCollection()
+        static PersonsCollection()
         {
             entities = new List<T>();
         }
