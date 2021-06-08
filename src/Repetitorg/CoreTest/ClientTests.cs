@@ -91,13 +91,14 @@ namespace CoreTest
         }
 
         [TestCase]
-        public void Equals_DifferentObjectsWithSameName_IsDifferent()
+        public void Equals_DifferentObjectsWithSameNameAndDifferentPhonNumbers_IsDifferent()
         {
-            Client c1 = Client.CreateNew("Иванов Иван Иванович");
-            Client c2 = Client.CreateNew("Иванов Иван Иванович");
+            Client c1 = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+            Client c2 = Client.CreateNew("Иванов Иван Иванович", "8-999-456-78-90");
             Assert.IsFalse(c1.Equals(c2));
         }
         [TestCase]
+
         public void FilterByName_UseFullNameWithOneEntry_GettingOneObject()
         {
             var allClients = CreateClients();
