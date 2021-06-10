@@ -232,6 +232,24 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(students.Contains(allStudents[2]));
             Assert.IsTrue(students.Contains(allStudents[3]));
         }
+        [TestCase]
+        public void FilterByName_filterByNull_ThrowsException()
+        {
+            Student.CreateNew("Ivanov Ivan Ivanych");
+            Student.CreateNew("Test student 4");
+            Student.CreateNew("Test student 3", "Phone_1");
+            Student.CreateNew("Test student 3", "Phone_2");
+
+            var exception = Assert.Throws<ArgumentException>(
+                () => Student.FilterByName("test")
+            );
+
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "filtering by null pattern is impossible"
+                )
+            );
+        }
 
         [TestCase]
         public void ToString_SimpleStudent_ContainsFullName()
