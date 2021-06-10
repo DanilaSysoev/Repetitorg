@@ -47,6 +47,10 @@ namespace Repetitorg.Core
         }
         public static IList<T> FilterByName(string condition)
         {
+            new NullChecker().
+                Add(condition, "Filtering by null pattern is impossible").
+                Check();
+
             return
                 (from entity in entities
                  where entity.FullName.ToLower().Contains(condition.ToLower())

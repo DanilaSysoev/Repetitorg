@@ -241,7 +241,7 @@ namespace Repetitorg.CoreTest
             Student.CreateNew("Test student 3", "Phone_2");
 
             var exception = Assert.Throws<ArgumentException>(
-                () => Student.FilterByName("test")
+                () => Student.FilterByName(null)
             );
 
             Assert.IsTrue(

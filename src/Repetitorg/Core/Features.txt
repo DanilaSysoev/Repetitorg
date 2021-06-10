@@ -6,6 +6,7 @@
 	+ Clients with same names and phoneNumber are equals clients
 	+ Clients with same names are different clients
 	+ Filter by name ignore case
+		+ Filter by NULL throws exception
 	+ Convert to string
 	+ Creation of new clients with zero balance
 	+ Creation payments with value in copex, date, payment document ad document number properties
@@ -24,10 +25,11 @@
 		+ Create new student with null phone number throws error
 	+ Students with same names and phoneNumber are equals students
 	+ Students with same names are different students
-	- Filter by name ignore case
-	- Convert to string
-	- Getting all students (as copy of collection)
-	- Clearing collection of students
+	+ Filter by name ignore case		
+		+ Filter by NULL throws exception
+	+ Convert to string
+	+ Getting all students (as copy of collection)
+	+ Clearing collection of students
 
 
 3. Project subsystem
