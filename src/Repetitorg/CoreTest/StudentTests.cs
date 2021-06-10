@@ -215,6 +215,23 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(students.Contains(allStudents[2]));
             Assert.IsTrue(students.Contains(allStudents[3]));
         }
+        [TestCase]
+        public void FilterByName_UseLowercasePartialNameWithThreeEntry_GettingThreeObject()
+        {
+            List<Student> allStudents = new List<Student>();
+
+            allStudents.Add(Student.CreateNew("Ivanov Ivan Ivanych"));
+            allStudents.Add(Student.CreateNew("Test student 4"));
+
+            allStudents.Add(Student.CreateNew("Test student 3", "Phone_1"));
+            allStudents.Add(Student.CreateNew("Test student 3", "Phone_2"));
+
+            var students = Student.FilterByName("test");
+            Assert.AreEqual(3, students.Count);
+            Assert.IsTrue(students.Contains(allStudents[1]));
+            Assert.IsTrue(students.Contains(allStudents[2]));
+            Assert.IsTrue(students.Contains(allStudents[3]));
+        }
 
         [TestCase]
         public static void Clear_ClearEmptuStudents_StudentsCountStillZero()
