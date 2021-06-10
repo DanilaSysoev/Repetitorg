@@ -234,6 +234,13 @@ namespace Repetitorg.CoreTest
         }
 
         [TestCase]
+        public void ToString_SimpleStudent_ContainsFullName()
+        {
+            Student s = Student.CreateNew("Ivanov Ivan Ivanych");
+            Assert.IsTrue(s.ToString().Contains("Ivanov Ivan Ivanych"));
+        }
+
+        [TestCase]
         public static void Clear_ClearEmptuStudents_StudentsCountStillZero()
         {
             Student.Clear();

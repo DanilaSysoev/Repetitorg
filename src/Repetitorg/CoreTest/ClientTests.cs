@@ -167,6 +167,7 @@ namespace CoreTest
             Assert.IsTrue(clients.Contains(allClients[2]));
             Assert.IsTrue(clients.Contains(allClients[3]));
         }
+
         [TestCase]
         public void ToString_SimpleClient_ContainsFullName()
         {
