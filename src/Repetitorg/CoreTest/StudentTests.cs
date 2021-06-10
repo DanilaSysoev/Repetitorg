@@ -152,6 +152,21 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(1, filtered_students.Count);
             Assert.AreEqual(students[0], filtered_students[0]);
         }
+        [TestCase]
+        public void FilterByName_UseLowercaseFullNameWithOneEntry_GettingOneObject()
+        {
+            List<Student> allStudents = new List<Student>();
+
+            allStudents.Add(Student.CreateNew("Test student 1"));
+            allStudents.Add(Student.CreateNew("Test student 4"));
+
+            allStudents.Add(Student.CreateNew("Test student 3", "Phone_1"));
+            allStudents.Add(Student.CreateNew("Test student 3", "Phone_2"));
+
+            var students = Student.FilterByName("test student 1");
+            Assert.AreEqual(1, students.Count);
+            Assert.AreEqual(allStudents[0], students[0]);
+        }
 
         [TestCase]
         public static void Clear_ClearEmptuStudents_StudentsCountStillZero()
