@@ -92,6 +92,19 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(students.Contains(s1));
             Assert.IsTrue(students.Contains(s2));
         }
+        [TestCase]
+        public void GetAll_CreateTwo_ReturnedCopyOfCollection()
+        {
+            Student s1 = Student.CreateNew("Test student 1");
+            Student s2 = Student.CreateNew("Test student 2");
+
+            IList<Student> students_old = Student.GetAll();
+            students_old.Remove(s1);
+            IList<Student> students = Student.GetAll();
+
+            Assert.AreEqual(2, students.Count);
+            Assert.AreEqual(1, students_old.Count);
+        }
 
         [TestCase]
         public void Equals_DifferentObjectsWithSameNameAndDifferentPhonNumbers_IsDifferent()
