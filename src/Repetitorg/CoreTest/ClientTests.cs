@@ -167,6 +167,21 @@ namespace CoreTest
             Assert.IsTrue(clients.Contains(allClients[2]));
             Assert.IsTrue(clients.Contains(allClients[3]));
         }
+        [TestCase]
+        public void FilterByName_filterByNull_ThrowsException()
+        {
+            CreateClients();
+
+            var exception = Assert.Throws<ArgumentException>(
+                () => Client.FilterByName(null)
+            );
+
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "filtering by null pattern is impossible"
+                )
+            );
+        }
 
         [TestCase]
         public void ToString_SimpleClient_ContainsFullName()
