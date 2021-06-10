@@ -81,6 +81,19 @@ namespace Repetitorg.CoreTest
         }
 
         [TestCase]
+        public void GetAll_CreateTwo_AllReturned()
+        {
+            Student s1 = Student.CreateNew("Test student 1");
+            Student s2 = Student.CreateNew("Test student 2");
+
+            IList<Student> students = Student.GetAll();
+
+            Assert.AreEqual(2, students.Count);
+            Assert.IsTrue(students.Contains(s1));
+            Assert.IsTrue(students.Contains(s2));
+        }
+
+        [TestCase]
         public void Equals_DifferentObjectsWithSameNameAndDifferentPhonNumbers_IsDifferent()
         {
             Student s1 = Student.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
