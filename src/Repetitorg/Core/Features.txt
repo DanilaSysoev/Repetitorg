@@ -20,9 +20,10 @@
 
 2. Students subsystem
 	+ New collection of students has no students
-	+ Create new student with some name and phone number
+	+ Create new student with some name and phone number and client
 		+ Create new student with null name throws error
 		+ Create new student with null phone number throws error
+		+ Create new student with null client throws error
 	+ Students with same names and phoneNumber are equals students
 	+ Students with same names are different students
 	+ Filter by name ignore case		
@@ -69,3 +70,11 @@
 	+ Getting without project
 
 5. Order subsystem
+	+ Creating order with name
+		+ Creating with null name throws error
+	+ Add student to order with some cost
+		+ Add with null student throws error
+		+ Add with negative cost throws error
+	+ Removing student from order
+		+ Removing non-existent throws error
+		+ Removing null throws error
