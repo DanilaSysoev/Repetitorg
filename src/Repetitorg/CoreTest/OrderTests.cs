@@ -107,5 +107,15 @@ namespace Repetitorg.CoreTest
             Order order = Order.CreateNew("o1", clients[0]);
             Assert.AreEqual("o1", order.Name);
         }
+
+        [TestCase]
+        public void Equals_CreateTwoEqualsOrdersInDifferentseesions_EqualsReturnTrue()
+        {
+            var clients = Client.GetAll();
+            Order order1 = Order.CreateNew("o1", clients[0]);
+            Order.Clear();
+            Order order2 = Order.CreateNew("o1", clients[0]);
+            Assert.IsTrue(order1.Equals(order2));
+        }
     }
 }
