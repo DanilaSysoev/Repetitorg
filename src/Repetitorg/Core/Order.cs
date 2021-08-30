@@ -28,7 +28,7 @@ namespace Repetitorg.Core
             }
         }
 
-        public void AddStudent(Student student)
+        public void AddStudent(Student student, long costPerHourInCopex)
         {
             new Checker().AddNull(student, "Can not add null student to order").
                 Check();

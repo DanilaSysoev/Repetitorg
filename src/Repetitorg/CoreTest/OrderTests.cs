@@ -161,7 +161,7 @@ namespace Repetitorg.CoreTest
         public void AttachStudent_AddOneStudent_StudentsCountEqualsOne()
         {
             Order order = Order.CreateNew("o1", Client.GetAll()[0]);
-            order.AddStudent(Student.GetAll()[0]);
+            order.AddStudent(Student.GetAll()[0], 100000);
 
             Assert.AreEqual(1, order.Students.Count);
         }
@@ -170,7 +170,7 @@ namespace Repetitorg.CoreTest
         {
             Order order = Order.CreateNew("o1", Client.GetAll()[0]);
             var exception = Assert.Throws<ArgumentException>(
-                () => order.AddStudent(null)
+                () => order.AddStudent(null, 100000)
             );
 
             Assert.IsTrue(exception.Message.ToLower().Contains(
