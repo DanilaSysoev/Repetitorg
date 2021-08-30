@@ -14,6 +14,21 @@ namespace Repetitorg.Core
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if(obj is Order)
+            {
+                var order = obj as Order;
+                return
+                    order.client.Equals(client) &&
+                    order.name.Equals(name);
+            }
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return (name.GetHashCode() + client.GetHashCode()) * 31;
+        }
 
         public static int Count 
         { 
@@ -33,17 +48,24 @@ namespace Repetitorg.Core
                 Add(name, "Can not create order with null name").
                 Check();
 
-            Order order = new Order(client);
+            Order order = new Order(name, client);
+            if(orders.Contains(order))
+                throw new InvalidOperationException(
+                    "Order with given name and client already exist"
+                );
+
             orders.Add(order);
             return order;
         }
 
 
         private Client client;
+        private string name;
 
-        private Order(Client client)
+        private Order(string name, Client client)
         {
             this.client = client;
+            this.name = name;
         }
 
         static Order()

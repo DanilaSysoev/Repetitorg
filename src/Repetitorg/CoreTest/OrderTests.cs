@@ -58,10 +58,10 @@ namespace Repetitorg.CoreTest
         {
             var clients = Client.GetAll();
             Order.CreateNew("o1", clients[0]);
-            var exception = Assert.Throws<ArgumentException>(
+            var exception = Assert.Throws<InvalidOperationException>(
                 () => Order.CreateNew("o1", clients[0])
             );
-            Assert.IsTrue(exception.Message.Contains(
+            Assert.IsTrue(exception.Message.ToLower().Contains(
                 "order with given name and client already exist"
             ));
         }
