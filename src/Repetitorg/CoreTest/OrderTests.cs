@@ -36,6 +36,15 @@ namespace Repetitorg.CoreTest
             Order.CreateNew(Client.GetAll()[0]);
             Assert.AreEqual(1, Order.Count);
         }
+        [TestCase]
+        public void CreateNew_CreateThreeOrder_OrdersCountEqualsThree()
+        {
+            var clients = Client.GetAll();
+            Order.CreateNew(clients[0]);
+            Order.CreateNew(clients[1]);
+            Order.CreateNew(clients[2]);
+            Assert.AreEqual(3, Order.Count);
+        }
 
     }
 }
