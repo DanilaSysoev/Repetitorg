@@ -109,13 +109,21 @@ namespace Repetitorg.CoreTest
         }
 
         [TestCase]
-        public void Equals_CreateTwoEqualsOrdersInDifferentseesions_EqualsReturnTrue()
+        public void Equals_CreateTwoEqualsOrdersInDifferentSeesions_EqualsReturnTrue()
         {
             var clients = Client.GetAll();
             Order order1 = Order.CreateNew("o1", clients[0]);
             Order.Clear();
             Order order2 = Order.CreateNew("o1", clients[0]);
             Assert.IsTrue(order1.Equals(order2));
+        }
+        [TestCase]
+        public void Equals_CreateTwoOrdersWithDifferentNames_EqualsReturnFalse()
+        {
+            var clients = Client.GetAll();
+            Order order1 = Order.CreateNew("o1", clients[0]);
+            Order order2 = Order.CreateNew("o2", clients[0]);
+            Assert.IsFalse(order1.Equals(order2));
         }
     }
 }
