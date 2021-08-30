@@ -15,30 +15,6 @@ namespace Repetitorg.Core
                 return entities.Count;
             }
         }
-        public static T CreateNew(string fullName, string phoneNumber = "")
-        {
-            new Checker().
-                AddNull(fullName, string.Format("Can not create {0} with NULL name", typeof(T).Name)).
-                AddNull(phoneNumber, string.Format("Can not create {0} with NULL phone number", typeof(T).Name)).
-                Check();
-
-            object[] argsForConstructor = { fullName, phoneNumber };
-            var entity = typeof(T).GetConstructors(
-                System.Reflection.BindingFlags.NonPublic |
-                System.Reflection.BindingFlags.Instance
-            )[0].Invoke(argsForConstructor) as T;
-
-            if (entities.Contains(entity))
-                throw new InvalidOperationException(
-                    string.Format(
-                        "Creation {0} with same names and phone numbers is impossible",
-                        typeof(T).Name
-                    )
-                );
-
-            entities.Add(entity);
-            return entity;
-        }
         public static IList<T> GetAll()
         {
             return new List<T>(entities);

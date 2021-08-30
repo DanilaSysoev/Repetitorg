@@ -101,8 +101,8 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Equals_EqualsWithStudentWitSameNameAndPhoneNumber_IsDifferent()
         {
-            Student s = Student.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
             Client c = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+            Student s = Student.CreateNew("Иванов Иван Иванович", c, "8-999-123-45-67");
             Assert.IsFalse(c.Equals(s));
         }
 

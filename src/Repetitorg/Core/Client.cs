@@ -52,6 +52,24 @@ namespace Repetitorg.Core
                  select payment).ToList();
         }
 
+        public static Client CreateNew(string fullName, string phoneNumber = "")
+        {
+            new Checker().
+                AddNull(fullName, string.Format("Can not create client with NULL name")).
+                AddNull(phoneNumber, string.Format("Can not create client with NULL phone number")).
+                Check();
+
+            var client = new Client(fullName, phoneNumber);
+
+            if (entities.Contains(client))
+                throw new InvalidOperationException(
+                     "Creation client with same names and phone numbers is impossible"
+                );
+
+            entities.Add(client);
+            return client;
+        }
+
         internal Client(string fullName, string phoneNumber)
             : base(fullName, phoneNumber)
         {

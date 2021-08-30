@@ -21,13 +21,13 @@ namespace Repetitorg.CoreTest
         [SetUp]
         public void Initialize()
         {
-            Client.CreateNew("c1");
-            Client.CreateNew("c2");
-            Client.CreateNew("c3");
+            Client c1 = Client.CreateNew("c1");
+            Client c2 = Client.CreateNew("c2");
+            Client c3 = Client.CreateNew("c3");
 
-            Student.CreateNew("s1");
-            Student.CreateNew("s2");
-            Student.CreateNew("s3");
+            Student.CreateNew("s1", c1);
+            Student.CreateNew("s2", c2);
+            Student.CreateNew("s3", c3);
         }
 
         [TestCase]
