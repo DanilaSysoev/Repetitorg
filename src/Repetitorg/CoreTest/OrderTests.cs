@@ -63,6 +63,17 @@ namespace Repetitorg.CoreTest
             ));
         }
         [TestCase]
+        public void CreateNew_CreateOrderWithNullName_ThrowsException()
+        {
+            var exception =
+                Assert.Throws<ArgumentException>(
+                    () => Order.CreateNew(null, Client.GetAll()[0])
+                );
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "can not create order with null name"
+            ));
+        }
+        [TestCase]
         public void CreateNew_CreateOrderWithSomeClient_ClientPropertyIsCorrect()
         {
             var clients = Client.GetAll();
