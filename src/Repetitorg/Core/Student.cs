@@ -19,7 +19,7 @@ namespace Repetitorg.Core
             new Checker().
                 AddNull(fullName, string.Format("Can not create student with NULL name")).
                 AddNull(phoneNumber, string.Format("Can not create student with NULL phone number")).
-                AddNull(client, string.Format("Can not create student with NULL phone number")).
+                AddNull(client, string.Format("Can not create student with NULL client")).
                 Check();
 
             object[] argsForConstructor = { fullName, phoneNumber };

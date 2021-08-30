@@ -74,8 +74,10 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public static void CreateNew_CreateStudentWithNullPhoneNumber_ThrowsException()
         {
+            Client client = Client.CreateNew("c1");
+
             var exception = Assert.Throws<ArgumentException>(
-                () => Student.CreateNew("Test student", null)
+                () => Student.CreateNew("Test student", client, null)
             );
 
             Assert.IsTrue(exception.Message.ToLower().Contains(
