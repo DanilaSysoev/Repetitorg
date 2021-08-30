@@ -6,6 +6,13 @@ namespace Repetitorg.Core
 {
     public class Order
     {
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
         public Client Client
         {
             get
