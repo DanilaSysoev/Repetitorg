@@ -32,6 +32,9 @@ namespace Repetitorg.Core
         }
         public void RemoveStudent(Student student)
         {
+            new Checker().AddNull(student, "Student can not be null").
+                Check();
+
             if (!students.Remove(student))
                 throw new ArgumentException("Student is not in order");
         }
