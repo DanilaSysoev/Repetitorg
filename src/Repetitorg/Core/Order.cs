@@ -6,14 +6,36 @@ namespace Repetitorg.Core
 {
     public class Order
     {
-        public static int Count { get; set; }
+        public static int Count 
+        { 
+            get
+            {
+                return orders.Count;
+            }
+        }
 
         public static void Clear()
         { }
 
         public static Order CreateNew(Client client)
         {
-            return null;
+            Order order = new Order(client);
+            orders.Add(order);
+            return order;
         }
+
+
+        private Client client;
+
+        private Order(Client client)
+        {
+            this.client = client;
+        }
+
+        static Order()
+        {
+            orders = new List<Order>();
+        }
+        private static List<Order> orders;
     }
 }
