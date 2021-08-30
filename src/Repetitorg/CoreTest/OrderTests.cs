@@ -138,6 +138,20 @@ namespace Repetitorg.CoreTest
             ));
         }
         [TestCase]
+        public void AddStudent_AddAlreadyAddedStudent_ThrowsException()
+        {
+            Order order = Order.CreateNew("o1");
+            var students = Student.GetAll();
+            order.AddStudent(students[0], 100000);
+            var exception = Assert.Throws<ArgumentException>(
+                () => order.AddStudent(students[0], 100000)
+            );
+
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "student already added"
+            ));
+        }
+        [TestCase]
         public void AddStudent_AddWithZeroCost_StudentsCountEqualsOne()
         {
             Order order = Order.CreateNew("o1");
