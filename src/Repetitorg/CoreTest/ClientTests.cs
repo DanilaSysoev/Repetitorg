@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Repetitorg.Core;
 using Repetitorg.Core.Exceptions;
 
-namespace CoreTest
+namespace Repetitorg.CoreTest
 {
     [TestFixture]
     class ClientTests
