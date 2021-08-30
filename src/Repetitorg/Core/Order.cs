@@ -15,7 +15,9 @@ namespace Repetitorg.Core
         }
 
         public static void Clear()
-        { }
+        {
+            orders.Clear();
+        }
 
         public static Order CreateNew(Client client)
         {
