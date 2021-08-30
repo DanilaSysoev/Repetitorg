@@ -30,6 +30,9 @@ namespace Repetitorg.Core
 
         public void AddStudent(Student student)
         {
+            new NullChecker().Add(student, "Can not add null student to order").
+                Check();
+
             students.Add(student);
         }
         public override bool Equals(object obj)
