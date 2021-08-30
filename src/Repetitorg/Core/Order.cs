@@ -30,6 +30,10 @@ namespace Repetitorg.Core
 
             students.Add(student);
         }
+        public void RemoveStudent(Student student)
+        {
+            students.Remove(student);
+        }
         public override bool Equals(object obj)
         {
             if(obj is Order)
