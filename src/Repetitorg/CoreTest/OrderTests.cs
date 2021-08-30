@@ -54,6 +54,18 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(2, Order.Count);
         }
         [TestCase]
+        public void CreateNew_CreateTwoOrderWithSameClientAndSameNames_ThrowsException()
+        {
+            var clients = Client.GetAll();
+            Order.CreateNew("o1", clients[0]);
+            var exception = Assert.Throws<ArgumentException>(
+                () => Order.CreateNew("o1", clients[0])
+            );
+            Assert.IsTrue(exception.Message.Contains(
+                "order with given name and client already exist"
+            ));
+        }
+        [TestCase]
         public void CreateNew_CreateOrderWithNullClient_ThrowsException()
         {
             var exception =
