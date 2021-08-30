@@ -165,5 +165,17 @@ namespace Repetitorg.CoreTest
 
             Assert.AreEqual(1, order.Students.Count);
         }
+        [TestCase]
+        public void AttachStudent_AddNullStudent_ThrowsException()
+        {
+            Order order = Order.CreateNew("o1", Client.GetAll()[0]);
+            var exception = Assert.Throws<ArgumentException>(
+                () => order.AddStudent(null)
+            );
+
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "can not add null student to order"
+            ));
+        }
     }
 }
