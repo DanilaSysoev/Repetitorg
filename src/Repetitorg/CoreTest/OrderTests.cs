@@ -161,11 +161,25 @@ namespace Repetitorg.CoreTest
         public void AddStudent_AddThreeStudents_StudentsCountEqualsThree()
         {
             Order order = Order.CreateNew("o1");
-            order.AddStudent(Student.GetAll()[0], 100000);
-            order.AddStudent(Student.GetAll()[1], 100000);
-            order.AddStudent(Student.GetAll()[2], 100000);
+            var students = Student.GetAll();
+            order.AddStudent(students[0], 100000);
+            order.AddStudent(students[1], 100000);
+            order.AddStudent(students[2], 100000);
 
             Assert.AreEqual(3, order.Students.Count);
+        }
+        [TestCase]
+        public void AddStudent_AddThreeStudents_StudentsContainsAll()
+        {
+            Order order = Order.CreateNew("o1");
+            var students = Student.GetAll();
+            order.AddStudent(students[0], 100000);
+            order.AddStudent(students[1], 100000);
+            order.AddStudent(students[2], 100000);
+
+            Assert.IsTrue(order.Students.Contains(students[0]));
+            Assert.IsTrue(order.Students.Contains(students[1]));
+            Assert.IsTrue(order.Students.Contains(students[2]));
         }
     }
 }
