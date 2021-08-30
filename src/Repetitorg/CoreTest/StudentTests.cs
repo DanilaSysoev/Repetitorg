@@ -61,6 +61,17 @@ namespace Repetitorg.CoreTest
             ));
         }
         [TestCase]
+        public static void CreateNew_CreateStudentWithNullClient_ThrowsException()
+        {
+            var exception = Assert.Throws<ArgumentException>(
+                () => Student.CreateNew("s1", null)
+            );
+
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "can not create student with null client"
+            ));
+        }
+        [TestCase]
         public static void CreateNew_CreateStudentWithNullPhoneNumber_ThrowsException()
         {
             var exception = Assert.Throws<ArgumentException>(
