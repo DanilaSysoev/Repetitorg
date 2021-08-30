@@ -33,31 +33,31 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void CreateNew_CreateOneOrder_OrdersCountEqualsOne()
         {
-            Order.CreateNew(Client.GetAll()[0]);
+            Order.CreateNew("o1", Client.GetAll()[0]);
             Assert.AreEqual(1, Order.Count);
         }
         [TestCase]
         public void CreateNew_CreateThreeOrder_OrdersCountEqualsThree()
         {
             var clients = Client.GetAll();
-            Order.CreateNew(clients[0]);
-            Order.CreateNew(clients[1]);
-            Order.CreateNew(clients[2]);
+            Order.CreateNew("o1", clients[0]);
+            Order.CreateNew("o2", clients[1]);
+            Order.CreateNew("o3", clients[2]);
             Assert.AreEqual(3, Order.Count);
         }
         [TestCase]
-        public void CreateNew_CreateTwoOrderWithSameClient_OrdersCountEqualsTwo()
+        public void CreateNew_CreateTwoOrderWithSameClientAndDifferenceNames_OrdersCountEqualsTwo()
         {
             var clients = Client.GetAll();
-            Order.CreateNew(clients[0]);
-            Order.CreateNew(clients[0]);
+            Order.CreateNew("o1", clients[0]);
+            Order.CreateNew("o2", clients[0]);
             Assert.AreEqual(2, Order.Count);
         }
         [TestCase]
         public void CreateNew_CreateOrderWithNullClient_ThrowsException()
         {
             var exception =
-                Assert.Throws<ArgumentException>(() => Order.CreateNew(null));
+                Assert.Throws<ArgumentException>(() => Order.CreateNew("o1", null));
             Assert.IsTrue(exception.Message.ToLower().Contains(
                 "can not create order with null client"
             ));
@@ -66,7 +66,7 @@ namespace Repetitorg.CoreTest
         public void CreateNew_CreateOrderWithSomeClient_ClientPropertyIsCorrect()
         {
             var clients = Client.GetAll();
-            Order order = Order.CreateNew(clients[0]);
+            Order order = Order.CreateNew("o1", clients[0]);
             Assert.AreEqual(clients[0], order.Client);
         }
     }

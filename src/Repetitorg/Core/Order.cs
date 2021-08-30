@@ -26,7 +26,7 @@ namespace Repetitorg.Core
         {
             orders.Clear();
         }
-        public static Order CreateNew(Client client)
+        public static Order CreateNew(string name, Client client)
         {
             new NullChecker().
                 Add(client, "Can not create order with null client").
