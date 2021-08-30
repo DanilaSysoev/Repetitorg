@@ -32,7 +32,8 @@ namespace Repetitorg.Core
         }
         public void RemoveStudent(Student student)
         {
-            students.Remove(student);
+            if (!students.Remove(student))
+                throw new ArgumentException("Student is not in order");
         }
         public override bool Equals(object obj)
         {
