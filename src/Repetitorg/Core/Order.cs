@@ -24,10 +24,14 @@ namespace Repetitorg.Core
         {
             get
             {
-                return new List<Student>();
+                return students;
             }
         }
 
+        public void AddStudent(Student student)
+        {
+            students.Add(student);
+        }
         public override bool Equals(object obj)
         {
             if(obj is Order)
@@ -79,11 +83,13 @@ namespace Repetitorg.Core
 
         private Client client;
         private string name;
+        private List<Student> students;
 
         private Order(string name, Client client)
         {
             this.client = client;
             this.name = name;
+            this.students = new List<Student>();
         }
 
         static Order()

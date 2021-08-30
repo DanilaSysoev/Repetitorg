@@ -161,7 +161,7 @@ namespace Repetitorg.CoreTest
         public void AttachStudent_AddOneStudent_StudentsCountEqualsOne()
         {
             Order order = Order.CreateNew("o1", Client.GetAll()[0]);
-            order.AddStudent(order, Student.GetAll()[0]);
+            order.AddStudent(Student.GetAll()[0]);
 
             Assert.AreEqual(1, order.Students.Count);
         }
