@@ -158,7 +158,7 @@ namespace Repetitorg.CoreTest
         }
 
         [TestCase]
-        public void AttachStudent_AddOneStudent_StudentsCountEqualsOne()
+        public void AddStudent_AddOneStudent_StudentsCountEqualsOne()
         {
             Order order = Order.CreateNew("o1", Client.GetAll()[0]);
             order.AddStudent(Student.GetAll()[0], 100000);
@@ -166,7 +166,7 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(1, order.Students.Count);
         }
         [TestCase]
-        public void AttachStudent_AddNullStudent_ThrowsException()
+        public void AddStudent_AddNullStudent_ThrowsException()
         {
             Order order = Order.CreateNew("o1", Client.GetAll()[0]);
             var exception = Assert.Throws<ArgumentException>(
@@ -175,6 +175,26 @@ namespace Repetitorg.CoreTest
 
             Assert.IsTrue(exception.Message.ToLower().Contains(
                 "can not add null student to order"
+            ));
+        }
+        [TestCase]
+        public void AddStudent_AddWithZeroCost_StudentsCountEqualsOne()
+        {
+            Order order = Order.CreateNew("o1", Client.GetAll()[0]);
+            order.AddStudent(Student.GetAll()[0], 0);
+
+            Assert.AreEqual(1, order.Students.Count);
+        }
+        [TestCase]
+        public void AddStudent_AddWithNegativeCost_ThrowsException()
+        {
+            Order order = Order.CreateNew("o1", Client.GetAll()[0]);
+            var exception = Assert.Throws<ArgumentException>(
+                () => order.AddStudent(Student.GetAll()[0], -1)
+            );
+
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "can not add student with negative cost to order"
             ));
         }
     }
