@@ -208,5 +208,17 @@ namespace Repetitorg.CoreTest
                 "student is not in order"
             ));
         }
+        [TestCase]
+        public void RemoveStudent_RemoveNullStudent_ThrowsException()
+        {
+            Order order = Order.CreateNew("o1");
+            
+            var exception = Assert.Throws<ArgumentException>(
+                () => order.RemoveStudent(null)
+            );
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "student can not be null"
+            ));
+        }
     }
 }
