@@ -194,5 +194,19 @@ namespace Repetitorg.CoreTest
             order.RemoveStudent(students[0]);
             Assert.AreEqual(2, order.Students.Count);
         }
+        [TestCase]
+        public void RemoveStudent_RemoveNonExistentStudent_ThrowsException()
+        {
+            Order order = Order.CreateNew("o1");
+            var students = Student.GetAll();
+            order.AddStudent(students[0], 100000);
+
+            var exception = Assert.Throws<ArgumentException>(
+                () => order.RemoveStudent(students[1])
+            );
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "student is not in order"
+            ));
+        }
     }
 }
