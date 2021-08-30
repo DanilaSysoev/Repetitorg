@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    class NullChecker
+    class Checker
     {
         private string message = "";
 
-        public NullChecker Add(object argument, string message)
+        public Checker Add(object argument, string message)
         {
             if (argument == null)
                 this.message += message + "\n";
