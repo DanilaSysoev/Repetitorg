@@ -36,6 +36,10 @@ namespace Repetitorg.Core
         {
             return (name.GetHashCode() + client.GetHashCode()) * 31;
         }
+        public override string ToString()
+        {
+            return string.Format("{0}: {1}", client.FullName, name);
+        }
 
         public static int Count 
         { 
