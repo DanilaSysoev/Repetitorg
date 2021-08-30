@@ -26,6 +26,7 @@ namespace Repetitorg.Core
             new Checker().
                 AddNull(student, "Can not add null student to order").
                 Add(arg => (long)arg < 0, costPerHourInCopex, "Can not add student with negative cost to order").
+                Add(arg => students.Contains((Student)arg), student, "Student already added").
                 Check();
 
             students.Add(student);
