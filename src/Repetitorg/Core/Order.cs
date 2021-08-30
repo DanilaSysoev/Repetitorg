@@ -30,6 +30,7 @@ namespace Repetitorg.Core
         {
             new NullChecker().
                 Add(client, "Can not create order with null client").
+                Add(name, "Can not create order with null name").
                 Check();
 
             Order order = new Order(client);
