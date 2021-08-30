@@ -92,5 +92,12 @@ namespace Repetitorg.CoreTest
             Order order = Order.CreateNew("o1", clients[0]);
             Assert.AreEqual(clients[0], order.Client);
         }
+        [TestCase]
+        public void CreateNew_CreateOrderWithSomeName_NamePropertyIsCorrect()
+        {
+            var clients = Client.GetAll();
+            Order order = Order.CreateNew("o1", clients[0]);
+            Assert.AreEqual("o1", order.Name);
+        }
     }
 }
