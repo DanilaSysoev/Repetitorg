@@ -30,5 +30,12 @@ namespace Repetitorg.CoreTest
             Student.CreateNew("s3");
         }
 
+        [TestCase]
+        public void CreateNew_CreateOneOrder_OrdersCountEqualsOne()
+        {
+            Order.CreateNew(Client.GetAll()[0]);
+            Assert.AreEqual(1, Order.Count);
+        }
+
     }
 }

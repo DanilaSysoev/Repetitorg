@@ -26,7 +26,7 @@ namespace Repetitorg.StorageTest
             var storage = new JsonFileStorage<Project>(TEST_DATA_PATH);
             Project.Load(storage);
 
-            Assert.AreEqual(0, Project.ProjectsCount);
+            Assert.AreEqual(0, Project.Count);
         }
         [TestCase]
         public void SaveLoad_AddThreeSaveThenClearLoad_AllThreeExist()
@@ -40,7 +40,7 @@ namespace Repetitorg.StorageTest
             Project.Clear();
             Project.Load(storage);
 
-            Assert.AreEqual(3, Project.ProjectsCount);
+            Assert.AreEqual(3, Project.Count);
             Assert.IsTrue(Project.GetAll().Contains(p1));
             Assert.IsTrue(Project.GetAll().Contains(p2));
             Assert.IsTrue(Project.GetAll().Contains(p3));

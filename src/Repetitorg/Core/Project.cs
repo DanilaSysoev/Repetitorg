@@ -9,7 +9,7 @@ namespace Repetitorg.Core
 {
     public class Project
     {
-        public static int ProjectsCount
+        public static int Count
         {
             get
             {

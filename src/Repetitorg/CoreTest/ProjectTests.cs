@@ -27,14 +27,14 @@ namespace Repetitorg.CoreTest
 
             Project.Clear();
 
-            Assert.AreEqual(0, Project.ProjectsCount);
+            Assert.AreEqual(0, Project.Count);
         }
 
         [TestCase]
         public void Add_SimpleAdd_ProjectsCountIncrease()
         {
             Project.Add("Test Project");
-            Assert.AreEqual(1, Project.ProjectsCount);
+            Assert.AreEqual(1, Project.Count);
         }
         [TestCase]
         public void Add_AddThreeProjects_ProjectsCountEqualsThree()
@@ -43,7 +43,7 @@ namespace Repetitorg.CoreTest
             Project.Add("Test Project 2");
             Project.Add("Test Project 3");
 
-            Assert.AreEqual(3, Project.ProjectsCount);
+            Assert.AreEqual(3, Project.Count);
         }
         [TestCase]
         public void Add_AddWithDuplicateName_ThrowsException()
