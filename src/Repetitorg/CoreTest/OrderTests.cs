@@ -46,12 +46,21 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(3, Order.Count);
         }
         [TestCase]
-        public void CreateNew_CreateTwoOrderWithSameClient_OrdersCountEqualsTo()
+        public void CreateNew_CreateTwoOrderWithSameClient_OrdersCountEqualsTwo()
         {
             var clients = Client.GetAll();
             Order.CreateNew(clients[0]);
             Order.CreateNew(clients[0]);
             Assert.AreEqual(2, Order.Count);
+        }
+        [TestCase]
+        public void CreateNew_CreateOrderWithNullClient_ThrowsException()
+        {
+            var exception =
+                Assert.Throws<ArgumentException>(() => Order.CreateNew(null));
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "can not create order with null client"
+            ));
         }
     }
 }
