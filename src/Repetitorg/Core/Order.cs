@@ -21,6 +21,10 @@ namespace Repetitorg.Core
 
         public static Order CreateNew(Client client)
         {
+            new NullChecker().
+                Add(client, "Can not create order with null client").
+                Check();
+
             Order order = new Order(client);
             orders.Add(order);
             return order;

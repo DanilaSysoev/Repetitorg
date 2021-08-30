@@ -17,8 +17,6 @@ namespace Repetitorg.Core
         }
         public static T CreateNew(string fullName, string phoneNumber = "")
         {
-            var nc = new NullChecker();
-
             new NullChecker().
                 Add(fullName, string.Format("Can not create {0} with NULL name", typeof(T).Name)).
                 Add(phoneNumber, string.Format("Can not create {0} with NULL phone number", typeof(T).Name)).
