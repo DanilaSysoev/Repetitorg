@@ -20,6 +20,13 @@ namespace Repetitorg.Core
                 return client;
             }
         }
+        public IReadOnlyList<Student> Students
+        {
+            get
+            {
+                return new List<Student>();
+            }
+        }
 
         public override bool Equals(object obj)
         {
