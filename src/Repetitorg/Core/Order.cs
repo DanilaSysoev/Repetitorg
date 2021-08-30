@@ -6,6 +6,15 @@ namespace Repetitorg.Core
 {
     public class Order
     {
+        public Client Client
+        {
+            get
+            {
+                return client;
+            }
+        }
+
+
         public static int Count 
         { 
             get
@@ -13,12 +22,10 @@ namespace Repetitorg.Core
                 return orders.Count;
             }
         }
-
         public static void Clear()
         {
             orders.Clear();
         }
-
         public static Order CreateNew(Client client)
         {
             new NullChecker().
