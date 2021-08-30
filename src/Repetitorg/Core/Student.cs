@@ -14,11 +14,6 @@ namespace Repetitorg.Core
             }
         }
 
-        public void AttachToClient(Client client)
-        {
-            this.client = client;
-        }
-
         internal Student(string fullName, string phoneNumber)
             : base(fullName, phoneNumber)
         { }

@@ -69,7 +69,7 @@ namespace Repetitorg.Core
             Order order = new Order(name);
             if(orders.Contains(order))
                 throw new InvalidOperationException(
-                    "Order with given name and client already exist"
+                    "Order with given name already exist"
                 );
 
             orders.Add(order);

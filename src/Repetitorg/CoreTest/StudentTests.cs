@@ -264,14 +264,5 @@ namespace Repetitorg.CoreTest
             Student.Clear();
             Assert.AreEqual(0, Student.Count);
         }
-
-        [TestCase]
-        public void AttachToClient_AttachToSomeClient_ClientPropertyIsCorrect()
-        {
-            Client client = Client.CreateNew("c1");
-            Student student = Student.CreateNew("s1");
-            student.AttachToClient(client);
-            Assert.AreEqual(client, student.Client);
-        }
     }
 }
