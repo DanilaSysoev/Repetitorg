@@ -40,12 +40,20 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual("", s.PhoneNumber);
         }
         [TestCase]
-        public static void CreateNew_CreateStudentWithNameandPhoneNumber_PhoneNumberSetCorrectly()
+        public static void CreateNew_CreateStudentWithNameAndPhoneNumber_PhoneNumberSetCorrectly()
         {
             Client client = Client.CreateNew("c1");
             Student s = Student.CreateNew("Test Student", client, "8-999-123-45-67");
 
             Assert.AreEqual("8-999-123-45-67", s.PhoneNumber);
+        }
+        [TestCase]
+        public static void CreateNew_CreateStudent_ClientPropertyIsOk()
+        {
+            Client client = Client.CreateNew("c1");
+            Student s = Student.CreateNew("Test Student", client, "8-999-123-45-67");
+
+            Assert.AreEqual(client, s.Client);
         }
         [TestCase]
         public static void CreateNew_CreateStudentWithNullName_ThrowsException()
@@ -81,7 +89,7 @@ namespace Repetitorg.CoreTest
             );
 
             Assert.IsTrue(exception.Message.ToLower().Contains(
-                "can not create student with null phone numbe"
+                "can not create student with null phone number"
             ));
         }
         [TestCase]
