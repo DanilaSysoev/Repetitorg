@@ -209,6 +209,19 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(2, order.Students.Count);
         }
         [TestCase]
+        public void RemoveStudent_RemoveExistingStudent_RestExist()
+        {
+            Order order = Order.CreateNew("o1");
+            var students = Student.GetAll();
+            order.AddStudent(students[0], 100000);
+            order.AddStudent(students[1], 100000);
+            order.AddStudent(students[2], 100000);
+
+            order.RemoveStudent(students[0]);
+            Assert.IsTrue(order.Students.Contains(students[1]));
+            Assert.IsTrue(order.Students.Contains(students[2]));
+        }
+        [TestCase]
         public void RemoveStudent_RemoveNonExistentStudent_ThrowsException()
         {
             Order order = Order.CreateNew("o1");
