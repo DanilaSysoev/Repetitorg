@@ -62,5 +62,12 @@ namespace Repetitorg.CoreTest
                 "can not create order with null client"
             ));
         }
+        [TestCase]
+        public void CreateNew_CreateOrderWithSomeClient_ClientPropertyIsCorrect()
+        {
+            var clients = Client.GetAll();
+            Order order = Order.CreateNew(clients[0]);
+            Assert.AreEqual(clients[0], order.Client);
+        }
     }
 }
