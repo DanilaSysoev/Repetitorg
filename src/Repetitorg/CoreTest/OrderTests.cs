@@ -141,5 +141,13 @@ namespace Repetitorg.CoreTest
             Order order2 = Order.CreateNew("o2", clients[1]);
             Assert.IsFalse(order1.Equals(order2));
         }
+
+        [TestCase]
+        public void ToString_CreateOrder_ToStringReturnCorrectRepresentation()
+        {
+            var clients = Client.GetAll();
+            Order order = Order.CreateNew("o1", clients[0]);
+            Assert.AreEqual("c1: o1", order.ToString());
+        }
     }
 }
