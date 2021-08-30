@@ -149,5 +149,14 @@ namespace Repetitorg.CoreTest
             Order order = Order.CreateNew("o1", clients[0]);
             Assert.AreEqual("c1: o1", order.ToString());
         }
+        
+        [TestCase]
+        public void StudentsCount_CreateOrder_StudentsCountEqualsZero()
+        {
+            Order order = Order.CreateNew("o1", Client.GetAll()[0]);
+            Assert.AreEqual(0, order.Students.Count);
+        }
+        //[TestCase]
+        //public void AddStudent_AddOneStudent_StudentsCountEqualsOne()
     }
 }
