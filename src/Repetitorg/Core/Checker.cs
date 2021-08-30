@@ -8,7 +8,7 @@ namespace Repetitorg.Core
     {
         private string message = "";
 
-        public Checker Add(object argument, string message)
+        public Checker AddNull(object argument, string message)
         {
             if (argument == null)
                 this.message += message + "\n";

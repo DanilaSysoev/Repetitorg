@@ -19,7 +19,7 @@ namespace Repetitorg.Core
         public static Project Add(string name)
         {
             new Checker().
-                Add(name, "Can't create project with NULL name").
+                AddNull(name, "Can't create project with NULL name").
                 Check();
 
             Project project = new Project(name, false);
@@ -41,7 +41,7 @@ namespace Repetitorg.Core
         public static List<Project> FindByName(string subname)
         {
             new Checker().
-                Add(subname, "Filter pattern can't be null").
+                AddNull(subname, "Filter pattern can't be null").
                 Check();
 
             return (from project in projects

@@ -30,7 +30,7 @@ namespace Repetitorg.Core
 
         public void AddStudent(Student student)
         {
-            new Checker().Add(student, "Can not add null student to order").
+            new Checker().AddNull(student, "Can not add null student to order").
                 Check();
 
             students.Add(student);
@@ -69,8 +69,8 @@ namespace Repetitorg.Core
         public static Order CreateNew(string name, Client client)
         {
             new Checker().
-                Add(client, "Can not create order with null client").
-                Add(name, "Can not create order with null name").
+                AddNull(client, "Can not create order with null client").
+                AddNull(name, "Can not create order with null name").
                 Check();
 
             Order order = new Order(name, client);

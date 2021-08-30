@@ -25,7 +25,7 @@ namespace Repetitorg.Core
 
         public void MakePayment(Payment payment)
         {
-            new Checker().Add(payment, "Payment can't be NULL").Check();
+            new Checker().AddNull(payment, "Payment can't be NULL").Check();
 
             balanceInKopeks += payment.ValueInKopeks;
             payments.Add(payment);

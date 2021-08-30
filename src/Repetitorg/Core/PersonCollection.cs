@@ -18,8 +18,8 @@ namespace Repetitorg.Core
         public static T CreateNew(string fullName, string phoneNumber = "")
         {
             new Checker().
-                Add(fullName, string.Format("Can not create {0} with NULL name", typeof(T).Name)).
-                Add(phoneNumber, string.Format("Can not create {0} with NULL phone number", typeof(T).Name)).
+                AddNull(fullName, string.Format("Can not create {0} with NULL name", typeof(T).Name)).
+                AddNull(phoneNumber, string.Format("Can not create {0} with NULL phone number", typeof(T).Name)).
                 Check();
 
             object[] argsForConstructor = { fullName, phoneNumber };
@@ -46,7 +46,7 @@ namespace Repetitorg.Core
         public static IList<T> FilterByName(string condition)
         {
             new Checker().
-                Add(condition, "Filtering by null pattern is impossible").
+                AddNull(condition, "Filtering by null pattern is impossible").
                 Check();
 
             return

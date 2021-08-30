@@ -24,7 +24,7 @@ namespace Repetitorg.Core
         public static Task AddOnDate(string taskName, DateTime date)
         {
             new Checker().
-                Add(taskName, "Can't add task with NULL name").
+                AddNull(taskName, "Can't add task with NULL name").
                 Check();
 
             Task task = new Task(taskName, date.Date, false, null);
@@ -56,7 +56,7 @@ namespace Repetitorg.Core
         }
         public static void Remove(Task task)
         {
-            new Checker().Add(task, "Task can't be null").Check();
+            new Checker().AddNull(task, "Task can't be null").Check();
 
             tasks.Remove(task);
             tasksByDate[task.Date].Remove(task);
@@ -70,7 +70,7 @@ namespace Repetitorg.Core
         }
         public static void AttachToProject(Task task, Project project)
         {
-            new Checker().Add(task, "Task can't be null").Check();
+            new Checker().AddNull(task, "Task can't be null").Check();
 
             if (task.Project != project && project != null && project.Completed)
                 throw new InvalidOperationException(
