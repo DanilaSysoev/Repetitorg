@@ -6,8 +6,8 @@ namespace Repetitorg.Core.Base
 {
     public interface IPaymentsStorage
     {
-        IList<Payment> GetAll();
-        IList<Payment> GetAllForClient(Client client);
+        IReadOnlyList<Payment> GetAll();
+        IReadOnlyList<Payment> GetAllForClient(Client client);
         void Add(Payment payment, Client client);
     }
 }

@@ -12,11 +12,14 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class ClientTests
     {
+        DummyPaymentStorage paymentStorage = new DummyPaymentStorage();
+
         [TearDown]
         public void Clear()
         {
             Client.Clear();
             Student.Clear();
+            paymentStorage = new DummyPaymentStorage();
         }
 
         [TestCase]
@@ -29,7 +32,7 @@ namespace Repetitorg.CoreTest
         public void CreateNew_NameIsNull_ThrowsException()
         {
             var exception = 
-                Assert.Throws<ArgumentException>(() => Client.CreateNew(null));
+                Assert.Throws<ArgumentException>(() => Client.CreateNew(paymentStorage, null));
             Assert.IsTrue(exception.Message.ToLower().Contains(
                 "can not create client with null name"
             ));
@@ -39,7 +42,7 @@ namespace Repetitorg.CoreTest
         {
             var exception =
                 Assert.Throws<ArgumentException>(
-                    () => Client.CreateNew("some name", null)
+                    () => Client.CreateNew(paymentStorage, "some name", null)
                 );
             Assert.IsTrue(exception.Message.ToLower().Contains(
                 "can not create client with null phone number"
@@ -48,10 +51,10 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void CreateNew_CreateTwoWithSameNameAndPhoneNumber_ThrowsException()
         {
-            Client c1 = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+            Client c1 = Client.CreateNew(paymentStorage, "Иванов Иван Иванович", "8-999-123-45-67");
 
             var exception = Assert.Throws<InvalidOperationException>(
-                () => Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67")
+                () => Client.CreateNew(paymentStorage, "Иванов Иван Иванович", "8-999-123-45-67")
             );
 
             Assert.IsTrue(exception.Message.ToLower().Contains(
@@ -68,8 +71,8 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetAll_CreateTwo_AllReturned()
         {
-            Client c1 = Client.CreateNew("Иванов Иван Иванович");
-            Client c2 = Client.CreateNew("Петров Петр Петрович");
+            Client c1 = Client.CreateNew(paymentStorage, "Иванов Иван Иванович");
+            Client c2 = Client.CreateNew(paymentStorage, "Петров Петр Петрович");
 
             IList<Client> clients = Client.GetAll();
 
@@ -80,8 +83,8 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetAll_CreateTwo_ReturnedCopyOfCollection()
         {
-            Client c1 = Client.CreateNew("Иванов Иван Иванович");
-            Client c2 = Client.CreateNew("Петров Петр Петрович");
+            Client c1 = Client.CreateNew(paymentStorage, "Иванов Иван Иванович");
+            Client c2 = Client.CreateNew(paymentStorage, "Петров Петр Петрович");
 
             IList<Client> clients_old = Client.GetAll();
             clients_old.Remove(c1);
@@ -94,14 +97,14 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Equals_DifferentObjectsWithSameNameAndDifferentPhonNumbers_IsDifferent()
         {
-            Client c1 = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
-            Client c2 = Client.CreateNew("Иванов Иван Иванович", "8-999-456-78-90");
+            Client c1 = Client.CreateNew(paymentStorage, "Иванов Иван Иванович", "8-999-123-45-67");
+            Client c2 = Client.CreateNew(paymentStorage, "Иванов Иван Иванович", "8-999-456-78-90");
             Assert.IsFalse(c1.Equals(c2));
         }
         [TestCase]
         public void Equals_EqualsWithStudentWitSameNameAndPhoneNumber_IsDifferent()
         {
-            Client c = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+            Client c = Client.CreateNew(paymentStorage, "Иванов Иван Иванович", "8-999-123-45-67");
             Student s = Student.CreateNew("Иванов Иван Иванович", c, "8-999-123-45-67");
             Assert.IsFalse(c.Equals(s));
         }
@@ -385,7 +388,7 @@ namespace Repetitorg.CoreTest
 
         private Client CreateClientWithPhoneNumber()
         {
-            var c = Client.CreateNew("Иванов Иван Иванович", "+7(900)111-22-33");
+            var c = Client.CreateNew(paymentStorage, "Иванов Иван Иванович", "+7(900)111-22-33");
             return c;
         }
         private List<Payment> CreatePayments()
@@ -420,17 +423,17 @@ namespace Repetitorg.CoreTest
         }
         private Client CreateClient()
         {
-            var c = Client.CreateNew("Иванов Иван Иванович");
+            var c = Client.CreateNew(paymentStorage, "Иванов Иван Иванович");
             return c;
         }
         private List<Client> CreateClients()
         {
             List<Client> clients = new List<Client>();
 
-            clients.Add(Client.CreateNew("Иванов Иван Иванович"));
-            clients.Add(Client.CreateNew("Петров Петр Петрович", "Phone_1"));
-            clients.Add(Client.CreateNew("Петровa Aнастасия Владимировна"));
-            clients.Add(Client.CreateNew("Петров Петр Петрович", "Phone_2"));
+            clients.Add(Client.CreateNew(paymentStorage, "Иванов Иван Иванович"));
+            clients.Add(Client.CreateNew(paymentStorage, "Петров Петр Петрович", "Phone_1"));
+            clients.Add(Client.CreateNew(paymentStorage, "Петровa Aнастасия Владимировна"));
+            clients.Add(Client.CreateNew(paymentStorage, "Петров Петр Петрович", "Phone_2"));
 
             return clients;
         }
