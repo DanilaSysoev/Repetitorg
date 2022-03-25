@@ -78,3 +78,47 @@
 	+ Removing student from order
 		+ Removing non-existent throws error
 		+ Removing null throws error
+
+6. Lesson subsystem
+	- Lesson can be Active, NonActive, Canceled, Moved
+	- Creating Lesson on some date and time, some length
+	  and some order
+	  - Creating with null order throws error
+	  - Creating with non-positive length throws error	
+	  - New Lesson is non-active
+	- Add Lesson to schedule (activate)
+		- Intersection with other lesson throws error
+	- Remove from schedule (deactivate)
+		- Remove completed Lesson throws error
+		- Remove non-scheduled Lesson throws error
+	- Checking intersection with other lessons in schedule
+	- Checking DateTime intersection with other lessons
+	- Getting Active/Complete lessons on date
+	- Getting all lessons on date
+	- Getting Active/Complete lessons by order
+	- Getting all lessons by order
+	- Remove Lesson
+		- Remove Complete/Moved Lesson throws error
+	- Complete Lesson
+		- Completing decrease balance of clents
+		- Completeng non-scheduled Lesson throws error
+		- Completing completed Lesson throws error
+	- Renew Lesson		
+		- Renew increase balance of clents
+		- Renew non completed Lesson throws error
+	- Canceling Lesson
+		- Canceled Lesson removed from schedule
+		- Canceling completed Lesson throws error
+		- Canceling moved Lesson throws error
+	- Restore canceled Lesson
+		- Restore non-canceled Lesson throws error
+	- Moving Lesson on new date and time
+		- Moving non-active Lesson throws error
+		- Intersect with other lessons throws error
+	- Cancel moving Lesson
+		- Cancel non-moved Lesson throws error
+		- Cancel if final target Lesson Completed
+		  throws error
+		- Cancel remove all next Lessons
+
+	

@@ -21,8 +21,7 @@ namespace Repetitorg.Core
                 AddNull(phoneNumber, string.Format("Can not create student with NULL phone number")).
                 AddNull(client, string.Format("Can not create student with NULL client")).
                 Check();
-
-            object[] argsForConstructor = { fullName, phoneNumber };
+                        
             var student = new Student(fullName, phoneNumber, client);
 
             if (entities.Contains(student))
