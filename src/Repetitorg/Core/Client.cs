@@ -62,13 +62,17 @@ namespace Repetitorg.Core
 
             var client = new Client(payments, fullName, phoneNumber);
 
-            if (entities.Contains(client))
+            if (entities.GetAll().Contains(client))
                 throw new InvalidOperationException(
                      "Creation client with same names and phone numbers is impossible"
                 );
 
             entities.Add(client);
             return client;
+        }
+        public static void InitializeStorage(IPersonStorage<Client> clients)
+        {
+            entities = clients;
         }
 
         internal Client(IPaymentsStorage payments, string fullName, string phoneNumber)

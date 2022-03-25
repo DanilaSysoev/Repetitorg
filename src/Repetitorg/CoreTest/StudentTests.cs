@@ -11,54 +11,61 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class StudentTests
     {
-        [TearDown]
-        public static void Clear()
+        DummyPersonStorage<Student> students;
+        DummyPersonStorage<Client> clients;
+        DummyPaymentStorage payments;
+
+        [SetUp]
+        public void Initialize()
         {
-            Student.Clear();
-            Client.Clear();            
+            students = new DummyPersonStorage<Student>();
+            clients = new DummyPersonStorage<Client>();
+            payments = new DummyPaymentStorage();
+            Student.InitializeStorage(students);
+            Client.InitializeStorage(clients);
         }
 
         [TestCase]
-        public static void StudentsCount_EmptyStudents_StudentsCountIsZero()
+        public void StudentsCount_EmptyStudents_StudentsCountIsZero()
         {
             Assert.AreEqual(0, Student.Count);
         }
 
         [TestCase]
-        public static void CreateNew_CreateStudentWithOnlyName_StudentsCountIncrease()
+        public void CreateNew_CreateStudentWithOnlyName_StudentsCountIncrease()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
             Student.CreateNew("Test Student", client);
             Assert.AreEqual(1, Student.Count);
         }
         [TestCase]
-        public static void CreateNew_CreateStudentWithOnlyName_PhoneNumberIsEmpty()
+        public void CreateNew_CreateStudentWithOnlyName_PhoneNumberIsEmpty()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
             Student s = Student.CreateNew("Test Student", client);
 
             Assert.AreEqual("", s.PhoneNumber);
         }
         [TestCase]
-        public static void CreateNew_CreateStudentWithNameAndPhoneNumber_PhoneNumberSetCorrectly()
+        public void CreateNew_CreateStudentWithNameAndPhoneNumber_PhoneNumberSetCorrectly()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
             Student s = Student.CreateNew("Test Student", client, "8-999-123-45-67");
 
             Assert.AreEqual("8-999-123-45-67", s.PhoneNumber);
         }
         [TestCase]
-        public static void CreateNew_CreateStudent_ClientPropertyIsOk()
+        public void CreateNew_CreateStudent_ClientPropertyIsOk()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
             Student s = Student.CreateNew("Test Student", client, "8-999-123-45-67");
 
             Assert.AreEqual(client, s.Client);
         }
         [TestCase]
-        public static void CreateNew_CreateStudentWithNullName_ThrowsException()
+        public void CreateNew_CreateStudentWithNullName_ThrowsException()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             var exception = Assert.Throws<ArgumentException>(
                 () => Student.CreateNew(null, client)
@@ -69,7 +76,7 @@ namespace Repetitorg.CoreTest
             ));
         }
         [TestCase]
-        public static void CreateNew_CreateStudentWithNullClient_ThrowsException()
+        public void CreateNew_CreateStudentWithNullClient_ThrowsException()
         {
             var exception = Assert.Throws<ArgumentException>(
                 () => Student.CreateNew("s1", null)
@@ -80,9 +87,9 @@ namespace Repetitorg.CoreTest
             ));
         }
         [TestCase]
-        public static void CreateNew_CreateStudentWithNullPhoneNumber_ThrowsException()
+        public void CreateNew_CreateStudentWithNullPhoneNumber_ThrowsException()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             var exception = Assert.Throws<ArgumentException>(
                 () => Student.CreateNew("Test student", client, null)
@@ -93,9 +100,9 @@ namespace Repetitorg.CoreTest
             ));
         }
         [TestCase]
-        public static void CreateNew_CreateStudentsWithSameNameAndPhoneNumber_ThrowsException()
+        public void CreateNew_CreateStudentsWithSameNameAndPhoneNumber_ThrowsException()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
             Student.CreateNew("Test student", client, "Test Phone");
 
             var exception = Assert.Throws<InvalidOperationException>(
@@ -110,12 +117,12 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetAll_CreateTwo_AllReturned()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             Student s1 = Student.CreateNew("Test student 1", client);
             Student s2 = Student.CreateNew("Test student 2", client);
 
-            IList<Student> students = Student.GetAll();
+            IReadOnlyList<Student> students = Student.GetAll();
 
             Assert.AreEqual(2, students.Count);
             Assert.IsTrue(students.Contains(s1));
@@ -124,14 +131,14 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetAll_CreateTwo_ReturnedCopyOfCollection()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             Student s1 = Student.CreateNew("Test student 1", client);
             Student s2 = Student.CreateNew("Test student 2", client);
 
-            IList<Student> students_old = Student.GetAll();
+            IList<Student> students_old = new List<Student>(Student.GetAll());
             students_old.Remove(s1);
-            IList<Student> students = Student.GetAll();
+            IReadOnlyList<Student> students = Student.GetAll();
 
             Assert.AreEqual(2, students.Count);
             Assert.AreEqual(1, students_old.Count);
@@ -140,7 +147,7 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Equals_DifferentObjectsWithSameNameAndDifferentPhonNumbers_IsDifferent()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             Student s1 = Student.CreateNew("Иванов Иван Иванович", client, "8-999-123-45-67");
             Student s2 = Student.CreateNew("Иванов Иван Иванович", client, "8-999-456-78-90");
@@ -149,10 +156,10 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Equals_EqualsWithClientWitSameNameAndPhoneNumber_IsDifferent()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             Student s = Student.CreateNew("Иванов Иван Иванович", client, "8-999-123-45-67");
-            Client c = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+            Client c = Client.CreateNew(payments, "Иванов Иван Иванович", "8-999-123-45-67");
             Assert.IsFalse(s.Equals(c));
         }
 
@@ -160,7 +167,7 @@ namespace Repetitorg.CoreTest
         public void FilterByName_UseFullNameWithOneEntry_GettingOneObject()
         {
             List<Student> students = new List<Student>();
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             students.Add(Student.CreateNew("Test student 1", client));
             students.Add(Student.CreateNew("Test student 4", client));
@@ -176,7 +183,7 @@ namespace Repetitorg.CoreTest
         public void FilterByName_UsePartialNameWithOneEntry_GettingOneObject()
         {
             List<Student> students = new List<Student>();
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             students.Add(Student.CreateNew("Test student 1", client));
             students.Add(Student.CreateNew("Test student 4", client));
@@ -193,7 +200,7 @@ namespace Repetitorg.CoreTest
         public void FilterByName_UseLowercaseFullNameWithOneEntry_GettingOneObject()
         {
             List<Student> allStudents = new List<Student>();
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             allStudents.Add(Student.CreateNew("Test student 1", client));
             allStudents.Add(Student.CreateNew("Test student 4", client));
@@ -209,7 +216,7 @@ namespace Repetitorg.CoreTest
         public void FilterByName_UseLowercasePartialNameWithOneEntry_GettingOneObject()
         {
             List<Student> allStudents = new List<Student>();
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             allStudents.Add(Student.CreateNew("Ivanov Ivan Ivanych", client));
             allStudents.Add(Student.CreateNew("Test student 4", client));
@@ -225,7 +232,7 @@ namespace Repetitorg.CoreTest
         public void FilterByName_UseFullNameWithTwoEntry_GettingTwoObject()
         {
             List<Student> allStudents = new List<Student>();
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             allStudents.Add(Student.CreateNew("Ivanov Ivan Ivanych", client));
             allStudents.Add(Student.CreateNew("Test student 4", client));
@@ -242,7 +249,7 @@ namespace Repetitorg.CoreTest
         public void FilterByName_UsePartialNameWithThreeEntry_GettingThreeObject()
         {
             List<Student> allStudents = new List<Student>();
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             allStudents.Add(Student.CreateNew("Ivanov Ivan Ivanych", client));
             allStudents.Add(Student.CreateNew("Test student 4", client));
@@ -260,7 +267,7 @@ namespace Repetitorg.CoreTest
         public void FilterByName_UseLowercasePartialNameWithThreeEntry_GettingThreeObject()
         {
             List<Student> allStudents = new List<Student>();
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             allStudents.Add(Student.CreateNew("Ivanov Ivan Ivanych", client));
             allStudents.Add(Student.CreateNew("Test student 4", client));
@@ -277,7 +284,7 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void FilterByName_filterByNull_ThrowsException()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
 
             Student.CreateNew("Ivanov Ivan Ivanych", client);
             Student.CreateNew("Test student 4", client);
@@ -298,16 +305,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void ToString_SimpleStudent_ContainsFullName()
         {
-            Client client = Client.CreateNew("c1");
+            Client client = Client.CreateNew(payments, "c1");
             Student s = Student.CreateNew("Ivanov Ivan Ivanych", client);
             Assert.IsTrue(s.ToString().Contains("Ivanov Ivan Ivanych"));
-        }
-
-        [TestCase]
-        public void Clear_ClearEmptuStudents_StudentsCountStillZero()
-        {
-            Student.Clear();
-            Assert.AreEqual(0, Student.Count);
         }
     }
 }

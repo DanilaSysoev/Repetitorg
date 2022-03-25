@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ClientTests.cs" />
     <Compile Include="DummyPaymentStorage.cs" />
+    <Compile Include="DummyPersonStorage.cs" />
     <Compile Include="OrderTests.cs" />
     <Compile Include="ProjectTests.cs" />
     <Compile Include="StudentTests.cs" />

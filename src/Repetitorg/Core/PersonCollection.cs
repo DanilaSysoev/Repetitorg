@@ -12,37 +12,29 @@ namespace Repetitorg.Core
         {
             get
             {
-                return entities.Count;
+                return entities.GetAll().Count;
             }
         }
-        public static IList<T> GetAll()
+        public static IReadOnlyList<T> GetAll()
         {
-            return new List<T>(entities);
+            return entities.GetAll();
         }
-        public static IList<T> FilterByName(string condition)
+        public static IReadOnlyList<T> FilterByName(string condition)
         {
             new Checker().
                 AddNull(condition, "Filtering by null pattern is impossible").
                 Check();
 
             return
-                (from entity in entities
+                (from entity in entities.GetAll()
                  where entity.FullName.ToLower().Contains(condition.ToLower())
                  select entity).ToList();
-        }
-        public static void Clear()
-        {
-            entities.Clear();
         }
 
 
         internal PersonsCollection(string fullName, string phoneNumber)
             : base(fullName, phoneNumber)
         { }
-        protected static List<T> entities;
-        static PersonsCollection()
-        {
-            entities = new List<T>();
-        }
+        protected static IPersonStorage<T> entities;
     }
 }

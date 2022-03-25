@@ -11,19 +11,27 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class OrderTests
     {
+        DummyPersonStorage<Student> students;
+        DummyPersonStorage<Client> clients;
+        DummyPaymentStorage payments;
+
         [TearDown]
         public void Clear()
         {
             Order.Clear();
-            Client.Clear();
-            Student.Clear();
         }
         [SetUp]
         public void Initialize()
         {
-            Client c1 = Client.CreateNew("c1");
-            Client c2 = Client.CreateNew("c2");
-            Client c3 = Client.CreateNew("c3");
+            students = new DummyPersonStorage<Student>();
+            clients = new DummyPersonStorage<Client>();
+            payments = new DummyPaymentStorage();
+            Student.InitializeStorage(students);
+            Client.InitializeStorage(clients);
+
+            Client c1 = Client.CreateNew(payments, "c1");
+            Client c2 = Client.CreateNew(payments, "c2");
+            Client c3 = Client.CreateNew(payments, "c3");
 
             Student.CreateNew("s1", c1);
             Student.CreateNew("s2", c2);

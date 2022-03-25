@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Repetitorg.Core.Base;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Repetitorg.Core
@@ -24,13 +26,18 @@ namespace Repetitorg.Core
                         
             var student = new Student(fullName, phoneNumber, client);
 
-            if (entities.Contains(student))
+            if (entities.GetAll().Contains(student))
                 throw new InvalidOperationException(
                      "Creation student with same names and phone numbers is impossible"
                 );
 
             entities.Add(student);
             return student;
+        }
+
+        public static void InitializeStorage(IPersonStorage<Student> students)
+        {
+            entities = students;
         }
 
         internal Student(string fullName, string phoneNumber, Client client)
