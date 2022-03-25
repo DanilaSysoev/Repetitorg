@@ -238,7 +238,6 @@ namespace Repetitorg.CoreTest
             ));
         }
 
-
         [TestCase]
         public void Payments_MakeNullPayments_ThrowsException()
         {

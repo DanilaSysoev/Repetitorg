@@ -13,6 +13,9 @@
 	+ Payments of a client increase his balance
 		+ Payment with negative or zero value throws exception
 		+ Null-payments throws exception
+	- Remove payment
+		- Removing null payment throws error
+		- Removing payment decrease client balance
 	+ Filtering payments by date
 	+ Getting all clients (as copy of collection)
 	+ Clearing collection of clients
