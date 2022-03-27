@@ -277,6 +277,21 @@ namespace Repetitorg.CoreTest
                 "payment can't be null"
             ));
         }
+        [TestCase]
+        public void RemovePayment_RemoveNotexistentPayment_ThrowsException()
+        {
+            var client = CreateClient();
+
+            var exception = Assert.Throws<ArgumentException>(
+                () => client.RemovePayment(
+                    Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125)
+                )
+            );
+
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "payment is not exist"
+            ));
+        }
 
 
         [TestCase]
