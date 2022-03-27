@@ -30,6 +30,15 @@ namespace Repetitorg.Core
 
             balanceInKopeks += payment.ValueInKopeks;
             Payment.Storage.Add(payment, this);
+            entities.Update(this);
+        }
+        public void RemovePayment(Payment payment)
+        {
+            new Checker().AddNull(payment, "Payment can't be NULL").Check();
+
+            balanceInKopeks -= payment.ValueInKopeks;
+            Payment.Storage.Remove(payment);
+            entities.Update(this);
         }
         public IList<Payment> GetPaymentsLater(DateTime dateExclude)
         {

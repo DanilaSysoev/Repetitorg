@@ -26,5 +26,9 @@ namespace Repetitorg.CoreTest
         {
             return entities;
         }
+
+        public void Update(T person)
+        {
+        }
     }
 }

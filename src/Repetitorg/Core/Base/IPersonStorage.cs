@@ -8,5 +8,6 @@ namespace Repetitorg.Core.Base
     {
         IReadOnlyList<T> GetAll();
         void Add(T person);
+        void Update(T person);
     }
 }

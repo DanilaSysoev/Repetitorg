@@ -9,5 +9,6 @@ namespace Repetitorg.Core.Base
         IReadOnlyList<Payment> GetAll();
         IReadOnlyList<Payment> GetAllForClient(Client client);
         void Add(Payment payment, Client client);
+        void Remove(Payment payment);
     }
 }

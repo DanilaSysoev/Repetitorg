@@ -33,5 +33,12 @@ namespace Repetitorg.CoreTest
         {
             return payments[client];
         }
+
+        public void Remove(Payment payment)
+        {
+            foreach(var client in payments.Keys)
+                if(payments[client].Contains(payment))
+                    payments[client].Remove(payment);
+        }
     }
 }

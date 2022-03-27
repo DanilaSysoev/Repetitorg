@@ -248,7 +248,7 @@ namespace Repetitorg.CoreTest
 
 
         [TestCase]
-        public void RemovePayment_ClientCancelPayment_BalanceDecrease()
+        public void RemovePayment_ClientRemovePayment_BalanceDecrease()
         {
             var client = CreateClient();
             Payment p = Payment.CreateNew(
@@ -263,6 +263,19 @@ namespace Repetitorg.CoreTest
             );
             client.RemovePayment(p);
             Assert.AreEqual(200000, client.BalanceInKopeks);
+        }
+        [TestCase]
+        public void RemovePayment_RemoveNullPayment_ThrowsException()
+        {
+            var client = CreateClient();
+
+            var exception = Assert.Throws<ArgumentException>(
+                () => client.RemovePayment(null)
+            );
+
+            Assert.IsTrue(exception.Message.ToLower().Contains(
+                "payment can't be null"
+            ));
         }
 
 
