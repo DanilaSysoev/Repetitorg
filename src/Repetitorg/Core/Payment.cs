@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Repetitorg.Core.Base;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -31,6 +32,16 @@ namespace Repetitorg.Core
                     "Payment should has positive value"
                 );
             return new Payment(date, valueInKopeks, documentType, documentNumber);
+        }
+
+        private static IPaymentsStorage payments;
+        public static void InitializeStorage(IPaymentsStorage storage)
+        {
+            payments = storage;
+        }
+        public static IPaymentsStorage Storage
+        {
+            get { return payments; }
         }
     }
 }

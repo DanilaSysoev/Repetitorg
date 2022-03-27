@@ -20,7 +20,7 @@ namespace Repetitorg.Core
         {
             get
             {
-                return payments.GetAllForClient(this);
+                return Payment.Storage.GetAllForClient(this);
             }
         }
 
@@ -29,38 +29,38 @@ namespace Repetitorg.Core
             new Checker().AddNull(payment, "Payment can't be NULL").Check();
 
             balanceInKopeks += payment.ValueInKopeks;
-            payments.Add(payment, this);
+            Payment.Storage.Add(payment, this);
         }
         public IList<Payment> GetPaymentsLater(DateTime dateExclude)
         {
             return
-                (from payment in payments.GetAllForClient(this)
+                (from payment in Payment.Storage.GetAllForClient(this)
                  where payment.Date > dateExclude
                  select payment).ToList();
         }
         public IList<Payment> GetPaymentsBefore(DateTime dateExclude)
         {
             return
-                (from payment in payments.GetAllForClient(this)
+                (from payment in Payment.Storage.GetAllForClient(this)
                  where payment.Date < dateExclude
                  select payment).ToList();
         }
         public IList<Payment> GetPaymentsBetween(DateTime beginInclude, DateTime endExclude)
         {
             return
-                (from payment in payments.GetAllForClient(this)
+                (from payment in Payment.Storage.GetAllForClient(this)
                  where payment.Date >= beginInclude && payment.Date < endExclude
                  select payment).ToList();
         }
 
-        public static Client CreateNew(IPaymentsStorage payments, string fullName, string phoneNumber = "")
+        public static Client CreateNew(string fullName, string phoneNumber = "")
         {
             new Checker().
                 AddNull(fullName, string.Format("Can not create client with NULL name")).
                 AddNull(phoneNumber, string.Format("Can not create client with NULL phone number")).
                 Check();
 
-            var client = new Client(payments, fullName, phoneNumber);
+            var client = new Client(fullName, phoneNumber);
 
             if (entities.GetAll().Contains(client))
                 throw new InvalidOperationException(
@@ -75,14 +75,12 @@ namespace Repetitorg.Core
             entities = clients;
         }
 
-        internal Client(IPaymentsStorage payments, string fullName, string phoneNumber)
+        internal Client(string fullName, string phoneNumber)
             : base(fullName, phoneNumber)
         {
             balanceInKopeks = 0;
-            this.payments = payments;
         }
 
         private long balanceInKopeks;
-        private IPaymentsStorage payments;
     }
 }

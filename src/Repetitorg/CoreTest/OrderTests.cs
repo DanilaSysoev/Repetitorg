@@ -29,9 +29,9 @@ namespace Repetitorg.CoreTest
             Student.InitializeStorage(students);
             Client.InitializeStorage(clients);
 
-            Client c1 = Client.CreateNew(payments, "c1");
-            Client c2 = Client.CreateNew(payments, "c2");
-            Client c3 = Client.CreateNew(payments, "c3");
+            Client c1 = Client.CreateNew("c1");
+            Client c2 = Client.CreateNew("c2");
+            Client c3 = Client.CreateNew("c3");
 
             Student.CreateNew("s1", c1);
             Student.CreateNew("s2", c2);
