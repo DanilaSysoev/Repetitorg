@@ -218,6 +218,19 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(300000, client.BalanceInKopeks);
         }
         [TestCase]
+        public void MakePayment_ClientMakesPayment_ClientUpdateCorrectly()
+        {
+            var client = CreateClient();
+            client.MakePayment(
+                Payment.CreateNew(new DateTime(2020, 10, 10), 100000, PaymentDocumentType.PaymentOrder, 123)
+            );
+            Assert.AreEqual(1, clients.UpdatesCount);
+            client.MakePayment(
+                Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125)
+            );
+            Assert.AreEqual(2, clients.UpdatesCount);
+        }
+        [TestCase]
         public void MakePayment_NegativePayment_ThrowsException()
         {
             var client = CreateClient();
