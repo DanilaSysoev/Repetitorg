@@ -246,6 +246,26 @@ namespace Repetitorg.CoreTest
             ));
         }
 
+
+        [TestCase]
+        public void RemovePayment_ClientCancelPayment_BalanceDecrease()
+        {
+            var client = CreateClient();
+            Payment p = Payment.CreateNew(
+                new DateTime(2020, 10, 10),
+                100000, 
+                PaymentDocumentType.PaymentOrder, 
+                123
+            );
+            client.MakePayment(p);
+            client.MakePayment(
+                Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125)
+            );
+            client.RemovePayment(p);
+            Assert.AreEqual(200000, client.BalanceInKopeks);
+        }
+
+
         [TestCase]
         public void Payments_MakeNullPayments_ThrowsException()
         {

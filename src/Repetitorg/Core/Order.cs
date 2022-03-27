@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Repetitorg.Core.Base;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Repetitorg.Core
@@ -17,7 +19,7 @@ namespace Repetitorg.Core
         {
             get
             {
-                return students;
+                return orders.GetStudentsForOrder(this);
             }
         }
 
@@ -26,18 +28,19 @@ namespace Repetitorg.Core
             new Checker().
                 AddNull(student, "Can not add null student to order").
                 Add(arg => (long)arg < 0, costPerHourInCopex, "Can not add student with negative cost to order").
-                Add(arg => students.Contains((Student)arg), student, "Student already added").
+                Add(arg => Students.Contains((Student)arg), student, "Student already added").
                 Check();
 
-            students.Add(student);
+            orders.AttachStudent(this, student);
         }
         public void RemoveStudent(Student student)
         {
             new Checker().AddNull(student, "Student can not be null").
                 Check();
 
-            if (!students.Remove(student))
+            if (!Students.Contains(student))
                 throw new ArgumentException("Student is not in order");
+            orders.DetachStudent(this, student);
         }
         public override bool Equals(object obj)
         {
@@ -62,13 +65,10 @@ namespace Repetitorg.Core
         { 
             get
             {
-                return orders.Count;
+                return orders.GetAll().Count;
             }
         }
-        public static void Clear()
-        {
-            orders.Clear();
-        }
+
         public static Order CreateNew(string name)
         {
             new Checker().
@@ -76,7 +76,7 @@ namespace Repetitorg.Core
                 Check();
 
             Order order = new Order(name);
-            if(orders.Contains(order))
+            if(orders.GetAll().Contains(order))
                 throw new InvalidOperationException(
                     "Order with given name already exist"
                 );
@@ -87,18 +87,16 @@ namespace Repetitorg.Core
 
 
         private string name;
-        private List<Student> students;
 
         private Order(string name)
         {
             this.name = name;
-            this.students = new List<Student>();
         }
 
-        static Order()
+        private static IOrderStorage orders;
+        public static void InitializeStorage(IOrderStorage storage)
         {
-            orders = new List<Order>();
+            orders = storage;
         }
-        private static List<Order> orders;
     }
 }

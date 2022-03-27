@@ -14,20 +14,20 @@ namespace Repetitorg.CoreTest
         DummyPersonStorage<Student> students;
         DummyPersonStorage<Client> clients;
         DummyPaymentStorage payments;
+        DummyOrderStorage orders;
 
-        [TearDown]
-        public void Clear()
-        {
-            Order.Clear();
-        }
         [SetUp]
         public void Initialize()
         {
             students = new DummyPersonStorage<Student>();
             clients = new DummyPersonStorage<Client>();
             payments = new DummyPaymentStorage();
+            orders = new DummyOrderStorage();
+
             Student.InitializeStorage(students);
             Client.InitializeStorage(clients);
+            Payment.InitializeStorage(payments);
+            Order.InitializeStorage(orders);
 
             Client c1 = Client.CreateNew("c1");
             Client c2 = Client.CreateNew("c2");
@@ -97,7 +97,7 @@ namespace Repetitorg.CoreTest
         {
             var clients = Client.GetAll();
             Order order1 = Order.CreateNew("o1");
-            Order.Clear();
+            Order.InitializeStorage(new DummyOrderStorage());
             Order order2 = Order.CreateNew("o1");
             Assert.IsTrue(order1.Equals(order2));
         }
