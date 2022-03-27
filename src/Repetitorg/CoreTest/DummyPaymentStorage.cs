@@ -31,6 +31,8 @@ namespace Repetitorg.CoreTest
 
         public IReadOnlyList<Payment> GetAllForClient(Client client)
         {
+            if (!payments.ContainsKey(client))
+                payments.Add(client, new List<Payment>());
             return payments[client];
         }
 

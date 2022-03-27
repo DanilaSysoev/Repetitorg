@@ -34,7 +34,10 @@ namespace Repetitorg.Core
         }
         public void RemovePayment(Payment payment)
         {
-            new Checker().AddNull(payment, "Payment can't be NULL").Check();
+            new Checker()
+                .AddNull(payment, "Payment can't be NULL")
+                .Add(c => !c.Payments.Contains(payment), this, "Payment is not exist")
+                .Check();
 
             balanceInKopeks -= payment.ValueInKopeks;
             Payment.Storage.Remove(payment);

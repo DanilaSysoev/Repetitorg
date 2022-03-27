@@ -14,7 +14,7 @@ namespace Repetitorg.Core
                 this.message += message + "\n";
             return this;
         }
-        public Checker Add(Predicate<object> predicate, object argument, string message)
+        public Checker Add<T>(Predicate<T> predicate, T argument, string message)
         {
             if (predicate(argument))
                 this.message += message + "\n";
