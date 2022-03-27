@@ -3,14 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{7D2D916E-9AEA-4ED3-AC2C-714AA0B51E7D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreTest", "CoreTest\CoreTest.csproj", "{30EA2601-086F-4AB2-BAA5-A42C718DA4C7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storage", "Storage\Storage.csproj", "{4982FA3E-7601-4D63-B9E8-46F22961D7B9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageTest", "StorageTest\StorageTest.csproj", "{1C129AC6-5F17-433E-AD8C-FA405EB11F29}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddTomorrowTasksUtility", "Utilities\AddTomorrowTasksUtility\AddTomorrowTasksUtility.csproj", "{64D17781-CD60-4545-8C91-D16911D69B05}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddProjectsUtility", "Utilities\AddProjectsUtility\AddProjectsUtility.csproj", "{FAF82F46-CDC2-4901-BB23-D859A1409D80}"
@@ -27,7 +19,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompleteTodayTasksUtility",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{9669A0B3-BB06-4B5A-B40C-7EA9FE82E40D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetTomorrowTasksUtility", "Utilities\GetTomorrowTasksUtility\GetTomorrowTasksUtility.csproj", "{24A11C8E-4385-48F4-88EB-D61DBA42EAEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetTomorrowTasksUtility", "Utilities\GetTomorrowTasksUtility\GetTomorrowTasksUtility.csproj", "{24A11C8E-4385-48F4-88EB-D61DBA42EAEE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreTest", "CoreTest\CoreTest.csproj", "{86E1E4C8-8B98-4B59-BECD-2EAC77508293}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageTest", "StorageTest\StorageTest.csproj", "{08A644B3-E8E7-4E1C-A94D-B7E5BFA05E5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{2F59D631-BF50-4C7E-80C7-3AC14C2448AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "Storage\Storage.csproj", "{B17A9FEB-D431-4459-80E3-FAB9FBC80950}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,22 +35,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7D2D916E-9AEA-4ED3-AC2C-714AA0B51E7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D2D916E-9AEA-4ED3-AC2C-714AA0B51E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D2D916E-9AEA-4ED3-AC2C-714AA0B51E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D2D916E-9AEA-4ED3-AC2C-714AA0B51E7D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{30EA2601-086F-4AB2-BAA5-A42C718DA4C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30EA2601-086F-4AB2-BAA5-A42C718DA4C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30EA2601-086F-4AB2-BAA5-A42C718DA4C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30EA2601-086F-4AB2-BAA5-A42C718DA4C7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4982FA3E-7601-4D63-B9E8-46F22961D7B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4982FA3E-7601-4D63-B9E8-46F22961D7B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4982FA3E-7601-4D63-B9E8-46F22961D7B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4982FA3E-7601-4D63-B9E8-46F22961D7B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C129AC6-5F17-433E-AD8C-FA405EB11F29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C129AC6-5F17-433E-AD8C-FA405EB11F29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C129AC6-5F17-433E-AD8C-FA405EB11F29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C129AC6-5F17-433E-AD8C-FA405EB11F29}.Release|Any CPU.Build.0 = Release|Any CPU
 		{64D17781-CD60-4545-8C91-D16911D69B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{64D17781-CD60-4545-8C91-D16911D69B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64D17781-CD60-4545-8C91-D16911D69B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -83,6 +67,22 @@ Global
 		{24A11C8E-4385-48F4-88EB-D61DBA42EAEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A11C8E-4385-48F4-88EB-D61DBA42EAEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A11C8E-4385-48F4-88EB-D61DBA42EAEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86E1E4C8-8B98-4B59-BECD-2EAC77508293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86E1E4C8-8B98-4B59-BECD-2EAC77508293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86E1E4C8-8B98-4B59-BECD-2EAC77508293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86E1E4C8-8B98-4B59-BECD-2EAC77508293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08A644B3-E8E7-4E1C-A94D-B7E5BFA05E5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08A644B3-E8E7-4E1C-A94D-B7E5BFA05E5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08A644B3-E8E7-4E1C-A94D-B7E5BFA05E5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08A644B3-E8E7-4E1C-A94D-B7E5BFA05E5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F59D631-BF50-4C7E-80C7-3AC14C2448AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F59D631-BF50-4C7E-80C7-3AC14C2448AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F59D631-BF50-4C7E-80C7-3AC14C2448AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F59D631-BF50-4C7E-80C7-3AC14C2448AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B17A9FEB-D431-4459-80E3-FAB9FBC80950}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B17A9FEB-D431-4459-80E3-FAB9FBC80950}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B17A9FEB-D431-4459-80E3-FAB9FBC80950}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B17A9FEB-D431-4459-80E3-FAB9FBC80950}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
