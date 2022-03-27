@@ -10,18 +10,17 @@
 	+ Convert to string
 	+ Creation of new clients with zero balance
 	+ Creation payments with value in copex, date, payment document ad document number properties
-	- Payments of a client increase his balance
+	+ Payments of a client increase his balance
 		+ Payment with negative or zero value throws exception
 		+ Null-payments throws exception		
-		- Removing payment update client object in storage
-	- Remove payment
+		+ Removing payment update client object in storage
+	+ Remove payment
 		+ Removing null payment throws error
 		+ Removing nonexistent payment throws error
 		+ Removing payment decrease client balance
-		- Removing payment update client object in storage
+		+ Removing payment update client object in storage
 	+ Filtering payments by date
 	+ Getting all clients (as copy of collection)
-	+ Clearing collection of clients
 
 
 2. Students subsystem
@@ -36,7 +35,6 @@
 		+ Filter by NULL throws exception
 	+ Convert to string
 	+ Getting all students (as copy of collection)
-	+ Clearing collection of students
 
 
 3. Project subsystem
@@ -49,8 +47,9 @@
 		+ Simple removing
 	+ Filtering by name
 		+ Filtering by null throws exception
-	+ Completing projects
+	- Completing projects
 		+ Simple completing
+		- Completing project update Storage
 
 
 4. Tasks subsystem
@@ -109,22 +108,28 @@
 		- Completing decrease balance of clents
 		- Completeng non-scheduled Lesson throws error
 		- Completing completed Lesson throws error
+		- Completing Lesson update Storage
 	- Renew Lesson		
 		- Renew increase balance of clents
 		- Renew non completed Lesson throws error
+		- Renew Lesson update Storage
 	- Canceling Lesson
 		- Canceled Lesson removed from schedule
 		- Canceling completed Lesson throws error
 		- Canceling moved Lesson throws error
+		- Canceling Lesson update Storage
 	- Restore canceled Lesson
 		- Restore non-canceled Lesson throws error
+		- Restore Lesson update Storage
 	- Moving Lesson on new date and time
 		- Moving non-active Lesson throws error
 		- Intersect with other lessons throws error
+		- Moving Lesson update Storage
 	- Cancel moving Lesson
 		- Cancel non-moved Lesson throws error
 		- Cancel if final target Lesson Completed
 		  throws error
 		- Cancel remove all next Lessons
+		- Cancel Lesson update Storage
 
 	
