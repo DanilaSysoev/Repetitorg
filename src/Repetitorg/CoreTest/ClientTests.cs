@@ -279,7 +279,7 @@ namespace Repetitorg.CoreTest
                 Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125)
             );
             client.RemovePayment(p);
-            Assert.AreEqual(1, clients.RemoveUpdatingCount);
+            Assert.AreEqual(3, clients.UpdatesCount);
         }
         [TestCase]
         public void RemovePayment_RemoveNullPayment_ThrowsException()
