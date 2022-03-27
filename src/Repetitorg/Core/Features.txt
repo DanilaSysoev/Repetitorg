@@ -10,12 +10,15 @@
 	+ Convert to string
 	+ Creation of new clients with zero balance
 	+ Creation payments with value in copex, date, payment document ad document number properties
-	+ Payments of a client increase his balance
+	- Payments of a client increase his balance
 		+ Payment with negative or zero value throws exception
-		+ Null-payments throws exception
+		+ Null-payments throws exception		
+		- Removing payment update client object in storage
 	- Remove payment
-		- Removing null payment throws error
-		- Removing payment decrease client balance
+		+ Removing null payment throws error
+		+ Removing nonexistent payment throws error
+		+ Removing payment decrease client balance
+		- Removing payment update client object in storage
 	+ Filtering payments by date
 	+ Getting all clients (as copy of collection)
 	+ Clearing collection of clients
