@@ -215,6 +215,17 @@ namespace Repetitorg.CoreTest
             Assert.IsFalse(task1.Completed);
             Assert.IsFalse(task3.Completed);
         }
+        [TestCase]
+        public void Complete_CompleteExisting_CompletingUpdateTaskInStorage()
+        {
+            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.AddOnDate("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.AddOnDate("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
+
+            Assert.AreEqual(0, tasks.UpdatesCount);
+            Task.Complete(task2);
+            Assert.AreEqual(1, tasks.UpdatesCount);
+        }
 
         [TestCase]
         public void AttachToProject_AttachNullTask_ThrowsException()
