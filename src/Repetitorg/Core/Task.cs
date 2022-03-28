@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Repetitorg.Core.Base;
-using Newtonsoft.Json;
 
 namespace Repetitorg.Core
 {
@@ -12,15 +11,10 @@ namespace Repetitorg.Core
         {
             get
             {
-                return tasks.Count;
+                return tasks.GetAll().Count;
             }
         }
 
-        public static void Clear()
-        {
-            tasks.Clear();
-            tasksByDate.Clear();
-        }
         public static Task AddOnDate(string taskName, DateTime date)
         {
             new Checker().
@@ -28,45 +22,33 @@ namespace Repetitorg.Core
                 Check();
 
             Task task = new Task(taskName, date.Date, false, null);
-            if (!tasksByDate.ContainsKey(date))
-                tasksByDate.Add(date, new List<Task>());
-
-            if (tasksByDate[date].Contains(task))
-            {
+            
+            if (tasks.GetByDate(date).Contains(task))
                 throw new InvalidOperationException(
                     string.Format("The task with name \"{0}\" has already been defined for date \"{1}\"", taskName, date)
                 );
-            }
 
             tasks.Add(task);
-            tasksByDate[date].Add(task);
             return task;
         }
-        public static List<Task> GetByDate(DateTime date)
+        public static IReadOnlyList<Task> GetByDate(DateTime date)
         {
-            if(!tasksByDate.ContainsKey(date.Date))
-            {
-                return new List<Task>();
-            }
-            return new List<Task>(tasksByDate[date.Date]);
+            return tasks.GetByDate(date);
         }
-        public static List<Task> GetAll()
+        public static IReadOnlyList<Task> GetAll()
         {
-            return new List<Task>(tasks);
+            return tasks.GetAll();
         }
         public static void Remove(Task task)
         {
             new Checker().AddNull(task, "Task can't be null").Check();
 
             tasks.Remove(task);
-            tasksByDate[task.Date].Remove(task);
         }
         public static void Complete(Task task)
         {
-            if (tasks.Contains(task))
-                tasksByDate[task.Date].Find(t => t.Name == task.Name).completed = true;
-
             task.completed = true;
+            tasks.Update(task);
         }
         public static void AttachToProject(Task task, Project project)
         {
@@ -83,35 +65,14 @@ namespace Repetitorg.Core
                 throw new InvalidOperationException(
                     string.Format("Task \"{0}\" already attached to \"{1}\" project", task, task.Project)
                 );
+            tasks.Update(task);
         }
-        public static void Save(IStorage<Task> tasksStorage)
-        {
-            tasksStorage.Save(tasks);
-        }
-        public static void Load(IStorage<Task> tasksStorage)
-        {
-            tasks = tasksStorage.Load();
 
-            tasksByDate = new Dictionary<DateTime, List<Task>>();
-            foreach (var task in tasks)
-            {
-                if (!tasksByDate.ContainsKey(task.Date))
-                    tasksByDate.Add(task.Date, new List<Task>());
-                tasksByDate[task.Date].Add(task);
-            }
+        public static IReadOnlyList<Task> GetByProject(Project project)
+        {            
+            return tasks.GetByProject(project);
         }
-        public static List<Task> GetByProject(Project project)
-        {
-            if(project == null)
-                return (from task in tasks
-                        where task.Project == null
-                        select task).ToList();
-
-            return (from task in tasks
-                    where project.Equals(task.Project)
-                    select task).ToList();
-        }
-        public static List<Task> GetWithoutProject()
+        public static IReadOnlyList<Task> GetWithoutProject()
         {
             return GetByProject(null);
         }
@@ -164,15 +125,11 @@ namespace Repetitorg.Core
         }
 
 
-        private static List<Task> tasks;
-        private static Dictionary<DateTime, List<Task>> tasksByDate;
-
         private string taskName;
         private DateTime date;
         private bool completed;
         private Project project;
 
-        [JsonConstructor]
         private Task(string name, DateTime date, bool completed, Project project)
         {
             this.taskName = name;
@@ -181,10 +138,11 @@ namespace Repetitorg.Core
             this.project = project;
         }
 
-        static Task()
+        private static ITaskStorage tasks;
+
+        public static void InitializeStorage(ITaskStorage storage)
         {
-            tasks = new List<Task>();
-            tasksByDate = new Dictionary<DateTime, List<Task>>();
+            tasks = storage;
         }
     }
 }

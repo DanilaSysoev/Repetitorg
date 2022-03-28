@@ -23,23 +23,23 @@ namespace Repetitorg.CompleteTodayTasksUtility
 
         private static void MainProcess(string[] args)
         {
-            if (args.Length > 0)
-            {
-                Console.WriteLine("Please, use\ncompltdy\nformat");
-                return;
-            }
+            //if (args.Length > 0)
+            //{
+            //    Console.WriteLine("Please, use\ncompltdy\nformat");
+            //    return;
+            //}
 
-            JsonFileStorage<Task> storage =
-                new JsonFileStorage<Task>(
-                    ConsoleServices.Config.GetField(ConsoleServices.DATA_PATH)
-                );
-            Task.Load(storage);
+            //JsonFileStorage<Task> storage =
+            //    new JsonFileStorage<Task>(
+            //        ConsoleServices.Config.GetField(ConsoleServices.DATA_PATH)
+            //    );
+            //Task.Load(storage);
 
-            List<Task> tasks = Task.GetByDate(DateTime.Now.Date);
+            //List<Task> tasks = Task.GetByDate(DateTime.Now.Date);
 
-            PrintTasks(tasks);
-            CompleteSelectedTasks(tasks);
-            Task.Save(storage);
+            //PrintTasks(tasks);
+            //CompleteSelectedTasks(tasks);
+            //Task.Save(storage);
         }
 
         private static void CompleteSelectedTasks(List<Task> tasks)

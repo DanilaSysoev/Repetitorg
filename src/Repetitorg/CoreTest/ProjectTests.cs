@@ -10,11 +10,19 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class ProjectTests
     {
+        private DummyTasksStorage tasks;
+
+        [SetUp]
+        public void Setup()
+        {
+            tasks = new DummyTasksStorage();
+            Task.InitializeStorage(tasks);
+        }
+
         [TearDown]
         public void Clear()
         {
             Project.Clear();
-            Task.Clear();
         }
 
 

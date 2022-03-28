@@ -34,12 +34,12 @@ namespace Repetitorg.Core
             return new Payment(date, valueInKopeks, documentType, documentNumber);
         }
 
-        private static IPaymentsStorage payments;
-        public static void InitializeStorage(IPaymentsStorage storage)
+        private static IPaymentStorage payments;
+        public static void InitializeStorage(IPaymentStorage storage)
         {
             payments = storage;
         }
-        public static IPaymentsStorage Storage
+        public static IPaymentStorage Storage
         {
             get { return payments; }
         }

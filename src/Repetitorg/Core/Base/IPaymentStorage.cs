@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Repetitorg.Core.Base
 {
-    public interface IPaymentsStorage
+    public interface IPaymentStorage
     {
         IReadOnlyList<Payment> GetAll();
         IReadOnlyList<Payment> GetAllForClient(Client client);

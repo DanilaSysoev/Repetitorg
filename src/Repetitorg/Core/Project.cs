@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Repetitorg.Core.Base;
+﻿using Repetitorg.Core.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,7 +109,6 @@ namespace Repetitorg.Core
         private string name;
         private bool completed;
 
-        [JsonConstructor]
         private Project(string name, bool completed)
         {
             this.name = name;

@@ -1,6 +1,5 @@
 ﻿using Repetitorg.Core;
 using Repetitorg.Core.Exceptions;
-using Repetitorg.Storage;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -12,10 +11,18 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class TaskTests
     {
+        private DummyTasksStorage tasks;
+
+        [SetUp]
+        public void Setup()
+        {
+            tasks = new DummyTasksStorage();
+            Task.InitializeStorage(tasks);
+        }
+
         [TearDown]
         public void Clear()
         {
-            Task.Clear();
             Project.Clear();
         }
 
@@ -41,7 +48,7 @@ namespace Repetitorg.CoreTest
         public void AddOnDate_SimpleAddTask_TasksAddedOnCorrectDate()
         {
             Task task = Task.AddOnDate("2020/12/30 test task", new DateTime(2020, 12, 30));
-            List<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
+            IReadOnlyList<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
             Assert.AreEqual(task, tasks[0]);
             Assert.AreEqual(1, Task.TasksCount);
         }
@@ -51,7 +58,7 @@ namespace Repetitorg.CoreTest
             Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
             Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
             Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
-            List<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
+            IReadOnlyList<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
 
             Assert.AreEqual(3, tasks.Count);
             Assert.IsTrue(tasks.Contains(task1));
@@ -65,10 +72,10 @@ namespace Repetitorg.CoreTest
             Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2019, 11, 20));
             Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2018, 10, 10));
             Task task4 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2017, 10, 5));
-            List<Task> tasks1 = Task.GetByDate(new DateTime(2020, 12, 30));
-            List<Task> tasks2 = Task.GetByDate(new DateTime(2019, 11, 20));
-            List<Task> tasks3 = Task.GetByDate(new DateTime(2018, 10, 10));
-            List<Task> tasks4 = Task.GetByDate(new DateTime(2017, 10, 5));
+            IReadOnlyList<Task> tasks1 = Task.GetByDate(new DateTime(2020, 12, 30));
+            IReadOnlyList<Task> tasks2 = Task.GetByDate(new DateTime(2019, 11, 20));
+            IReadOnlyList<Task> tasks3 = Task.GetByDate(new DateTime(2018, 10, 10));
+            IReadOnlyList<Task> tasks4 = Task.GetByDate(new DateTime(2017, 10, 5));
 
             Assert.AreEqual(4, Task.TasksCount);
             Assert.AreEqual(1, tasks1.Count);
@@ -108,35 +115,7 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(tasks.Contains(task2));
             Assert.IsTrue(tasks.Contains(task3));
         }
-        [TestCase]
-        public void GetAll_AddThreeOnDifferentDate_ReturncopyOfCollection()
-        {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/11/10 test task 2", new DateTime(2020, 11, 10));
-            Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
-            var tasks = Task.GetAll();
-            tasks.Remove(task1);
-            var tasksOld = Task.GetAll();
-
-            Assert.AreEqual(2, tasks.Count);
-            Assert.AreEqual(3, tasksOld.Count);
-        }
-
-        [TestCase]
-        public void GetByDate_GettingAllBydate_ReturnCopyOfCollection()
-        {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
-
-            var tasks = Task.GetByDate(new DateTime(2020, 12, 30));
-            tasks.Remove(task2);
-            var tasksOld = Task.GetByDate(new DateTime(2020, 12, 30));
-
-            Assert.AreEqual(2, tasks.Count);
-            Assert.AreEqual(3, tasksOld.Count);
-        }
         [TestCase]
         public void GetByDate_DateWithoutTasks_ReturnEmptyCollection()
         {
@@ -150,28 +129,6 @@ namespace Repetitorg.CoreTest
         }
 
 
-        [TestCase]
-        public void Clear_ClearAfterAdding_TasksCountEqualsZero()
-        {
-            Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
-
-            Assert.AreEqual(3, Task.TasksCount);
-            Task.Clear();
-            Assert.AreEqual(0, Task.TasksCount);
-        }
-        [TestCase]
-        public void Clear_ClearAfterAdding_TasksIsempty()
-        {
-            Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
-
-            Assert.AreEqual(3, Task.TasksCount);
-            Task.Clear();
-            Assert.AreEqual(0, Task.GetAll().Count);
-        }
         [TestCase]
         public void AddOnDate_Duplicate_ThrowsException()
         {
@@ -219,7 +176,8 @@ namespace Repetitorg.CoreTest
         public void Remove_RemoveNonexistent_NothingHappens()
         {
             Task taskOld = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task.Clear();
+            tasks = new DummyTasksStorage();
+            Task.InitializeStorage(tasks);
 
             Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
             Task task2 = Task.AddOnDate("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
@@ -255,22 +213,6 @@ namespace Repetitorg.CoreTest
             Task.Complete(task2);
             Assert.IsTrue(task2.Completed);
             Assert.IsFalse(task1.Completed);
-            Assert.IsFalse(task3.Completed);
-        }
-        [TestCase]
-        public void Complete_CompleteAfterRemoveAndRestore_CompleteSuccess()
-        {
-            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task task3 = Task.AddOnDate("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
-
-            Task.Remove(task1);
-            Task task1new = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
-
-            Task.Complete(task1);
-            Assert.IsTrue(task1.Completed);
-            Assert.IsTrue(task1new.Completed);
-            Assert.IsFalse(task2.Completed);
             Assert.IsFalse(task3.Completed);
         }
 
@@ -376,7 +318,7 @@ namespace Repetitorg.CoreTest
             Task.AttachToProject(task1, p2);
             Task.AttachToProject(task3, p2);
 
-            List<Task> tasks = Task.GetByProject(p1);
+            IReadOnlyList<Task> tasks = Task.GetByProject(p1);
             Assert.AreEqual(0, tasks.Count);
         }
         [TestCase]
@@ -392,7 +334,7 @@ namespace Repetitorg.CoreTest
             Task.AttachToProject(task1, p2);
             Task.AttachToProject(task3, p2);
 
-            List<Task> tasks = Task.GetByProject(p2);
+            IReadOnlyList<Task> tasks = Task.GetByProject(p2);
             Assert.AreEqual(2, tasks.Count);
             Assert.IsTrue(tasks.Contains(task1));
             Assert.IsTrue(tasks.Contains(task3));
@@ -409,7 +351,7 @@ namespace Repetitorg.CoreTest
 
             Task.AttachToProject(task1, p2);
 
-            List<Task> tasks = Task.GetByProject(null);
+            IReadOnlyList<Task> tasks = Task.GetByProject(null);
             Assert.AreEqual(2, tasks.Count);
             Assert.IsTrue(tasks.Contains(task2));
             Assert.IsTrue(tasks.Contains(task3));
@@ -427,7 +369,7 @@ namespace Repetitorg.CoreTest
 
             Task.AttachToProject(task1, p2);
 
-            List<Task> tasks = Task.GetWithoutProject();
+            IReadOnlyList<Task> tasks = Task.GetWithoutProject();
             Assert.AreEqual(2, tasks.Count);
             Assert.IsTrue(tasks.Contains(task2));
             Assert.IsTrue(tasks.Contains(task3));

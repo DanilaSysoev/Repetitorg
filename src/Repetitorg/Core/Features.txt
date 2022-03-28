@@ -70,6 +70,7 @@
 		+ Attach to complete project throws exception
 		+ Attach to null project equal unattaching task
 		+ Attach null task throws exception
+		+ Attach update task in storage
 	+ Getting by project
 		+ Gettyng by null project return tasks without project
 	+ Getting without project

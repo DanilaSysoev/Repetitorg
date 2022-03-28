@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repetitorg.CoreTest
 {
-    public class DummyPaymentStorage : IPaymentsStorage
+    public class DummyPaymentStorage : IPaymentStorage
     {
         private Dictionary<Client, List<Payment>> payments;
 
