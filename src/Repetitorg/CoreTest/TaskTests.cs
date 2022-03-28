@@ -12,18 +12,15 @@ namespace Repetitorg.CoreTest
     class TaskTests
     {
         private DummyTasksStorage tasks;
+        private DummyProjectStorage projects;
 
         [SetUp]
         public void Setup()
         {
             tasks = new DummyTasksStorage();
+            projects = new DummyProjectStorage();
             Task.InitializeStorage(tasks);
-        }
-
-        [TearDown]
-        public void Clear()
-        {
-            Project.Clear();
+            Project.InitializeStorage(projects);
         }
 
 

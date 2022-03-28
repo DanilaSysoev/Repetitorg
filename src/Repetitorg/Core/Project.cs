@@ -12,7 +12,7 @@ namespace Repetitorg.Core
         {
             get
             {
-                return projects.Count;
+                return projects.GetAll().Count;
             }
         }
         public static Project Add(string name)
@@ -22,16 +22,16 @@ namespace Repetitorg.Core
                 Check();
 
             Project project = new Project(name, false);
-            if (projects.Contains(project))
+            if (projects.GetAll().Contains(project))
                 throw new InvalidOperationException(string.Format("Project with name \"{0}\" already exist", name));
 
             projects.Add(project);
 
             return project;
         }
-        public static List<Project> GetAll()
+        public static IReadOnlyList<Project> GetAll()
         {
-            return new List<Project>(projects);
+            return projects.GetAll();
         }
         public static void Remove(Project project)
         {
@@ -43,28 +43,18 @@ namespace Repetitorg.Core
                 AddNull(subname, "Filter pattern can't be null").
                 Check();
 
-            return (from project in projects
+            return (from project in projects.GetAll()
                     where project.Name.ToLower().Contains(subname.ToLower())
                     select project).ToList();
         }
         public static void Complete(Project project)
         {
-            if(projects.Contains(project))
-                projects.First(p => p.Name == project.Name).completed = true;
-
             project.completed = true;
+            projects.Update(project);
         }
-        public static void Save(IStorage<Project> projectsStorage)
+        public static void InitializeStorage(IProjectStorage storage)
         {
-            projectsStorage.Save(projects.ToList());        
-        }
-        public static void Load(IStorage<Project> projectsStorage)
-        {
-            projects = new HashSet<Project>(projectsStorage.Load());
-        }
-        public static void Clear()
-        {
-            projects.Clear();
+            projects = storage;
         }
 
 
@@ -100,12 +90,6 @@ namespace Repetitorg.Core
         }
 
 
-        private static HashSet<Project> projects;
-        static Project()
-        {
-            projects = new HashSet<Project>();
-        }
-
         private string name;
         private bool completed;
 
@@ -114,5 +98,7 @@ namespace Repetitorg.Core
             this.name = name;
             this.completed = completed;
         }
+
+        private static IProjectStorage projects;
     }
 }

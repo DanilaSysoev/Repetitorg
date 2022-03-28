@@ -8,5 +8,7 @@ namespace Repetitorg.Core.Base
     {
         void Add(Project project);
         IReadOnlyList<Project> GetAll();
+        void Update(Project project);
+        void Remove(Project project);
     }
 }

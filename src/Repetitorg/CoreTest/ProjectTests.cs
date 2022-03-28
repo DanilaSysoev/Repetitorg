@@ -11,18 +11,15 @@ namespace Repetitorg.CoreTest
     class ProjectTests
     {
         private DummyTasksStorage tasks;
+        private DummyProjectStorage projects;
 
         [SetUp]
         public void Setup()
         {
             tasks = new DummyTasksStorage();
+            projects = new DummyProjectStorage();
             Task.InitializeStorage(tasks);
-        }
-
-        [TearDown]
-        public void Clear()
-        {
-            Project.Clear();
+            Project.InitializeStorage(projects);
         }
 
 
@@ -33,7 +30,7 @@ namespace Repetitorg.CoreTest
             Project.Add("Test Project 2");
             Project.Add("Test Project 3");
 
-            Project.Clear();
+            Project.InitializeStorage(new DummyProjectStorage());
 
             Assert.AreEqual(0, Project.Count);
         }
@@ -83,28 +80,12 @@ namespace Repetitorg.CoreTest
             Project p2 = Project.Add("Test Project 2");
             Project p3 = Project.Add("Test Project 3");
 
-            List<Project> projects = Project.GetAll();
+            IReadOnlyList<Project> projects = Project.GetAll();
 
             Assert.AreEqual(3, projects.Count);
             Assert.IsTrue(projects.Contains(p1));
             Assert.IsTrue(projects.Contains(p2));
             Assert.IsTrue(projects.Contains(p3));
-        }
-        [TestCase]
-        public void GetAll_AddedThreeProjects_ReturnCopyOfCollection()
-        {
-            Project p1 = Project.Add("Test Project 1");
-            Project p2 = Project.Add("Test Project 2");
-            Project p3 = Project.Add("Test Project 3");
-
-            List<Project> projects = Project.GetAll();
-            projects.Remove(p1);
-            List<Project> projectsOld = Project.GetAll();
-
-            Assert.AreEqual(3, projectsOld.Count);
-            Assert.IsTrue(projectsOld.Contains(p1));
-            Assert.IsTrue(projectsOld.Contains(p2));
-            Assert.IsTrue(projectsOld.Contains(p3));
         }
 
         [TestCase]
@@ -116,7 +97,7 @@ namespace Repetitorg.CoreTest
 
             Project.Remove(p1);
 
-            List<Project> projects = Project.GetAll();
+            IReadOnlyList<Project> projects = Project.GetAll();
 
             Assert.AreEqual(2, projects.Count);
             Assert.IsFalse(projects.Contains(p1));
@@ -127,13 +108,13 @@ namespace Repetitorg.CoreTest
         public void Remove_RemoveNonExistent_NothingHappens()
         {
             Project p1 = Project.Add("Test Project 1");
-            Project.Clear();
+            Project.InitializeStorage(new DummyProjectStorage());
 
             Project p2 = Project.Add("Test Project 2");
             Project p3 = Project.Add("Test Project 3");
             Project.Remove(p1);
 
-            List<Project> projects = Project.GetAll();
+            IReadOnlyList<Project> projects = Project.GetAll();
 
             Assert.AreEqual(2, projects.Count);
             Assert.IsFalse(projects.Contains(p1));
@@ -205,21 +186,15 @@ namespace Repetitorg.CoreTest
             Assert.IsFalse(p3.Completed);
         }
         [TestCase]
-        public void Complete_CompleteAfterRemoveAndRestore_CompleteSuccess()
+        public void Complete_CompleteExisting_CompletingUpdateProject()
         {
             Project p1 = Project.Add("Test Project 1");
             Project p2 = Project.Add("Test Project 2");
             Project p3 = Project.Add("Test Project 3");
 
-            Project.Remove(p1);
-            Project p1new = Project.Add("Test Project 1");
-
+            Assert.AreEqual(0, projects.UpdatesCount);
             Project.Complete(p1);
-
-            Assert.IsTrue(p1.Completed);
-            Assert.IsTrue(p1new.Completed);
-            Assert.IsFalse(p2.Completed);
-            Assert.IsFalse(p3.Completed);
+            Assert.AreEqual(1, projects.UpdatesCount);
         }
     }
 }
