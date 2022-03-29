@@ -47,9 +47,9 @@
 		+ Simple removing
 	+ Filtering by name
 		+ Filtering by null throws exception
-	- Completing projects
+	+ Completing projects
 		+ Simple completing
-		- Completing project update Storage
+		+ Completing project update Storage
 
 
 4. Tasks subsystem
@@ -63,6 +63,7 @@
 		+ Removing null has no effect
 	+ Comparision tasks
 	+ Completing tasks
+		+ Completing update task in database
 	+ Attach to project
 		+ Simple attach to project
 		+ Attach already attached task throws exception
