@@ -67,6 +67,7 @@ namespace Repetitorg.Core
                 .Check();
 
             lesson.Status = LessonStatus.Active;
+            storage.Update(lesson);
         }
     }
 
