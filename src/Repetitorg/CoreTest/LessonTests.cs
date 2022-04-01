@@ -401,6 +401,29 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(LessonStatus.Active, l1.Status);
             Assert.AreEqual(LessonStatus.NonActive, l2.Status);
         }
+        [TestCase]
+        public void AddToSchedule_SecondIntersectFirstLesson_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
+
+            Lesson.AddToSchedule(l2);
+            var exc = Assert.Throws<ArgumentException>(
+                () => Lesson.AddToSchedule(l1)
+            );
+
+            Assert.IsTrue(
+                exc.Message.ToLower().Contains(
+                    string.Format(
+                        "{0} intersect other lessons in schedule",
+                        l1.ToString().ToLower()
+                    )
+                )
+            );
+            Assert.AreEqual(LessonStatus.Active, l2.Status);
+            Assert.AreEqual(LessonStatus.NonActive, l1.Status);
+        }
 
     }
 }
