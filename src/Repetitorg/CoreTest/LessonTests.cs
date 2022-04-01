@@ -198,5 +198,14 @@ namespace Repetitorg.CoreTest
             inter = Lesson.GetIntersectionWithAll(l2);
             Assert.AreEqual(0, inter.Count);
         }
+
+        public void AddToSchedule_AddOneLesson_StatusChangeToActive()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+
+            Lesson.AddToSchedule(l1);
+            Assert.AreEqual(LessonStatus.Active, l1.Status);
+        }
     }
 }
