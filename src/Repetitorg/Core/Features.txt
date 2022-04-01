@@ -90,12 +90,13 @@
 
 6. Lesson subsystem
 	+ Lesson can be Active, NonActive, Canceled, Moved, Completed
-	+ Creating Lesson on some date and time, some length
+	- Creating Lesson on some date and time, some length
 	  and some order
 	  + Creating with null order throws error
 	  + Creating with non-positive length throws error	
 	  + New Lesson is non-active
-	- Lessons are equals if equals his dateTime, length, order and status
+	  - Creating setup propertie correctly
+	+ Lessons are equals if equals his dateTime, length, order and status
 	- Add Lesson to schedule (activate)
 		- Intersection with other lesson throws error
 	- Remove from schedule (deactivate)

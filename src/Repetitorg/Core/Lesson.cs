@@ -7,17 +7,36 @@ namespace Repetitorg.Core
 {
     public class Lesson : StorageWrapper<Lesson>
     {
-        public LessonStatus Status
+        public DateTime DateTime { get; private set; }
+        public int LengthInMinutes { get; private set; }
+        public Order Order { get; private set; } 
+        public LessonStatus Status { get; private set; }
+
+        public override bool Equals(object obj)
         {
-            get
-            {
-                return LessonStatus.NonActive;
-            }
+            if (!(obj is Lesson))
+                return false;
+            Lesson other = obj as Lesson;
+            return
+                DateTime == other.DateTime &&
+                LengthInMinutes == other.LengthInMinutes &&
+                Order.Equals(other.Order) &&
+                Status == other.Status;
+        }
+        public override int GetHashCode()
+        {
+            return (((DateTime.GetHashCode()
+                + LengthInMinutes.GetHashCode()) * 31
+                + Order.GetHashCode()) * 31
+                + Status.GetHashCode()) * 31;
         }
 
         private Lesson(DateTime dateTime, int lengthInMinutes, Order order)
         {
-
+            DateTime = dateTime;
+            LengthInMinutes = lengthInMinutes;
+            Order = order;
+            Status = LessonStatus.NonActive;
         }
 
         public static Lesson CreateNew(DateTime dateTime, int lengthInMinutes, Order order)
@@ -30,6 +49,17 @@ namespace Repetitorg.Core
             Lesson lesson = new Lesson(dateTime, lengthInMinutes, order);
             storage.Add(lesson);
             return lesson;
+        }
+
+        public static IList<Lesson> GetIntersectionWithAll(Lesson lesson)
+        {
+            return storage.Filter(les =>
+               (les.DateTime >= lesson.DateTime &&
+                les.DateTime < lesson.DateTime.AddMinutes(lesson.LengthInMinutes) ||
+                lesson.DateTime >= les.DateTime &&
+                lesson.DateTime < les.DateTime.AddMinutes(les.LengthInMinutes)) &&
+               !les.Equals(lesson)
+            );
         }
     }
 
