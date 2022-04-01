@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repetitorg.CoreTest
 {
-    class DummyOrderStorage : IOrderStorage
+    class DummyOrderStorage : IStorage<Order>
     {
         private List<Order> orders;
         private Dictionary<Order, List<Student>> studentsInOrder;
@@ -36,6 +36,13 @@ namespace Repetitorg.CoreTest
             studentsInOrder[order].Remove(student);
         }
 
+        public IReadOnlyList<Order> Filter(Predicate<Order> predicate)
+        {
+            return (from order in orders
+                    where predicate(order)
+                    select order).ToList();
+        }
+
         public IReadOnlyList<Order> GetAll()
         {
             return orders;
@@ -46,6 +53,15 @@ namespace Repetitorg.CoreTest
             if (!studentsInOrder.ContainsKey(order))
                 studentsInOrder.Add(order, new List<Student>());
             return studentsInOrder[order];
+        }
+
+        public void Remove(Order entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Order entity)
+        {
         }
     }
 }

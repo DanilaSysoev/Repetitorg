@@ -5,16 +5,8 @@ using Repetitorg.Core.Base;
 
 namespace Repetitorg.Core
 {
-    public class Task
+    public class Task : StorageWrapper<Task>
     {
-        public static int TasksCount
-        {
-            get
-            {
-                return tasks.GetAll().Count;
-            }
-        }
-
         public static Task CreateNew(string taskName, DateTime date)
         {
             new Checker().
@@ -23,32 +15,22 @@ namespace Repetitorg.Core
 
             Task task = new Task(taskName, date.Date, false, null);
             
-            if (tasks.GetByDate(date).Contains(task))
+            if (storage.Filter(t => t.Date.Equals(date)).Contains(task))
                 throw new InvalidOperationException(
                     string.Format("The task with name \"{0}\" has already been defined for date \"{1}\"", taskName, date)
                 );
 
-            tasks.Add(task);
+            storage.Add(task);
             return task;
         }
         public static IReadOnlyList<Task> GetByDate(DateTime date)
         {
-            return tasks.GetByDate(date);
-        }
-        public static IReadOnlyList<Task> GetAll()
-        {
-            return tasks.GetAll();
-        }
-        public static void Remove(Task task)
-        {
-            new Checker().AddNull(task, "Task can't be null").Check();
-
-            tasks.Remove(task);
+            return storage.Filter(t => t.Date.Equals(date));
         }
         public static void Complete(Task task)
         {
             task.completed = true;
-            tasks.Update(task);
+            storage.Update(task);
         }
         public static void AttachToProject(Task task, Project project)
         {
@@ -65,12 +47,12 @@ namespace Repetitorg.Core
                 throw new InvalidOperationException(
                     string.Format("Task \"{0}\" already attached to \"{1}\" project", task, task.Project)
                 );
-            tasks.Update(task);
+            storage.Update(task);
         }
 
         public static IReadOnlyList<Task> GetByProject(Project project)
-        {            
-            return tasks.GetByProject(project);
+        {
+            return storage.Filter(t => t.Project == project);
         }
         public static IReadOnlyList<Task> GetWithoutProject()
         {
@@ -136,13 +118,6 @@ namespace Repetitorg.Core
             this.date = date;
             this.completed = completed;
             this.project = project;
-        }
-
-        private static ITaskStorage tasks;
-
-        public static void InitializeStorage(ITaskStorage storage)
-        {
-            tasks = storage;
         }
     }
 }

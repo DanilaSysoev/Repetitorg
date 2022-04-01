@@ -2,11 +2,12 @@
 using Repetitorg.Core.Base;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Repetitorg.CoreTest
 {
-    class DummyProjectStorage : IProjectStorage
+    class DummyProjectStorage : IStorage<Project>
     {
         private List<Project> projects;
 
@@ -35,6 +36,13 @@ namespace Repetitorg.CoreTest
         public void Update(Project project)
         {
             UpdatesCount += 1;
+        }
+
+        public IReadOnlyList<Project> Filter(Predicate<Project> predicate)
+        {
+            return (from project in projects
+                    where predicate(project)
+                    select project).ToList();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Client : PersonsCollection<Client>
+    public class Client : StorageWrapper<Client>
     {
         public long BalanceInKopeks 
         {
@@ -20,8 +20,12 @@ namespace Repetitorg.Core
         {
             get
             {
-                return Payment.Storage.GetAllForClient(this);
+                return Payment.Storage.Filter(p => p.Client.Equals(this));
             }
+        }
+        public Person PersonData
+        {
+            get { return personData; }
         }
 
         public void MakePayment(Payment payment)
@@ -29,8 +33,9 @@ namespace Repetitorg.Core
             new Checker().AddNull(payment, "Payment can't be NULL").Check();
 
             balanceInKopeks += payment.ValueInKopeks;
-            Payment.Storage.Add(payment, this);
-            entities.Update(this);
+            payment.Client = this;
+            Payment.Storage.Add(payment);
+            storage.Update(this);
         }
         public void RemovePayment(Payment payment)
         {
@@ -41,29 +46,44 @@ namespace Repetitorg.Core
 
             balanceInKopeks -= payment.ValueInKopeks;
             Payment.Storage.Remove(payment);
-            entities.Update(this);
+            storage.Update(this);
         }
         public IList<Payment> GetPaymentsLater(DateTime dateExclude)
         {
             return
-                (from payment in Payment.Storage.GetAllForClient(this)
+                (from payment in Payments
                  where payment.Date > dateExclude
                  select payment).ToList();
         }
         public IList<Payment> GetPaymentsBefore(DateTime dateExclude)
         {
             return
-                (from payment in Payment.Storage.GetAllForClient(this)
+                (from payment in Payments
                  where payment.Date < dateExclude
                  select payment).ToList();
         }
         public IList<Payment> GetPaymentsBetween(DateTime beginInclude, DateTime endExclude)
         {
             return
-                (from payment in Payment.Storage.GetAllForClient(this)
+                (from payment in Payments
                  where payment.Date >= beginInclude && payment.Date < endExclude
                  select payment).ToList();
         }
+        public override bool Equals(object obj)
+        {
+            if (obj is Client)
+                return personData.Equals(((Client)obj).PersonData);
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return personData.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return personData.ToString();
+        }
+
 
         public static Client CreateNew(string fullName, string phoneNumber = "")
         {
@@ -74,25 +94,33 @@ namespace Repetitorg.Core
 
             var client = new Client(fullName, phoneNumber);
 
-            if (entities.GetAll().Contains(client))
+            if (storage.GetAll().Contains(client))
                 throw new InvalidOperationException(
                      "Creation client with same names and phone numbers is impossible"
                 );
 
-            entities.Add(client);
+            storage.Add(client);
             return client;
         }
-        public static void InitializeStorage(IPersonStorage<Client> clients)
+        public static IReadOnlyList<Client> FilterByName(string condition)
         {
-            entities = clients;
-        }
+            new Checker().
+                AddNull(condition, "Filtering by null pattern is impossible").
+                Check();
 
-        internal Client(string fullName, string phoneNumber)
-            : base(fullName, phoneNumber)
+            return
+                (from entity in storage.GetAll()
+                 where entity.personData.FullName.ToLower().Contains(condition.ToLower())
+                 select entity).ToList();
+        }        
+
+        private Client(string fullName, string phoneNumber)
         {
             balanceInKopeks = 0;
+            personData = new Person(fullName, phoneNumber);
         }
 
         private long balanceInKopeks;
+        private Person personData;
     }
 }

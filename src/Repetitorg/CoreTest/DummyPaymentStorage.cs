@@ -8,39 +8,39 @@ using System.Threading.Tasks;
 
 namespace Repetitorg.CoreTest
 {
-    public class DummyPaymentStorage : IPaymentStorage
+    public class DummyPaymentStorage : IStorage<Payment>
     {
-        private Dictionary<Client, List<Payment>> payments;
+        private List<Payment> payments;
 
         public DummyPaymentStorage()
         {
-            payments = new Dictionary<Client, List<Payment>>();
+            payments = new List<Payment>();
         }
 
-        public void Add(Payment payment, Client client)
+        public void Add(Payment entity)
         {
-            if (!payments.ContainsKey(client))
-                payments.Add(client, new List<Payment>());
-            payments[client].Add(payment);
+            payments.Add(entity);
+        }
+
+        public IReadOnlyList<Payment> Filter(Predicate<Payment> predicate)
+        {
+            return (from payment in GetAll()
+                    where predicate(payment)
+                    select payment).ToList();
         }
 
         public IReadOnlyList<Payment> GetAll()
         {
-            return null;
-        }
-
-        public IReadOnlyList<Payment> GetAllForClient(Client client)
-        {
-            if (!payments.ContainsKey(client))
-                payments.Add(client, new List<Payment>());
-            return payments[client];
+            return payments;
         }
 
         public void Remove(Payment payment)
         {
-            foreach(var client in payments.Keys)
-                if(payments[client].Contains(payment))
-                    payments[client].Remove(payment);
+            payments.Remove(payment);
+        }
+
+        public void Update(Payment entity)
+        {
         }
     }
 }

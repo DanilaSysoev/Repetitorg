@@ -37,9 +37,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void AddOnDate_SimpleAddTask_TasksCountIncrease()
         {
-            Assert.AreEqual(0, Task.TasksCount);
+            Assert.AreEqual(0, Task.Count);
             Task task = Task.CreateNew("2020/12/30 test task", new DateTime(2020, 12, 30));
-            Assert.AreEqual(1, Task.TasksCount);
+            Assert.AreEqual(1, Task.Count);
         }
         [TestCase]
         public void AddOnDate_SimpleAddTask_TasksAddedOnCorrectDate()
@@ -47,7 +47,7 @@ namespace Repetitorg.CoreTest
             Task task = Task.CreateNew("2020/12/30 test task", new DateTime(2020, 12, 30));
             IReadOnlyList<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
             Assert.AreEqual(task, tasks[0]);
-            Assert.AreEqual(1, Task.TasksCount);
+            Assert.AreEqual(1, Task.Count);
         }
         [TestCase]
         public void AddOnDate_AddThreeTask_AllTasksExist()
@@ -74,7 +74,7 @@ namespace Repetitorg.CoreTest
             IReadOnlyList<Task> tasks3 = Task.GetByDate(new DateTime(2018, 10, 10));
             IReadOnlyList<Task> tasks4 = Task.GetByDate(new DateTime(2017, 10, 5));
 
-            Assert.AreEqual(4, Task.TasksCount);
+            Assert.AreEqual(4, Task.Count);
             Assert.AreEqual(1, tasks1.Count);
             Assert.AreEqual(1, tasks2.Count);
             Assert.AreEqual(1, tasks3.Count);
@@ -145,7 +145,7 @@ namespace Repetitorg.CoreTest
             Task task3 = Task.CreateNew("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Task.Remove(task2);
-            Assert.AreEqual(2, Task.TasksCount);
+            Assert.AreEqual(2, Task.Count);
         }
         [TestCase]
         public void Remove_RemoveExisting_CountDecreaseInGetByDate()
@@ -180,9 +180,9 @@ namespace Repetitorg.CoreTest
             Task task2 = Task.CreateNew("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
             Task task3 = Task.CreateNew("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
-            Assert.AreEqual(3, Task.TasksCount);
+            Assert.AreEqual(3, Task.Count);
             Task.Remove(taskOld);
-            Assert.AreEqual(3, Task.TasksCount);
+            Assert.AreEqual(3, Task.Count);
         }
         [TestCase]
         public void Remove_RemoveNull_ThrowsException()
@@ -195,7 +195,7 @@ namespace Repetitorg.CoreTest
                 () => Task.Remove(null)
             );
             Assert.IsTrue(exception.Message.ToLower().Contains(
-                "task can't be null"
+                "entity can't be null"
             ));
         }
 

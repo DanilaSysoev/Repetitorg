@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Repetitorg.CoreTest
 {
-    class DummyTasksStorage : ITaskStorage
+    class DummyTasksStorage : IStorage<Task>
     {
         private List<Task> tasks;
         public int UpdatesCount { get; private set; }
@@ -49,6 +49,13 @@ namespace Repetitorg.CoreTest
         public void Update(Task task)
         {
             UpdatesCount += 1;
+        }
+
+        public IReadOnlyList<Task> Filter(Predicate<Task> predicate)
+        {
+            return (from task in tasks
+                    where predicate(task)
+                    select task).ToList();
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Repetitorg.CoreTest
             Client client = Client.CreateNew("c1");
             Student s = Student.CreateNew("Test Student", client);
 
-            Assert.AreEqual("", s.PhoneNumber);
+            Assert.AreEqual("", s.PersonData.PhoneNumber);
         }
         [TestCase]
         public void CreateNew_CreateStudentWithNameAndPhoneNumber_PhoneNumberSetCorrectly()
@@ -52,7 +52,7 @@ namespace Repetitorg.CoreTest
             Client client = Client.CreateNew("c1");
             Student s = Student.CreateNew("Test Student", client, "8-999-123-45-67");
 
-            Assert.AreEqual("8-999-123-45-67", s.PhoneNumber);
+            Assert.AreEqual("8-999-123-45-67", s.PersonData.PhoneNumber);
         }
         [TestCase]
         public void CreateNew_CreateStudent_ClientPropertyIsOk()

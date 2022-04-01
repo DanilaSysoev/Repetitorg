@@ -438,34 +438,34 @@ namespace Repetitorg.CoreTest
         public void FullName_CreateNewClient_FullNameSetupCorrect()
         {
             var client = CreateClient();
-            Assert.AreEqual("Иванов Иван Иванович", client.FullName);
+            Assert.AreEqual("Иванов Иван Иванович", client.PersonData.FullName);
         }
         [TestCase]
         public void PhoneNumber_CreateNewClientWithoutPhoneNumber_PhoneNumberIsEmpty()
         {
             var client = CreateClient();
-            Assert.AreEqual("", client.PhoneNumber);
+            Assert.AreEqual("", client.PersonData.PhoneNumber);
         }
         [TestCase]
         public void PhoneNumber_CreateNewClientWithPhoneNumber_PhoneNumberIsCorrect()
         {
             var client = CreateClientWithPhoneNumber();
-            Assert.AreEqual("+7(900)111-22-33", client.PhoneNumber);
+            Assert.AreEqual("+7(900)111-22-33", client.PersonData.PhoneNumber);
         }
         [TestCase]
         public void PhoneNumber_ChangePhoneNumber_PhoneNumberIsCorrect()
         {
             var client = CreateClient();
-            Assert.AreEqual("", client.PhoneNumber);
-            client.PhoneNumber = "+7(900)111-22-33";
-            Assert.AreEqual("+7(900)111-22-33", client.PhoneNumber);
+            Assert.AreEqual("", client.PersonData.PhoneNumber);
+            client.PersonData.PhoneNumber = "+7(900)111-22-33";
+            Assert.AreEqual("+7(900)111-22-33", client.PersonData.PhoneNumber);
         }
         [TestCase]
         public void PhoneNumber_PhoneNumberSetNull_ThrowsException()
         {
             var client = CreateClient();
-            Assert.AreEqual("", client.PhoneNumber);
-            var exception = Assert.Throws<InvalidPhoneNumberException>(() => client.PhoneNumber = null);
+            Assert.AreEqual("", client.PersonData.PhoneNumber);
+            var exception = Assert.Throws<InvalidPhoneNumberException>(() => client.PersonData.PhoneNumber = null);
             Assert.IsTrue(exception.Message.ToLower().Contains("phonenumber can't be null"));
         }
 

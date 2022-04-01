@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repetitorg.CoreTest
 {
-    class DummyPersonStorage<T> : IPersonStorage<T> where T : Person
+    class DummyPersonStorage<T> : IStorage<T>
     {
         public int UpdatesCount { get; private set; }
         List<T> entities;
@@ -31,6 +31,18 @@ namespace Repetitorg.CoreTest
         public void Update(T person)
         {
             UpdatesCount += 1;
+        }
+
+        public void Remove(T entity)
+        {
+            entities.Remove(entity);
+        }
+
+        public IReadOnlyList<T> Filter(Predicate<T> predicate)
+        {
+            return (from person in entities
+                    where predicate(person)
+                    select person).ToList();
         }
     }
 }

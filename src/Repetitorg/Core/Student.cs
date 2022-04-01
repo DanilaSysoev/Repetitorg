@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Student : PersonsCollection<Student>
+    public class Student : StorageWrapper<Student>
     {
         public Client Client
         {
@@ -15,6 +15,29 @@ namespace Repetitorg.Core
                 return client;
             }
         }
+        public Person PersonData
+        {
+            get
+            {
+                return personData;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Student)
+                return personData.Equals(((Student)obj).PersonData);
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return personData.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return personData.ToString();
+        }
+
 
         public static Student CreateNew(string fullName, Client client, string phoneNumber = "")
         {
@@ -26,27 +49,34 @@ namespace Repetitorg.Core
                         
             var student = new Student(fullName, phoneNumber, client);
 
-            if (entities.GetAll().Contains(student))
+            if (storage.GetAll().Contains(student))
                 throw new InvalidOperationException(
                      "Creation student with same names and phone numbers is impossible"
                 );
 
-            entities.Add(student);
+            storage.Add(student);
             return student;
         }
-
-        public static void InitializeStorage(IPersonStorage<Student> students)
+        public static IReadOnlyList<Student> FilterByName(string condition)
         {
-            entities = students;
+            new Checker().
+                AddNull(condition, "Filtering by null pattern is impossible").
+                Check();
+
+            return
+                (from entity in storage.GetAll()
+                 where entity.personData.FullName.ToLower().Contains(condition.ToLower())
+                 select entity).ToList();
         }
 
-        internal Student(string fullName, string phoneNumber, Client client)
-            : base(fullName, phoneNumber)
+        private Student(string fullName, string phoneNumber, Client client)
         {
             this.client = client;
+            this.personData = new Person(fullName, phoneNumber);
         }
 
         private Client client;
+        private Person personData;
     }
 
 }

@@ -138,4 +138,5 @@
 		- Cancel remove all next Lessons
 		- Cancel Lesson update Storage
 
+7. Payment subsystem
 	

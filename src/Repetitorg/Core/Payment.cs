@@ -5,12 +5,13 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Payment
+    public class Payment : StorageWrapper<Payment>
     {
         public DateTime Date { get; private set; }
         public long ValueInKopeks { get; private set; }
         public PaymentDocumentType DocumentType { get; private set; }
         public long DocumentNumber { get; private set; }
+        public Client Client { get; internal set; }
 
         private Payment(DateTime date, long valueInKopeks, PaymentDocumentType documentType, long documentNumber)
         {
@@ -32,16 +33,6 @@ namespace Repetitorg.Core
                     "Payment should has positive value"
                 );
             return new Payment(date, valueInKopeks, documentType, documentNumber);
-        }
-
-        private static IPaymentStorage payments;
-        public static void InitializeStorage(IPaymentStorage storage)
-        {
-            payments = storage;
-        }
-        public static IPaymentStorage Storage
-        {
-            get { return payments; }
         }
     }
 }

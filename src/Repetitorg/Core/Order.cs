@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Order
+    public class Order : StorageWrapper<Order>
     {
         public string Name
         {
@@ -19,7 +19,7 @@ namespace Repetitorg.Core
         {
             get
             {
-                return orders.GetStudentsForOrder(this);
+                return students;
             }
         }
 
@@ -31,7 +31,8 @@ namespace Repetitorg.Core
                 Add(arg => Students.Contains((Student)arg), student, "Student already added").
                 Check();
 
-            orders.AttachStudent(this, student);
+            students.Add(student);
+            storage.Update(this);
         }
         public void RemoveStudent(Student student)
         {
@@ -40,7 +41,8 @@ namespace Repetitorg.Core
 
             if (!Students.Contains(student))
                 throw new ArgumentException("Student is not in order");
-            orders.DetachStudent(this, student);
+            students.Remove(student);
+            storage.Update(this);
         }
         public override bool Equals(object obj)
         {
@@ -61,18 +63,6 @@ namespace Repetitorg.Core
             return string.Format("{0}", name);
         }
 
-        public static int Count 
-        { 
-            get
-            {
-                return orders.GetAll().Count;
-            }
-        }
-        public static IReadOnlyList<Order> GetAll()
-        {
-            return orders.GetAll();
-        }
-
         public static Order CreateNew(string name)
         {
             new Checker().
@@ -80,27 +70,22 @@ namespace Repetitorg.Core
                 Check();
 
             Order order = new Order(name);
-            if(orders.GetAll().Contains(order))
+            if(storage.GetAll().Contains(order))
                 throw new InvalidOperationException(
                     "Order with given name already exist"
                 );
 
-            orders.Add(order);
+            storage.Add(order);
             return order;
         }
 
-
+        private List<Student> students;
         private string name;
 
         private Order(string name)
         {
             this.name = name;
-        }
-
-        private static IOrderStorage orders;
-        public static void InitializeStorage(IOrderStorage storage)
-        {
-            orders = storage;
+            students = new List<Student>();
         }
     }
 }

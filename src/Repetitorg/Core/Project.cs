@@ -6,15 +6,8 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Project
+    public class Project : StorageWrapper<Project>
     {
-        public static int Count
-        {
-            get
-            {
-                return projects.GetAll().Count;
-            }
-        }
         public static Project CreateNew(string name)
         {
             new Checker().
@@ -22,20 +15,12 @@ namespace Repetitorg.Core
                 Check();
 
             Project project = new Project(name, false);
-            if (projects.GetAll().Contains(project))
+            if (storage.GetAll().Contains(project))
                 throw new InvalidOperationException(string.Format("Project with name \"{0}\" already exist", name));
 
-            projects.Add(project);
+            storage.Add(project);
 
             return project;
-        }
-        public static IReadOnlyList<Project> GetAll()
-        {
-            return projects.GetAll();
-        }
-        public static void Remove(Project project)
-        {
-            projects.Remove(project);
         }
         public static List<Project> FindByName(string subname)
         {
@@ -43,18 +28,14 @@ namespace Repetitorg.Core
                 AddNull(subname, "Filter pattern can't be null").
                 Check();
 
-            return (from project in projects.GetAll()
+            return (from project in storage.GetAll()
                     where project.Name.ToLower().Contains(subname.ToLower())
                     select project).ToList();
         }
         public static void Complete(Project project)
         {
             project.completed = true;
-            projects.Update(project);
-        }
-        public static void InitializeStorage(IProjectStorage storage)
-        {
-            projects = storage;
+            storage.Update(project);
         }
 
 
@@ -98,7 +79,5 @@ namespace Repetitorg.Core
             this.name = name;
             this.completed = completed;
         }
-
-        private static IProjectStorage projects;
     }
 }

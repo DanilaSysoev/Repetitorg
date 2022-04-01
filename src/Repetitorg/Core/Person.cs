@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Person
+    public class Person : StorageWrapper<Person>
     {
         private string fullName;
         private string phoneNumber;
@@ -42,9 +42,9 @@ namespace Repetitorg.Core
         {
             if (obj is Person)
             {
-                Person client = (Person)obj;
-                return client.PhoneNumber == PhoneNumber && 
-                       client.FullName == FullName && 
+                Person person = (Person)obj;
+                return person.PhoneNumber == PhoneNumber && 
+                       person.FullName == FullName && 
                        GetType().Equals(obj.GetType());
             }
             return false;
