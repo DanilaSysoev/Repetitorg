@@ -83,6 +83,10 @@ namespace Repetitorg.CoreTest
             );
         }
 
-
+        [TestCase]
+        public void GetAll_NewCollection_ReturnEmpty()
+        {
+            Assert.AreEqual(0, Lesson.GetAll().Count);
+        }
     }
 }
