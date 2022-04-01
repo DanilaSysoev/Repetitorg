@@ -365,6 +365,19 @@ namespace Repetitorg.CoreTest
             Lesson.AddToSchedule(l1);
             Assert.AreEqual(1, lessons.UpdatesCount);
         }
+        [TestCase]
+        public void AddToSchedule_AddNonIntersectionsLesson_AdditionOk()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
+
+            Lesson.AddToSchedule(l1);
+            Lesson.AddToSchedule(l2);
+
+            Assert.AreEqual(LessonStatus.Active, l1.Status);
+            Assert.AreEqual(LessonStatus.Active, l2.Status);
+        }
 
     }
 }
