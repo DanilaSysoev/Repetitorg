@@ -95,6 +95,7 @@
 	  + Creating with null order throws error
 	  + Creating with non-positive length throws error	
 	  + New Lesson is non-active
+	- Lessons are ewuals if equals his dateTime, length, order and status
 	- Add Lesson to schedule (activate)
 		- Intersection with other lesson throws error
 	- Remove from schedule (deactivate)
