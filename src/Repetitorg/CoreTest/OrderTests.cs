@@ -261,5 +261,13 @@ namespace Repetitorg.CoreTest
         {
             Assert.AreEqual(0, Order.Count);
         }
+        [TestCase]
+        public void GetAll_AddThreeOrders_ReturnCountEqualsThree()
+        {
+            Order.CreateNew("o1");
+            Order.CreateNew("o2");
+            Order.CreateNew("o3");
+            Assert.AreEqual(3, Order.Count);
+        }
     }
 }
