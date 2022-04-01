@@ -269,5 +269,18 @@ namespace Repetitorg.CoreTest
             Order.CreateNew("o3");
             Assert.AreEqual(3, Order.Count);
         }
+        [TestCase]
+        public void GetAll_AddThreeOrders_ReturnCorrectList()
+        {
+            var o1 = Order.CreateNew("o1");
+            var o2 = Order.CreateNew("o2");
+            var o3 = Order.CreateNew("o3");
+
+            var all = Order.GetAll();
+            Assert.IsTrue(all.Contains(o1));
+            Assert.IsTrue(all.Contains(o2));
+            Assert.IsTrue(all.Contains(o3));
+            Assert.AreEqual(3, all.Count);
+        }
     }
 }
