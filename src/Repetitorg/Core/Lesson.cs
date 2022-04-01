@@ -62,6 +62,10 @@ namespace Repetitorg.Core
         }
         public static void AddToSchedule(Lesson lesson)
         {
+            new Checker()
+                .AddNull(lesson, "Lesson can't be null.\n")
+                .Check();
+
             lesson.Status = LessonStatus.Active;
         }
     }
