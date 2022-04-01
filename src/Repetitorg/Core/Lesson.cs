@@ -39,6 +39,10 @@ namespace Repetitorg.Core
             lessons.Add(lesson);
             return lesson;
         }
+        public static IReadOnlyList<Lesson> GetAll()
+        {
+            return lessons.GetAll();
+        }
         public static void InitializeStorage(ILessonStorage storage)
         {
             lessons = storage;
