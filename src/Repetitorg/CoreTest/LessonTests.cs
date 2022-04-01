@@ -26,8 +26,19 @@ namespace Repetitorg.CoreTest
             Order order = Order.CreateNew("test order");
             
             Assert.AreEqual(0, Lesson.Count);
-            Lesson lesson = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
             Assert.AreEqual(1, Lesson.Count);
+            Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 90, order);
+            Assert.AreEqual(2, Lesson.Count);
         }
+        [TestCase]
+        public void CreateNew_CreateWithCorrectArgs_LessonIsNonActive()
+        {
+            Order order = Order.CreateNew("test order");
+
+            Lesson lesson = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Assert.AreEqual(LessonStatus.NonActive, lesson.Status);
+        }
+
     }
 }
