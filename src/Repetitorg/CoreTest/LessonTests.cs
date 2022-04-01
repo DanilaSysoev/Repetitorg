@@ -83,6 +83,17 @@ namespace Repetitorg.CoreTest
                 )
             );
         }
+        [TestCase]
+        public void CreateNew_CreateWithCorrectArgs_PropertiesSettedCorrectly()
+        {
+            Order order = Order.CreateNew("test order");
+            DateTime dateTime = new DateTime(2021, 10, 10, 12, 0, 0);
+            Lesson lesson = Lesson.CreateNew(dateTime, 90, order);
+            Assert.AreEqual(dateTime, lesson.DateTime);
+            Assert.AreEqual(90, lesson.LengthInMinutes);
+            Assert.AreEqual(order, lesson.Order);
+        }
+
 
         [TestCase]
         public void GetAll_NewCollection_ReturnEmpty()
