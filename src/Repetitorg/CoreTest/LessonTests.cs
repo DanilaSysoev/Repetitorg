@@ -166,5 +166,25 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(1, inter.Count);
             Assert.AreEqual(l1, inter[0]);
         }
+        [TestCase]
+        public void GetIntersectionWithAll_IntersectMoreThanOne_ReturnCorrectList()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
+            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 90, order);
+            Lesson li = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 30, 0), 120, order);
+
+            IList<Lesson> inter = Lesson.GetIntersectionWithAll(li);
+            Assert.AreEqual(2, inter.Count);
+            Assert.IsTrue(inter.Contains(l1));
+            Assert.IsTrue(inter.Contains(l2));
+            inter = Lesson.GetIntersectionWithAll(l1);
+            Assert.AreEqual(1, inter.Count);
+            Assert.AreEqual(li, inter[0]);
+            inter = Lesson.GetIntersectionWithAll(l2);
+            Assert.AreEqual(1, inter.Count);
+            Assert.AreEqual(li, inter[0]);
+        }
     }
 }
