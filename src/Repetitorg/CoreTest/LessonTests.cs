@@ -199,6 +199,7 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(0, inter.Count);
         }
 
+        [TestCase]
         public void AddToSchedule_AddOneLesson_StatusChangeToActive()
         {
             Order order = Order.CreateNew("test order");
@@ -207,5 +208,16 @@ namespace Repetitorg.CoreTest
             Lesson.AddToSchedule(l1);
             Assert.AreEqual(LessonStatus.Active, l1.Status);
         }
+        [TestCase]
+        public void AddToSchedule_AddNull_ThrowsError()
+        {
+            var exc = Assert.Throws<ArgumentException>(
+                () => Lesson.AddToSchedule(null)
+            );
+            Assert.IsTrue(
+                exc.Message.ToLower().Contains("lesson can't be null")
+            );
+        }
+
     }
 }
