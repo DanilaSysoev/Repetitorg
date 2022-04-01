@@ -2,6 +2,7 @@
 using Repetitorg.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Repetitorg.CoreTest
@@ -87,6 +88,22 @@ namespace Repetitorg.CoreTest
         public void GetAll_NewCollection_ReturnEmpty()
         {
             Assert.AreEqual(0, Lesson.GetAll().Count);
+        }
+        [TestCase]
+        public void GetAll_AddThreeLessons_ReturnCorrectList()
+        {
+            Order order = Order.CreateNew("test order");
+
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
+            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 90, order);
+
+            var all = Lesson.GetAll();
+
+            Assert.IsTrue(all.Contains(l1));
+            Assert.IsTrue(all.Contains(l2));
+            Assert.IsTrue(all.Contains(l3));
+            Assert.AreEqual(3, all.Count);
         }
     }
 }
