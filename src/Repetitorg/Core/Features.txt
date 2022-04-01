@@ -95,18 +95,20 @@
 	  + Creating with null order throws error
 	  + Creating with non-positive length throws error	
 	  + New Lesson is non-active
-	- Lessons are ewuals if equals his dateTime, length, order and status
+	- Lessons are equals if equals his dateTime, length, order and status
 	- Add Lesson to schedule (activate)
 		- Intersection with other lesson throws error
 	- Remove from schedule (deactivate)
 		- Remove completed Lesson throws error
 		- Remove non-scheduled Lesson throws error
-	- Checking intersection with other lessons in schedule
-	- Checking DateTime intersection with other lessons
-	- Getting all lessons
-		- For new collection returns empty list
+	- Getting intersection with other lessons in schedule
+	- Getting intersection with all other lessons
+	+ Getting all lessons
+		+ For new collection returns empty list
 	- Getting Active/Complete lessons on date
 	- Getting all lessons on date
+	- Getting all lessons later than date
+	- Getting all lessons earlier than date
 	- Getting Active/Complete lessons by order
 	- Getting all lessons by order
 	- Remove Lesson

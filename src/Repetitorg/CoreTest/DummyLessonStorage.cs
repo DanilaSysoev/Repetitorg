@@ -36,7 +36,7 @@ namespace Repetitorg.CoreTest
             lessons.Remove(entity);
         }
 
-        public IReadOnlyList<Lesson> Filter(Predicate<Lesson> predicate)
+        public IList<Lesson> Filter(Predicate<Lesson> predicate)
         {
             return (from lesson in lessons
                     where predicate(lesson)

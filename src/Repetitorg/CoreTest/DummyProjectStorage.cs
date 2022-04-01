@@ -38,7 +38,7 @@ namespace Repetitorg.CoreTest
             UpdatesCount += 1;
         }
 
-        public IReadOnlyList<Project> Filter(Predicate<Project> predicate)
+        public IList<Project> Filter(Predicate<Project> predicate)
         {
             return (from project in projects
                     where predicate(project)

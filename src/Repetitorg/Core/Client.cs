@@ -16,7 +16,7 @@ namespace Repetitorg.Core
                 return balanceInKopeks;
             }
         }
-        public IReadOnlyList<Payment> Payments
+        public IList<Payment> Payments
         {
             get
             {

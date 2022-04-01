@@ -45,7 +45,7 @@ namespace Repetitorg.CoreTest
         public void AddOnDate_SimpleAddTask_TasksAddedOnCorrectDate()
         {
             Task task = Task.CreateNew("2020/12/30 test task", new DateTime(2020, 12, 30));
-            IReadOnlyList<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
+            IList<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
             Assert.AreEqual(task, tasks[0]);
             Assert.AreEqual(1, Task.Count);
         }
@@ -55,7 +55,7 @@ namespace Repetitorg.CoreTest
             Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
             Task task2 = Task.CreateNew("2020/12/30 test task 2", new DateTime(2020, 12, 30));
             Task task3 = Task.CreateNew("2020/12/30 test task 3", new DateTime(2020, 12, 30));
-            IReadOnlyList<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
+            IList<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
 
             Assert.AreEqual(3, tasks.Count);
             Assert.IsTrue(tasks.Contains(task1));
@@ -69,10 +69,10 @@ namespace Repetitorg.CoreTest
             Task task2 = Task.CreateNew("2020/12/30 test task 2", new DateTime(2019, 11, 20));
             Task task3 = Task.CreateNew("2020/12/30 test task 3", new DateTime(2018, 10, 10));
             Task task4 = Task.CreateNew("2020/12/30 test task 3", new DateTime(2017, 10, 5));
-            IReadOnlyList<Task> tasks1 = Task.GetByDate(new DateTime(2020, 12, 30));
-            IReadOnlyList<Task> tasks2 = Task.GetByDate(new DateTime(2019, 11, 20));
-            IReadOnlyList<Task> tasks3 = Task.GetByDate(new DateTime(2018, 10, 10));
-            IReadOnlyList<Task> tasks4 = Task.GetByDate(new DateTime(2017, 10, 5));
+            IList<Task> tasks1 = Task.GetByDate(new DateTime(2020, 12, 30));
+            IList<Task> tasks2 = Task.GetByDate(new DateTime(2019, 11, 20));
+            IList<Task> tasks3 = Task.GetByDate(new DateTime(2018, 10, 10));
+            IList<Task> tasks4 = Task.GetByDate(new DateTime(2017, 10, 5));
 
             Assert.AreEqual(4, Task.Count);
             Assert.AreEqual(1, tasks1.Count);
@@ -326,7 +326,7 @@ namespace Repetitorg.CoreTest
             Task.AttachToProject(task1, p2);
             Task.AttachToProject(task3, p2);
 
-            IReadOnlyList<Task> tasks = Task.GetByProject(p1);
+            IList<Task> tasks = Task.GetByProject(p1);
             Assert.AreEqual(0, tasks.Count);
         }
         [TestCase]
@@ -342,7 +342,7 @@ namespace Repetitorg.CoreTest
             Task.AttachToProject(task1, p2);
             Task.AttachToProject(task3, p2);
 
-            IReadOnlyList<Task> tasks = Task.GetByProject(p2);
+            IList<Task> tasks = Task.GetByProject(p2);
             Assert.AreEqual(2, tasks.Count);
             Assert.IsTrue(tasks.Contains(task1));
             Assert.IsTrue(tasks.Contains(task3));
@@ -359,7 +359,7 @@ namespace Repetitorg.CoreTest
 
             Task.AttachToProject(task1, p2);
 
-            IReadOnlyList<Task> tasks = Task.GetByProject(null);
+            IList<Task> tasks = Task.GetByProject(null);
             Assert.AreEqual(2, tasks.Count);
             Assert.IsTrue(tasks.Contains(task2));
             Assert.IsTrue(tasks.Contains(task3));
@@ -377,11 +377,10 @@ namespace Repetitorg.CoreTest
 
             Task.AttachToProject(task1, p2);
 
-            IReadOnlyList<Task> tasks = Task.GetWithoutProject();
+            IList<Task> tasks = Task.GetWithoutProject();
             Assert.AreEqual(2, tasks.Count);
             Assert.IsTrue(tasks.Contains(task2));
             Assert.IsTrue(tasks.Contains(task3));
-        }
-        private const string TEST_DATA_PATH = "D:\\YandexDisk\\YandexDisk\\Danila\\Work\\Repetitorg";
+        }        
     }
 }

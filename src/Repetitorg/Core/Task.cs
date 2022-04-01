@@ -23,7 +23,7 @@ namespace Repetitorg.Core
             storage.Add(task);
             return task;
         }
-        public static IReadOnlyList<Task> GetByDate(DateTime date)
+        public static IList<Task> GetByDate(DateTime date)
         {
             return storage.Filter(t => t.Date.Equals(date));
         }
@@ -50,11 +50,11 @@ namespace Repetitorg.Core
             storage.Update(task);
         }
 
-        public static IReadOnlyList<Task> GetByProject(Project project)
+        public static IList<Task> GetByProject(Project project)
         {
             return storage.Filter(t => t.Project == project);
         }
-        public static IReadOnlyList<Task> GetWithoutProject()
+        public static IList<Task> GetWithoutProject()
         {
             return GetByProject(null);
         }

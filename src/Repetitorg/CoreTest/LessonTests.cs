@@ -105,5 +105,15 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(all.Contains(l3));
             Assert.AreEqual(3, all.Count);
         }
+
+        [TestCase]
+        public void GetIntersectionWithAll_ExistOnlyOneLesson_ReturnEmptyList()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson lesson = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+
+            IList<Lesson> intersection = Lesson.GetIntersectionWithAll(lesson);
+            Assert.AreEqual(0, intersection.Count);
+        }
     }
 }

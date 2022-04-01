@@ -22,7 +22,7 @@ namespace Repetitorg.CoreTest
             payments.Add(entity);
         }
 
-        public IReadOnlyList<Payment> Filter(Predicate<Payment> predicate)
+        public IList<Payment> Filter(Predicate<Payment> predicate)
         {
             return (from payment in GetAll()
                     where predicate(payment)

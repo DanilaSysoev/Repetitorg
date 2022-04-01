@@ -38,7 +38,7 @@ namespace Repetitorg.CoreTest
             entities.Remove(entity);
         }
 
-        public IReadOnlyList<T> Filter(Predicate<T> predicate)
+        public IList<T> Filter(Predicate<T> predicate)
         {
             return (from person in entities
                     where predicate(person)
