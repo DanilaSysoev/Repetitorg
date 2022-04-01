@@ -152,5 +152,19 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(1, inter.Count);
             Assert.AreEqual(l1, inter[0]);
         }
+        [TestCase]
+        public void GetIntersectionWithAll_FirstContainsSecont_ReturnCorrectList()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 30, 0), 60, order);
+
+            IList<Lesson> inter = Lesson.GetIntersectionWithAll(l1);
+            Assert.AreEqual(1, inter.Count);
+            Assert.AreEqual(l2, inter[0]);
+            inter = Lesson.GetIntersectionWithAll(l2);
+            Assert.AreEqual(1, inter.Count);
+            Assert.AreEqual(l1, inter[0]);
+        }
     }
 }
