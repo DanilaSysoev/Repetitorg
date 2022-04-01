@@ -186,5 +186,17 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(1, inter.Count);
             Assert.AreEqual(li, inter[0]);
         }
+        [TestCase]
+        public void GetIntersectionWithAll_EndToEndLessons_NoIntersection()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 30, 0), 90, order);
+
+            IList<Lesson> inter = Lesson.GetIntersectionWithAll(l1);
+            Assert.AreEqual(0, inter.Count);
+            inter = Lesson.GetIntersectionWithAll(l2);
+            Assert.AreEqual(0, inter.Count);
+        }
     }
 }
