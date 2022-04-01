@@ -48,6 +48,10 @@ namespace Repetitorg.Core
 
     public enum LessonStatus
     {
-        NonActive
+        NonActive,
+        Active,
+        Canceled,
+        Moved,
+        Completed
     }
 }
