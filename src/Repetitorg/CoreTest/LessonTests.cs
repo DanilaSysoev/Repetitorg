@@ -393,9 +393,8 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(
                 exc.Message.ToLower().Contains(
                     string.Format(
-                        "{0} intersect {1} in schedule", 
-                        l2.ToString().ToLower(), 
-                        l1.ToString().ToLower()
+                        "{0} intersect other lessons in schedule", 
+                        l2.ToString().ToLower()
                     )
                 )
             );

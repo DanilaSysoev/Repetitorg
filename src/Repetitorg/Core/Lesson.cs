@@ -30,6 +30,10 @@ namespace Repetitorg.Core
                 + Order.GetHashCode()) * 31
                 + Status.GetHashCode()) * 31;
         }
+        public override string ToString()
+        {
+            return string.Format("{0}, {1}", Order.ToString(), DateTime);
+        }
 
         private Lesson(DateTime dateTime, int lengthInMinutes, Order order)
         {
@@ -75,8 +79,13 @@ namespace Repetitorg.Core
 
         public static void AddToSchedule(Lesson lesson)
         {
+            var inters = GetIntersectionWithScheduled(lesson);
             new Checker()
                 .AddNull(lesson, "Lesson can't be null.\n")
+                .Add(les => 
+                    inters.Count > 0, 
+                    lesson, 
+                    lesson + " intersect other lessons in schedule.\n")
                 .Check();
 
             lesson.Status = LessonStatus.Active;
