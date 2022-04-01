@@ -53,13 +53,26 @@ namespace Repetitorg.Core
         public static IList<Lesson> GetIntersectionWithAll(Lesson lesson)
         {
             return storage.Filter(les =>
-               (les.DateTime >= lesson.DateTime &&
-                les.DateTime < lesson.DateTime.AddMinutes(lesson.LengthInMinutes) ||
-                lesson.DateTime >= les.DateTime &&
-                lesson.DateTime < les.DateTime.AddMinutes(les.LengthInMinutes)) &&
-               !les.Equals(lesson)
+               LessonsIntersecting(les, lesson)
             );
         }
+        public static IList<Lesson> GetIntersectionWithScheduled(Lesson lesson)
+        {
+            return storage.Filter(les =>
+               LessonsIntersecting(les, lesson) &&
+               les.Status == LessonStatus.Active
+            );
+        }
+
+        private static bool LessonsIntersecting(Lesson l1, Lesson l2)
+        {
+            return (l1.DateTime >= l2.DateTime &&
+                    l1.DateTime < l2.DateTime.AddMinutes(l2.LengthInMinutes) ||
+                    l2.DateTime >= l1.DateTime &&
+                    l2.DateTime < l1.DateTime.AddMinutes(l1.LengthInMinutes)) &&
+                    !l1.Equals(l2);
+        }
+
         public static void AddToSchedule(Lesson lesson)
         {
             new Checker()

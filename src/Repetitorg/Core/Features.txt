@@ -99,7 +99,7 @@
 	+ Lessons are equals if equals his dateTime, length, order and status
 	- Add Lesson to schedule (activate)
 		- Intersection with other lesson throws error
-		- Adding update lesson
+		+ Adding update lesson
 		+ Add null Lesson throws error
 	- Remove from schedule (deactivate)
 		- Remove completed Lesson throws error
