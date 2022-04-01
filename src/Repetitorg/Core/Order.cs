@@ -68,6 +68,10 @@ namespace Repetitorg.Core
                 return orders.GetAll().Count;
             }
         }
+        public static IReadOnlyList<Order> GetAll()
+        {
+            return orders.GetAll();
+        }
 
         public static Order CreateNew(string name)
         {
