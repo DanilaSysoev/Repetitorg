@@ -40,12 +40,12 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(LessonStatus.NonActive, lesson.Status);
         }
         [TestCase]
-        public void CreateNew_CreateWithNonPositiveLength_ThrowsError()
+        public void CreateNew_CreateWithNegativeLength_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
 
             var exc = Assert.Throws<ArgumentException>(
-                () => Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order)
+                () => Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), -90, order)
             );
 
             Assert.IsTrue(

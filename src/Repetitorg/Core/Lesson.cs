@@ -30,6 +30,10 @@ namespace Repetitorg.Core
         }
         public static Lesson CreateNew(DateTime dateTime, int lengthInMinutes, Order order)
         {
+            new Checker()
+                .Add(v => v <= 0, lengthInMinutes, "Lesson length can't be non positive\n")
+                .Check();
+
             Lesson lesson = new Lesson(dateTime, lengthInMinutes, order);
             lessons.Add(lesson);
             return lesson;
