@@ -54,6 +54,21 @@ namespace Repetitorg.CoreTest
                 )
             );
         }
+        [TestCase]
+        public void CreateNew_CreateWithZeroLength_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+
+            var exc = Assert.Throws<ArgumentException>(
+                () => Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 0, order)
+            );
+
+            Assert.IsTrue(
+                exc.Message.ToLower().Contains(
+                    "lesson length can't be non positive"
+                )
+            );
+        }
 
     }
 }
