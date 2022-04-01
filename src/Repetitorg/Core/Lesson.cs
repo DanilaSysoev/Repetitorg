@@ -50,7 +50,6 @@ namespace Repetitorg.Core
             storage.Add(lesson);
             return lesson;
         }
-
         public static IList<Lesson> GetIntersectionWithAll(Lesson lesson)
         {
             return storage.Filter(les =>
@@ -60,6 +59,10 @@ namespace Repetitorg.Core
                 lesson.DateTime < les.DateTime.AddMinutes(les.LengthInMinutes)) &&
                !les.Equals(lesson)
             );
+        }
+        public static void AddToSchedule(Lesson lesson)
+        {
+            lesson.Status = LessonStatus.Active;
         }
     }
 
