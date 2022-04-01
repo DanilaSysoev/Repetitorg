@@ -85,6 +85,8 @@
 	+ Removing student from order
 		+ Removing non-existent throws error
 		+ Removing null throws error
+	- Getting all orders
+		- For new collection returns empty list
 
 6. Lesson subsystem
 	- Lesson can be Active, NonActive, Canceled, Moved

@@ -255,5 +255,11 @@ namespace Repetitorg.CoreTest
                 "student can not be null"
             ));
         }
+
+        [TestCase]
+        public void GetAll_NewStorage_ReturnEmpty()
+        {
+            Assert.AreEqual(0, Order.Count);
+        }
     }
 }
