@@ -236,6 +236,21 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(l1, inter[0]);
         }
         [TestCase]
+        public void GetIntersectionWithScheduled_NonScheduledIntersectScheduled_ReturnCorrectList()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 0, 0), 90, order);
+
+            Lesson.AddToSchedule(l2);
+
+            IList<Lesson> inter = Lesson.GetIntersectionWithScheduled(l2);
+            Assert.AreEqual(0, inter.Count);
+            inter = Lesson.GetIntersectionWithScheduled(l1);
+            Assert.AreEqual(1, inter.Count);
+            Assert.AreEqual(l2, inter[0]);
+        }
+        [TestCase]
         public void GetIntersectionWithScheduled_FirstContainsSecont_ReturnCorrectList()
         {
             Order order = Order.CreateNew("test order");
@@ -268,10 +283,8 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(inter.Contains(l2));
             inter = Lesson.GetIntersectionWithScheduled(l1);
             Assert.AreEqual(0, inter.Count);
-            Assert.AreEqual(li, inter[0]);
             inter = Lesson.GetIntersectionWithScheduled(l2);
             Assert.AreEqual(0, inter.Count);
-            Assert.AreEqual(li, inter[0]);
         }
         [TestCase]
         public void GetIntersectionWithScheduled_EndToEndLessons_NoIntersection()
