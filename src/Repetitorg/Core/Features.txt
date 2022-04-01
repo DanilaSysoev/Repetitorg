@@ -94,7 +94,7 @@
 	  and some order
 	  - Creating with null order throws error
 	  - Creating with non-positive length throws error	
-	  - New Lesson is non-active
+	  + New Lesson is non-active
 	- Add Lesson to schedule (activate)
 		- Intersection with other lesson throws error
 	- Remove from schedule (deactivate)
