@@ -26,9 +26,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Clear_ClearAfterThreeAddition_ProjectsCountEqualsZero()
         {
-            Project.Add("Test Project 1");
-            Project.Add("Test Project 2");
-            Project.Add("Test Project 3");
+            Project.CreateNew("Test Project 1");
+            Project.CreateNew("Test Project 2");
+            Project.CreateNew("Test Project 3");
 
             Project.InitializeStorage(new DummyProjectStorage());
 
@@ -38,24 +38,24 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Add_SimpleAdd_ProjectsCountIncrease()
         {
-            Project.Add("Test Project");
+            Project.CreateNew("Test Project");
             Assert.AreEqual(1, Project.Count);
         }
         [TestCase]
         public void Add_AddThreeProjects_ProjectsCountEqualsThree()
         {
-            Project.Add("Test Project 1");
-            Project.Add("Test Project 2");
-            Project.Add("Test Project 3");
+            Project.CreateNew("Test Project 1");
+            Project.CreateNew("Test Project 2");
+            Project.CreateNew("Test Project 3");
 
             Assert.AreEqual(3, Project.Count);
         }
         [TestCase]
         public void Add_AddWithDuplicateName_ThrowsException()
         {
-            Project.Add("Test Project");
+            Project.CreateNew("Test Project");
 
-            var exception = Assert.Throws<InvalidOperationException>(() => Project.Add("Test Project"));
+            var exception = Assert.Throws<InvalidOperationException>(() => Project.CreateNew("Test Project"));
 
             Assert.IsTrue(exception.Message.ToLower().Contains(
                 "project with name \"test project\" already exist"
@@ -65,7 +65,7 @@ namespace Repetitorg.CoreTest
         public void Add_AddWithNullName_ThrowsException()
         {
             var exception = Assert.Throws<ArgumentException>(
-                () => Project.Add(null)
+                () => Project.CreateNew(null)
             );
 
             Assert.IsTrue(exception.Message.ToLower().Contains(
@@ -76,9 +76,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetAll_AddedThreeProjects_ReturnAll()
         {
-            Project p1 = Project.Add("Test Project 1");
-            Project p2 = Project.Add("Test Project 2");
-            Project p3 = Project.Add("Test Project 3");
+            Project p1 = Project.CreateNew("Test Project 1");
+            Project p2 = Project.CreateNew("Test Project 2");
+            Project p3 = Project.CreateNew("Test Project 3");
 
             IReadOnlyList<Project> projects = Project.GetAll();
 
@@ -91,9 +91,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Remove_RemoveExisting_RemoveSuccess()
         {
-            Project p1 = Project.Add("Test Project 1");
-            Project p2 = Project.Add("Test Project 2");
-            Project p3 = Project.Add("Test Project 3");
+            Project p1 = Project.CreateNew("Test Project 1");
+            Project p2 = Project.CreateNew("Test Project 2");
+            Project p3 = Project.CreateNew("Test Project 3");
 
             Project.Remove(p1);
 
@@ -107,11 +107,11 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Remove_RemoveNonExistent_NothingHappens()
         {
-            Project p1 = Project.Add("Test Project 1");
+            Project p1 = Project.CreateNew("Test Project 1");
             Project.InitializeStorage(new DummyProjectStorage());
 
-            Project p2 = Project.Add("Test Project 2");
-            Project p3 = Project.Add("Test Project 3");
+            Project p2 = Project.CreateNew("Test Project 2");
+            Project p3 = Project.CreateNew("Test Project 3");
             Project.Remove(p1);
 
             IReadOnlyList<Project> projects = Project.GetAll();
@@ -125,11 +125,11 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void FindByName_FindByNull_ThrowsException()
         {
-            Project p1 = Project.Add("Test Project 1");
-            Project p2 = Project.Add("Oops Test Project 2");
-            Project p3 = Project.Add("OOPSTest Project 3");
-            Project p4 = Project.Add("Project 4");
-            Project p5 = Project.Add("Project 5");
+            Project p1 = Project.CreateNew("Test Project 1");
+            Project p2 = Project.CreateNew("Oops Test Project 2");
+            Project p3 = Project.CreateNew("OOPSTest Project 3");
+            Project p4 = Project.CreateNew("Project 4");
+            Project p5 = Project.CreateNew("Project 5");
 
             var exception = Assert.Throws<ArgumentException>(
                 () => Project.FindByName(null)
@@ -142,11 +142,11 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void FindByName_FindThreeStrongOverlap_ReturnAll()
         {
-            Project p1 = Project.Add("Test Project 1");
-            Project p2 = Project.Add("Oops Test Project 2");
-            Project p3 = Project.Add("OOPSTest Project 3");
-            Project p4 = Project.Add("Project 4");
-            Project p5 = Project.Add("Project 5");
+            Project p1 = Project.CreateNew("Test Project 1");
+            Project p2 = Project.CreateNew("Oops Test Project 2");
+            Project p3 = Project.CreateNew("OOPSTest Project 3");
+            Project p4 = Project.CreateNew("Project 4");
+            Project p5 = Project.CreateNew("Project 5");
 
             List<Project> projects = Project.FindByName("Test");
 
@@ -158,11 +158,11 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void FindByName_FindThreeCaseIgnoreOverlap_ReturnAll()
         {
-            Project p1 = Project.Add("test Project 1");
-            Project p2 = Project.Add("Oops TeSt Project 2");
-            Project p3 = Project.Add("OOPSTEST Project 3");
-            Project p4 = Project.Add("Project 4");
-            Project p5 = Project.Add("Project 5");
+            Project p1 = Project.CreateNew("test Project 1");
+            Project p2 = Project.CreateNew("Oops TeSt Project 2");
+            Project p3 = Project.CreateNew("OOPSTEST Project 3");
+            Project p4 = Project.CreateNew("Project 4");
+            Project p5 = Project.CreateNew("Project 5");
 
             List<Project> projects = Project.FindByName("test");
 
@@ -175,9 +175,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Complete_CompleteExisting_CompleteSuccess()
         {
-            Project p1 = Project.Add("Test Project 1");
-            Project p2 = Project.Add("Test Project 2");
-            Project p3 = Project.Add("Test Project 3");
+            Project p1 = Project.CreateNew("Test Project 1");
+            Project p2 = Project.CreateNew("Test Project 2");
+            Project p3 = Project.CreateNew("Test Project 3");
 
             Project.Complete(p1);
 
@@ -188,9 +188,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Complete_CompleteExisting_CompletingUpdateProject()
         {
-            Project p1 = Project.Add("Test Project 1");
-            Project p2 = Project.Add("Test Project 2");
-            Project p3 = Project.Add("Test Project 3");
+            Project p1 = Project.CreateNew("Test Project 1");
+            Project p2 = Project.CreateNew("Test Project 2");
+            Project p3 = Project.CreateNew("Test Project 3");
 
             Assert.AreEqual(0, projects.UpdatesCount);
             Project.Complete(p1);

@@ -15,7 +15,7 @@ namespace Repetitorg.Core
                 return projects.GetAll().Count;
             }
         }
-        public static Project Add(string name)
+        public static Project CreateNew(string name)
         {
             new Checker().
                 AddNull(name, "Can't create project with NULL name").

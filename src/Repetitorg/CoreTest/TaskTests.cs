@@ -227,7 +227,7 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void AttachToProject_AttachNullTask_ThrowsException()
         {
-            Project p1 = Project.Add("Test project 1");
+            Project p1 = Project.CreateNew("Test project 1");
 
             var exception = Assert.Throws<ArgumentException>(
                 () => Task.AttachToProject(null, p1)
@@ -241,7 +241,7 @@ namespace Repetitorg.CoreTest
         {
             Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
 
-            Project p1 = Project.Add("Test project 1");
+            Project p1 = Project.CreateNew("Test project 1");
 
             Assert.IsNull(task1.Project);
             Task.AttachToProject(task1, p1);
@@ -252,8 +252,8 @@ namespace Repetitorg.CoreTest
         {
             Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
 
-            Project p1 = Project.Add("test project 1");
-            Project p2 = Project.Add("Test project 2");
+            Project p1 = Project.CreateNew("test project 1");
+            Project p2 = Project.CreateNew("Test project 2");
 
             Task.AttachToProject(task1, p1);
             var exception = 
@@ -269,7 +269,7 @@ namespace Repetitorg.CoreTest
         {
             Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
 
-            Project p1 = Project.Add("Test project 1");
+            Project p1 = Project.CreateNew("Test project 1");
 
             Task.AttachToProject(task1, p1);
             Task.AttachToProject(task1, p1);
@@ -280,7 +280,7 @@ namespace Repetitorg.CoreTest
         {
             Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
 
-            Project p1 = Project.Add("Test project 1");
+            Project p1 = Project.CreateNew("Test project 1");
 
             Task.AttachToProject(task1, p1);
             Task.AttachToProject(task1, null);
@@ -291,7 +291,7 @@ namespace Repetitorg.CoreTest
         {
             Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
 
-            Project p1 = Project.Add("Test project 1");
+            Project p1 = Project.CreateNew("Test project 1");
 
             Task.AttachToProject(task1, null);
             Assert.IsNull(task1.Project);
@@ -299,7 +299,7 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void AttachToProject_AttachToCompleteProject_ThrowsException()
         {
-            Project p = Project.Add("Test project");
+            Project p = Project.CreateNew("Test project");
             Project.Complete(p);
 
             Task t = Task.AddOnDate("Test task", new DateTime(2020, 10, 10));
@@ -320,8 +320,8 @@ namespace Repetitorg.CoreTest
             Task task2 = Task.AddOnDate("2020/11/30 test task 2", new DateTime(2020, 11, 30));
             Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
-            Project p1 = Project.Add("Test project 1");
-            Project p2 = Project.Add("Test project 2");
+            Project p1 = Project.CreateNew("Test project 1");
+            Project p2 = Project.CreateNew("Test project 2");
 
             Task.AttachToProject(task1, p2);
             Task.AttachToProject(task3, p2);
@@ -336,8 +336,8 @@ namespace Repetitorg.CoreTest
             Task task2 = Task.AddOnDate("2020/11/30 test task 2", new DateTime(2020, 11, 30));
             Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
-            Project p1 = Project.Add("Test project 1");
-            Project p2 = Project.Add("Test project 2");
+            Project p1 = Project.CreateNew("Test project 1");
+            Project p2 = Project.CreateNew("Test project 2");
 
             Task.AttachToProject(task1, p2);
             Task.AttachToProject(task3, p2);
@@ -354,8 +354,8 @@ namespace Repetitorg.CoreTest
             Task task2 = Task.AddOnDate("2020/11/30 test task 2", new DateTime(2020, 11, 30));
             Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
-            Project p1 = Project.Add("Test project 1");
-            Project p2 = Project.Add("Test project 2");
+            Project p1 = Project.CreateNew("Test project 1");
+            Project p2 = Project.CreateNew("Test project 2");
 
             Task.AttachToProject(task1, p2);
 
@@ -372,8 +372,8 @@ namespace Repetitorg.CoreTest
             Task task2 = Task.AddOnDate("2020/11/30 test task 2", new DateTime(2020, 11, 30));
             Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
-            Project p1 = Project.Add("Test project 1");
-            Project p2 = Project.Add("Test project 2");
+            Project p1 = Project.CreateNew("Test project 1");
+            Project p2 = Project.CreateNew("Test project 2");
 
             Task.AttachToProject(task1, p2);
 
