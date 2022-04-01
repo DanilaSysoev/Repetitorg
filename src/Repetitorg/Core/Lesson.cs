@@ -32,6 +32,7 @@ namespace Repetitorg.Core
         {
             new Checker()
                 .Add(v => v <= 0, lengthInMinutes, "Lesson length can't be non positive\n")
+                .AddNull(order, "Order can't be null.\n")
                 .Check();
 
             Lesson lesson = new Lesson(dateTime, lengthInMinutes, order);
