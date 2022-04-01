@@ -93,7 +93,7 @@
 	- Creating Lesson on some date and time, some length
 	  and some order
 	  - Creating with null order throws error
-	  - Creating with non-positive length throws error	
+	  + Creating with non-positive length throws error	
 	  + New Lesson is non-active
 	- Add Lesson to schedule (activate)
 		- Intersection with other lesson throws error
