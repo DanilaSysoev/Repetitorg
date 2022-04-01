@@ -7,6 +7,14 @@ namespace Repetitorg.Core
 {
     public class Lesson
     {
+        public LessonStatus Status
+        {
+            get
+            {
+                return LessonStatus.NonActive;
+            }
+        }
+
         private Lesson(DateTime dateTime, int lengthInMinutes, Order order)
         {
 
@@ -31,5 +39,10 @@ namespace Repetitorg.Core
             lessons = storage;
         }
         private static ILessonStorage lessons;
+    }
+
+    public enum LessonStatus
+    {
+        NonActive
     }
 }
