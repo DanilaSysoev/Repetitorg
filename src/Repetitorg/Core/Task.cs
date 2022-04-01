@@ -15,7 +15,7 @@ namespace Repetitorg.Core
             }
         }
 
-        public static Task AddOnDate(string taskName, DateTime date)
+        public static Task CreateNew(string taskName, DateTime date)
         {
             new Checker().
                 AddNull(taskName, "Can't add task with NULL name").

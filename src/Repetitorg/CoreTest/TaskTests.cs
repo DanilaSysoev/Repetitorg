@@ -28,7 +28,7 @@ namespace Repetitorg.CoreTest
         public void AddOnDate_AddWithNullName_ThrowsException()
         {
             var exception = Assert.Throws<ArgumentException>(
-                () => Task.AddOnDate(null, new DateTime(2020, 12, 30))
+                () => Task.CreateNew(null, new DateTime(2020, 12, 30))
             );
             Assert.IsTrue(
                 exception.Message.ToLower().Contains("can't add task with null name")
@@ -38,13 +38,13 @@ namespace Repetitorg.CoreTest
         public void AddOnDate_SimpleAddTask_TasksCountIncrease()
         {
             Assert.AreEqual(0, Task.TasksCount);
-            Task task = Task.AddOnDate("2020/12/30 test task", new DateTime(2020, 12, 30));
+            Task task = Task.CreateNew("2020/12/30 test task", new DateTime(2020, 12, 30));
             Assert.AreEqual(1, Task.TasksCount);
         }
         [TestCase]
         public void AddOnDate_SimpleAddTask_TasksAddedOnCorrectDate()
         {
-            Task task = Task.AddOnDate("2020/12/30 test task", new DateTime(2020, 12, 30));
+            Task task = Task.CreateNew("2020/12/30 test task", new DateTime(2020, 12, 30));
             IReadOnlyList<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
             Assert.AreEqual(task, tasks[0]);
             Assert.AreEqual(1, Task.TasksCount);
@@ -52,9 +52,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void AddOnDate_AddThreeTask_AllTasksExist()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.CreateNew("2020/12/30 test task 3", new DateTime(2020, 12, 30));
             IReadOnlyList<Task> tasks = Task.GetByDate(new DateTime(2020, 12, 30));
 
             Assert.AreEqual(3, tasks.Count);
@@ -65,10 +65,10 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void AddOnDate_AddFourTaskOnDifferentDate_AllTasksExist()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2019, 11, 20));
-            Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2018, 10, 10));
-            Task task4 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2017, 10, 5));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("2020/12/30 test task 2", new DateTime(2019, 11, 20));
+            Task task3 = Task.CreateNew("2020/12/30 test task 3", new DateTime(2018, 10, 10));
+            Task task4 = Task.CreateNew("2020/12/30 test task 3", new DateTime(2017, 10, 5));
             IReadOnlyList<Task> tasks1 = Task.GetByDate(new DateTime(2020, 12, 30));
             IReadOnlyList<Task> tasks2 = Task.GetByDate(new DateTime(2019, 11, 20));
             IReadOnlyList<Task> tasks3 = Task.GetByDate(new DateTime(2018, 10, 10));
@@ -89,9 +89,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetAll_AddThreeOnSameDate_ReturnAll()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.CreateNew("2020/12/30 test task 3", new DateTime(2020, 12, 30));
 
             var tasks = Task.GetAll();
             Assert.AreEqual(3, tasks.Count);
@@ -102,9 +102,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetAll_AddThreeOnDifferentDate_ReturnAll()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/11/10 test task 2", new DateTime(2020, 11, 10));
-            Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("2020/11/10 test task 2", new DateTime(2020, 11, 10));
+            Task task3 = Task.CreateNew("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             var tasks = Task.GetAll();
             Assert.AreEqual(3, tasks.Count);
@@ -116,9 +116,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetByDate_DateWithoutTasks_ReturnEmptyCollection()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task task3 = Task.AddOnDate("2020/12/30 test task 3", new DateTime(2020, 12, 30));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.CreateNew("2020/12/30 test task 3", new DateTime(2020, 12, 30));
 
             var tasks = Task.GetByDate(new DateTime(2019, 12, 30));
 
@@ -129,8 +129,8 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void AddOnDate_Duplicate_ThrowsException()
         {
-            Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            var exception = Assert.Throws<InvalidOperationException>(() => Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30)));
+            Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            var exception = Assert.Throws<InvalidOperationException>(() => Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30)));
             Assert.IsTrue(
                 exception.Message.ToLower().Contains(
                     string.Format("the task with name \"2020/12/30 test task 1\" has already been defined for date \"{0}\"", new DateTime(2020, 12, 30))
@@ -140,9 +140,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Remove_RemoveExisting_CountDecrease()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/11/10 test task 2", new DateTime(2020, 11, 10));
-            Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("2020/11/10 test task 2", new DateTime(2020, 11, 10));
+            Task task3 = Task.CreateNew("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Task.Remove(task2);
             Assert.AreEqual(2, Task.TasksCount);
@@ -150,9 +150,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Remove_RemoveExisting_CountDecreaseInGetByDate()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.CreateNew("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Task.Remove(task2);
 
@@ -161,9 +161,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Remove_RemoveExisting_CountDecreaseInGetAll()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.CreateNew("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Task.Remove(task2);
 
@@ -172,13 +172,13 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Remove_RemoveNonexistent_NothingHappens()
         {
-            Task taskOld = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task taskOld = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
             tasks = new DummyTasksStorage();
             Task.InitializeStorage(tasks);
 
-            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task task3 = Task.AddOnDate("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
+            Task task1 = Task.CreateNew("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.CreateNew("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Assert.AreEqual(3, Task.TasksCount);
             Task.Remove(taskOld);
@@ -187,9 +187,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Remove_RemoveNull_ThrowsException()
         {
-            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task task3 = Task.AddOnDate("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
+            Task task1 = Task.CreateNew("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.CreateNew("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             var exception = Assert.Throws<ArgumentException>(
                 () => Task.Remove(null)
@@ -202,9 +202,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Complete_CompleteExisting_CompleteSuccess()
         {
-            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task task3 = Task.AddOnDate("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
+            Task task1 = Task.CreateNew("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.CreateNew("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Assert.IsFalse(task2.Completed);
             Task.Complete(task2);
@@ -215,9 +215,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Complete_CompleteExisting_CompletingUpdateTaskInStorage()
         {
-            Task task1 = Task.AddOnDate("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
-            Task task3 = Task.AddOnDate("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
+            Task task1 = Task.CreateNew("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));
+            Task task3 = Task.CreateNew("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Assert.AreEqual(0, tasks.UpdatesCount);
             Task.Complete(task2);
@@ -239,7 +239,7 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void AttachToProject_AttachNotAttachedTask_AttachSuccess()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
 
             Project p1 = Project.CreateNew("Test project 1");
 
@@ -250,7 +250,7 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void AttachToProject_AttachAlreadyAttachedTask_TrowsException()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
 
             Project p1 = Project.CreateNew("test project 1");
             Project p2 = Project.CreateNew("Test project 2");
@@ -267,7 +267,7 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void AttachToProject_AttachToSameProject_NothingHappens()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
 
             Project p1 = Project.CreateNew("Test project 1");
 
@@ -278,7 +278,7 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void AttachToProject_AttachToNullProjectForAttachedTask_UnattachTask()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
 
             Project p1 = Project.CreateNew("Test project 1");
 
@@ -289,7 +289,7 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void AttachToProject_AttachToNullProjectForNotAttachedTask_NothingHappens()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
 
             Project p1 = Project.CreateNew("Test project 1");
 
@@ -302,7 +302,7 @@ namespace Repetitorg.CoreTest
             Project p = Project.CreateNew("Test project");
             Project.Complete(p);
 
-            Task t = Task.AddOnDate("Test task", new DateTime(2020, 10, 10));
+            Task t = Task.CreateNew("Test task", new DateTime(2020, 10, 10));
 
             var exception = Assert.Throws<InvalidOperationException>(
                 () => Task.AttachToProject(t, p)
@@ -316,9 +316,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetByProject_GettingByProjectWithotTasks_ReturnEmpty()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/11/30 test task 2", new DateTime(2020, 11, 30));
-            Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("2020/11/30 test task 2", new DateTime(2020, 11, 30));
+            Task task3 = Task.CreateNew("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Project p1 = Project.CreateNew("Test project 1");
             Project p2 = Project.CreateNew("Test project 2");
@@ -332,9 +332,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetByProject_GettingByProjectWithTasks_ReturnAll()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/11/30 test task 2", new DateTime(2020, 11, 30));
-            Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("2020/11/30 test task 2", new DateTime(2020, 11, 30));
+            Task task3 = Task.CreateNew("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Project p1 = Project.CreateNew("Test project 1");
             Project p2 = Project.CreateNew("Test project 2");
@@ -350,9 +350,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetByProject_GettingByNullProject_ReturnAllWithotProject()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/11/30 test task 2", new DateTime(2020, 11, 30));
-            Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("2020/11/30 test task 2", new DateTime(2020, 11, 30));
+            Task task3 = Task.CreateNew("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Project p1 = Project.CreateNew("Test project 1");
             Project p2 = Project.CreateNew("Test project 2");
@@ -368,9 +368,9 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetWithotProject_GettingExistingWithoutProject_ReturnAllWithotProject()
         {
-            Task task1 = Task.AddOnDate("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            Task task2 = Task.AddOnDate("2020/11/30 test task 2", new DateTime(2020, 11, 30));
-            Task task3 = Task.AddOnDate("2020/10/20 test task 3", new DateTime(2020, 10, 20));
+            Task task1 = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
+            Task task2 = Task.CreateNew("2020/11/30 test task 2", new DateTime(2020, 11, 30));
+            Task task3 = Task.CreateNew("2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Project p1 = Project.CreateNew("Test project 1");
             Project p2 = Project.CreateNew("Test project 2");
