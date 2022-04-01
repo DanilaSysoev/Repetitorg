@@ -126,5 +126,17 @@ namespace Repetitorg.CoreTest
             IList<Lesson> intersection = Lesson.GetIntersectionWithAll(lesson);
             Assert.AreEqual(0, intersection.Count);
         }
+        [TestCase]
+        public void GetIntersectionWithAll_ExistTwoNonIntersectionLesson_ReturnEmptyList()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
+
+            IList<Lesson> inter = Lesson.GetIntersectionWithAll(l1);
+            Assert.AreEqual(0, inter.Count);
+            inter = Lesson.GetIntersectionWithAll(l2);
+            Assert.AreEqual(0, inter.Count);
+        }
     }
 }
