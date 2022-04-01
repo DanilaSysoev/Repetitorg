@@ -6,5 +6,7 @@ namespace Repetitorg.Core.Base
 {
     public interface ILessonStorage
     {
+        IReadOnlyList<Lesson> GetAll();
+        void Add(Lesson lesson);
     }
 }

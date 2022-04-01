@@ -21,11 +21,12 @@ namespace Repetitorg.CoreTest
         }
 
         [TestCase]
-        public void Create_CreateWithCorrectArgs_LessonCountIncrease()
+        public void CreateNew_CreateWithCorrectArgs_LessonCountIncrease()
         {
             Order order = Order.CreateNew("test order");
+            
             Assert.AreEqual(0, Lesson.Count);
-            Lesson lesson = Lesson.Create(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson lesson = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
             Assert.AreEqual(1, Lesson.Count);
         }
     }
