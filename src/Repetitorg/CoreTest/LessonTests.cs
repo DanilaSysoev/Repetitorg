@@ -218,6 +218,16 @@ namespace Repetitorg.CoreTest
                 exc.Message.ToLower().Contains("lesson can't be null")
             );
         }
+        [TestCase]
+        public void AddToSchedule_AddOneLesson_LessonUpdating()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+
+            Assert.AreEqual(0, lessons.UpdatesCount);
+            Lesson.AddToSchedule(l1);
+            Assert.AreEqual(1, lessons.UpdatesCount);
+        }
 
     }
 }
