@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Person : StorageWrapper<Person>
+    public class Person
     {
         private string fullName;
         private string phoneNumber;
