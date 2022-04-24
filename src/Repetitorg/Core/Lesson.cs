@@ -100,6 +100,11 @@ namespace Repetitorg.Core
                        || lesson.Status == LessonStatus.Completed)
             );
         }
+
+        public static void Complete(Lesson lesson)
+        {
+
+        }
     }
 
     public enum LessonStatus

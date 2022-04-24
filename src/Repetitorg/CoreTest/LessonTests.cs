@@ -12,13 +12,19 @@ namespace Repetitorg.CoreTest
     {
         private DummyOrderStorage orders;
         private DummyLessonStorage lessons;
+        private DummyPersonStorage<Client> clients;
+        private DummyPersonStorage<Student> students;
         [SetUp]
         public void Setup()
         {
             orders = new DummyOrderStorage();
             lessons = new DummyLessonStorage();
+            clients = new DummyPersonStorage<Client>();
+            students = new DummyPersonStorage<Student>();
             Order.SetupStorage(orders);
             Lesson.SetupStorage(lessons);
+            Client.SetupStorage(clients);
+            Student.SetupStorage(students);
         }
 
         [TestCase]
@@ -495,6 +501,110 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(LessonStatus.Active, l1.Status);
             Assert.AreEqual(LessonStatus.Active, l2.Status);
             Assert.AreEqual(LessonStatus.NonActive, li.Status);
+        }
+
+        [TestCase]
+        public void Complete_completingActiveLesson_statusChangeToCompleted()
+        {
+            Order o1 = Order.CreateNew("test order 1");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson.AddToSchedule(l1);
+            Lesson.Complete(l1);
+            Assert.AreEqual(LessonStatus.Completed, l1.Status);
+        }
+        [TestCase]
+        public void Complete_completingActiveLesson_balancesIncludedOfClientsDecrease()
+        {
+            Order o1 = Order.CreateNew("test order 1");
+            Order o2 = Order.CreateNew("test order 2");
+            Client c1 = Client.CreateNew("tc1");
+            Client c2 = Client.CreateNew("tc2");
+            Client c3 = Client.CreateNew("tc3");
+            Student s1 = Student.CreateNew("ts1", c1);
+            Student s2 = Student.CreateNew("ts2", c2);
+            Student s3 = Student.CreateNew("ts3", c3);
+            o1.AddStudent(s1, 300000);
+            o1.AddStudent(s3, 400000);
+            o2.AddStudent(s2, 350000);
+
+            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
+            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 120, o1);
+            Lesson.AddToSchedule(l1);
+            Lesson.AddToSchedule(l2);
+            Lesson.AddToSchedule(l3);
+
+            Lesson.Complete(l1);
+            Assert.AreEqual(-450000, c1.BalanceInKopeks);
+            Assert.AreEqual(-600000, c3.BalanceInKopeks);
+        }
+        [TestCase]
+        public void Complete_completingActiveLesson_balancesExludedOfClientsNotChanged()
+        {
+            Order o1 = Order.CreateNew("test order 1");
+            Order o2 = Order.CreateNew("test order 2");
+            Client c1 = Client.CreateNew("tc1");
+            Client c2 = Client.CreateNew("tc2");
+            Client c3 = Client.CreateNew("tc3");
+            Student s1 = Student.CreateNew("ts1", c1);
+            Student s2 = Student.CreateNew("ts2", c2);
+            Student s3 = Student.CreateNew("ts3", c3);
+            o1.AddStudent(s1, 300000);
+            o1.AddStudent(s3, 400000);
+            o2.AddStudent(s2, 350000);
+
+            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
+            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 120, o1);
+            Lesson.AddToSchedule(l1);
+            Lesson.AddToSchedule(l2);
+            Lesson.AddToSchedule(l3);
+
+            Lesson.Complete(l1);
+            Assert.AreEqual(0, c2.BalanceInKopeks);
+        }
+        [TestCase]
+        public void Complete_completingNonActiveLesson_throwsException()
+        {
+            Order o1 = Order.CreateNew("test order 1");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => Lesson.Complete(l1)
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't complete non active lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void Complete_completingCompletedLesson_throwsException()
+        {
+            Order o1 = Order.CreateNew("test order 1");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson.AddToSchedule(l1);
+
+            Lesson.Complete(l1);
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => Lesson.Complete(l1)
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't complete completed lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void Complete_completingActiveLesson_storageUpdeted()
+        {
+            Order o1 = Order.CreateNew("test order 1");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson.AddToSchedule(l1);
+
+            Lesson.Complete(l1);
+
+            Assert.AreEqual(1, lessons.UpdatesCount);
         }
 
         [TestCase]
