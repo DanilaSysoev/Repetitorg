@@ -500,7 +500,7 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetScheduledOnDate_emptyCollection_returnEmptyList()
         {
-            var lessons = Lesson.GetScheduledOnDate(new DateTime(2022, 01, 15));
+            var lessons = Lesson.GetScheduledOnDate(new DateTime(2022, 1, 15));
             Assert.AreEqual(0, lessons.Count);
         }
         [TestCase]
@@ -512,7 +512,19 @@ namespace Repetitorg.CoreTest
             Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
             Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 0, 0), 120, o1);
 
-            var lessons = Lesson.GetScheduledOnDate(new DateTime(2022, 01, 15));
+            var lessons = Lesson.GetScheduledOnDate(new DateTime(2022, 1, 15));
+            Assert.AreEqual(0, lessons.Count);
+        }
+        [TestCase]
+        public void GetScheduledOnDate_notExistScheduledOnGivenLesson_returnEmptyList()
+        {
+            Order o1 = Order.CreateNew("test order 1");
+            Order o2 = Order.CreateNew("test order 2");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
+            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 0, 0), 120, o1);
+
+            var lessons = Lesson.GetScheduledOnDate(new DateTime(2022, 1, 15));
             Assert.AreEqual(0, lessons.Count);
         }
     }
