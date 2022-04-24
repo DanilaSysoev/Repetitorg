@@ -79,19 +79,18 @@ namespace Repetitorg.Core
                     !l1.Equals(l2);
         }
 
-        public static void AddToSchedule(Lesson lesson)
+        public void AddToSchedule()
         {
-            var inters = GetIntersectionWithScheduled(lesson);
+            var inters = GetIntersectionWithScheduled(this);
             new Checker()
-                .AddNull(lesson, "Lesson can't be null.\n")
                 .Add(les => 
-                    inters.Count > 0, 
-                    lesson, 
-                    lesson + " intersect other lessons in schedule.\n")
+                    inters.Count > 0,
+                    this,
+                    this + " intersect other lessons in schedule.\n")
                 .Check();
 
-            lesson.Status = LessonStatus.Active;
-            storage.Update(lesson);
+            this.Status = LessonStatus.Active;
+            storage.Update(this);
         }
 
         public static IList<Lesson> GetScheduledOnDate(DateTime date)
