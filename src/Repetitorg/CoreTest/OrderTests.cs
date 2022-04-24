@@ -282,5 +282,45 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(all.Contains(o3));
             Assert.AreEqual(3, all.Count);
         }
+
+        [TestCase]
+        public void GetCostPerHourFor_argumentIsNull_throwsException()
+        {
+            var o1 = Order.CreateNew("o1");
+            var exception = Assert.Throws<ArgumentException>(
+                () => o1.GetCostPerHourFor(null)
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "student can't be null"
+                )
+            );
+        }
+        [TestCase]
+        public void GetCostPerHourFor_studentNotInOrder_throwsException()
+        {
+            var o1 = Order.CreateNew("o1");
+            var c1 = Client.CreateNew("tc2");
+            var s1 = Student.CreateNew("ts1", c1);
+            var s2 = Student.CreateNew("ts2", c1);
+            o1.AddStudent(s2, 100000);
+            var exception = Assert.Throws<ArgumentException>(
+                () => o1.GetCostPerHourFor(s1)
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "student not in order"
+                )
+            );
+        }
+        [TestCase]
+        public void GetCostPerHourFor_studentInOrder_returnCorrectCost()
+        {
+            var o1 = Order.CreateNew("o1");
+            var c1 = Client.CreateNew("tc1");
+            var s1 = Student.CreateNew("ts1", c1);
+            o1.AddStudent(s1, 300000);
+            Assert.AreEqual(300000, o1.GetCostPerHourFor(s1));
+        }
     }
 }

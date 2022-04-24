@@ -21,6 +21,9 @@
 		+ Removing payment update client object in storage
 	+ Filtering payments by date
 	+ Getting all clients (as copy of collection)
+	+ Decrease balance
+		+ decrease on negative value throws exception
+		+ decreasing update database
 
 
 2. Students subsystem
@@ -87,6 +90,9 @@
 		+ Removing null throws error
 	+ Getting all orders
 		+ For new collection returns empty list
+	+ Getting cost for student
+		+ Getting for non existent student throws exception
+		+ Getting for null student throws exception
 
 6. Lesson subsystem
 	+ Lesson can be Active, NonActive, Canceled, Moved, Completed
@@ -117,11 +123,12 @@
 	- Getting all lessons by order
 	- Remove Lesson
 		- Remove Complete/Moved Lesson throws error
-	- Complete Lesson
-		- Completing decrease balance of clents
-		- Completeng non-scheduled Lesson throws error
-		- Completing completed Lesson throws error
-		- Completing Lesson update Storage
+	+ Complete Lesson
+		+ Completing decrease balance of clents
+		+ Completeng non-scheduled Lesson throws error
+		+ Completing completed Lesson throws error
+		+ Completing Lesson update Storage
+		+ Non integer cost rounded down
 	- Renew Lesson		
 		- Renew increase balance of clents
 		- Renew non completed Lesson throws error

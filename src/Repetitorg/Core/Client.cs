@@ -28,6 +28,17 @@ namespace Repetitorg.Core
             get { return personData; }
         }
 
+        public void DecreaseBalance(long summInCopex)
+        {
+            new Checker()
+               .Add(summ => summ < 0,
+                    summInCopex,
+                    "Value of decreasing balance can't be negative.\n")
+               .Check();
+
+            balanceInKopeks -= summInCopex;
+            storage.Update(this);
+        }
         public void MakePayment(Payment payment)
         {
             new Checker().AddNull(payment, "Payment can't be NULL").Check();

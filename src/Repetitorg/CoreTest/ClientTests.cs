@@ -469,6 +469,36 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(exception.Message.ToLower().Contains("phonenumber can't be null"));
         }
 
+        [TestCase]
+        public void DecreaseBalance_summIsNegative_throwsException()
+        {
+            var client = CreateClient();
+            var exception = Assert.Throws<ArgumentException>(
+                () => client.DecreaseBalance(-100000)
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "value of decreasing balance can't be negative"
+                )
+            );
+        }
+        [TestCase]
+        public void DecreaseBalance_summIsPositive_balanceDecrease()
+        {
+            var client = CreateClient();
+            client.DecreaseBalance(100000);
+            Assert.AreEqual(-100000, client.BalanceInKopeks);
+        }
+        [TestCase]
+        public void DecreaseBalance_summIsPositive_clientUpdated()
+        {
+            var client = CreateClient();
+
+            var uc = clients.UpdatesCount;
+            client.DecreaseBalance(100000);
+            Assert.AreEqual(uc + 1, clients.UpdatesCount);
+        }
+
         private Client CreateClientWithPhoneNumber()
         {
             var c = Client.CreateNew("Иванов Иван Иванович", "+7(900)111-22-33");

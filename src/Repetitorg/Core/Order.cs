@@ -15,14 +15,24 @@ namespace Repetitorg.Core
                 return name;
             }
         }
-        public IReadOnlyList<Student> Students
+        public IList<Student> Students
         {
             get
             {
-                return students;
+                return studentsCosts.Keys.ToList();
             }
         }
 
+        public long GetCostPerHourFor(Student student)
+        {
+            new Checker()
+               .AddNull(student, "Student can't be null.\n")
+               .Add(s => s != null && !studentsCosts.ContainsKey(s),
+                    student, 
+                    "Student not in order.\n")
+               .Check();
+            return studentsCosts[student];
+        }
         public void AddStudent(Student student, long costPerHourInCopex)
         {
             new Checker().
@@ -31,7 +41,7 @@ namespace Repetitorg.Core
                 Add(arg => Students.Contains((Student)arg), student, "Student already added").
                 Check();
 
-            students.Add(student);
+            studentsCosts.Add(student, costPerHourInCopex);
             storage.Update(this);
         }
         public void RemoveStudent(Student student)
@@ -41,7 +51,7 @@ namespace Repetitorg.Core
 
             if (!Students.Contains(student))
                 throw new ArgumentException("Student is not in order");
-            students.Remove(student);
+            studentsCosts.Remove(student);
             storage.Update(this);
         }
         public override bool Equals(object obj)
@@ -79,13 +89,13 @@ namespace Repetitorg.Core
             return order;
         }
 
-        private List<Student> students;
+        private Dictionary<Student, long> studentsCosts;
         private string name;
 
         private Order(string name)
         {
             this.name = name;
-            students = new List<Student>();
+            studentsCosts = new Dictionary<Student, long>();
         }
     }
 }

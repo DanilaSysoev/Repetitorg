@@ -7,6 +7,8 @@ namespace Repetitorg.Core
 {
     public class Lesson : StorageWrapper<Lesson>
     {
+        private const int MinutesInHour = 60;
+
         public DateTime DateTime { get; private set; }
         public int LengthInMinutes { get; private set; }
         public Order Order { get; private set; } 
@@ -101,9 +103,24 @@ namespace Repetitorg.Core
             );
         }
 
-        public static void Complete(Lesson lesson)
+        public void Complete()
         {
+            new Checker()
+               .Add(les => les.Status == LessonStatus.Completed,
+                    this,
+                    "Can't complete completed lesson")
+               .Add(les => les.Status != LessonStatus.Active,
+                    this,
+                    "Can't complete non active lesson")
+               .Check(s => new InvalidOperationException(s));
 
+            Status = LessonStatus.Completed;
+            foreach(var student in Order.Students)
+            {
+                student.Client.DecreaseBalance(
+                    Order.GetCostPerHourFor(student) * LengthInMinutes / MinutesInHour
+                );
+            }
         }
     }
 

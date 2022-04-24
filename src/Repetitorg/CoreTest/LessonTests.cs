@@ -509,7 +509,7 @@ namespace Repetitorg.CoreTest
             Order o1 = Order.CreateNew("test order 1");
             Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
             Lesson.AddToSchedule(l1);
-            Lesson.Complete(l1);
+            l1.Complete();
             Assert.AreEqual(LessonStatus.Completed, l1.Status);
         }
         [TestCase]
@@ -534,7 +534,7 @@ namespace Repetitorg.CoreTest
             Lesson.AddToSchedule(l2);
             Lesson.AddToSchedule(l3);
 
-            Lesson.Complete(l1);
+            l1.Complete();
             Assert.AreEqual(-450000, c1.BalanceInKopeks);
             Assert.AreEqual(-600000, c3.BalanceInKopeks);
         }
@@ -560,8 +560,34 @@ namespace Repetitorg.CoreTest
             Lesson.AddToSchedule(l2);
             Lesson.AddToSchedule(l3);
 
-            Lesson.Complete(l1);
+            l1.Complete();
             Assert.AreEqual(0, c2.BalanceInKopeks);
+        }
+        [TestCase]
+        public void Complete_lessonCostNotInteger_balanceDecreaseOnRoundedDownValue()
+        {
+            Order o1 = Order.CreateNew("test order 1");
+            Order o2 = Order.CreateNew("test order 2");
+            Client c1 = Client.CreateNew("tc1");
+            Client c2 = Client.CreateNew("tc2");
+            Client c3 = Client.CreateNew("tc3");
+            Student s1 = Student.CreateNew("ts1", c1);
+            Student s2 = Student.CreateNew("ts2", c2);
+            Student s3 = Student.CreateNew("ts3", c3);
+            o1.AddStudent(s1, 100);
+            o1.AddStudent(s3, 200);
+            o2.AddStudent(s2, 350000);
+
+            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 50, o1);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
+            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 100, o1);
+            Lesson.AddToSchedule(l1);
+            Lesson.AddToSchedule(l2);
+            Lesson.AddToSchedule(l3);
+
+            l1.Complete();
+            Assert.AreEqual(-83, c1.BalanceInKopeks);
+            Assert.AreEqual(-166, c3.BalanceInKopeks);
         }
         [TestCase]
         public void Complete_completingNonActiveLesson_throwsException()
@@ -570,7 +596,7 @@ namespace Repetitorg.CoreTest
             Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
 
             var exception = Assert.Throws<InvalidOperationException>(
-                () => Lesson.Complete(l1)
+                () => l1.Complete()
             );
             Assert.IsTrue(
                 exception.Message.ToLower().Contains(
@@ -585,9 +611,9 @@ namespace Repetitorg.CoreTest
             Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
             Lesson.AddToSchedule(l1);
 
-            Lesson.Complete(l1);
+            l1.Complete();
             var exception = Assert.Throws<InvalidOperationException>(
-                () => Lesson.Complete(l1)
+                () => l1.Complete()
             );
             Assert.IsTrue(
                 exception.Message.ToLower().Contains(
@@ -602,7 +628,7 @@ namespace Repetitorg.CoreTest
             Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
             Lesson.AddToSchedule(l1);
 
-            Lesson.Complete(l1);
+            l1.Complete();
 
             Assert.AreEqual(1, lessons.UpdatesCount);
         }

@@ -25,5 +25,10 @@ namespace Repetitorg.Core
             if (message != "")
                 throw new ArgumentException(message);
         }
+        public void Check<T>(Func<string, T> exceptionBuilder) where T : Exception
+        {
+            if (message != "")
+                throw exceptionBuilder(message);
+        }
     }
 }
