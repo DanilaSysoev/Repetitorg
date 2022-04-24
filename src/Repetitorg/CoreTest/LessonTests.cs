@@ -510,22 +510,41 @@ namespace Repetitorg.CoreTest
             Order o2 = Order.CreateNew("test order 2");
             Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, o1);
             Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 0, 0), 120, o1);
+            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 120, o1);
 
             var lessons = Lesson.GetScheduledOnDate(new DateTime(2022, 1, 15));
             Assert.AreEqual(0, lessons.Count);
         }
         [TestCase]
-        public void GetScheduledOnDate_notExistScheduledOnGivenLesson_returnEmptyList()
+        public void GetScheduledOnDate_notExistScheduledOnGivenDate_returnEmptyList()
         {
             Order o1 = Order.CreateNew("test order 1");
             Order o2 = Order.CreateNew("test order 2");
             Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
             Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 0, 0), 120, o1);
+            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 120, o1);
+            Lesson.AddToSchedule(l2);
+            Lesson.AddToSchedule(l3);
 
             var lessons = Lesson.GetScheduledOnDate(new DateTime(2022, 1, 15));
             Assert.AreEqual(0, lessons.Count);
+        }
+        [TestCase]
+        public void GetScheduledOnDate_existTwoActiveOnGivenDate_returnCorrectList()
+        {
+            Order o1 = Order.CreateNew("test order 1");
+            Order o2 = Order.CreateNew("test order 2");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
+            Lesson l3 = Lesson.CreateNew(new DateTime(2022, 1, 15, 16, 0, 0), 120, o1);
+            Lesson.AddToSchedule(l1);
+            Lesson.AddToSchedule(l2);
+            Lesson.AddToSchedule(l3);
+
+            var lessons = Lesson.GetScheduledOnDate(new DateTime(2022, 1, 15));
+            Assert.AreEqual(2, lessons.Count);
+            Assert.IsTrue(lessons.Contains(l1));
+            Assert.IsTrue(lessons.Contains(l3));
         }
     }
 }

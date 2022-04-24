@@ -92,10 +92,10 @@ namespace Repetitorg.Core
             storage.Update(lesson);
         }
 
-        public static IList<Lesson> GetScheduledOnDate(DateTime dateTime)
+        public static IList<Lesson> GetScheduledOnDate(DateTime date)
         {
             return storage.Filter(
-                lesson => lesson.DateTime == dateTime
+                lesson => lesson.DateTime.Date == date
                        && (lesson.Status == LessonStatus.Active
                        || lesson.Status == LessonStatus.Completed)
             );
