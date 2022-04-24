@@ -496,5 +496,12 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(LessonStatus.Active, l2.Status);
             Assert.AreEqual(LessonStatus.NonActive, li.Status);
         }
+
+        [TestCase]
+        public void GetScheduledOnDate_OnemptyCollection_returnEmptyList()
+        {
+            var lessons = Lesson.GetScheduledOnDate(new DateTime(2022, 01, 15));
+            Assert.AreEqual(0, lessons.Count);
+        }
     }
 }

@@ -91,6 +91,15 @@ namespace Repetitorg.Core
             lesson.Status = LessonStatus.Active;
             storage.Update(lesson);
         }
+
+        public static IList<Lesson> GetScheduledOnDate(DateTime dateTime)
+        {
+            return storage.Filter(
+                lesson => lesson.DateTime == dateTime
+                       && (lesson.Status == LessonStatus.Active
+                       || lesson.Status == LessonStatus.Completed)
+            );
+        }
     }
 
     public enum LessonStatus
