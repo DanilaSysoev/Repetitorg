@@ -24,10 +24,10 @@ namespace Repetitorg.CoreTest
             payments = new DummyPaymentStorage();
             orders = new DummyOrderStorage();
 
-            Student.InitializeStorage(students);
-            Client.InitializeStorage(clients);
-            Payment.InitializeStorage(payments);
-            Order.InitializeStorage(orders);
+            Student.SetupStorage(students);
+            Client.SetupStorage(clients);
+            Payment.SetupStorage(payments);
+            Order.SetupStorage(orders);
 
             Client c1 = Client.CreateNew("c1");
             Client c2 = Client.CreateNew("c2");
@@ -97,7 +97,7 @@ namespace Repetitorg.CoreTest
         {
             var clients = Client.GetAll();
             Order order1 = Order.CreateNew("o1");
-            Order.InitializeStorage(new DummyOrderStorage());
+            Order.SetupStorage(new DummyOrderStorage());
             Order order2 = Order.CreateNew("o1");
             Assert.IsTrue(order1.Equals(order2));
         }

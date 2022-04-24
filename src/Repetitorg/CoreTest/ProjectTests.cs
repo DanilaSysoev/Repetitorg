@@ -18,8 +18,8 @@ namespace Repetitorg.CoreTest
         {
             tasks = new DummyTasksStorage();
             projects = new DummyProjectStorage();
-            Task.InitializeStorage(tasks);
-            Project.InitializeStorage(projects);
+            Task.SetupStorage(tasks);
+            Project.SetupStorage(projects);
         }
 
 
@@ -30,7 +30,7 @@ namespace Repetitorg.CoreTest
             Project.CreateNew("Test Project 2");
             Project.CreateNew("Test Project 3");
 
-            Project.InitializeStorage(new DummyProjectStorage());
+            Project.SetupStorage(new DummyProjectStorage());
 
             Assert.AreEqual(0, Project.Count);
         }
@@ -108,7 +108,7 @@ namespace Repetitorg.CoreTest
         public void Remove_RemoveNonExistent_NothingHappens()
         {
             Project p1 = Project.CreateNew("Test Project 1");
-            Project.InitializeStorage(new DummyProjectStorage());
+            Project.SetupStorage(new DummyProjectStorage());
 
             Project p2 = Project.CreateNew("Test Project 2");
             Project p3 = Project.CreateNew("Test Project 3");

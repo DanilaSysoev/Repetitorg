@@ -22,9 +22,9 @@ namespace Repetitorg.CoreTest
             students = new DummyPersonStorage<Student>();
             clients = new DummyPersonStorage<Client>();
             payments = new DummyPaymentStorage();
-            Student.InitializeStorage(students);
-            Client.InitializeStorage(clients);
-            Payment.InitializeStorage(payments);
+            Student.SetupStorage(students);
+            Client.SetupStorage(clients);
+            Payment.SetupStorage(payments);
         }
 
         [TestCase]

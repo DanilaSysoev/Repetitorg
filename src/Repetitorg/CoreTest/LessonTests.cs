@@ -17,8 +17,8 @@ namespace Repetitorg.CoreTest
         {
             orders = new DummyOrderStorage();
             lessons = new DummyLessonStorage();
-            Order.InitializeStorage(orders);
-            Lesson.InitializeStorage(lessons);
+            Order.SetupStorage(orders);
+            Lesson.SetupStorage(lessons);
         }
 
         [TestCase]

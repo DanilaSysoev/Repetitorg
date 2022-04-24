@@ -19,8 +19,8 @@ namespace Repetitorg.CoreTest
         {
             tasks = new DummyTasksStorage();
             projects = new DummyProjectStorage();
-            Task.InitializeStorage(tasks);
-            Project.InitializeStorage(projects);
+            Task.SetupStorage(tasks);
+            Project.SetupStorage(projects);
         }
 
 
@@ -174,7 +174,7 @@ namespace Repetitorg.CoreTest
         {
             Task taskOld = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
             tasks = new DummyTasksStorage();
-            Task.InitializeStorage(tasks);
+            Task.SetupStorage(tasks);
 
             Task task1 = Task.CreateNew("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
             Task task2 = Task.CreateNew("NEW 2020/12/30 test task 2", new DateTime(2020, 12, 30));

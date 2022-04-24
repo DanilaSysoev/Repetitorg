@@ -84,7 +84,6 @@ namespace Repetitorg.Core
             return personData.ToString();
         }
 
-
         public static Client CreateNew(string fullName, string phoneNumber = "")
         {
             new Checker().
@@ -121,6 +120,6 @@ namespace Repetitorg.Core
         }
 
         private long balanceInKopeks;
-        private Person personData;
+        private Person personData;        
     }
 }

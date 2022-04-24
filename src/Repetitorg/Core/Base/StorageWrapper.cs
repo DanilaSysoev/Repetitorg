@@ -14,7 +14,7 @@ namespace Repetitorg.Core.Base
             }
         }
 
-        public static void InitializeStorage(IStorage<T> storage)
+        public static void SetupStorage(IStorage<T> storage)
         {
             StorageWrapper<T>.storage = storage;
         }
@@ -34,7 +34,7 @@ namespace Repetitorg.Core.Base
             {
                 return storage; 
             }
-        }
+        }        
 
         protected static IStorage<T> storage;
     }

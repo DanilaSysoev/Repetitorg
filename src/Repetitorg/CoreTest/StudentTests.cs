@@ -21,8 +21,8 @@ namespace Repetitorg.CoreTest
             students = new DummyPersonStorage<Student>();
             clients = new DummyPersonStorage<Client>();
             payments = new DummyPaymentStorage();
-            Student.InitializeStorage(students);
-            Client.InitializeStorage(clients);
+            Student.SetupStorage(students);
+            Client.SetupStorage(clients);
         }
 
         [TestCase]
