@@ -120,6 +120,7 @@ namespace Repetitorg.Core
                     Order.GetCostPerHourFor(student) * LengthInMinutes / MinutesInHour
                 );
             }
+            storage.Update(this);
         }
         public void RemoveFromSchedule()
         {
@@ -143,6 +144,20 @@ namespace Repetitorg.Core
 
         public void Renew()
         {
+            new Checker().
+                   Add(les => les.Status == LessonStatus.Canceled, this, "Can't renew canceled lesson.").
+                   Add(les => les.Status == LessonStatus.Active, this, "Can't renew active lesson.").
+                   Add(les => les.Status == LessonStatus.NonActive, this, "Can't renew non-active lesson.").
+                   Check((message) => new InvalidOperationException(message));
+
+            Status = LessonStatus.Active;
+            foreach (var student in Order.Students)
+            {
+                student.Client.IncreaseBalance(
+                    Order.GetCostPerHourFor(student) * LengthInMinutes / MinutesInHour
+                );
+            }
+            storage.Update(this);
         }
     }
 

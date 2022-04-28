@@ -618,9 +618,10 @@ namespace Repetitorg.CoreTest
             Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
             l1.AddToSchedule();
 
+            var oldUpdCnt = lessons.UpdatesCount;
             l1.Complete();
 
-            Assert.AreEqual(1, lessons.UpdatesCount);
+            Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
         }
 
         [TestCase]
@@ -823,7 +824,7 @@ namespace Repetitorg.CoreTest
             );
             Assert.IsTrue(
                 exception.Message.ToLower().Contains(
-                    "can't renew non-active lesson"
+                    "can't renew canceled lesson"
                 )
             );
         }

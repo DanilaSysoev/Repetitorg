@@ -139,13 +139,13 @@
 		+ Completing Lesson update Storage
 		+ Non integer cost rounded down
 	- Renew Lesson
-		- Renew increase balance of clents
-		- Renew change status to active
-		- Renew non-active Lesson throws error
-		- Renew active Lesson throws error
-		- Renew caceled Lesson throws error
+		+ Renew increase balance of clents
+		+ Renew change status to active
+		+ Renew non-active Lesson throws error
+		+ Renew active Lesson throws error
+		+ Renew caceled Lesson throws error
 		- Renew moved Lesson throws error
-		- Renew Lesson update Storage
+		+ Renew Lesson update Storage
 	- Cancel Lesson
 		+ Canceled Lesson removed from schedule
 		+ Canceling completed Lesson throws error		
