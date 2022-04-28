@@ -39,6 +39,17 @@ namespace Repetitorg.Core
             balanceInKopeks -= summInCopex;
             storage.Update(this);
         }
+        public void IncreaseBalance(long summInCopex)
+        {
+            new Checker()
+                  .Add(summ => summ < 0,
+                       summInCopex,
+                       "Value of increasing balance can't be negative.\n")
+                  .Check();
+
+            balanceInKopeks += summInCopex;
+            storage.Update(this);
+        }
         public void MakePayment(Payment payment)
         {
             new Checker().AddNull(payment, "Payment can't be NULL").Check();
@@ -131,6 +142,6 @@ namespace Repetitorg.Core
         }
 
         private long balanceInKopeks;
-        private Person personData;        
+        private Person personData;
     }
 }
