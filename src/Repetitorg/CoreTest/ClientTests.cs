@@ -499,6 +499,36 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(uc + 1, clients.UpdatesCount);
         }
 
+        [TestCase]
+        public void IncreaseBalance_summIsNegative_throwsException()
+        {
+            var client = CreateClient();
+            var exception = Assert.Throws<ArgumentException>(
+                () => client.IncreaseBalance(-100000)
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "value of increasing balance can't be negative"
+                )
+            );
+        }
+        [TestCase]
+        public void IncreaseBalance_summIsPositive_balanceIncrease()
+        {
+            var client = CreateClient();
+            client.IncreaseBalance(100000);
+            Assert.AreEqual(100000, client.BalanceInKopeks);
+        }
+        [TestCase]
+        public void IncreaseBalance_summIsPositive_clientUpdated()
+        {
+            var client = CreateClient();
+
+            var uc = clients.UpdatesCount;
+            client.IncreaseBalance(100000);
+            Assert.AreEqual(uc + 1, clients.UpdatesCount);
+        }
+
         private Client CreateClientWithPhoneNumber()
         {
             var c = Client.CreateNew("Иванов Иван Иванович", "+7(900)111-22-33");
