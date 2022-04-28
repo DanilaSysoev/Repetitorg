@@ -727,5 +727,62 @@ namespace Repetitorg.CoreTest
             l1.RemoveFromSchedule();
             Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
         }
+
+        [TestCase]
+        public void Cancel_cancelNonActiveLesson_changeStatusToCanceled()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);            
+            l1.Cancel();
+            Assert.AreEqual(LessonStatus.Canceled, l1.Status);
+        }
+        [TestCase]
+        public void Cancel_cancelActiveLesson_changeStatusToCanceled()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Cancel();
+            Assert.AreEqual(LessonStatus.Canceled, l1.Status);
+        }
+        [TestCase]
+        public void Cancel_cancelCompletedLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Complete();
+
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.Cancel()
+            );
+
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't cancel completed lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void Cancel_CancelNonActiveLesson_lessonUpdated()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);            
+            var oldUpdCnt = lessons.UpdatesCount;
+            l1.Cancel();
+            Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
+        }
+        [TestCase]
+        public void Cancel_CancelActiveLesson_lessonUpdated()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            var oldUpdCnt = lessons.UpdatesCount;
+            l1.Cancel();
+            Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
+        }
+
+
     }
 }

@@ -103,15 +103,21 @@
 	  + New Lesson is non-active
 	  + Creating setup propertie correctly
 	+ Lessons are equals if equals his dateTime, length, order and status
-	+ Add Lesson to schedule (activate)
+	- Add Lesson to schedule (activate)
 		+ Intersection with other lesson throws error
 		+ Adding update lesson
-		+ Adding change statis to active
-		+ Add null Lesson throws error
+		+ Adding non-active change statis to active
+		- Adding canceled lesson throws error
+		- Adding active lesson throws error
+		- Adding moved lesson throws error
+		- Adding completed lesson throws error
 	- Remove from schedule (deactivate)
-		- Remove completed Lesson throws error
-		- Remove non-scheduled Lesson throws error
-		- Removing update lesson
+		+ Removing change statis to non-active
+		+ Remove completed Lesson throws error
+		+ Remove non-active Lesson throws error
+		- Remove moved Lesson throws error
+		- Remove canceled Lesson throws error
+		+ Removing update lesson
 	+ Getting intersection with other lessons in schedule
 	+ Getting intersection with all other lessons
 	+ Getting all lessons
@@ -123,27 +129,38 @@
 	- Getting Active/Complete lessons by order
 	- Getting all lessons by order
 	- Remove Lesson
-		- Remove Complete/Moved Lesson throws error
-	+ Complete Lesson
+		- Remove Complete/Moved Lesson throws error		
+	- Complete Lesson
 		+ Completing decrease balance of clents
-		+ Completeng non-scheduled Lesson throws error
+		+ Completeng non-active Lesson throws error
 		+ Completing completed Lesson throws error
+		- Completing caceled Lesson throws error
+		- Completing moved Lesson throws error
 		+ Completing Lesson update Storage
 		+ Non integer cost rounded down
-	- Renew Lesson		
+	- Renew Lesson
 		- Renew increase balance of clents
-		- Renew non completed Lesson throws error
+		- Renew non-active Lesson throws error
+		- Renew active Lesson throws error
+		- Renew caceled Lesson throws error
+		- Renew moved Lesson throws error
 		- Renew Lesson update Storage
-	- Canceling Lesson
+	- Cancel Lesson
 		- Canceled Lesson removed from schedule
-		- Canceling completed Lesson throws error
+		- Canceling completed Lesson throws error		
 		- Canceling moved Lesson throws error
 		- Canceling Lesson update Storage
 	- Restore canceled Lesson
-		- Restore non-canceled Lesson throws error
+		- Restore non-active Lesson throws error
+		- Restore active Lesson throws error
+		- Restore completed Lesson throws error
+		- Restore moved Lesson throws error
 		- Restore Lesson update Storage
 	- Moving Lesson on new date and time
 		- Moving non-active Lesson throws error
+		- Moving canceled Lesson throws error
+		- Moving moved Lesson throws error
+		- Moving completed Lesson throws error
 		- Intersect with other lessons throws error
 		- Moving Lesson update Storage
 	- Cancel moving Lesson
@@ -151,7 +168,8 @@
 		- Cancel if final target Lesson Completed
 		  throws error
 		- Cancel remove all next Lessons
-		- Cancel Lesson update Storage
+		- Cancel Lesson update all lessons from 
+		  chain in Storage
 
 7. Payment subsystem
 	+ Getting all payments
