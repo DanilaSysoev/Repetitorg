@@ -133,6 +133,12 @@ namespace Repetitorg.Core
         }
         public void Cancel()
         {
+            new Checker().
+                Add(les => les.Status == LessonStatus.Completed, this, "Can't cancel completed lesson.").
+                Check((message) => new InvalidOperationException(message));
+
+            Status = LessonStatus.Canceled;
+            storage.Update(this);
         }
     }
 
