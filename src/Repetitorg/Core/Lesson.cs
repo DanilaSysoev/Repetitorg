@@ -126,7 +126,8 @@ namespace Repetitorg.Core
         {
             new Checker().
                 Add(les => les.Status == LessonStatus.Completed, this, "Can't remove from schedule completed lesson.").
-                Add(les => les.Status != LessonStatus.Active, this, "Can't remove from schedule non-scheduled lesson.").
+                Add(les => les.Status == LessonStatus.NonActive, this, "Can't remove from schedule non-scheduled lesson.").
+                Add(les => les.Status == LessonStatus.Canceled, this, "Can't remove from schedule canceled lesson.").
                 Check((message) => new InvalidOperationException(message));
 
             Status = LessonStatus.NonActive;
