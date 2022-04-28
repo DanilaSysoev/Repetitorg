@@ -121,6 +121,9 @@ namespace Repetitorg.Core
                 );
             }
         }
+        public void RemoveFromSchedule()
+        {
+        }
     }
 
     public enum LessonStatus

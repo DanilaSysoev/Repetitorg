@@ -672,5 +672,60 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(lessons.Contains(l1));
             Assert.IsTrue(lessons.Contains(l3));
         }
+
+
+        [TestCase]
+        public void RemoveFromSchedule_removeNonScheduledLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.RemoveFromSchedule()
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't remove from schedule non-scheduled lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void RemoveFromSchedule_removeCompletedLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Complete();
+
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.RemoveFromSchedule()
+            );
+
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't remove completed lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void RemoveFromSchedule_removeActiveLesson_lessonNowIsNonActive()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.RemoveFromSchedule();
+
+            Assert.AreEqual(LessonStatus.NonActive, l1.Status);
+        }
+        [TestCase]
+        public void RemoveFromSchedule_removeActiveLesson_lessonUpdated()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            var oldUpdCnt = lessons.UpdatesCount;
+            l1.RemoveFromSchedule();
+            Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
+        }
     }
 }

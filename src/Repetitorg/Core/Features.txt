@@ -111,6 +111,7 @@
 	- Remove from schedule (deactivate)
 		- Remove completed Lesson throws error
 		- Remove non-scheduled Lesson throws error
+		- Removing update lesson
 	+ Getting intersection with other lessons in schedule
 	+ Getting intersection with all other lessons
 	+ Getting all lessons
