@@ -691,6 +691,23 @@ namespace Repetitorg.CoreTest
             );
         }
         [TestCase]
+        public void RemoveFromSchedule_removeCanceledLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Cancel();
+
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.RemoveFromSchedule()
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't remove from schedule canceled lesson"
+                )
+            );
+        }
+        [TestCase]
         public void RemoveFromSchedule_removeCompletedLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
