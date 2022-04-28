@@ -123,6 +123,13 @@ namespace Repetitorg.Core
         }
         public void RemoveFromSchedule()
         {
+            new Checker().
+                Add(les => les.Status == LessonStatus.Completed, this, "Can't remove from schedule completed lesson.").
+                Add(les => les.Status != LessonStatus.Active, this, "Can't remove from schedule non-scheduled lesson.").
+                Check((message) => new InvalidOperationException(message));
+
+            Status = LessonStatus.NonActive;
+            storage.Update(this);
         }
     }
 

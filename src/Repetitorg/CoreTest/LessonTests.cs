@@ -703,7 +703,7 @@ namespace Repetitorg.CoreTest
 
             Assert.IsTrue(
                 exception.Message.ToLower().Contains(
-                    "can't remove completed lesson"
+                    "can't remove from schedule completed lesson"
                 )
             );
         }
