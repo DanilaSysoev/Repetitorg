@@ -783,6 +783,97 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
         }
 
+        [TestCase]
+        public void Renew_renewNonActiveLesson_throwsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.Renew()
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't renew non-active lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void Renew_renewActiveLesson_throwsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.Renew()
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't renew active lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void Renew_renewCanceledLesson_throwsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.Cancel();
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.Renew()
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't renew non-active lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void Renew_renewCompletedLesson_storageUpdates()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Complete();
+            var oldUpdCnt = lessons.UpdatesCount;
+            l1.Renew();
+            Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
+        }
+        [TestCase]
+        public void Renew_renewCompletedLesson_statusChangeToActive()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Complete();            
+            l1.Renew();
+            Assert.AreEqual(LessonStatus.Active, l1.Status);
+        }
+        [TestCase]
+        public void Renew_renewCompletedLesson_balancesOfIncludedClientsIncrease()
+        {
+            Order o1 = Order.CreateNew("test order 1");
+            Order o2 = Order.CreateNew("test order 2");
+            Client c1 = Client.CreateNew("tc1");
+            Client c2 = Client.CreateNew("tc2");
+            Client c3 = Client.CreateNew("tc3");
+            Student s1 = Student.CreateNew("ts1", c1);
+            Student s2 = Student.CreateNew("ts2", c2);
+            Student s3 = Student.CreateNew("ts3", c3);
+            o1.AddStudent(s1, 300000);
+            o1.AddStudent(s3, 400000);
+            o2.AddStudent(s2, 350000);
 
+            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
+            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 120, o1);
+            l1.AddToSchedule();
+            l2.AddToSchedule();
+            l3.AddToSchedule();
+
+            l1.Complete();
+            l1.Renew();
+            Assert.AreEqual(0, c1.BalanceInKopeks);
+            Assert.AreEqual(0, c3.BalanceInKopeks);
+        }
     }
 }

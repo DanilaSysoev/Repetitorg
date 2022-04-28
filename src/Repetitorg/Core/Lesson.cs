@@ -140,6 +140,10 @@ namespace Repetitorg.Core
             Status = LessonStatus.Canceled;
             storage.Update(this);
         }
+
+        public void Renew()
+        {
+        }
     }
 
     public enum LessonStatus
