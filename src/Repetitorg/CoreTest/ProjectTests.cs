@@ -55,7 +55,9 @@ namespace Repetitorg.CoreTest
         {
             Project.CreateNew("Test Project");
 
-            var exception = Assert.Throws<InvalidOperationException>(() => Project.CreateNew("Test Project"));
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => Project.CreateNew("Test Project")
+            );
 
             Assert.IsTrue(exception.Message.ToLower().Contains(
                 "project with name \"test project\" already exist"
@@ -179,7 +181,7 @@ namespace Repetitorg.CoreTest
             Project p2 = Project.CreateNew("Test Project 2");
             Project p3 = Project.CreateNew("Test Project 3");
 
-            Project.Complete(p1);
+            p1.Complete();
 
             Assert.IsTrue(p1.Completed);
             Assert.IsFalse(p2.Completed);
@@ -193,7 +195,7 @@ namespace Repetitorg.CoreTest
             Project p3 = Project.CreateNew("Test Project 3");
 
             Assert.AreEqual(0, projects.UpdatesCount);
-            Project.Complete(p1);
+            p1.Complete();
             Assert.AreEqual(1, projects.UpdatesCount);
         }
     }

@@ -10,32 +10,44 @@ namespace Repetitorg.Core
     {
         public static Project CreateNew(string name)
         {
-            new Checker().
-                AddNull(name, "Can't create project with NULL name").
-                Check();
-
             Project project = new Project(name, false);
-            if (storage.GetAll().Contains(project))
-                throw new InvalidOperationException(string.Format("Project with name \"{0}\" already exist", name));
+            CheckConditionsForCreateNew(name, project);
 
             storage.Add(project);
 
             return project;
         }
+        private static void CheckConditionsForCreateNew(string name, Project project)
+        {
+            new Checker()
+                .AddNull(name, "Can't create project with NULL name")
+                .Check();
+            new Checker()
+                .Add(project => storage.GetAll().Contains(project),
+                     project,
+                     string.Format("Project with name \"{0}\" already exist", name))
+                .Check(message => new InvalidOperationException(message));
+        }
+
         public static List<Project> FindByName(string subname)
         {
-            new Checker().
-                AddNull(subname, "Filter pattern can't be null").
-                Check();
+            CheckConditionsForFindByName(subname);
 
             return (from project in storage.GetAll()
                     where project.Name.ToLower().Contains(subname.ToLower())
                     select project).ToList();
         }
-        public static void Complete(Project project)
+        private static void CheckConditionsForFindByName(string subname)
         {
-            project.completed = true;
-            storage.Update(project);
+            new Checker().
+                AddNull(subname, "Filter pattern can't be null").
+                Check();
+        }
+
+        public void Complete()
+        {
+            completed = true;
+            storage.Update(this);
         }
 
 

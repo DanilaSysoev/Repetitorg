@@ -300,7 +300,7 @@ namespace Repetitorg.CoreTest
         public void AttachToProject_AttachToCompleteProject_ThrowsException()
         {
             Project p = Project.CreateNew("Test project");
-            Project.Complete(p);
+            p.Complete();
 
             Task t = Task.CreateNew("Test task", new DateTime(2020, 10, 10));
 
