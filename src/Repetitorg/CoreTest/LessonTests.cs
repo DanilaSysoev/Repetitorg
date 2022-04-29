@@ -1030,5 +1030,317 @@ namespace Repetitorg.CoreTest
                 )
             );
         }
+
+        [TestCase]
+        public void CreateNew_createLesson_MovedFromPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);   
+            Assert.IsNull(l1.MovedFrom);
+        }
+        [TestCase]
+        public void AddToSchedule_addNonActiveLesson_MovedFromPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            Assert.IsNull(l1.MovedFrom);
+        }
+        [TestCase]
+        public void Cancel_cancelActiveLesson_MovedFromPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Cancel();
+            Assert.IsNull(l1.MovedFrom);
+        }
+        [TestCase]
+        public void Complete_completeActiveLesson_MovedFromPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Complete();
+            Assert.IsNull(l1.MovedFrom);
+        }
+        [TestCase]
+        public void CreateNew_createLesson_MovedOnPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Assert.IsNull(l1.MovedOn);
+        }
+        [TestCase]
+        public void AddToSchedule_addNonActiveLesson_MovedOnPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            Assert.IsNull(l1.MovedOn);
+        }
+        [TestCase]
+        public void Cancel_cancelActiveLesson_MovedOnPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Cancel();
+            Assert.IsNull(l1.MovedOn);
+        }
+        [TestCase]
+        public void Complete_completeActiveLesson_MovedOnPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Complete();
+            Assert.IsNull(l1.MovedOn);
+        }
+        [TestCase]
+        public void MoveTo_moveActiveLesson_statusChangeToMoved()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
+            Assert.AreEqual(LessonStatus.Moved, l1.Status);
+        }
+        [TestCase]
+        public void MoveTo_moveActiveLesson_newLessonStatusIsActive()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
+            Assert.AreEqual(LessonStatus.Active, l2.Status);
+        }
+        [TestCase]
+        public void MoveTo_moveActiveLesson_MovedOnPropertySetCorrect()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
+            Assert.AreEqual(l2, l1.MovedOn);
+        }
+        [TestCase]
+        public void MoveTo_moveActiveLesson_MovedFromPropertySetCorrect()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
+            Assert.AreEqual(l1, l2.MovedFrom);
+        }
+        [TestCase]
+        public void MoveTo_moveActiveLesson_lessonUpdated()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            var oldUpdCnt = lessons.UpdatesCount;
+            l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
+            Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
+        }
+        [TestCase]
+        public void MoveTo_doubleMoving_MovedOnPropertiecIsCorrect()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            var oldUpdCnt = lessons.UpdatesCount;
+            Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
+            Lesson l3 = l2.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
+            Assert.AreEqual(l2, l1.MovedOn);
+            Assert.AreEqual(l3, l2.MovedOn);
+        }
+        [TestCase]
+        public void MoveTo_doubleMoving_MovedFromPropertiecIsCorrect()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            var oldUpdCnt = lessons.UpdatesCount;
+            Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
+            Lesson l3 = l2.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
+            Assert.AreEqual(l1, l2.MovedFrom);
+            Assert.AreEqual(l2, l3.MovedFrom);
+        }
+        [TestCase]
+        public void MoveTo_movingNonActiveLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0))
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't move non-active lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void MoveTo_movingCanceledLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Cancel();
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0))
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't move canceled lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void MoveTo_movingCompletedLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Complete();
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0))
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't move completed lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void MoveTo_movingMovedLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0))
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't move moved lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void MoveOn_movedIntersectLessonLeft_throwsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 12, 14, 0, 0), 90, order);
+
+            l1.AddToSchedule();
+            l2.AddToSchedule();
+            var exc = Assert.Throws<InvalidOperationException>(
+                () => l1.MoveTo(new DateTime(2021, 10, 12, 12, 0, 0))
+            );
+
+            Assert.IsTrue(
+                exc.Message.ToLower().Contains(
+                    "moving intersect other lessons in schedule"
+                )
+            );
+            Assert.AreEqual(LessonStatus.Active, l1.Status);
+            Assert.IsNull(l1.MovedOn);
+            Assert.AreEqual(LessonStatus.Active, l2.Status);
+        }
+        [TestCase]
+        public void MoveOn_movedIntersectLessonRight_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 12, 14, 0, 0), 90, order);
+
+            l1.AddToSchedule();
+            l2.AddToSchedule();
+            var exc = Assert.Throws<InvalidOperationException>(
+                () => l1.MoveTo(new DateTime(2021, 10, 12, 15, 0, 0))
+            );
+
+            Assert.IsTrue(
+                exc.Message.ToLower().Contains(
+                    "moving intersect other lessons in schedule"
+                )
+            );
+            Assert.AreEqual(LessonStatus.Active, l2.Status);
+            Assert.IsNull(l1.MovedOn);
+            Assert.AreEqual(LessonStatus.Active, l1.Status);
+        }
+        [TestCase]
+        public void MoveOn_movedContainsLesson_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 12, 14, 0, 0), 90, order);
+
+            l1.AddToSchedule();
+            l2.AddToSchedule();
+            var exc = Assert.Throws<InvalidOperationException>(
+                () => l1.MoveTo(new DateTime(2021, 10, 12, 13, 30, 0))
+            );
+
+            Assert.IsTrue(
+                exc.Message.ToLower().Contains(
+                    "moving intersect other lessons in schedule"
+                )
+            );
+            Assert.AreEqual(LessonStatus.Active, l2.Status);
+            Assert.IsNull(l1.MovedOn);
+            Assert.AreEqual(LessonStatus.Active, l1.Status);
+        }
+        [TestCase]
+        public void MoveOn_lessonContainsMoved_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 12, 14, 0, 0), 90, order);
+
+            l1.AddToSchedule();
+            l2.AddToSchedule();
+            var exc = Assert.Throws<InvalidOperationException>(
+                () => l2.MoveTo(new DateTime(2021, 10, 10, 12, 30, 0))
+            );
+
+            Assert.IsTrue(
+                exc.Message.ToLower().Contains(
+                    "moving intersect other lessons in schedule"
+                )
+            );
+            Assert.AreEqual(LessonStatus.Active, l2.Status);
+            Assert.IsNull(l2.MovedOn);
+            Assert.AreEqual(LessonStatus.Active, l1.Status);
+        }
+        [TestCase]
+        public void MoveOn_movedIntersectMany_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 12, 12, 0, 0), 90, order);
+            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 12, 14, 0, 0), 90, order);
+            Lesson li = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 0, 0), 120, order);
+
+            l1.AddToSchedule();
+            l2.AddToSchedule();
+            li.AddToSchedule();
+            var exc = Assert.Throws<InvalidOperationException>(
+                () => li.MoveTo(new DateTime(2021, 10, 12, 13, 0, 0))
+            );
+
+            Assert.IsTrue(
+                exc.Message.ToLower().Contains(
+                    "moving intersect other lessons in schedule"
+                )
+            );
+            Assert.AreEqual(LessonStatus.Active, l1.Status);
+            Assert.AreEqual(LessonStatus.Active, l2.Status);
+            Assert.AreEqual(LessonStatus.Active, li.Status);
+            Assert.IsNull(li.MovedOn);
+        }
     }
 }
