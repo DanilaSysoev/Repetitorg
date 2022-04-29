@@ -207,7 +207,7 @@ namespace Repetitorg.CoreTest
             Task task3 = Task.CreateNew("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Assert.IsFalse(task2.Completed);
-            Task.Complete(task2);
+            task2.Complete();
             Assert.IsTrue(task2.Completed);
             Assert.IsFalse(task1.Completed);
             Assert.IsFalse(task3.Completed);
@@ -220,22 +220,10 @@ namespace Repetitorg.CoreTest
             Task task3 = Task.CreateNew("NEW 2020/10/20 test task 3", new DateTime(2020, 10, 20));
 
             Assert.AreEqual(0, tasks.UpdatesCount);
-            Task.Complete(task2);
+            task2.Complete();
             Assert.AreEqual(1, tasks.UpdatesCount);
         }
 
-        [TestCase]
-        public void AttachToProject_AttachNullTask_ThrowsException()
-        {
-            Project p1 = Project.CreateNew("Test project 1");
-
-            var exception = Assert.Throws<ArgumentException>(
-                () => Task.AttachToProject(null, p1)
-            );
-            Assert.IsTrue(exception.Message.ToLower().Contains(
-                "task can't be null"
-            ));
-        }
         [TestCase]
         public void AttachToProject_AttachNotAttachedTask_AttachSuccess()
         {
@@ -244,7 +232,7 @@ namespace Repetitorg.CoreTest
             Project p1 = Project.CreateNew("Test project 1");
 
             Assert.IsNull(task1.Project);
-            Task.AttachToProject(task1, p1);
+            task1.AttachToProject(p1);
             Assert.AreEqual(p1, task1.Project);
         }
         [TestCase]
@@ -255,9 +243,9 @@ namespace Repetitorg.CoreTest
             Project p1 = Project.CreateNew("test project 1");
             Project p2 = Project.CreateNew("Test project 2");
 
-            Task.AttachToProject(task1, p1);
+            task1.AttachToProject(p1);
             var exception = 
-                Assert.Throws<InvalidOperationException>(() => Task.AttachToProject(task1, p2));
+                Assert.Throws<InvalidOperationException>(() => task1.AttachToProject(p2));
             Assert.IsTrue(
                 exception.Message.ToLower().Contains(
                     string.Format("task \"{0}\" already attached to \"{1}\" project", task1, p1)
@@ -271,8 +259,8 @@ namespace Repetitorg.CoreTest
 
             Project p1 = Project.CreateNew("Test project 1");
 
-            Task.AttachToProject(task1, p1);
-            Task.AttachToProject(task1, p1);
+            task1.AttachToProject(p1);
+            task1.AttachToProject(p1);
             Assert.AreEqual(p1, task1.Project);
         }
         [TestCase]
@@ -282,8 +270,8 @@ namespace Repetitorg.CoreTest
 
             Project p1 = Project.CreateNew("Test project 1");
 
-            Task.AttachToProject(task1, p1);
-            Task.AttachToProject(task1, null);
+            task1.AttachToProject(p1);
+            task1.AttachToProject(null);
             Assert.IsNull(task1.Project);
         }
         [TestCase]
@@ -293,7 +281,7 @@ namespace Repetitorg.CoreTest
 
             Project p1 = Project.CreateNew("Test project 1");
 
-            Task.AttachToProject(task1, null);
+            task1.AttachToProject(null);
             Assert.IsNull(task1.Project);
         }
         [TestCase]
@@ -305,7 +293,7 @@ namespace Repetitorg.CoreTest
             Task t = Task.CreateNew("Test task", new DateTime(2020, 10, 10));
 
             var exception = Assert.Throws<InvalidOperationException>(
-                () => Task.AttachToProject(t, p)
+                () => t.AttachToProject(p)
             );
             Assert.IsTrue(exception.Message.ToLower().Contains(
                 "can't attach new task to complete project"
@@ -323,8 +311,8 @@ namespace Repetitorg.CoreTest
             Project p1 = Project.CreateNew("Test project 1");
             Project p2 = Project.CreateNew("Test project 2");
 
-            Task.AttachToProject(task1, p2);
-            Task.AttachToProject(task3, p2);
+            task1.AttachToProject(p2);
+            task3.AttachToProject(p2);
 
             IList<Task> tasks = Task.GetByProject(p1);
             Assert.AreEqual(0, tasks.Count);
@@ -339,8 +327,8 @@ namespace Repetitorg.CoreTest
             Project p1 = Project.CreateNew("Test project 1");
             Project p2 = Project.CreateNew("Test project 2");
 
-            Task.AttachToProject(task1, p2);
-            Task.AttachToProject(task3, p2);
+            task1.AttachToProject(p2);
+            task3.AttachToProject(p2);
 
             IList<Task> tasks = Task.GetByProject(p2);
             Assert.AreEqual(2, tasks.Count);
@@ -357,7 +345,7 @@ namespace Repetitorg.CoreTest
             Project p1 = Project.CreateNew("Test project 1");
             Project p2 = Project.CreateNew("Test project 2");
 
-            Task.AttachToProject(task1, p2);
+            task1.AttachToProject(p2);
 
             IList<Task> tasks = Task.GetByProject(null);
             Assert.AreEqual(2, tasks.Count);
@@ -375,7 +363,7 @@ namespace Repetitorg.CoreTest
             Project p1 = Project.CreateNew("Test project 1");
             Project p2 = Project.CreateNew("Test project 2");
 
-            Task.AttachToProject(task1, p2);
+            task1.AttachToProject(p2);
 
             IList<Task> tasks = Task.GetWithoutProject();
             Assert.AreEqual(2, tasks.Count);
