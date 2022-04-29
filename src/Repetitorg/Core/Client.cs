@@ -30,46 +30,68 @@ namespace Repetitorg.Core
 
         public void DecreaseBalance(long summInCopex)
         {
+            CheckConditionsForDecreaseBalance(summInCopex);
+
+            balanceInKopeks -= summInCopex;
+            storage.Update(this);
+        }
+        private static void CheckConditionsForDecreaseBalance(long summInCopex)
+        {
             new Checker()
                .Add(summ => summ < 0,
                     summInCopex,
                     "Value of decreasing balance can't be negative.\n")
                .Check();
+        }
 
-            balanceInKopeks -= summInCopex;
+        public void IncreaseBalance(long summInCopex)
+        {
+            CheckConditionsForIncreaseBalance(summInCopex);
+
+            balanceInKopeks += summInCopex;
             storage.Update(this);
         }
-        public void IncreaseBalance(long summInCopex)
+        private static void CheckConditionsForIncreaseBalance(long summInCopex)
         {
             new Checker()
                   .Add(summ => summ < 0,
                        summInCopex,
                        "Value of increasing balance can't be negative.\n")
                   .Check();
-
-            balanceInKopeks += summInCopex;
-            storage.Update(this);
         }
+
         public void MakePayment(Payment payment)
         {
-            new Checker().AddNull(payment, "Payment can't be NULL").Check();
+            CheckConditionsForMakePayment(payment);
 
             balanceInKopeks += payment.ValueInKopeks;
             payment.Client = this;
             Payment.Storage.Add(payment);
             storage.Update(this);
         }
-        public void RemovePayment(Payment payment)
+        private static void CheckConditionsForMakePayment(Payment payment)
         {
             new Checker()
                 .AddNull(payment, "Payment can't be NULL")
-                .Add(c => !c.Payments.Contains(payment), this, "Payment is not exist")
                 .Check();
+        }
+
+        public void RemovePayment(Payment payment)
+        {
+            CheckConditionsForRemovePayment(payment);
 
             balanceInKopeks -= payment.ValueInKopeks;
             Payment.Storage.Remove(payment);
             storage.Update(this);
         }
+        private void CheckConditionsForRemovePayment(Payment payment)
+        {
+            new Checker()
+                .AddNull(payment, "Payment can't be NULL")
+                .Add(c => !c.Payments.Contains(payment), this, "Payment is not exist")
+                .Check();
+        }
+
         public IList<Payment> GetPaymentsLater(DateTime dateExclude)
         {
             return
@@ -84,7 +106,9 @@ namespace Repetitorg.Core
                  where payment.Date < dateExclude
                  select payment).ToList();
         }
-        public IList<Payment> GetPaymentsBetween(DateTime beginInclude, DateTime endExclude)
+        public IList<Payment> GetPaymentsBetween(
+            DateTime beginInclude, DateTime endExclude
+        )
         {
             return
                 (from payment in Payments
@@ -108,32 +132,44 @@ namespace Repetitorg.Core
 
         public static Client CreateNew(string fullName, string phoneNumber = "")
         {
-            new Checker().
-                AddNull(fullName, string.Format("Can not create client with NULL name")).
-                AddNull(phoneNumber, string.Format("Can not create client with NULL phone number")).
-                Check();
-
             var client = new Client(fullName, phoneNumber);
-
-            if (storage.GetAll().Contains(client))
-                throw new InvalidOperationException(
-                     "Creation client with same names and phone numbers is impossible"
-                );
+            CheckConditionsForCreateNew(fullName, phoneNumber, client);
 
             storage.Add(client);
             return client;
         }
+        private static void CheckConditionsForCreateNew(
+            string fullName, string phoneNumber, Client client
+        )
+        {
+            new Checker()
+                .AddNull(fullName,
+                         string.Format("Can not create client with NULL name"))
+                .AddNull(phoneNumber,
+                         string.Format("Can not create client with NULL phone number"))
+                .Check();
+            new Checker()
+                .Add(client => storage.GetAll().Contains(client),
+                     client,
+                     "Creation client with same names and phone numbers is impossible")
+                .Check(message => new InvalidOperationException(message));
+        }
+
         public static IReadOnlyList<Client> FilterByName(string condition)
         {
-            new Checker().
-                AddNull(condition, "Filtering by null pattern is impossible").
-                Check();
+            CheckConditionsForFilterByName(condition);
 
             return
                 (from entity in storage.GetAll()
                  where entity.personData.FullName.ToLower().Contains(condition.ToLower())
                  select entity).ToList();
-        }        
+        }
+        private static void CheckConditionsForFilterByName(string condition)
+        {
+            new Checker().
+                AddNull(condition, "Filtering by null pattern is impossible").
+                Check();
+        }
 
         private Client(string fullName, string phoneNumber)
         {
