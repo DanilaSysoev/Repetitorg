@@ -28,11 +28,17 @@ namespace Repetitorg.Core
             long documentNumber
         )
         {
-            if (valueInKopeks <= 0)
-                throw new ArgumentException(
-                    "Payment should has positive value"
-                );
+            CheckConditionsForCreateNew(valueInKopeks);
             return new Payment(date, valueInKopeks, documentType, documentNumber);
+        }
+
+        private static void CheckConditionsForCreateNew(long valueInKopeks)
+        {
+            new Checker()
+                .Add(valueInKopeks => valueInKopeks <= 0,
+                     valueInKopeks,
+                     "Payment should has positive value")
+                .Check();
         }
     }
 }
