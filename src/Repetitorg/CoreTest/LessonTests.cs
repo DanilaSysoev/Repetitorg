@@ -963,5 +963,72 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(0, c1.BalanceInKopeks);
             Assert.AreEqual(0, c3.BalanceInKopeks);
         }
+
+        [TestCase]
+        public void Restore_restoreCanceledLesson_statusChangeToNonActive()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Cancel();
+            l1.Restore();
+            Assert.AreEqual(LessonStatus.NonActive, l1.Status);
+        }
+        [TestCase]
+        public void Restore_restoreCanceledLesson_lessonUpdated()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();            
+            l1.Cancel();
+            var oldUpdCnt = lessons.UpdatesCount;
+            l1.Restore();
+            Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
+        }
+        [TestCase]
+        public void Restore_restoreNonActiveLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.Restore()
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't restore non-active lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void Restore_restoreActiveLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.Restore()
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't restore active lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void Restore_restoreCompletedLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.Complete();
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.Restore()
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't restore completed lesson"
+                )
+            );
+        }
     }
 }
