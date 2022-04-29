@@ -41,32 +41,52 @@ namespace Repetitorg.Core
 
         public static Student CreateNew(string fullName, Client client, string phoneNumber = "")
         {
-            new Checker().
-                AddNull(fullName, string.Format("Can not create student with NULL name")).
-                AddNull(phoneNumber, string.Format("Can not create student with NULL phone number")).
-                AddNull(client, string.Format("Can not create student with NULL client")).
-                Check();
-                        
             var student = new Student(fullName, phoneNumber, client);
-
-            if (storage.GetAll().Contains(student))
-                throw new InvalidOperationException(
-                     "Creation student with same names and phone numbers is impossible"
-                );
+            CheckConditionsForCreateNew(fullName, client, phoneNumber, student);
 
             storage.Add(student);
             return student;
         }
+
+        private static void CheckConditionsForCreateNew(
+            string fullName,
+            Client client, 
+            string phoneNumber,
+            Student student
+        )
+        {
+            new Checker()
+                .AddNull(
+                    fullName,
+                    "Can not create student with NULL name")
+                .AddNull(
+                    phoneNumber,
+                    "Can not create student with NULL phone number")
+                .AddNull(
+                    client,
+                    "Can not create student with NULL client")
+                .Check();
+            new Checker()
+                .Add(student => storage.GetAll().Contains(student),
+                     student,
+                     "Creation student with same names and phone numbers is impossible")
+                .Check(message => new InvalidOperationException(message));
+        }
+
         public static IReadOnlyList<Student> FilterByName(string condition)
         {
-            new Checker().
-                AddNull(condition, "Filtering by null pattern is impossible").
-                Check();
+            CheckConditionsForFilterByName(condition);
 
             return
                 (from entity in storage.GetAll()
                  where entity.personData.FullName.ToLower().Contains(condition.ToLower())
                  select entity).ToList();
+        }
+        private static void CheckConditionsForFilterByName(string condition)
+        {
+            new Checker()
+                .AddNull(condition, "Filtering by null pattern is impossible")
+                .Check();
         }
 
         private Student(string fullName, string phoneNumber, Client client)
