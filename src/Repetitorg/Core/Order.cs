@@ -25,35 +25,56 @@ namespace Repetitorg.Core
 
         public long GetCostPerHourFor(Student student)
         {
-            new Checker()
-               .AddNull(student, "Student can't be null.\n")
-               .Add(s => s != null && !studentsCosts.ContainsKey(s),
-                    student, 
-                    "Student not in order.\n")
-               .Check();
+            CheckConditionsForGetCostPerHourFor(student);
             return studentsCosts[student];
         }
+        private void CheckConditionsForGetCostPerHourFor(Student student)
+        {
+            new Checker()
+                .AddNull(student, "Student can't be null.\n")
+                .Add(s => s != null && !studentsCosts.ContainsKey(s),
+                    student,
+                    "Student not in order.\n")
+                .Check();
+        }
+
         public void AddStudent(Student student, long costPerHourInCopex)
         {
-            new Checker().
-                AddNull(student, "Can not add null student to order").
-                Add(arg => (long)arg < 0, costPerHourInCopex, "Can not add student with negative cost to order").
-                Add(arg => Students.Contains((Student)arg), student, "Student already added").
-                Check();
+            CheckConditionsForAddStudent(student, costPerHourInCopex);
 
             studentsCosts.Add(student, costPerHourInCopex);
             storage.Update(this);
         }
+        private void CheckConditionsForAddStudent(Student student, long costPerHourInCopex)
+        {
+            new Checker()
+                .AddNull(student, "Can not add null student to order")
+                .Add(arg => arg < 0,
+                        costPerHourInCopex,
+                        "Can not add student with negative cost to order")
+                .Add(arg => Students.Contains(arg),
+                        student,
+                        "Student already added")
+                .Check();
+        }
+
         public void RemoveStudent(Student student)
         {
-            new Checker().AddNull(student, "Student can not be null").
-                Check();
+            CheckConditionsForRemoveStudent(student);
 
-            if (!Students.Contains(student))
-                throw new ArgumentException("Student is not in order");
             studentsCosts.Remove(student);
             storage.Update(this);
         }
+        private void CheckConditionsForRemoveStudent(Student student)
+        {
+            new Checker()
+                .AddNull(student, "Student can not be null")
+                .Add(order => !order.Students.Contains(student),
+                     this,
+                     "Student is not in order")
+                .Check();
+        }
+
         public override bool Equals(object obj)
         {
             if(obj is Order)
@@ -75,18 +96,22 @@ namespace Repetitorg.Core
 
         public static Order CreateNew(string name)
         {
-            new Checker().
-                AddNull(name, "Can not create order with null name").
-                Check();
-
             Order order = new Order(name);
-            if(storage.GetAll().Contains(order))
-                throw new InvalidOperationException(
-                    "Order with given name already exist"
-                );
+            CheckConditionsForCreateNew(name, order);
 
             storage.Add(order);
             return order;
+        }
+        private static void CheckConditionsForCreateNew(string name, Order order)
+        {
+            new Checker()
+                .AddNull(name, "Can not create order with null name")
+                .Check();
+            new Checker()
+                .Add(order => storage.GetAll().Contains(order),
+                     order,
+                     "Order with given name already exist")
+                .Check(message => new InvalidOperationException(message));
         }
 
         private Dictionary<Student, long> studentsCosts;
