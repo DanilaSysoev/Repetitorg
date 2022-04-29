@@ -112,9 +112,12 @@ namespace Repetitorg.Core
                .Add(les => les.Status == LessonStatus.Completed,
                     this,
                     "Can't complete completed lesson")
-               .Add(les => les.Status != LessonStatus.Active,
+               .Add(les => les.Status == LessonStatus.NonActive,
                     this,
                     "Can't complete non active lesson")
+               .Add(les => les.Status == LessonStatus.Canceled,
+                    this,
+                    "Can't complete cancelled lesson")
                .Check(s => new InvalidOperationException(s));
 
             Status = LessonStatus.Completed;
