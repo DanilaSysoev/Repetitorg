@@ -492,6 +492,59 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(LessonStatus.Active, l2.Status);
             Assert.AreEqual(LessonStatus.NonActive, li.Status);
         }
+        [TestCase]
+        public void AddToSchedule_AddActiveLesson_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+
+            l1.AddToSchedule();
+            var exc = Assert.Throws<InvalidOperationException>(
+                () => l1.AddToSchedule()
+            );
+
+            Assert.IsTrue(
+                exc.Message.ToLower().Contains(
+                    "lesson already added to schedule"
+                )
+            );
+        }
+        [TestCase]
+        public void AddToSchedule_AddCanceledLesson_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+
+            l1.AddToSchedule();
+            l1.Cancel();
+            var exc = Assert.Throws<InvalidOperationException>(
+                () => l1.AddToSchedule()
+            );
+
+            Assert.IsTrue(
+                exc.Message.ToLower().Contains(
+                    "can't add to schedule canceled lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void AddToSchedule_AddCompletedLesson_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+
+            l1.AddToSchedule();
+            l1.Complete();
+            var exc = Assert.Throws<InvalidOperationException>(
+                () => l1.AddToSchedule()
+            );
+
+            Assert.IsTrue(
+                exc.Message.ToLower().Contains(
+                    "can't add to schedule completed lesson"
+                )
+            );
+        }
 
         [TestCase]
         public void Complete_completingActiveLesson_statusChangeToCompleted()

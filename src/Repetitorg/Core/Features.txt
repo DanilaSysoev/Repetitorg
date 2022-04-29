@@ -116,7 +116,7 @@
 		+ Remove completed Lesson throws error
 		+ Remove non-active Lesson throws error
 		- Remove moved Lesson throws error
-		- Remove canceled Lesson throws error
+		+ Remove canceled Lesson throws error
 		+ Removing update lesson
 	+ Getting intersection with other lessons in schedule
 	+ Getting intersection with all other lessons
