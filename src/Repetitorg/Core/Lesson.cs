@@ -87,7 +87,11 @@ namespace Repetitorg.Core
                     inters.Count > 0,
                     this,
                     this + " intersect other lessons in schedule.\n")
-                .Check();
+                .Add(les => les.Status == LessonStatus.Active, this, "Lesson already added to schedule.")
+                .Add(les => les.Status == LessonStatus.Canceled, this, "Can't add to schedule canceled lesson.")
+                .Add(les => les.Status == LessonStatus.Completed, this, "Can't add to schedule completed lesson.")
+                .Check(message => new InvalidOperationException(message));
+
 
             this.Status = LessonStatus.Active;
             storage.Update(this);

@@ -382,7 +382,7 @@ namespace Repetitorg.CoreTest
             Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
 
             l1.AddToSchedule();
-            var exc = Assert.Throws<ArgumentException>(
+            var exc = Assert.Throws<InvalidOperationException>(
                 () => l2.AddToSchedule()
             );
 
@@ -405,7 +405,7 @@ namespace Repetitorg.CoreTest
             Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
 
             l2.AddToSchedule();
-            var exc = Assert.Throws<ArgumentException>(
+            var exc = Assert.Throws<InvalidOperationException>(
                 () => l1.AddToSchedule()
             );
 
@@ -428,7 +428,7 @@ namespace Repetitorg.CoreTest
             Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 30, 0), 90, order);
 
             l1.AddToSchedule();
-            var exc = Assert.Throws<ArgumentException>(
+            var exc = Assert.Throws<InvalidOperationException>(
                 () => l2.AddToSchedule()
             );
 
@@ -451,7 +451,7 @@ namespace Repetitorg.CoreTest
             Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 30, 0), 90, order);
 
             l2.AddToSchedule();
-            var exc = Assert.Throws<ArgumentException>(
+            var exc = Assert.Throws<InvalidOperationException>(
                 () => l1.AddToSchedule()
             );
 
@@ -476,7 +476,7 @@ namespace Repetitorg.CoreTest
 
             l1.AddToSchedule();
             l2.AddToSchedule();
-            var exc = Assert.Throws<ArgumentException>(
+            var exc = Assert.Throws<InvalidOperationException>(
                 () => li.AddToSchedule()
             );
 
