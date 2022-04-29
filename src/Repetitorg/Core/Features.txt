@@ -134,7 +134,7 @@
 		+ Completing decrease balance of clents
 		+ Completeng non-active Lesson throws error
 		+ Completing completed Lesson throws error
-		- Completing caceled Lesson throws error
+		+ Completing caceled Lesson throws error
 		- Completing moved Lesson throws error
 		+ Completing Lesson update Storage
 		+ Non integer cost rounded down

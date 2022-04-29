@@ -45,17 +45,29 @@ namespace Repetitorg.Core
             Status = LessonStatus.NonActive;
         }
 
-        public static Lesson CreateNew(DateTime dateTime, int lengthInMinutes, Order order)
+        public static Lesson CreateNew(
+            DateTime dateTime, int lengthInMinutes, Order order
+        )
         {
-            new Checker()
-                .Add(v => v <= 0, lengthInMinutes, "Lesson length can't be non positive\n")
-                .AddNull(order, "Order can't be null.\n")
-                .Check();
+            CheckConditionsForCreateNew(lengthInMinutes, order);
 
             Lesson lesson = new Lesson(dateTime, lengthInMinutes, order);
             storage.Add(lesson);
             return lesson;
         }
+        private static void CheckConditionsForCreateNew(
+            int lengthInMinutes, Order order
+        )
+        {
+            new Checker()
+                .Add(v => v <= 0,
+                     lengthInMinutes,
+                     "Lesson length can't be non positive\n")
+                .AddNull(order,
+                         "Order can't be null.\n")
+                .Check();
+        }
+
         public static IList<Lesson> GetIntersectionWithAll(Lesson lesson)
         {
             return storage.Filter(les =>
@@ -82,19 +94,28 @@ namespace Repetitorg.Core
         public void AddToSchedule()
         {
             var inters = GetIntersectionWithScheduled(this);
-            new Checker()
-                .Add(les => 
-                    inters.Count > 0,
-                    this,
-                    this + " intersect other lessons in schedule.\n")
-                .Add(les => les.Status == LessonStatus.Active, this, "Lesson already added to schedule.")
-                .Add(les => les.Status == LessonStatus.Canceled, this, "Can't add to schedule canceled lesson.")
-                .Add(les => les.Status == LessonStatus.Completed, this, "Can't add to schedule completed lesson.")
-                .Check(message => new InvalidOperationException(message));
-
+            CheckConditionsForAddToSchedule(inters);
 
             this.Status = LessonStatus.Active;
             storage.Update(this);
+        }
+        private void CheckConditionsForAddToSchedule(IList<Lesson> inters)
+        {
+            new Checker()
+                .Add(les =>
+                    inters.Count > 0,
+                    this,
+                    this + " intersect other lessons in schedule.\n")
+                .Add(les => les.Status == LessonStatus.Active,
+                     this,
+                     "Lesson already added to schedule.")
+                .Add(les => les.Status == LessonStatus.Canceled,
+                     this,
+                     "Can't add to schedule canceled lesson.")
+                .Add(les => les.Status == LessonStatus.Completed,
+                     this,
+                     "Can't add to schedule completed lesson.")
+                .Check(message => new InvalidOperationException(message));
         }
 
         public static IList<Lesson> GetScheduledOnDate(DateTime date)
@@ -108,6 +129,19 @@ namespace Repetitorg.Core
 
         public void Complete()
         {
+            CheckConditionsForComplete();
+
+            Status = LessonStatus.Completed;
+            foreach (var student in Order.Students)
+            {
+                student.Client.DecreaseBalance(
+                    Order.GetCostPerHourFor(student) * LengthInMinutes / MinutesInHour
+                );
+            }
+            storage.Update(this);
+        }
+        private void CheckConditionsForComplete()
+        {
             new Checker()
                .Add(les => les.Status == LessonStatus.Completed,
                     this,
@@ -119,44 +153,49 @@ namespace Repetitorg.Core
                     this,
                     "Can't complete cancelled lesson")
                .Check(s => new InvalidOperationException(s));
-
-            Status = LessonStatus.Completed;
-            foreach(var student in Order.Students)
-            {
-                student.Client.DecreaseBalance(
-                    Order.GetCostPerHourFor(student) * LengthInMinutes / MinutesInHour
-                );
-            }
-            storage.Update(this);
         }
+
         public void RemoveFromSchedule()
         {
-            new Checker().
-                Add(les => les.Status == LessonStatus.Completed, this, "Can't remove from schedule completed lesson.").
-                Add(les => les.Status == LessonStatus.NonActive, this, "Can't remove from schedule non-scheduled lesson.").
-                Add(les => les.Status == LessonStatus.Canceled, this, "Can't remove from schedule canceled lesson.").
-                Check((message) => new InvalidOperationException(message));
+            CheckConditionsForRemoveFromSchedule();
 
             Status = LessonStatus.NonActive;
             storage.Update(this);
         }
-        public void Cancel()
+        private void CheckConditionsForRemoveFromSchedule()
         {
             new Checker().
-                Add(les => les.Status == LessonStatus.Completed, this, "Can't cancel completed lesson.").
+                Add(les => les.Status == LessonStatus.Completed,
+                    this,
+                    "Can't remove from schedule completed lesson.").
+                Add(les => les.Status == LessonStatus.NonActive,
+                    this,
+                    "Can't remove from schedule non-scheduled lesson.").
+                Add(les => les.Status == LessonStatus.Canceled,
+                    this,
+                    "Can't remove from schedule canceled lesson.").
                 Check((message) => new InvalidOperationException(message));
+        }
+
+        public void Cancel()
+        {
+            CheckConditionsForCancel();
 
             Status = LessonStatus.Canceled;
             storage.Update(this);
         }
+        private void CheckConditionsForCancel()
+        {
+            new Checker()
+                .Add(les => les.Status == LessonStatus.Completed,
+                     this,
+                     "Can't cancel completed lesson.")
+                .Check((message) => new InvalidOperationException(message));
+        }
 
         public void Renew()
         {
-            new Checker().
-                   Add(les => les.Status == LessonStatus.Canceled, this, "Can't renew canceled lesson.").
-                   Add(les => les.Status == LessonStatus.Active, this, "Can't renew active lesson.").
-                   Add(les => les.Status == LessonStatus.NonActive, this, "Can't renew non-active lesson.").
-                   Check((message) => new InvalidOperationException(message));
+            CheckConditionsForRenew();
 
             Status = LessonStatus.Active;
             foreach (var student in Order.Students)
@@ -166,6 +205,20 @@ namespace Repetitorg.Core
                 );
             }
             storage.Update(this);
+        }
+        private void CheckConditionsForRenew()
+        {
+            new Checker()
+                .Add(les => les.Status == LessonStatus.Canceled,
+                     this, 
+                     "Can't renew canceled lesson.")
+                .Add(les => les.Status == LessonStatus.Active,
+                     this,
+                     "Can't renew active lesson.")
+                .Add(les => les.Status == LessonStatus.NonActive,
+                     this,
+                     "Can't renew non-active lesson.")
+                .Check((message) => new InvalidOperationException(message));
         }
     }
 
