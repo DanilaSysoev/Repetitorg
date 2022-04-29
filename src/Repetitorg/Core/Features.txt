@@ -156,6 +156,7 @@
 		- Restore active Lesson throws error
 		- Restore completed Lesson throws error
 		- Restore moved Lesson throws error
+		- Restore make Lesson statis non-active
 		- Restore Lesson update Storage
 	- Moving Lesson on new date and time
 		- Moving non-active Lesson throws error

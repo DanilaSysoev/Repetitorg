@@ -220,6 +220,28 @@ namespace Repetitorg.Core
                      "Can't renew non-active lesson.")
                 .Check((message) => new InvalidOperationException(message));
         }
+
+        public void Restore()
+        {
+            CheckConditionsForRestore();
+
+            Status = LessonStatus.NonActive;
+            storage.Update(this);
+        }
+        private void CheckConditionsForRestore()
+        {
+            new Checker()
+                .Add(les => les.Status == LessonStatus.Completed,
+                     this,
+                     "Can't restore completed lesson.")
+                .Add(les => les.Status == LessonStatus.Active,
+                     this,
+                     "Can't restore active lesson.")
+                .Add(les => les.Status == LessonStatus.NonActive,
+                     this,
+                     "Can't restore non-active lesson.")
+                .Check((message) => new InvalidOperationException(message));
+        }
     }
 
     public enum LessonStatus
