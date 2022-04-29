@@ -665,6 +665,23 @@ namespace Repetitorg.CoreTest
             );
         }
         [TestCase]
+        public void Complete_completingCanceledLesson_throwsException()
+        {
+            Order o1 = Order.CreateNew("test order 1");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            l1.AddToSchedule();
+
+            l1.Cancel();
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.Complete()
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't complete cancelled lesson"
+                )
+            );
+        }
+        [TestCase]
         public void Complete_completingActiveLesson_storageUpdeted()
         {
             Order o1 = Order.CreateNew("test order 1");

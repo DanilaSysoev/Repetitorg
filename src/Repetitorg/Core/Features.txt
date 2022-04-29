@@ -107,10 +107,10 @@
 		+ Intersection with other lesson throws error
 		+ Adding update lesson
 		+ Adding non-active change statis to active
-		- Adding canceled lesson throws error
-		- Adding active lesson throws error
+		+ Adding canceled lesson throws error
+		+ Adding active lesson throws error
 		- Adding moved lesson throws error
-		- Adding completed lesson throws error
+		+ Adding completed lesson throws error
 	- Remove from schedule (deactivate)
 		+ Removing change statis to non-active
 		+ Remove completed Lesson throws error
@@ -129,7 +129,7 @@
 	- Getting Active/Complete lessons by order
 	- Getting all lessons by order
 	- Remove Lesson
-		- Remove Complete/Moved Lesson throws error		
+		- Remove Completed/Moved Lesson throws error		
 	- Complete Lesson
 		+ Completing decrease balance of clents
 		+ Completeng non-active Lesson throws error
