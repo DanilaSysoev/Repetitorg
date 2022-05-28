@@ -152,19 +152,19 @@
 		- Canceling moved Lesson throws error
 		+ Canceling Lesson update Storage
 	- Restore canceled Lesson
-		- Restore non-active Lesson throws error
-		- Restore active Lesson throws error
-		- Restore completed Lesson throws error
+		+ Restore non-active Lesson throws error
+		+ Restore active Lesson throws error
+		+ Restore completed Lesson throws error
 		- Restore moved Lesson throws error
-		- Restore make Lesson statis non-active
-		- Restore Lesson update Storage
-	- Moving Lesson on new date and time
-		- Moving non-active Lesson throws error
-		- Moving canceled Lesson throws error
-		- Moving moved Lesson throws error
-		- Moving completed Lesson throws error
-		- Intersect with other lessons throws error
-		- Moving Lesson update Storage
+		+ Restore make Lesson statis non-active
+		+ Restore Lesson update Storage
+	+ Moving Lesson on new date and time
+		+ Moving non-active Lesson throws error
+		+ Moving canceled Lesson throws error
+		+ Moving moved Lesson throws error
+		+ Moving completed Lesson throws error
+		+ Intersect with other lessons throws error
+		+ Moving Lesson update Storage
 	- Cancel moving Lesson
 		- Cancel non-moved Lesson throws error
 		- Cancel if final target Lesson Completed

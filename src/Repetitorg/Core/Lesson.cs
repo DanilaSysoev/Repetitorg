@@ -13,6 +13,8 @@ namespace Repetitorg.Core
         public int LengthInMinutes { get; private set; }
         public Order Order { get; private set; } 
         public LessonStatus Status { get; private set; }
+        public Lesson MovedOn { get; private set; }
+        public Lesson MovedFrom { get; private set; }
 
         public override bool Equals(object obj)
         {
@@ -93,12 +95,18 @@ namespace Repetitorg.Core
 
         public void AddToSchedule()
         {
+            AddToScheduleLocal();
+            storage.Update(this);
+        }
+
+        private void AddToScheduleLocal()
+        {
             var inters = GetIntersectionWithScheduled(this);
             CheckConditionsForAddToSchedule(inters);
 
-            this.Status = LessonStatus.Active;
-            storage.Update(this);
+            Status = LessonStatus.Active;
         }
+
         private void CheckConditionsForAddToSchedule(IList<Lesson> inters)
         {
             new Checker()
@@ -240,6 +248,37 @@ namespace Repetitorg.Core
                 .Add(les => les.Status == LessonStatus.NonActive,
                      this,
                      "Can't restore non-active lesson.")
+                .Check((message) => new InvalidOperationException(message));
+        }
+
+        public Lesson MoveTo(DateTime newDateTime)
+        {
+            CheckConditionsForMoveTo();            
+            Lesson newLesson = CreateNew(newDateTime, LengthInMinutes, Order);
+            newLesson.AddToScheduleLocal();
+            Status = LessonStatus.Moved;
+            MovedOn = newLesson;
+            newLesson.MovedFrom = this;
+            storage.Update(this);
+            storage.Update(newLesson);
+            return newLesson;
+        }
+
+        private void CheckConditionsForMoveTo()
+        {
+            new Checker()
+                .Add(les => les.Status == LessonStatus.Completed,
+                     this,
+                     "Can't move completed lesson.")
+                .Add(les => les.Status == LessonStatus.Moved,
+                     this,
+                     "Can't move moved lesson.")
+                .Add(les => les.Status == LessonStatus.NonActive,
+                     this,
+                     "Can't move non-active lesson.")
+                .Add(les => les.Status == LessonStatus.Canceled,
+                     this,
+                     "Can't move canceled lesson.")
                 .Check((message) => new InvalidOperationException(message));
         }
     }

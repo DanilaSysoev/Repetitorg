@@ -1141,15 +1141,14 @@ namespace Repetitorg.CoreTest
             l1.AddToSchedule();
             var oldUpdCnt = lessons.UpdatesCount;
             l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
-            Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
+            Assert.AreEqual(oldUpdCnt + 2, lessons.UpdatesCount);
         }
         [TestCase]
         public void MoveTo_doubleMoving_MovedOnPropertiecIsCorrect()
         {
             Order order = Order.CreateNew("test order");
             Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            l1.AddToSchedule();
-            var oldUpdCnt = lessons.UpdatesCount;
+            l1.AddToSchedule();            
             Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
             Lesson l3 = l2.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
             Assert.AreEqual(l2, l1.MovedOn);
@@ -1160,8 +1159,7 @@ namespace Repetitorg.CoreTest
         {
             Order order = Order.CreateNew("test order");
             Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            l1.AddToSchedule();
-            var oldUpdCnt = lessons.UpdatesCount;
+            l1.AddToSchedule();            
             Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
             Lesson l3 = l2.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
             Assert.AreEqual(l1, l2.MovedFrom);
@@ -1230,7 +1228,7 @@ namespace Repetitorg.CoreTest
             );
         }
         [TestCase]
-        public void MoveOn_movedIntersectLessonLeft_throwsError()
+        public void MoveTo_movedIntersectLessonLeft_throwsError()
         {
             Order order = Order.CreateNew("test order");
             Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
@@ -1244,7 +1242,7 @@ namespace Repetitorg.CoreTest
 
             Assert.IsTrue(
                 exc.Message.ToLower().Contains(
-                    "moving intersect other lessons in schedule"
+                    "intersect other lessons in schedule"
                 )
             );
             Assert.AreEqual(LessonStatus.Active, l1.Status);
@@ -1252,7 +1250,7 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(LessonStatus.Active, l2.Status);
         }
         [TestCase]
-        public void MoveOn_movedIntersectLessonRight_ThrowsError()
+        public void MoveTo_movedIntersectLessonRight_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
             Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
@@ -1266,7 +1264,7 @@ namespace Repetitorg.CoreTest
 
             Assert.IsTrue(
                 exc.Message.ToLower().Contains(
-                    "moving intersect other lessons in schedule"
+                    "intersect other lessons in schedule"
                 )
             );
             Assert.AreEqual(LessonStatus.Active, l2.Status);
@@ -1274,7 +1272,7 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(LessonStatus.Active, l1.Status);
         }
         [TestCase]
-        public void MoveOn_movedContainsLesson_ThrowsError()
+        public void MoveTo_movedContainsLesson_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
             Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
@@ -1288,7 +1286,7 @@ namespace Repetitorg.CoreTest
 
             Assert.IsTrue(
                 exc.Message.ToLower().Contains(
-                    "moving intersect other lessons in schedule"
+                    "intersect other lessons in schedule"
                 )
             );
             Assert.AreEqual(LessonStatus.Active, l2.Status);
@@ -1296,7 +1294,7 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(LessonStatus.Active, l1.Status);
         }
         [TestCase]
-        public void MoveOn_lessonContainsMoved_ThrowsError()
+        public void MoveTo_lessonContainsMoved_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
             Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
@@ -1310,7 +1308,7 @@ namespace Repetitorg.CoreTest
 
             Assert.IsTrue(
                 exc.Message.ToLower().Contains(
-                    "moving intersect other lessons in schedule"
+                    "intersect other lessons in schedule"
                 )
             );
             Assert.AreEqual(LessonStatus.Active, l2.Status);
@@ -1318,7 +1316,7 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(LessonStatus.Active, l1.Status);
         }
         [TestCase]
-        public void MoveOn_movedIntersectMany_ThrowsError()
+        public void MoveTo_movedIntersectMany_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
             Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 12, 12, 0, 0), 90, order);
@@ -1334,7 +1332,7 @@ namespace Repetitorg.CoreTest
 
             Assert.IsTrue(
                 exc.Message.ToLower().Contains(
-                    "moving intersect other lessons in schedule"
+                    "intersect other lessons in schedule"
                 )
             );
             Assert.AreEqual(LessonStatus.Active, l1.Status);
