@@ -545,6 +545,24 @@ namespace Repetitorg.CoreTest
                 )
             );
         }
+        [TestCase]
+        public void AddToSchedule_AddMovedLesson_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+                        
+            l1.AddToSchedule();
+            var l2 = l1.MoveTo(new DateTime(2021, 10, 12, 12, 0, 0));            
+            var exc = Assert.Throws<InvalidOperationException>(
+                () => l1.AddToSchedule()
+            );
+
+            Assert.IsTrue(
+                exc.Message.ToLower().Contains(
+                    "can't add to schedule moved lesson"
+                )
+            );
+        }
 
         [TestCase]
         public void Complete_completingActiveLesson_statusChangeToCompleted()
@@ -693,6 +711,23 @@ namespace Repetitorg.CoreTest
 
             Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
         }
+        [TestCase]
+        public void Complete_completingMoveddLesson_throwsException()
+        {
+            Order o1 = Order.CreateNew("test order 1");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            l1.AddToSchedule();
+
+            l1.MoveTo(new DateTime(2022, 1, 17, 12, 0, 0));
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.Complete()
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't complete moved lesson"
+                )
+            );
+        }
 
         [TestCase]
         public void GetScheduledOnDate_emptyCollection_returnEmptyList()
@@ -815,6 +850,24 @@ namespace Repetitorg.CoreTest
             l1.RemoveFromSchedule();
             Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
         }
+        [TestCase]
+        public void RemoveFromSchedule_removeMovedLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.MoveTo(new DateTime(2021, 10, 15, 12, 0, 0));
+
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.RemoveFromSchedule()
+            );
+
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't remove from schedule moved lesson"
+                )
+            );
+        }
 
         [TestCase]
         public void Cancel_cancelNonActiveLesson_changeStatusToCanceled()
@@ -869,6 +922,24 @@ namespace Repetitorg.CoreTest
             var oldUpdCnt = lessons.UpdatesCount;
             l1.Cancel();
             Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
+        }
+        [TestCase]
+        public void Cancel_cancelMovedLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
+            l1.MoveTo(new DateTime(2021, 10, 12, 12, 0, 0));
+
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.Cancel()
+            );
+
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't cancel moved lesson"
+                )
+            );
         }
 
         [TestCase]
@@ -963,6 +1034,21 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(0, c1.BalanceInKopeks);
             Assert.AreEqual(0, c3.BalanceInKopeks);
         }
+        [TestCase]
+        public void Renew_renewMovedLesson_throwsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.MoveTo(new DateTime(2021, 10, 12, 12, 0, 0));
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.Renew()
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't renew moved lesson"
+                )
+            );
+        }
 
         [TestCase]
         public void Restore_restoreCanceledLesson_statusChangeToNonActive()
@@ -1027,6 +1113,21 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(
                 exception.Message.ToLower().Contains(
                     "can't restore completed lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void Restore_restoreMovedLesson_throwsException()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.MoveTo(new DateTime(2021, 10, 12, 12, 0, 0));
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.Restore()
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't restore moved lesson"
                 )
             );
         }

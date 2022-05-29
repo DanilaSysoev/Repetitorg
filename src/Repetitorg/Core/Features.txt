@@ -127,9 +127,7 @@
 	- Getting all lessons later than date
 	- Getting all lessons earlier than date
 	- Getting Active/Complete lessons by order
-	- Getting all lessons by order
-	- Remove Lesson
-		- Remove Completed/Moved Lesson throws error		
+	- Getting all lessons by order		
 	- Complete Lesson
 		+ Completing decrease balance of clents
 		+ Completeng non-active Lesson throws error
@@ -165,6 +163,7 @@
 		+ Moving completed Lesson throws error
 		+ Intersect with other lessons throws error
 		+ Moving Lesson update Storage
+		+ Moved lesson in schedule
 	- Cancel moving Lesson
 		- Cancel non-moved Lesson throws error
 		- Cancel if final target Lesson Completed
