@@ -103,19 +103,19 @@
 	  + New Lesson is non-active
 	  + Creating setup propertie correctly
 	+ Lessons are equals if equals his dateTime, length, order and status
-	- Add Lesson to schedule (activate)
+	+ Add Lesson to schedule (activate)
 		+ Intersection with other lesson throws error
 		+ Adding update lesson
 		+ Adding non-active change statis to active
 		+ Adding canceled lesson throws error
 		+ Adding active lesson throws error
-		- Adding moved lesson throws error
+		+ Adding moved lesson throws error
 		+ Adding completed lesson throws error
-	- Remove from schedule (deactivate)
+	+ Remove from schedule (deactivate)
 		+ Removing change statis to non-active
 		+ Remove completed Lesson throws error
 		+ Remove non-active Lesson throws error
-		- Remove moved Lesson throws error
+		+ Remove moved Lesson throws error
 		+ Remove canceled Lesson throws error
 		+ Removing update lesson
 	+ Getting intersection with other lessons in schedule
@@ -128,32 +128,32 @@
 	- Getting all lessons earlier than date
 	- Getting Active/Complete lessons by order
 	- Getting all lessons by order		
-	- Complete Lesson
+	+ Complete Lesson
 		+ Completing decrease balance of clents
 		+ Completeng non-active Lesson throws error
 		+ Completing completed Lesson throws error
 		+ Completing caceled Lesson throws error
-		- Completing moved Lesson throws error
+		+ Completing moved Lesson throws error
 		+ Completing Lesson update Storage
 		+ Non integer cost rounded down
-	- Renew Lesson
+	+ Renew Lesson
 		+ Renew increase balance of clents
 		+ Renew change status to active
 		+ Renew non-active Lesson throws error
 		+ Renew active Lesson throws error
 		+ Renew caceled Lesson throws error
-		- Renew moved Lesson throws error
+		+ Renew moved Lesson throws error
 		+ Renew Lesson update Storage
-	- Cancel Lesson
+	+ Cancel Lesson
 		+ Canceled Lesson removed from schedule
 		+ Canceling completed Lesson throws error		
-		- Canceling moved Lesson throws error
+		+ Canceling moved Lesson throws error
 		+ Canceling Lesson update Storage
-	- Restore canceled Lesson
+	+ Restore canceled Lesson
 		+ Restore non-active Lesson throws error
 		+ Restore active Lesson throws error
 		+ Restore completed Lesson throws error
-		- Restore moved Lesson throws error
+		+ Restore moved Lesson throws error
 		+ Restore make Lesson statis non-active
 		+ Restore Lesson update Storage
 	+ Moving Lesson on new date and time

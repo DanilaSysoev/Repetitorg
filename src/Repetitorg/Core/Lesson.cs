@@ -123,6 +123,9 @@ namespace Repetitorg.Core
                 .Add(les => les.Status == LessonStatus.Completed,
                      this,
                      "Can't add to schedule completed lesson.")
+                .Add(les => les.Status == LessonStatus.Moved,
+                     this,
+                     "Can't add to schedule moved lesson.")
                 .Check(message => new InvalidOperationException(message));
         }
 
@@ -160,6 +163,9 @@ namespace Repetitorg.Core
                .Add(les => les.Status == LessonStatus.Canceled,
                     this,
                     "Can't complete cancelled lesson")
+               .Add(les => les.Status == LessonStatus.Moved,
+                    this,
+                    "Can't complete moved lesson")
                .Check(s => new InvalidOperationException(s));
         }
 
@@ -172,17 +178,20 @@ namespace Repetitorg.Core
         }
         private void CheckConditionsForRemoveFromSchedule()
         {
-            new Checker().
-                Add(les => les.Status == LessonStatus.Completed,
+            new Checker()
+                .Add(les => les.Status == LessonStatus.Completed,
                     this,
-                    "Can't remove from schedule completed lesson.").
-                Add(les => les.Status == LessonStatus.NonActive,
+                    "Can't remove from schedule completed lesson.")
+                .Add(les => les.Status == LessonStatus.NonActive,
                     this,
-                    "Can't remove from schedule non-scheduled lesson.").
-                Add(les => les.Status == LessonStatus.Canceled,
+                    "Can't remove from schedule non-scheduled lesson.")
+                .Add(les => les.Status == LessonStatus.Canceled,
                     this,
-                    "Can't remove from schedule canceled lesson.").
-                Check((message) => new InvalidOperationException(message));
+                    "Can't remove from schedule canceled lesson.")
+                .Add(les => les.Status == LessonStatus.Moved,
+                    this,
+                    "Can't remove from schedule moved lesson.")
+                .Check((message) => new InvalidOperationException(message));
         }
 
         public void Cancel()
@@ -198,6 +207,9 @@ namespace Repetitorg.Core
                 .Add(les => les.Status == LessonStatus.Completed,
                      this,
                      "Can't cancel completed lesson.")
+                .Add(les => les.Status == LessonStatus.Moved,
+                    this,
+                    "Can't cancel moved lesson.")
                 .Check((message) => new InvalidOperationException(message));
         }
 
@@ -226,6 +238,9 @@ namespace Repetitorg.Core
                 .Add(les => les.Status == LessonStatus.NonActive,
                      this,
                      "Can't renew non-active lesson.")
+                .Add(les => les.Status == LessonStatus.Moved,
+                     this,
+                     "Can't renew moved lesson.")
                 .Check((message) => new InvalidOperationException(message));
         }
 
@@ -248,6 +263,9 @@ namespace Repetitorg.Core
                 .Add(les => les.Status == LessonStatus.NonActive,
                      this,
                      "Can't restore non-active lesson.")
+                .Add(les => les.Status == LessonStatus.Moved,
+                     this,
+                     "Can't restore moved lesson.")
                 .Check((message) => new InvalidOperationException(message));
         }
 

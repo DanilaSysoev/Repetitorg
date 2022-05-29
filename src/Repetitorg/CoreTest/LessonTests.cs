@@ -1039,6 +1039,7 @@ namespace Repetitorg.CoreTest
         {
             Order order = Order.CreateNew("test order");
             Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
             l1.MoveTo(new DateTime(2021, 10, 12, 12, 0, 0));
             var exception = Assert.Throws<InvalidOperationException>(
                 () => l1.Renew()
@@ -1121,6 +1122,7 @@ namespace Repetitorg.CoreTest
         {
             Order order = Order.CreateNew("test order");
             Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            l1.AddToSchedule();
             l1.MoveTo(new DateTime(2021, 10, 12, 12, 0, 0));
             var exception = Assert.Throws<InvalidOperationException>(
                 () => l1.Restore()
