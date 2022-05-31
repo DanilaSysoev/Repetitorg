@@ -26,6 +26,8 @@ namespace Repetitorg.CoreTest
             Client.SetupStorage(clients);
             Student.SetupStorage(students);
         }
+        
+        #region CreateNew Tests
 
         [TestCase]
         public void CreateNew_CreateWithCorrectArgs_LessonCountIncrease()
@@ -107,7 +109,28 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(90, lesson.LengthInMinutes);
             Assert.AreEqual(order, lesson.Order);
         }
+        [TestCase]
+        public void CreateNew_createLesson_MovedFromPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Assert.IsNull(l1.MovedFrom);
+        }
+        [TestCase]
+        public void CreateNew_createLesson_MovedOnPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Assert.IsNull(l1.MovedOn);
+        }
 
+        #endregion
+
+        #region GetAll Tests
 
         [TestCase]
         public void GetAll_NewCollection_ReturnEmpty()
@@ -136,6 +159,10 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(all.Contains(l3));
             Assert.AreEqual(3, all.Count);
         }
+
+        #endregion
+
+        #region GetIntersectionWithAll Tests
 
         [TestCase]
         public void GetIntersectionWithAll_ExistOnlyOneLesson_ReturnEmptyList()
@@ -244,6 +271,10 @@ namespace Repetitorg.CoreTest
             inter = Lesson.GetIntersectionWithAll(l2);
             Assert.AreEqual(0, inter.Count);
         }
+
+        #endregion
+
+        #region GetIntersectionWithScheduled Tests
 
         [TestCase]
         public void GetIntersectionWithScheduled_ExistOnlyOneLesson_ReturnEmptyList()
@@ -423,6 +454,10 @@ namespace Repetitorg.CoreTest
             inter = Lesson.GetIntersectionWithScheduled(l2);
             Assert.AreEqual(0, inter.Count);
         }
+
+        #endregion
+
+        #region AddToSchedule Tests
 
         [TestCase]
         public void AddToSchedule_AddOneLesson_StatusChangeToActive()
@@ -683,6 +718,30 @@ namespace Repetitorg.CoreTest
                 )
             );
         }
+        [TestCase]
+        public void AddToSchedule_addNonActiveLesson_MovedOnPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            Assert.IsNull(l1.MovedOn);
+        }
+        [TestCase]
+        public void AddToSchedule_addNonActiveLesson_MovedFromPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            Assert.IsNull(l1.MovedFrom);
+        }
+
+        #endregion
+
+        #region Complete Tests
 
         [TestCase]
         public void Complete_completingActiveLesson_statusChangeToCompleted()
@@ -878,6 +937,32 @@ namespace Repetitorg.CoreTest
                 )
             );
         }
+        [TestCase]
+        public void Complete_completeActiveLesson_MovedOnPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            l1.Complete();
+            Assert.IsNull(l1.MovedOn);
+        }
+        [TestCase]
+        public void Complete_completeActiveLesson_MovedFromPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            l1.Complete();
+            Assert.IsNull(l1.MovedFrom);
+        }
+
+        #endregion
+
+        #region GetScheduledOnDate Tests
 
         [TestCase]
         public void GetScheduledOnDate_emptyCollection_returnEmptyList()
@@ -947,6 +1032,9 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(lessons.Contains(l3));
         }
 
+        #endregion
+
+        #region RemoveFromSchedule Tests
 
         [TestCase]
         public void RemoveFromSchedule_removeNonScheduledLesson_throwsException()
@@ -1049,6 +1137,10 @@ namespace Repetitorg.CoreTest
             );
         }
 
+        #endregion
+
+        #region Cancel Tests
+
         [TestCase]
         public void Cancel_cancelNonActiveLesson_changeStatusToCanceled()
         {
@@ -1133,6 +1225,32 @@ namespace Repetitorg.CoreTest
                 )
             );
         }
+        [TestCase]
+        public void Cancel_cancelActiveLesson_MovedOnPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            l1.Cancel();
+            Assert.IsNull(l1.MovedOn);
+        }
+        [TestCase]
+        public void Cancel_cancelActiveLesson_MovedFromPropertyIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            l1.Cancel();
+            Assert.IsNull(l1.MovedFrom);
+        }
+
+        #endregion
+
+        #region Renew Tests
 
         [TestCase]
         public void Renew_renewNonActiveLesson_throwsError()
@@ -1261,6 +1379,10 @@ namespace Repetitorg.CoreTest
             );
         }
 
+        #endregion
+
+        #region Restore Tests
+
         [TestCase]
         public void Restore_restoreCanceledLesson_statusChangeToNonActive()
         {
@@ -1356,88 +1478,10 @@ namespace Repetitorg.CoreTest
             );
         }
 
-        [TestCase]
-        public void CreateNew_createLesson_MovedFromPropertyIsNull()
-        {
-            Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(
-                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
-            );
-            Assert.IsNull(l1.MovedFrom);
-        }
-        [TestCase]
-        public void AddToSchedule_addNonActiveLesson_MovedFromPropertyIsNull()
-        {
-            Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(
-                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
-            );
-            l1.AddToSchedule();
-            Assert.IsNull(l1.MovedFrom);
-        }
-        [TestCase]
-        public void Cancel_cancelActiveLesson_MovedFromPropertyIsNull()
-        {
-            Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(
-                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
-            );
-            l1.AddToSchedule();
-            l1.Cancel();
-            Assert.IsNull(l1.MovedFrom);
-        }
-        [TestCase]
-        public void Complete_completeActiveLesson_MovedFromPropertyIsNull()
-        {
-            Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(
-                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
-            );
-            l1.AddToSchedule();
-            l1.Complete();
-            Assert.IsNull(l1.MovedFrom);
-        }
-        [TestCase]
-        public void CreateNew_createLesson_MovedOnPropertyIsNull()
-        {
-            Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(
-                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
-            );
-            Assert.IsNull(l1.MovedOn);
-        }
-        [TestCase]
-        public void AddToSchedule_addNonActiveLesson_MovedOnPropertyIsNull()
-        {
-            Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(
-                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
-            );
-            l1.AddToSchedule();
-            Assert.IsNull(l1.MovedOn);
-        }
-        [TestCase]
-        public void Cancel_cancelActiveLesson_MovedOnPropertyIsNull()
-        {
-            Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(
-                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
-            );
-            l1.AddToSchedule();
-            l1.Cancel();
-            Assert.IsNull(l1.MovedOn);
-        }
-        [TestCase]
-        public void Complete_completeActiveLesson_MovedOnPropertyIsNull()
-        {
-            Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(
-                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
-            );
-            l1.AddToSchedule();
-            l1.Complete();
-            Assert.IsNull(l1.MovedOn);
-        }
+        #endregion
+
+        #region MoveTo Tests
+
         [TestCase]
         public void MoveTo_moveActiveLesson_statusChangeToMoved()
         {
@@ -1726,6 +1770,10 @@ namespace Repetitorg.CoreTest
             Assert.IsNull(li.MovedOn);
         }
 
+        #endregion
+
+        #region CancelMove Tests
+
         [TestCase]
         public void CancelMove_cancelMoveForNonActiveLesson_ThrowsError()
         {
@@ -1886,10 +1934,22 @@ namespace Repetitorg.CoreTest
             Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
             int updCntBefore = lessons.UpdatesCount;
             l1.CancelMove();
-            Assert.Equals(updCntBefore + 2, lessons.UpdatesCount);
+            Assert.Equals(updCntBefore + 1, lessons.UpdatesCount);
         }
         [TestCase]
-        public void CancelMove_twoMoveCancelMovedLesson_makeThreeUpdates()
+        public void CancelMove_oneMoveCancelMovedLesson_MovedOnIsNull()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));            
+            l1.CancelMove();
+            Assert.IsNull(l1.MovedOn);
+        }
+        [TestCase]
+        public void CancelMove_twoMoveCancelMovedLesson_MovedOnIsNull()
         {
             Order order = Order.CreateNew("test order");
             Lesson l1 = Lesson.CreateNew(
@@ -1897,10 +1957,10 @@ namespace Repetitorg.CoreTest
             );
             l1.AddToSchedule();
             Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
-            Lesson l3 = l2.MoveTo(new DateTime(2021, 10, 16, 12, 0, 0));            
-            int updCntBefore = lessons.UpdatesCount;
+            l2.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
             l1.CancelMove();
-            Assert.Equals(updCntBefore + 3, lessons.UpdatesCount);
+            Assert.IsNull(l1.MovedOn);
         }
+        #endregion
     }
 }
