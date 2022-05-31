@@ -165,10 +165,14 @@
 		+ Moving Lesson update Storage
 		+ Moved lesson in schedule
 	- Cancel moving Lesson
-		- Cancel non-moved Lesson throws error
+		- Cancel non-active Lesson throws error
+		- Cancel active Lesson throws error
+		- Cancel completed Lesson throws error
+		- Cancel canceled Lesson throws error
 		- Cancel if final target Lesson Completed
 		  throws error
 		- Cancel remove all next Lessons
+		- Cancel change status to non-active
 		- Cancel Lesson update all lessons from 
 		  chain in Storage
 

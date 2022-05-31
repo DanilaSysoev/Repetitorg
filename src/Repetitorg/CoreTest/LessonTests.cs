@@ -31,7 +31,7 @@ namespace Repetitorg.CoreTest
         public void CreateNew_CreateWithCorrectArgs_LessonCountIncrease()
         {
             Order order = Order.CreateNew("test order");
-            
+
             Assert.AreEqual(0, Lesson.Count);
             Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
             Assert.AreEqual(1, Lesson.Count);
@@ -43,7 +43,9 @@ namespace Repetitorg.CoreTest
         {
             Order order = Order.CreateNew("test order");
 
-            Lesson lesson = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson lesson = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             Assert.AreEqual(LessonStatus.NonActive, lesson.Status);
         }
         [TestCase]
@@ -52,7 +54,9 @@ namespace Repetitorg.CoreTest
             Order order = Order.CreateNew("test order");
 
             var exc = Assert.Throws<ArgumentException>(
-                () => Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), -90, order)
+                () => Lesson.CreateNew(
+                    new DateTime(2021, 10, 10, 12, 0, 0), -90, order
+                )
             );
 
             Assert.IsTrue(
@@ -67,7 +71,9 @@ namespace Repetitorg.CoreTest
             Order order = Order.CreateNew("test order");
 
             var exc = Assert.Throws<ArgumentException>(
-                () => Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 0, order)
+                () => Lesson.CreateNew(
+                    new DateTime(2021, 10, 10, 12, 0, 0), 0, order
+                )
             );
 
             Assert.IsTrue(
@@ -80,7 +86,9 @@ namespace Repetitorg.CoreTest
         public void CreateNew_CreateWithNullOrder_ThrowsError()
         {
             var exc = Assert.Throws<ArgumentException>(
-                () => Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 0, null)
+                () => Lesson.CreateNew(
+                    new DateTime(2021, 10, 10, 12, 0, 0), 0, null
+                )
             );
 
             Assert.IsTrue(
@@ -111,9 +119,15 @@ namespace Repetitorg.CoreTest
         {
             Order order = Order.CreateNew("test order");
 
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, order
+            );
+            Lesson l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 16, 0, 0), 90, order
+            );
 
             var all = Lesson.GetAll();
 
@@ -127,7 +141,9 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithAll_ExistOnlyOneLesson_ReturnEmptyList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson lesson = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson lesson = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
 
             IList<Lesson> intersection = Lesson.GetIntersectionWithAll(lesson);
             Assert.AreEqual(0, intersection.Count);
@@ -136,8 +152,12 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithAll_ExistTwoNonIntersectionLesson_ReturnEmptyList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, order
+            );
 
             IList<Lesson> inter = Lesson.GetIntersectionWithAll(l1);
             Assert.AreEqual(0, inter.Count);
@@ -148,8 +168,12 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithAll_FirstIntersectSecont_ReturnCorrectList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 13, 0, 0), 90, order
+            );
 
             IList<Lesson> inter = Lesson.GetIntersectionWithAll(l1);
             Assert.AreEqual(1, inter.Count);
@@ -162,8 +186,12 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithAll_FirstContainsSecont_ReturnCorrectList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 30, 0), 60, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 180, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 30, 0), 60, order
+            );
 
             IList<Lesson> inter = Lesson.GetIntersectionWithAll(l1);
             Assert.AreEqual(1, inter.Count);
@@ -176,10 +204,18 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithAll_IntersectMoreThanOne_ReturnCorrectList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 90, order);
-            Lesson li = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 30, 0), 120, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, order
+            );
+            Lesson l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 16, 0, 0), 90, order
+            );
+            Lesson li = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 30, 0), 120, order
+            );
 
             IList<Lesson> inter = Lesson.GetIntersectionWithAll(li);
             Assert.AreEqual(2, inter.Count);
@@ -196,8 +232,12 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithAll_EndToEndLessons_NoIntersection()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 30, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 13, 30, 0), 90, order
+            );
 
             IList<Lesson> inter = Lesson.GetIntersectionWithAll(l1);
             Assert.AreEqual(0, inter.Count);
@@ -209,7 +249,9 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithScheduled_ExistOnlyOneLesson_ReturnEmptyList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson lesson = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);            
+            Lesson lesson = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+
 
             IList<Lesson> intersection = Lesson.GetIntersectionWithScheduled(lesson);
             Assert.AreEqual(0, intersection.Count);
@@ -218,8 +260,12 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithScheduled_ExistTwoNonIntersectionLesson_ReturnEmptyList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, order
+            );
 
             l1.AddToSchedule();
 
@@ -230,8 +276,12 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithScheduled_ScheduledIntersectNonScheduled_ReturnCorrectList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 13, 0, 0), 90, order
+            );
 
             l1.AddToSchedule();
 
@@ -245,8 +295,12 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithScheduled_NonScheduledIntersectScheduled_ReturnCorrectList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 13, 0, 0), 90, order
+            );
 
             l2.AddToSchedule();
 
@@ -260,8 +314,12 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithScheduled_FirstContainsSecont_ReturnCorrectList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 30, 0), 60, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 180, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 30, 0), 60, order
+            );
 
             l1.AddToSchedule();
 
@@ -275,8 +333,12 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithScheduled_SecondContainsFirst_ReturnCorrectList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 30, 0), 60, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 180, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 30, 0), 60, order
+            );
 
             l2.AddToSchedule();
 
@@ -290,10 +352,18 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithScheduled_IntersectMoreThanOne_ReturnCorrectList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 90, order);
-            Lesson li = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 30, 0), 120, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, order
+            );
+            Lesson l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 16, 0, 0), 90, order
+            );
+            Lesson li = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 30, 0), 120, order
+            );
 
             l1.AddToSchedule();
             l2.AddToSchedule();
@@ -311,10 +381,18 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithScheduled_MoreThanOneIntersect_ReturnCorrectList()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 90, order);
-            Lesson li = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 30, 0), 120, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, order
+            );
+            Lesson l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 16, 0, 0), 90, order
+            );
+            Lesson li = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 30, 0), 120, order
+            );
 
             li.AddToSchedule();
 
@@ -331,8 +409,12 @@ namespace Repetitorg.CoreTest
         public void GetIntersectionWithScheduled_EndToEndLessons_NoIntersection()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 30, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 13, 30, 0), 90, order
+            );
 
             l1.AddToSchedule();
 
@@ -346,7 +428,9 @@ namespace Repetitorg.CoreTest
         public void AddToSchedule_AddOneLesson_StatusChangeToActive()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
 
             l1.AddToSchedule();
             Assert.AreEqual(LessonStatus.Active, l1.Status);
@@ -355,7 +439,9 @@ namespace Repetitorg.CoreTest
         public void AddToSchedule_AddOneLesson_LessonUpdating()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
 
             Assert.AreEqual(0, lessons.UpdatesCount);
             l1.AddToSchedule();
@@ -365,8 +451,12 @@ namespace Repetitorg.CoreTest
         public void AddToSchedule_AddNonIntersectionsLesson_AdditionOk()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, order
+            );
 
             l1.AddToSchedule();
             l2.AddToSchedule();
@@ -378,8 +468,12 @@ namespace Repetitorg.CoreTest
         public void AddToSchedule_FirstIntersectSecondLesson_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 180, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, order
+            );
 
             l1.AddToSchedule();
             var exc = Assert.Throws<InvalidOperationException>(
@@ -389,7 +483,7 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(
                 exc.Message.ToLower().Contains(
                     string.Format(
-                        "{0} intersect other lessons in schedule", 
+                        "{0} intersect other lessons in schedule",
                         l2.ToString().ToLower()
                     )
                 )
@@ -401,8 +495,12 @@ namespace Repetitorg.CoreTest
         public void AddToSchedule_SecondIntersectFirstLesson_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 180, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, order
+            );
 
             l2.AddToSchedule();
             var exc = Assert.Throws<InvalidOperationException>(
@@ -424,8 +522,12 @@ namespace Repetitorg.CoreTest
         public void AddToSchedule_FirstContainsSecond_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 30, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 180, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 30, 0), 90, order
+            );
 
             l1.AddToSchedule();
             var exc = Assert.Throws<InvalidOperationException>(
@@ -447,8 +549,12 @@ namespace Repetitorg.CoreTest
         public void AddToSchedule_SecondContainsFirst_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 30, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 180, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 30, 0), 90, order
+            );
 
             l2.AddToSchedule();
             var exc = Assert.Throws<InvalidOperationException>(
@@ -470,9 +576,15 @@ namespace Repetitorg.CoreTest
         public void AddToSchedule_ActivetedIntersectMany_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, order);
-            Lesson li = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 0, 0), 120, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, order
+            );
+            Lesson li = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 13, 0, 0), 120, order
+            );
 
             l1.AddToSchedule();
             l2.AddToSchedule();
@@ -496,7 +608,9 @@ namespace Repetitorg.CoreTest
         public void AddToSchedule_AddActiveLesson_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
 
             l1.AddToSchedule();
             var exc = Assert.Throws<InvalidOperationException>(
@@ -513,7 +627,9 @@ namespace Repetitorg.CoreTest
         public void AddToSchedule_AddCanceledLesson_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
 
             l1.AddToSchedule();
             l1.Cancel();
@@ -531,7 +647,9 @@ namespace Repetitorg.CoreTest
         public void AddToSchedule_AddCompletedLesson_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
 
             l1.AddToSchedule();
             l1.Complete();
@@ -549,10 +667,12 @@ namespace Repetitorg.CoreTest
         public void AddToSchedule_AddMovedLesson_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-                        
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+
             l1.AddToSchedule();
-            var l2 = l1.MoveTo(new DateTime(2021, 10, 12, 12, 0, 0));            
+            var l2 = l1.MoveTo(new DateTime(2021, 10, 12, 12, 0, 0));
             var exc = Assert.Throws<InvalidOperationException>(
                 () => l1.AddToSchedule()
             );
@@ -568,7 +688,9 @@ namespace Repetitorg.CoreTest
         public void Complete_completingActiveLesson_statusChangeToCompleted()
         {
             Order o1 = Order.CreateNew("test order 1");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 12, 0, 0), 90, o1
+            );
             l1.AddToSchedule();
             l1.Complete();
             Assert.AreEqual(LessonStatus.Completed, l1.Status);
@@ -588,9 +710,15 @@ namespace Repetitorg.CoreTest
             o1.AddStudent(s3, 400000);
             o2.AddStudent(s2, 350000);
 
-            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 120, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 12, 0, 0), 90, o1
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, o2
+            );
+            Lesson l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 16, 0, 0), 120, o1
+            );
             l1.AddToSchedule();
             l2.AddToSchedule();
             l3.AddToSchedule();
@@ -614,9 +742,15 @@ namespace Repetitorg.CoreTest
             o1.AddStudent(s3, 400000);
             o2.AddStudent(s2, 350000);
 
-            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 120, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 12, 0, 0), 90, o1
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, o2
+            );
+            Lesson l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 16, 0, 0), 120, o1
+            );
             l1.AddToSchedule();
             l2.AddToSchedule();
             l3.AddToSchedule();
@@ -639,9 +773,15 @@ namespace Repetitorg.CoreTest
             o1.AddStudent(s3, 200);
             o2.AddStudent(s2, 350000);
 
-            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 50, o1);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 100, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 12, 0, 0), 50, o1
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, o2
+            );
+            Lesson l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 16, 0, 0), 100, o1
+            );
             l1.AddToSchedule();
             l2.AddToSchedule();
             l3.AddToSchedule();
@@ -654,7 +794,9 @@ namespace Repetitorg.CoreTest
         public void Complete_completingNonActiveLesson_throwsException()
         {
             Order o1 = Order.CreateNew("test order 1");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 12, 0, 0), 90, o1
+            );
 
             var exception = Assert.Throws<InvalidOperationException>(
                 () => l1.Complete()
@@ -669,7 +811,9 @@ namespace Repetitorg.CoreTest
         public void Complete_completingCompletedLesson_throwsException()
         {
             Order o1 = Order.CreateNew("test order 1");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 12, 0, 0), 90, o1
+            );
             l1.AddToSchedule();
 
             l1.Complete();
@@ -686,7 +830,9 @@ namespace Repetitorg.CoreTest
         public void Complete_completingCanceledLesson_throwsException()
         {
             Order o1 = Order.CreateNew("test order 1");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 12, 0, 0), 90, o1
+            );
             l1.AddToSchedule();
 
             l1.Cancel();
@@ -703,7 +849,9 @@ namespace Repetitorg.CoreTest
         public void Complete_completingActiveLesson_storageUpdeted()
         {
             Order o1 = Order.CreateNew("test order 1");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 12, 0, 0), 90, o1
+            );
             l1.AddToSchedule();
 
             var oldUpdCnt = lessons.UpdatesCount;
@@ -715,7 +863,9 @@ namespace Repetitorg.CoreTest
         public void Complete_completingMoveddLesson_throwsException()
         {
             Order o1 = Order.CreateNew("test order 1");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 12, 0, 0), 90, o1
+            );
             l1.AddToSchedule();
 
             l1.MoveTo(new DateTime(2022, 1, 17, 12, 0, 0));
@@ -740,9 +890,15 @@ namespace Repetitorg.CoreTest
         {
             Order o1 = Order.CreateNew("test order 1");
             Order o2 = Order.CreateNew("test order 2");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, o1);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 120, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, o1
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, o2
+            );
+            Lesson l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 16, 0, 0), 120, o1
+            );
 
             var lessons = Lesson.GetScheduledOnDate(new DateTime(2022, 1, 15));
             Assert.AreEqual(0, lessons.Count);
@@ -752,9 +908,15 @@ namespace Repetitorg.CoreTest
         {
             Order o1 = Order.CreateNew("test order 1");
             Order o2 = Order.CreateNew("test order 2");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 120, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 12, 0, 0), 90, o1
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, o2
+            );
+            Lesson l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 16, 0, 0), 120, o1
+            );
             l2.AddToSchedule();
             l3.AddToSchedule();
 
@@ -766,9 +928,15 @@ namespace Repetitorg.CoreTest
         {
             Order o1 = Order.CreateNew("test order 1");
             Order o2 = Order.CreateNew("test order 2");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2022, 1, 15, 16, 0, 0), 120, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 12, 0, 0), 90, o1
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, o2
+            );
+            Lesson l3 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 16, 0, 0), 120, o1
+            );
             l1.AddToSchedule();
             l2.AddToSchedule();
             l3.AddToSchedule();
@@ -784,7 +952,9 @@ namespace Repetitorg.CoreTest
         public void RemoveFromSchedule_removeNonScheduledLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
 
             var exception = Assert.Throws<InvalidOperationException>(
                 () => l1.RemoveFromSchedule()
@@ -799,7 +969,9 @@ namespace Repetitorg.CoreTest
         public void RemoveFromSchedule_removeCanceledLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Cancel();
 
@@ -816,7 +988,9 @@ namespace Repetitorg.CoreTest
         public void RemoveFromSchedule_removeCompletedLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Complete();
 
@@ -834,7 +1008,9 @@ namespace Repetitorg.CoreTest
         public void RemoveFromSchedule_removeActiveLesson_lessonNowIsNonActive()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.RemoveFromSchedule();
 
@@ -844,7 +1020,9 @@ namespace Repetitorg.CoreTest
         public void RemoveFromSchedule_removeActiveLesson_lessonUpdated()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             var oldUpdCnt = lessons.UpdatesCount;
             l1.RemoveFromSchedule();
@@ -854,7 +1032,9 @@ namespace Repetitorg.CoreTest
         public void RemoveFromSchedule_removeMovedLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.MoveTo(new DateTime(2021, 10, 15, 12, 0, 0));
 
@@ -873,7 +1053,9 @@ namespace Repetitorg.CoreTest
         public void Cancel_cancelNonActiveLesson_changeStatusToCanceled()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);            
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+
             l1.Cancel();
             Assert.AreEqual(LessonStatus.Canceled, l1.Status);
         }
@@ -881,7 +1063,9 @@ namespace Repetitorg.CoreTest
         public void Cancel_cancelActiveLesson_changeStatusToCanceled()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Cancel();
             Assert.AreEqual(LessonStatus.Canceled, l1.Status);
@@ -890,7 +1074,9 @@ namespace Repetitorg.CoreTest
         public void Cancel_cancelCompletedLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Complete();
 
@@ -908,7 +1094,9 @@ namespace Repetitorg.CoreTest
         public void Cancel_CancelNonActiveLesson_lessonUpdated()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);            
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+
             var oldUpdCnt = lessons.UpdatesCount;
             l1.Cancel();
             Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
@@ -917,7 +1105,9 @@ namespace Repetitorg.CoreTest
         public void Cancel_CancelActiveLesson_lessonUpdated()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             var oldUpdCnt = lessons.UpdatesCount;
             l1.Cancel();
@@ -927,7 +1117,9 @@ namespace Repetitorg.CoreTest
         public void Cancel_cancelMovedLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.MoveTo(new DateTime(2021, 10, 12, 12, 0, 0));
 
@@ -946,7 +1138,9 @@ namespace Repetitorg.CoreTest
         public void Renew_renewNonActiveLesson_throwsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             var exception = Assert.Throws<InvalidOperationException>(
                 () => l1.Renew()
             );
@@ -960,7 +1154,9 @@ namespace Repetitorg.CoreTest
         public void Renew_renewActiveLesson_throwsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             var exception = Assert.Throws<InvalidOperationException>(
                 () => l1.Renew()
@@ -975,7 +1171,9 @@ namespace Repetitorg.CoreTest
         public void Renew_renewCanceledLesson_throwsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.Cancel();
             var exception = Assert.Throws<InvalidOperationException>(
                 () => l1.Renew()
@@ -990,7 +1188,9 @@ namespace Repetitorg.CoreTest
         public void Renew_renewCompletedLesson_storageUpdates()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Complete();
             var oldUpdCnt = lessons.UpdatesCount;
@@ -1001,9 +1201,11 @@ namespace Repetitorg.CoreTest
         public void Renew_renewCompletedLesson_statusChangeToActive()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
-            l1.Complete();            
+            l1.Complete();
             l1.Renew();
             Assert.AreEqual(LessonStatus.Active, l1.Status);
         }
@@ -1022,9 +1224,15 @@ namespace Repetitorg.CoreTest
             o1.AddStudent(s3, 400000);
             o2.AddStudent(s2, 350000);
 
-            Lesson l1 = Lesson.CreateNew(new DateTime(2022, 1, 15, 12, 0, 0), 90, o1);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 10, 14, 0, 0), 90, o2);
-            Lesson l3 = Lesson.CreateNew(new DateTime(2021, 10, 10, 16, 0, 0), 120, o1);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2022, 1, 15, 12, 0, 0), 90, o1
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 14, 0, 0), 90, o2
+            );
+            Lesson l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 16, 0, 0), 120, o1
+            );
             l1.AddToSchedule();
             l2.AddToSchedule();
             l3.AddToSchedule();
@@ -1038,7 +1246,9 @@ namespace Repetitorg.CoreTest
         public void Renew_renewMovedLesson_throwsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.MoveTo(new DateTime(2021, 10, 12, 12, 0, 0));
             var exception = Assert.Throws<InvalidOperationException>(
@@ -1055,7 +1265,9 @@ namespace Repetitorg.CoreTest
         public void Restore_restoreCanceledLesson_statusChangeToNonActive()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Cancel();
             l1.Restore();
@@ -1065,8 +1277,10 @@ namespace Repetitorg.CoreTest
         public void Restore_restoreCanceledLesson_lessonUpdated()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            l1.AddToSchedule();            
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
             l1.Cancel();
             var oldUpdCnt = lessons.UpdatesCount;
             l1.Restore();
@@ -1076,7 +1290,9 @@ namespace Repetitorg.CoreTest
         public void Restore_restoreNonActiveLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             var exception = Assert.Throws<InvalidOperationException>(
                 () => l1.Restore()
             );
@@ -1090,7 +1306,9 @@ namespace Repetitorg.CoreTest
         public void Restore_restoreActiveLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             var exception = Assert.Throws<InvalidOperationException>(
                 () => l1.Restore()
@@ -1105,7 +1323,9 @@ namespace Repetitorg.CoreTest
         public void Restore_restoreCompletedLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Complete();
             var exception = Assert.Throws<InvalidOperationException>(
@@ -1121,7 +1341,9 @@ namespace Repetitorg.CoreTest
         public void Restore_restoreMovedLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.MoveTo(new DateTime(2021, 10, 12, 12, 0, 0));
             var exception = Assert.Throws<InvalidOperationException>(
@@ -1138,14 +1360,18 @@ namespace Repetitorg.CoreTest
         public void CreateNew_createLesson_MovedFromPropertyIsNull()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);   
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             Assert.IsNull(l1.MovedFrom);
         }
         [TestCase]
         public void AddToSchedule_addNonActiveLesson_MovedFromPropertyIsNull()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             Assert.IsNull(l1.MovedFrom);
         }
@@ -1153,7 +1379,9 @@ namespace Repetitorg.CoreTest
         public void Cancel_cancelActiveLesson_MovedFromPropertyIsNull()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Cancel();
             Assert.IsNull(l1.MovedFrom);
@@ -1162,7 +1390,9 @@ namespace Repetitorg.CoreTest
         public void Complete_completeActiveLesson_MovedFromPropertyIsNull()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Complete();
             Assert.IsNull(l1.MovedFrom);
@@ -1171,14 +1401,18 @@ namespace Repetitorg.CoreTest
         public void CreateNew_createLesson_MovedOnPropertyIsNull()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             Assert.IsNull(l1.MovedOn);
         }
         [TestCase]
         public void AddToSchedule_addNonActiveLesson_MovedOnPropertyIsNull()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             Assert.IsNull(l1.MovedOn);
         }
@@ -1186,7 +1420,9 @@ namespace Repetitorg.CoreTest
         public void Cancel_cancelActiveLesson_MovedOnPropertyIsNull()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Cancel();
             Assert.IsNull(l1.MovedOn);
@@ -1195,7 +1431,9 @@ namespace Repetitorg.CoreTest
         public void Complete_completeActiveLesson_MovedOnPropertyIsNull()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Complete();
             Assert.IsNull(l1.MovedOn);
@@ -1204,7 +1442,9 @@ namespace Repetitorg.CoreTest
         public void MoveTo_moveActiveLesson_statusChangeToMoved()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
             Assert.AreEqual(LessonStatus.Moved, l1.Status);
@@ -1213,7 +1453,9 @@ namespace Repetitorg.CoreTest
         public void MoveTo_moveActiveLesson_newLessonStatusIsActive()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
             Assert.AreEqual(LessonStatus.Active, l2.Status);
@@ -1222,7 +1464,9 @@ namespace Repetitorg.CoreTest
         public void MoveTo_moveActiveLesson_MovedOnPropertySetCorrect()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
             Assert.AreEqual(l2, l1.MovedOn);
@@ -1231,7 +1475,9 @@ namespace Repetitorg.CoreTest
         public void MoveTo_moveActiveLesson_MovedFromPropertySetCorrect()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
             Assert.AreEqual(l1, l2.MovedFrom);
@@ -1240,7 +1486,9 @@ namespace Repetitorg.CoreTest
         public void MoveTo_moveActiveLesson_lessonUpdated()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             var oldUpdCnt = lessons.UpdatesCount;
             l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
@@ -1250,8 +1498,10 @@ namespace Repetitorg.CoreTest
         public void MoveTo_doubleMoving_MovedOnPropertiecIsCorrect()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            l1.AddToSchedule();            
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
             Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
             Lesson l3 = l2.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
             Assert.AreEqual(l2, l1.MovedOn);
@@ -1261,8 +1511,10 @@ namespace Repetitorg.CoreTest
         public void MoveTo_doubleMoving_MovedFromPropertiecIsCorrect()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
-            l1.AddToSchedule();            
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
             Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
             Lesson l3 = l2.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
             Assert.AreEqual(l1, l2.MovedFrom);
@@ -1272,7 +1524,9 @@ namespace Repetitorg.CoreTest
         public void MoveTo_movingNonActiveLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             var exception = Assert.Throws<InvalidOperationException>(
                 () => l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0))
             );
@@ -1286,7 +1540,9 @@ namespace Repetitorg.CoreTest
         public void MoveTo_movingCanceledLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Cancel();
             var exception = Assert.Throws<InvalidOperationException>(
@@ -1302,7 +1558,9 @@ namespace Repetitorg.CoreTest
         public void MoveTo_movingCompletedLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.Complete();
             var exception = Assert.Throws<InvalidOperationException>(
@@ -1318,7 +1576,9 @@ namespace Repetitorg.CoreTest
         public void MoveTo_movingMovedLesson_throwsException()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, order
+            );
             l1.AddToSchedule();
             l1.MoveTo(new DateTime(2021, 10, 12, 14, 0, 0));
             var exception = Assert.Throws<InvalidOperationException>(
@@ -1334,8 +1594,12 @@ namespace Repetitorg.CoreTest
         public void MoveTo_movedIntersectLessonLeft_throwsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 12, 14, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 180, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 14, 0, 0), 90, order
+            );
 
             l1.AddToSchedule();
             l2.AddToSchedule();
@@ -1356,8 +1620,12 @@ namespace Repetitorg.CoreTest
         public void MoveTo_movedIntersectLessonRight_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 12, 14, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 180, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 14, 0, 0), 90, order
+            );
 
             l1.AddToSchedule();
             l2.AddToSchedule();
@@ -1378,8 +1646,12 @@ namespace Repetitorg.CoreTest
         public void MoveTo_movedContainsLesson_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 12, 14, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 180, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 14, 0, 0), 90, order
+            );
 
             l1.AddToSchedule();
             l2.AddToSchedule();
@@ -1400,8 +1672,12 @@ namespace Repetitorg.CoreTest
         public void MoveTo_lessonContainsMoved_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 180, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 12, 14, 0, 0), 90, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 180, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 14, 0, 0), 90, order
+            );
 
             l1.AddToSchedule();
             l2.AddToSchedule();
@@ -1422,9 +1698,15 @@ namespace Repetitorg.CoreTest
         public void MoveTo_movedIntersectMany_ThrowsError()
         {
             Order order = Order.CreateNew("test order");
-            Lesson l1 = Lesson.CreateNew(new DateTime(2021, 10, 12, 12, 0, 0), 90, order);
-            Lesson l2 = Lesson.CreateNew(new DateTime(2021, 10, 12, 14, 0, 0), 90, order);
-            Lesson li = Lesson.CreateNew(new DateTime(2021, 10, 10, 13, 0, 0), 120, order);
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            Lesson l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 14, 0, 0), 90, order
+            );
+            Lesson li = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 13, 0, 0), 120, order
+            );
 
             l1.AddToSchedule();
             l2.AddToSchedule();
@@ -1442,6 +1724,183 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(LessonStatus.Active, l2.Status);
             Assert.AreEqual(LessonStatus.Active, li.Status);
             Assert.IsNull(li.MovedOn);
+        }
+
+        [TestCase]
+        public void CancelMove_cancelMoveForNonActiveLesson_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.CancelMove()
+            );
+            Assert.True(
+                exception.Message.ToLower().Contains(
+                    "can't cancel move for non-active lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void CancelMove_cancelMoveForActiveLesson_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.CancelMove()
+            );
+            Assert.True(
+                exception.Message.ToLower().Contains(
+                    "can't cancel move for active lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void CancelMove_cancelMoveForCanceledLesson_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            l1.Cancel();
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.CancelMove()
+            );
+            Assert.True(
+                exception.Message.ToLower().Contains(
+                    "can't cancel move for canceled lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void CancelMove_cancelMoveForCompletedLesson_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            l1.Complete();
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.CancelMove()
+            );
+            Assert.True(
+                exception.Message.ToLower().Contains(
+                    "can't cancel move for completed lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void CancelMove_oneMoveFinalLessonComplete_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
+            l2.Complete();
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.CancelMove()
+            );
+            Assert.True(
+                exception.Message.ToLower().Contains(
+                    "can't cancel move for completed final lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void CancelMove_twoMoveFinalLessonComplete_ThrowsError()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
+            Lesson l3 = l2.MoveTo(new DateTime(2021, 10, 16, 12, 0, 0));
+            l3.Complete();
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => l1.CancelMove()
+            );
+            Assert.True(
+                exception.Message.ToLower().Contains(
+                    "can't cancel move for completed final lesson"
+                )
+            );
+        }
+        [TestCase]
+        public void CancelMove_oneMoveCancelMovedLesson_removeAllNextLessons()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
+            l1.CancelMove();
+
+            Assert.IsFalse(lessons.GetAll().Contains(l2));
+        }
+        [TestCase]
+        public void CancelMove_twoMoveCancelMovedLesson_removeAllNextLessons()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
+            Lesson l3 = l2.MoveTo(new DateTime(2021, 10, 16, 12, 0, 0));            
+            l1.CancelMove();
+
+            Assert.IsFalse(lessons.GetAll().Contains(l2));
+            Assert.IsFalse(lessons.GetAll().Contains(l3));
+        }
+        [TestCase]
+        public void CancelMove_cancelMovedLesson_statusChangedToNonActive()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
+            l1.CancelMove();
+
+            Assert.Equals(LessonStatus.NonActive, l1.Status);
+        }
+        [TestCase]
+        public void CancelMove_oneMoveCancelMovedLesson_makeTwoUpdates()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
+            int updCntBefore = lessons.UpdatesCount;
+            l1.CancelMove();
+            Assert.Equals(updCntBefore + 2, lessons.UpdatesCount);
+        }
+        [TestCase]
+        public void CancelMove_twoMoveCancelMovedLesson_makeThreeUpdates()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+            l1.AddToSchedule();
+            Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
+            Lesson l3 = l2.MoveTo(new DateTime(2021, 10, 16, 12, 0, 0));            
+            int updCntBefore = lessons.UpdatesCount;
+            l1.CancelMove();
+            Assert.Equals(updCntBefore + 3, lessons.UpdatesCount);
         }
     }
 }

@@ -299,6 +299,11 @@ namespace Repetitorg.Core
                      "Can't move canceled lesson.")
                 .Check((message) => new InvalidOperationException(message));
         }
+
+        public void CancelMove()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public enum LessonStatus
