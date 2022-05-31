@@ -172,9 +172,9 @@
 		- Cancel if final target Lesson Completed
 		  throws error
 		- Cancel remove all next Lessons
+		- Cancel set MovedOn to null
 		- Cancel change status to non-active
-		- Cancel Lesson update all lessons from 
-		  chain in Storage
+		- Cancel Lesson update lesson
 
 7. Payment subsystem
 	+ Getting all payments

@@ -302,7 +302,45 @@ namespace Repetitorg.Core
 
         public void CancelMove()
         {
-            throw new NotImplementedException();
+            CheckConditionsForCancelMove();
+
+            Status = LessonStatus.NonActive;
+            RemoveRecursively(MovedOn);
+            MovedOn = null;
+            storage.Update(this);
+        }
+
+        private static void RemoveRecursively(Lesson lesson)
+        {
+            if(lesson.MovedOn != null)
+                RemoveRecursively(lesson.MovedOn);
+            storage.Remove(lesson);
+        }
+        private LessonStatus FinalLessonStatus()
+        {
+            if (MovedOn == null)
+                return Status;
+            return MovedOn.FinalLessonStatus();
+        }
+        private void CheckConditionsForCancelMove()
+        {
+            new Checker()
+                .Add(les => les.Status == LessonStatus.Completed,
+                    this,
+                    "Can't cancel move for completed lesson.")
+                .Add(les => les.Status == LessonStatus.Active,
+                    this,
+                    "Can't cancel move for active lesson.")
+                .Add(les => les.Status == LessonStatus.NonActive,
+                    this,
+                    "Can't cancel move for non-active lesson.")
+                .Add(les => les.Status == LessonStatus.Canceled,
+                    this,
+                    "Can't cancel move for canceled lesson.")
+                .Add(les => les.FinalLessonStatus() == LessonStatus.Completed,
+                     this,
+                     "Can't cancel move for completed final lesson.")
+                .Check((message) => new InvalidOperationException(message));
         }
     }
 

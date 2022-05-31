@@ -1921,7 +1921,7 @@ namespace Repetitorg.CoreTest
             Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
             l1.CancelMove();
 
-            Assert.Equals(LessonStatus.NonActive, l1.Status);
+            Assert.AreEqual(LessonStatus.NonActive, l1.Status);
         }
         [TestCase]
         public void CancelMove_oneMoveCancelMovedLesson_makeTwoUpdates()
@@ -1934,7 +1934,7 @@ namespace Repetitorg.CoreTest
             Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
             int updCntBefore = lessons.UpdatesCount;
             l1.CancelMove();
-            Assert.Equals(updCntBefore + 1, lessons.UpdatesCount);
+            Assert.AreEqual(updCntBefore + 1, lessons.UpdatesCount);
         }
         [TestCase]
         public void CancelMove_oneMoveCancelMovedLesson_MovedOnIsNull()
@@ -1957,7 +1957,7 @@ namespace Repetitorg.CoreTest
             );
             l1.AddToSchedule();
             Lesson l2 = l1.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
-            l2.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
+            l2.MoveTo(new DateTime(2021, 10, 15, 12, 0, 0));
             l1.CancelMove();
             Assert.IsNull(l1.MovedOn);
         }
