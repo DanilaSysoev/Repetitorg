@@ -160,11 +160,17 @@ namespace Repetitorg.Core
         }
         public static IList<Lesson> GetScheduledEarlierThan(DateTime dateTime)
         {
-            return null;
+            return storage.Filter(
+                lesson => lesson.DateTime < dateTime
+                && (lesson.Status == LessonStatus.Active
+                || lesson.Status == LessonStatus.Completed)
+            );
         }
         public static IList<Lesson> GetAllEarlierThan(DateTime dateTime)
         {
-            return null;
+            return storage.Filter(
+                lesson => lesson.DateTime < dateTime
+            );
         }
         public static IList<Lesson> GetScheduledBetween(
             DateTime fromInclusive, DateTime toExclusive
