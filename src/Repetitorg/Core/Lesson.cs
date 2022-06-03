@@ -202,7 +202,9 @@ namespace Repetitorg.Core
         }
         public static IList<Lesson> GetAllByOrder(Order order)
         {
-            return null;
+            return storage.Filter(
+                lesson => lesson.Order.Equals(order)
+            );
         }
 
         public void Complete()
