@@ -187,7 +187,10 @@ namespace Repetitorg.Core
             DateTime fromInclusive, DateTime toExclusive
         )
         {
-            return null;
+            return storage.Filter(
+                lesson => lesson.DateTime >= fromInclusive
+                && lesson.DateTime < toExclusive
+            );
         }
         public static IList<Lesson> GetScheduledByOrder(Order order)
         {
