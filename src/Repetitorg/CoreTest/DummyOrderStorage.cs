@@ -10,6 +10,7 @@ namespace Repetitorg.CoreTest
 {
     class DummyOrderStorage : IStorage<Order>
     {
+        public int AddCount { get; private set; }
         private List<Order> orders;
         private Dictionary<Order, List<Student>> studentsInOrder;
 
@@ -17,11 +18,13 @@ namespace Repetitorg.CoreTest
         {
             studentsInOrder = new Dictionary<Order, List<Student>>();
             orders = new List<Order>();
+            AddCount = 0;
         }
 
         public void Add(Order order)
         {
             orders.Add(order);
+            AddCount += 1;
         }
 
         public IList<Order> Filter(Predicate<Order> predicate)

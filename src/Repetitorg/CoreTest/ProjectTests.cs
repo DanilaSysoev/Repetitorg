@@ -42,6 +42,13 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(1, Project.Count);
         }
         [TestCase]
+        public void Add_SimpleAdd_ProjectAddedToStorage()
+        {
+            int pastAC = projects.AddCount;
+            Project.CreateNew("Test Project");
+            Assert.AreEqual(pastAC + 1, projects.AddCount);
+        }
+        [TestCase]
         public void Add_AddThreeProjects_ProjectsCountEqualsThree()
         {
             Project.CreateNew("Test Project 1");

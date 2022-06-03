@@ -11,16 +11,20 @@ namespace Repetitorg.CoreTest
     class DummyPersonStorage<T> : IStorage<T>
     {
         public int UpdatesCount { get; private set; }
+        public int AddCount { get; private set; }
         List<T> entities;
 
         public DummyPersonStorage()
         {
             entities = new List<T>();
+            UpdatesCount = 0;
+            AddCount = 0;
         }
 
         public void Add(T entity)
         {
             entities.Add(entity);
+            AddCount += 1;
         }
 
         public IReadOnlyList<T> GetAll()

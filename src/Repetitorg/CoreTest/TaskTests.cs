@@ -42,6 +42,14 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(1, Task.Count);
         }
         [TestCase]
+        public void AddOnDate_SimpleAddTask_TaskAddedToStorage()
+        {
+            Assert.AreEqual(0, Task.Count);
+            int pastAC = tasks.AddCount;
+            Task task = Task.CreateNew("2020/12/30 test task", new DateTime(2020, 12, 30));
+            Assert.AreEqual(pastAC + 1, tasks.AddCount);
+        }
+        [TestCase]
         public void AddOnDate_SimpleAddTask_TasksAddedOnCorrectDate()
         {
             Task task = Task.CreateNew("2020/12/30 test task", new DateTime(2020, 12, 30));

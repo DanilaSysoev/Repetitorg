@@ -3,6 +3,7 @@
 	+ Create new client with some name and phone number
 		+ Create new client with null name throws error
 		+ Create new client with null phone number throws error
+		- Create new add client to storage
 	+ Clients with same names and phoneNumber are equals clients
 	+ Clients with same names are different clients
 	+ Filter by name ignore case
@@ -32,6 +33,7 @@
 		+ Create new student with null name throws error
 		+ Create new student with null phone number throws error
 		+ Create new student with null client throws error
+		- Create new add student to storage
 	+ Students with same names and phoneNumber are equals students
 	+ Students with same names are different students
 	+ Filter by name ignore case		
@@ -44,6 +46,7 @@
 	+ Addition new project with some name
 		+ Addition projects with same names throws exception
 		+ Addition projects with null name throws exception
+		- Create new add project to storage
 	+ Getting all projects
 	+ Comparision projects
 	+ Removing projects
@@ -58,6 +61,7 @@
 4. Tasks subsystem
 	+ Add task on date
 		+ Add with null name throws exception
+		- Create new add task to storage
 	+ Getting all tasks
 	+ Getting tasks by date
 	+ Clearing collection of tasks
@@ -82,6 +86,7 @@
 5. Order subsystem
 	+ Creating order with name
 		+ Creating with null name throws error
+		- Create new add order to storage
 	+ Add student to order with some cost
 		+ Add with null student throws error
 		+ Add with negative cost throws error
@@ -102,6 +107,7 @@
 	  + Creating with non-positive length throws error	
 	  + New Lesson is non-active
 	  + Creating setup propertie correctly
+	  - Create new add lesson to storage
 	+ Lessons are equals if equals his dateTime, length, order and status
 	+ Add Lesson to schedule (activate)
 		+ Intersection with other lesson throws error

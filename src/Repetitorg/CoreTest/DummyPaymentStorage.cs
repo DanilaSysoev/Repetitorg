@@ -11,15 +11,18 @@ namespace Repetitorg.CoreTest
     public class DummyPaymentStorage : IStorage<Payment>
     {
         private List<Payment> payments;
+        public int AddCount { get; private set; }
 
         public DummyPaymentStorage()
         {
             payments = new List<Payment>();
+            AddCount = 0;
         }
 
         public void Add(Payment entity)
         {
             payments.Add(entity);
+            AddCount += 1;
         }
 
         public IList<Payment> Filter(Predicate<Payment> predicate)

@@ -11,15 +11,18 @@ namespace Repetitorg.CoreTest
     {
         private List<Lesson> lessons;
         public int UpdatesCount { get; private set; }
+        public int AddCount { get; private set; }
 
         public DummyLessonStorage()
         {
             lessons = new List<Lesson>();
             UpdatesCount = 0;
+            AddCount = 0;
         }
         public void Add(Lesson lesson)
         {
             lessons.Add(lesson);
+            AddCount += 1;
         }
         public IReadOnlyList<Lesson> GetAll()
         {

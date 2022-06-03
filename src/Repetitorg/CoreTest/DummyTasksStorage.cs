@@ -11,15 +11,19 @@ namespace Repetitorg.CoreTest
     {
         private List<Task> tasks;
         public int UpdatesCount { get; private set; }
+        public int AddCount { get; private set; }
 
         public DummyTasksStorage()
         {
             tasks = new List<Task>();
+            UpdatesCount = 0;
+            AddCount = 0;
         }
 
         public void Add(Task task)
         {
             tasks.Add(task);
+            AddCount += 1;
         }
 
         public IReadOnlyList<Task> GetAll()

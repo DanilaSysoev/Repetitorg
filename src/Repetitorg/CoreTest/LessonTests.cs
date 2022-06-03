@@ -41,6 +41,15 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(2, Lesson.Count);
         }
         [TestCase]
+        public void CreateNew_CreateWithCorrectArgs_LessonAddToStorage()
+        {
+            Order order = Order.CreateNew("test order");
+
+            int pastAC = lessons.AddCount;
+            Lesson.CreateNew(new DateTime(2021, 10, 10, 12, 0, 0), 90, order);
+            Assert.AreEqual(pastAC + 1, lessons.AddCount);
+        }
+        [TestCase]
         public void CreateNew_CreateWithCorrectArgs_LessonIsNonActive()
         {
             Order order = Order.CreateNew("test order");

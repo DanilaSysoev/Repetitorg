@@ -39,6 +39,14 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(1, Student.Count);
         }
         [TestCase]
+        public void CreateNew_CreateStudentWithOnlyName_StudentAddToStorage()
+        {
+            Client client = Client.CreateNew("c1");
+            int pastAC = students.AddCount;
+            Student.CreateNew("Test Student", client);
+            Assert.AreEqual(pastAC + 1, students.AddCount);
+        }
+        [TestCase]
         public void CreateNew_CreateStudentWithOnlyName_PhoneNumberIsEmpty()
         {
             Client client = Client.CreateNew("c1");

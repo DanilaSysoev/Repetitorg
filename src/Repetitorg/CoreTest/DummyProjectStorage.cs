@@ -12,15 +12,19 @@ namespace Repetitorg.CoreTest
         private List<Project> projects;
 
         public int UpdatesCount { get; private set; }
+        public int AddCount { get; private set; }
 
         public DummyProjectStorage()
         {
             projects = new List<Project>();
+            UpdatesCount = 0;
+            AddCount = 0;
         }
 
         public void Add(Project project)
         {
             projects.Add(project);
+            AddCount += 1;
         }
 
         public IReadOnlyList<Project> GetAll()
