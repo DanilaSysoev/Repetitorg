@@ -176,7 +176,12 @@ namespace Repetitorg.Core
             DateTime fromInclusive, DateTime toExclusive
         )
         {
-            return null;
+            return storage.Filter(
+                lesson => lesson.DateTime >= fromInclusive 
+                && lesson.DateTime < toExclusive
+                && (lesson.Status == LessonStatus.Active
+                || lesson.Status == LessonStatus.Completed)
+            );
         }
         public static IList<Lesson> GetAllBetween(
             DateTime fromInclusive, DateTime toExclusive
