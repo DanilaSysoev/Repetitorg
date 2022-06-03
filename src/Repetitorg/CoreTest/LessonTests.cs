@@ -2706,6 +2706,163 @@ namespace Repetitorg.CoreTest
         #endregion
 
         #region GetAllEarlierThan Tests
+
+        [TestCase]
+        public void GetAllEarlierThan_emptyCollection_returnEmptyList()
+        {
+            var lessons = Lesson.GetAllEarlierThan(new DateTime(2021, 1, 2));
+            Assert.AreEqual(0, lessons.Count);
+        }
+        [TestCase]
+        public void GetAllEarlierThan_existTwoNonActiveLessonsOnDate_returnBoth()
+        {
+            Order o = Order.CreateNew("o1");
+            var l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 10, 0, 0), 90, o
+            );
+            var l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, o
+            );
+            var l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 10, 0, 0), 90, o
+            );
+            var lessons = Lesson.GetAllEarlierThan(
+                new DateTime(2021, 10, 11, 11, 0, 0)
+            );
+            Assert.AreEqual(2, lessons.Count);
+            Assert.IsTrue(lessons.Contains(l1));
+            Assert.IsTrue(lessons.Contains(l2));
+        }
+        [TestCase]
+        public void GetAllEarlierThan_existTwoActiveLessonsOnDate_returnBoth()
+        {
+            Order o = Order.CreateNew("o1");
+            var l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 10, 0, 0), 90, o
+            );
+            var l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, o
+            );
+            var l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 10, 0, 0), 90, o
+            );
+            l1.AddToSchedule();
+            l2.AddToSchedule();
+            l3.AddToSchedule();
+            var lessons = Lesson.GetAllEarlierThan(
+                new DateTime(2021, 10, 11, 11, 0, 0)
+            );
+            Assert.AreEqual(2, lessons.Count);
+            Assert.IsTrue(lessons.Contains(l1));
+            Assert.IsTrue(lessons.Contains(l2));
+        }
+        [TestCase]
+        public void GetAllEarlierThan_existTwoCancelledLessonsOnDate_returnBoth()
+        {
+            Order o = Order.CreateNew("o1");
+            var l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 10, 0, 0), 90, o
+            );
+            var l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, o
+            );
+            var l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 10, 0, 0), 90, o
+            );
+            l1.AddToSchedule();
+            l2.AddToSchedule();
+            l1.Cancel();
+            l2.Cancel();
+            l3.AddToSchedule();
+            l3.Cancel();
+            var lessons = Lesson.GetAllEarlierThan(
+                new DateTime(2021, 10, 11, 11, 0, 0)
+            );
+            Assert.AreEqual(2, lessons.Count);
+            Assert.IsTrue(lessons.Contains(l1));
+            Assert.IsTrue(lessons.Contains(l2));
+        }
+        [TestCase]
+        public void GetAllEarlierThan_existTwoCompletedLessonsOnDate_returnBoth()
+        {
+            Order o = Order.CreateNew("o1");
+            var l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 10, 0, 0), 90, o
+            );
+            var l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, o
+            );
+            var l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 10, 0, 0), 90, o
+            );
+            l1.AddToSchedule();
+            l2.AddToSchedule();
+            l1.Complete();
+            l2.Complete();
+            l3.AddToSchedule();
+            l3.Complete();
+            var lessons = Lesson.GetAllEarlierThan(
+                new DateTime(2021, 10, 11, 11, 0, 0)
+            );
+            Assert.AreEqual(2, lessons.Count);
+            Assert.IsTrue(lessons.Contains(l1));
+            Assert.IsTrue(lessons.Contains(l2));
+        }
+        [TestCase]
+        public void GetAllEarlierThan_existTwoMovedLessonsOnDate_returnBoth()
+        {
+            Order o = Order.CreateNew("o1");
+            var l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 10, 0, 0), 90, o
+            );
+            var l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, o
+            );
+            var l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 10, 0, 0), 90, o
+            );
+            l1.AddToSchedule();
+            l2.AddToSchedule();
+            l3.AddToSchedule();
+            l1.MoveTo(new DateTime(2021, 10, 13, 10, 0, 0));
+            l2.MoveTo(new DateTime(2021, 10, 13, 12, 0, 0));
+            l3.MoveTo(new DateTime(2021, 10, 14, 12, 0, 0));
+            var lessons = Lesson.GetAllEarlierThan(
+                new DateTime(2021, 10, 11, 11, 0, 0)
+            );
+            Assert.AreEqual(2, lessons.Count);
+            Assert.IsTrue(lessons.Contains(l1));
+            Assert.IsTrue(lessons.Contains(l2));
+        }
+        [TestCase]
+        public void GetAllEarlierThan_existTwoMovedAndOneTargetLessonsOnDate_returnAll()
+        {
+            Order o = Order.CreateNew("o1");
+            var l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 10, 0, 0), 90, o
+            );
+            var l2 = Lesson.CreateNew(
+                new DateTime(2021, 10, 10, 12, 0, 0), 90, o
+            );
+            var l3 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 10, 0, 0), 90, o
+            );
+            l1.AddToSchedule();
+            l2.AddToSchedule();
+            l3.AddToSchedule();
+            l1.MoveTo(new DateTime(2021, 10, 13, 16, 0, 0));
+            l2.MoveTo(new DateTime(2021, 10, 13, 12, 0, 0));
+            var lt = l3.MoveTo(new DateTime(2021, 10, 9, 12, 0, 0));
+
+            var lessons = Lesson.GetAllEarlierThan(
+                new DateTime(2021, 10, 11, 11, 0, 0)
+            );
+            Assert.AreEqual(3, lessons.Count);
+            Assert.IsTrue(lessons.Contains(l1));
+            Assert.IsTrue(lessons.Contains(l2));
+            Assert.IsTrue(lessons.Contains(lt));
+        }
+
         #endregion
 
         #region GetScheduledBetween Tests
