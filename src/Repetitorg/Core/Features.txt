@@ -124,12 +124,12 @@
 		+ For new collection returns empty list
 	+ Getting Active/Complete lessons on date
 	+ Getting all lessons on date
-	- Getting all lessons later than date
-	- Getting Active/Complete lessons later than date
-	- Getting all lessons earlier than date
-	- Getting Active/Complete lessons earlier than date
-	- Getting all lessons between dates
-	- Getting Active/Complete lessons between dates
+	+ Getting all lessons later than date
+	+ Getting Active/Complete lessons later than date
+	+ Getting all lessons earlier than date
+	+ Getting Active/Complete lessons earlier than date
+	+ Getting all lessons between dates
+	+ Getting Active/Complete lessons between dates
 	- Getting all lessons by order
 	- Getting Active/Complete lessons by order
 	+ Complete Lesson
@@ -168,6 +168,8 @@
 		+ Intersect with other lessons throws error
 		+ Moving Lesson update Storage
 		+ Moved lesson in schedule
+		- Moving don't change order
+		- Moving don't change length
 	+ Cancel moving Lesson
 		+ Cancel non-active Lesson throws error
 		+ Cancel active Lesson throws error

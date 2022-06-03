@@ -194,7 +194,11 @@ namespace Repetitorg.Core
         }
         public static IList<Lesson> GetScheduledByOrder(Order order)
         {
-            return null;
+            return storage.Filter(
+                lesson => lesson.Order.Equals(order)
+                && (lesson.Status == LessonStatus.Active
+                || lesson.Status == LessonStatus.Completed)
+            );
         }
         public static IList<Lesson> GetAllByOrder(Order order)
         {
