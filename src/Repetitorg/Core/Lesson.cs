@@ -137,6 +137,49 @@ namespace Repetitorg.Core
                        || lesson.Status == LessonStatus.Completed)
             );
         }
+        public static IList<Lesson> GetAllOnDate(DateTime date)
+        {
+            return storage.Filter(
+                lesson => lesson.DateTime.Date == date
+            );
+        }
+
+        public static IList<Lesson> GetScheduledLaterThan(DateTime dateTime)
+        {
+            return null;
+        }
+        public static IList<Lesson> GetAllLaterThan(DateTime dateTime)
+        {
+            return null;
+        }
+        public static IList<Lesson> GetScheduledEarlierThan(DateTime dateTime)
+        {
+            return null;
+        }
+        public static IList<Lesson> GetAllEarlierThan(DateTime dateTime)
+        {
+            return null;
+        }
+        public static IList<Lesson> GetScheduledBetween(
+            DateTime fromInclusive, DateTime toExclusive
+        )
+        {
+            return null;
+        }
+        public static IList<Lesson> GetAllBetween(
+            DateTime fromInclusive, DateTime toExclusive
+        )
+        {
+            return null;
+        }
+        public static IList<Lesson> GetScheduledByOrder(Order order)
+        {
+            return null;
+        }
+        public static IList<Lesson> GetAllByOrder(Order order)
+        {
+            return null;
+        }
 
         public void Complete()
         {

@@ -122,12 +122,16 @@
 	+ Getting intersection with all other lessons
 	+ Getting all lessons
 		+ For new collection returns empty list
-	- Getting Active/Complete lessons on date
-	- Getting all lessons on date
+	+ Getting Active/Complete lessons on date
+	+ Getting all lessons on date
 	- Getting all lessons later than date
+	- Getting Active/Complete lessons later than date
 	- Getting all lessons earlier than date
+	- Getting Active/Complete lessons earlier than date
+	- Getting all lessons between dates
+	- Getting Active/Complete lessons between dates
+	- Getting all lessons by order
 	- Getting Active/Complete lessons by order
-	- Getting all lessons by order		
 	+ Complete Lesson
 		+ Completing decrease balance of clents
 		+ Completeng non-active Lesson throws error
@@ -164,17 +168,17 @@
 		+ Intersect with other lessons throws error
 		+ Moving Lesson update Storage
 		+ Moved lesson in schedule
-	- Cancel moving Lesson
-		- Cancel non-active Lesson throws error
-		- Cancel active Lesson throws error
-		- Cancel completed Lesson throws error
-		- Cancel canceled Lesson throws error
-		- Cancel if final target Lesson Completed
+	+ Cancel moving Lesson
+		+ Cancel non-active Lesson throws error
+		+ Cancel active Lesson throws error
+		+ Cancel completed Lesson throws error
+		+ Cancel canceled Lesson throws error
+		+ Cancel if final target Lesson Completed
 		  throws error
-		- Cancel remove all next Lessons
-		- Cancel set MovedOn to null
-		- Cancel change status to non-active
-		- Cancel Lesson update lesson
+		+ Cancel remove all next Lessons
+		+ Cancel set MovedOn to null
+		+ Cancel change status to non-active
+		+ Cancel Lesson update lesson
 
 7. Payment subsystem
 	+ Getting all payments
