@@ -130,8 +130,8 @@
 	+ Getting Active/Complete lessons earlier than date
 	+ Getting all lessons between dates
 	+ Getting Active/Complete lessons between dates
-	- Getting all lessons by order
-	- Getting Active/Complete lessons by order
+	+ Getting all lessons by order
+	+ Getting Active/Complete lessons by order
 	+ Complete Lesson
 		+ Completing decrease balance of clents
 		+ Completeng non-active Lesson throws error
@@ -168,8 +168,8 @@
 		+ Intersect with other lessons throws error
 		+ Moving Lesson update Storage
 		+ Moved lesson in schedule
-		- Moving don't change order
-		- Moving don't change length
+		+ Moving don't change order
+		+ Moving don't change length
 	+ Cancel moving Lesson
 		+ Cancel non-active Lesson throws error
 		+ Cancel active Lesson throws error

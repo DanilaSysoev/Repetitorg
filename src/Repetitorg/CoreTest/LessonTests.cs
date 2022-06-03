@@ -1899,6 +1899,32 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(LessonStatus.Active, li.Status);
             Assert.IsNull(li.MovedOn);
         }
+        [TestCase]
+        public void MoveTo_moveLesson_orderNotChanged()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+
+            l1.AddToSchedule();
+            var l1n = l1.MoveTo(new DateTime(2021, 10, 13, 13, 0, 0));
+
+            Assert.AreEqual(l1.Order, l1n.Order);
+        }
+        [TestCase]
+        public void MoveTo_moveLesson_lengthNotChanged()
+        {
+            Order order = Order.CreateNew("test order");
+            Lesson l1 = Lesson.CreateNew(
+                new DateTime(2021, 10, 12, 12, 0, 0), 90, order
+            );
+
+            l1.AddToSchedule();
+            var l1n = l1.MoveTo(new DateTime(2021, 10, 13, 13, 0, 0));
+
+            Assert.AreEqual(l1.LengthInMinutes, l1n.LengthInMinutes);
+        }
 
         #endregion
 
