@@ -146,7 +146,11 @@ namespace Repetitorg.Core
 
         public static IList<Lesson> GetScheduledLaterThan(DateTime dateTime)
         {
-            return null;
+            return storage.Filter(
+                lesson => lesson.DateTime > dateTime
+                && (lesson.Status == LessonStatus.Active
+                || lesson.Status == LessonStatus.Completed)
+            );
         }
         public static IList<Lesson> GetAllLaterThan(DateTime dateTime)
         {
