@@ -8,7 +8,7 @@ namespace Repetitorg.Core
     public class Payment : StorageWrapper<Payment>
     {
         public DateTime Date { get; private set; }
-        public long ValueInKopeks { get; private set; }
+        public long SummInKopeks { get; private set; }
         public PaymentDocumentType DocumentType { get; private set; }
         public long DocumentNumber { get; private set; }
         public Client Client { get; internal set; }
@@ -16,7 +16,7 @@ namespace Repetitorg.Core
         private Payment(DateTime date, long valueInKopeks, PaymentDocumentType documentType, long documentNumber)
         {
             Date = date;
-            ValueInKopeks = valueInKopeks;
+            SummInKopeks = valueInKopeks;
             documentType = DocumentType;
             DocumentNumber = documentNumber;
         }

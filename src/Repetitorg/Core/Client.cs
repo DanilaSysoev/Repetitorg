@@ -64,7 +64,7 @@ namespace Repetitorg.Core
         {
             CheckConditionsForMakePayment(payment);
 
-            balanceInKopeks += payment.ValueInKopeks;
+            balanceInKopeks += payment.SummInKopeks;
             payment.Client = this;
             Payment.Storage.Add(payment);
             storage.Update(this);
@@ -80,7 +80,7 @@ namespace Repetitorg.Core
         {
             CheckConditionsForRemovePayment(payment);
 
-            balanceInKopeks -= payment.ValueInKopeks;
+            balanceInKopeks -= payment.SummInKopeks;
             Payment.Storage.Remove(payment);
             storage.Update(this);
         }
