@@ -209,11 +209,11 @@ namespace Repetitorg.CoreTest
         {
             var client = CreateClient();
             client.MakePayment(
-                Payment.CreateNew(new DateTime(2020, 10, 10), 100000, PaymentDocumentType.PaymentOrder, 123)
+                Payment.CreateNew(new DateTime(2020, 10, 10), 100000, PaymentDocumentType.PaymentOrder, "123")
             );
             Assert.AreEqual(100000, client.BalanceInKopeks);
             client.MakePayment(
-                Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125)
+                Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, "125")
             );
             Assert.AreEqual(300000, client.BalanceInKopeks);
         }
@@ -223,11 +223,11 @@ namespace Repetitorg.CoreTest
             var client = CreateClient();
             var oldUpdCnt = clients.UpdatesCount;
             client.MakePayment(
-                Payment.CreateNew(new DateTime(2020, 10, 10), 100000, PaymentDocumentType.PaymentOrder, 123)
+                Payment.CreateNew(new DateTime(2020, 10, 10), 100000, PaymentDocumentType.PaymentOrder, "123")
             );
             Assert.AreEqual(oldUpdCnt + 1, clients.UpdatesCount);
             client.MakePayment(
-                Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125)
+                Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, "125")
             );
             Assert.AreEqual(oldUpdCnt + 2, clients.UpdatesCount);
         }
@@ -237,7 +237,7 @@ namespace Repetitorg.CoreTest
             var client = CreateClient();
             var exception = Assert.Throws<ArgumentException>(
                 () => client.MakePayment(
-                    Payment.CreateNew(new DateTime(2020, 10, 10), -100000, PaymentDocumentType.PaymentOrder, 123)
+                    Payment.CreateNew(new DateTime(2020, 10, 10), -100000, PaymentDocumentType.PaymentOrder, "123")
                 )
             );
 
@@ -251,7 +251,7 @@ namespace Repetitorg.CoreTest
             var client = CreateClient();
             var exception = Assert.Throws<ArgumentException>(
                 () => client.MakePayment(
-                    Payment.CreateNew(new DateTime(2020, 10, 10), 0, PaymentDocumentType.PaymentOrder, 123)
+                    Payment.CreateNew(new DateTime(2020, 10, 10), 0, PaymentDocumentType.PaymentOrder, "123")
                 )
             );
 
@@ -269,11 +269,16 @@ namespace Repetitorg.CoreTest
                 new DateTime(2020, 10, 10),
                 100000, 
                 PaymentDocumentType.PaymentOrder, 
-                123
+                "123"
             );
             client.MakePayment(p);
             client.MakePayment(
-                Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125)
+                Payment.CreateNew(
+                    new DateTime(2020, 10, 15),
+                    200000, 
+                    PaymentDocumentType.PaymentOrder, 
+                    "125"
+                )
             );
             client.RemovePayment(p);
             Assert.AreEqual(200000, client.BalanceInKopeks);
@@ -286,12 +291,12 @@ namespace Repetitorg.CoreTest
                 new DateTime(2020, 10, 10),
                 100000,
                 PaymentDocumentType.PaymentOrder,
-                123
+                "123"
             );
             var oldUpdCnt = clients.UpdatesCount;
             client.MakePayment(p);
             client.MakePayment(
-                Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125)
+                Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, "125")
             );
             client.RemovePayment(p);
             Assert.AreEqual(oldUpdCnt + 3, clients.UpdatesCount);
@@ -316,7 +321,7 @@ namespace Repetitorg.CoreTest
 
             var exception = Assert.Throws<ArgumentException>(
                 () => client.RemovePayment(
-                    Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125)
+                    Payment.CreateNew(new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, "125")
                 )
             );
 
@@ -533,7 +538,9 @@ namespace Repetitorg.CoreTest
 
         private Client CreateClientWithPhoneNumber()
         {
-            var c = Client.CreateNew("Иванов Иван Иванович", "+7(900)111-22-33");
+            var c = Client.CreateNew(
+                "Иванов Иван Иванович", "+7(900)111-22-33"
+            );
             return c;
         }
         private List<Payment> CreatePayments()
@@ -541,27 +548,42 @@ namespace Repetitorg.CoreTest
             var payments = new List<Payment>();
             payments.Add(
                 Payment.CreateNew(
-                    new DateTime(2020, 10, 10), 100000, PaymentDocumentType.PaymentOrder, 123
+                    new DateTime(2020, 10, 10), 
+                    100000, 
+                    PaymentDocumentType.PaymentOrder,
+                    "123"
                 )
             );
             payments.Add(
                 Payment.CreateNew(
-                    new DateTime(2020, 10, 15), 200000, PaymentDocumentType.PaymentOrder, 125
+                    new DateTime(2020, 10, 15),
+                    200000,
+                    PaymentDocumentType.PaymentOrder,
+                    "125"
                 )
             );
             payments.Add(
                 Payment.CreateNew(
-                    new DateTime(2020, 10, 21), 300000, PaymentDocumentType.PaymentOrder, 127
+                    new DateTime(2020, 10, 21),
+                    300000,
+                    PaymentDocumentType.PaymentOrder,
+                    "127"
                 )
             );
             payments.Add(
                 Payment.CreateNew(
-                    new DateTime(2021, 1, 12), 150000, PaymentDocumentType.PaymentOrder, 129
+                    new DateTime(2021, 1, 12),
+                    150000,
+                    PaymentDocumentType.PaymentOrder,
+                    "129"
                 )
             );
             payments.Add(
                 Payment.CreateNew(
-                    new DateTime(2021, 2, 15), 250000, PaymentDocumentType.PaymentOrder, 131
+                    new DateTime(2021, 2, 15),
+                    250000,
+                    PaymentDocumentType.PaymentOrder,
+                    "131"
                 )
             );
             return payments;

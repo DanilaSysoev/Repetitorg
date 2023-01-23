@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Storage.SQLite
+namespace Storage.SQLite.Storages
 {
-    class PaymentSqliteStorage : IStorage<Payment>
+    class PaymentSqliteStorage : IStorage<Payment>, ILoadable
     {
         public void Add(Payment entity)
         {
@@ -19,6 +19,11 @@ namespace Storage.SQLite
         }
 
         public IReadOnlyList<Payment> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Load(string pathToDb)
         {
             throw new NotImplementedException();
         }

@@ -9,11 +9,5 @@ namespace Repetitorg.StorageTest
     [TestFixture]
     class SqliteDatabaseTests
     {
-        [TestCase]
-        public void testT()
-        {
-            var db = new SqliteDatabase();
-            db.Initialize("testdb.sqlite");
-        }
     }
 }

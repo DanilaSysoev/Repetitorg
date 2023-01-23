@@ -10,26 +10,26 @@ namespace Repetitorg.Core
         public DateTime Date { get; private set; }
         public long SummInKopeks { get; private set; }
         public PaymentDocumentType DocumentType { get; private set; }
-        public long DocumentNumber { get; private set; }
+        public string DocumentId { get; private set; }
         public Client Client { get; internal set; }
 
-        private Payment(DateTime date, long valueInKopeks, PaymentDocumentType documentType, long documentNumber)
+        private Payment(DateTime date, long valueInKopeks, PaymentDocumentType documentType, string documentId)
         {
             Date = date;
             SummInKopeks = valueInKopeks;
             documentType = DocumentType;
-            DocumentNumber = documentNumber;
+            DocumentId = documentId;
         }
 
         public static Payment CreateNew(
             DateTime date, 
             long valueInKopeks,
             PaymentDocumentType documentType,
-            long documentNumber
+            string documentId
         )
         {
             CheckConditionsForCreateNew(valueInKopeks);
-            return new Payment(date, valueInKopeks, documentType, documentNumber);
+            return new Payment(date, valueInKopeks, documentType, documentId);
         }
 
         private static void CheckConditionsForCreateNew(long valueInKopeks)

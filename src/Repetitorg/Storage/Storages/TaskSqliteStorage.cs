@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Storage.SQLite
+namespace Storage.SQLite.Storages
 {
-    class TaskSqliteStorage : IStorage<Task>
+    class TaskSqliteStorage : IStorage<Task>, ILoadable
     {
         public void Add(Task entity)
         {
@@ -19,6 +19,11 @@ namespace Storage.SQLite
         }
 
         public IReadOnlyList<Task> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Load(string pathToDb)
         {
             throw new NotImplementedException();
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Repetitorg.Core;
 using Repetitorg.Core.Base;
+using Storage.SQLite.Storages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,20 +14,37 @@ namespace Storage.SQLite
         {
             initialized = true;
             this.pathToDbFile = pathToDbFile;
-            storagesByType = new Dictionary<Type, object>();
-            storagesByType.Add(typeof(Client),  new ClientSqliteStorage());
-            storagesByType.Add(typeof(Lesson),  new LessonSqliteStorage());
-            storagesByType.Add(typeof(Order),   new OrderSqliteStorage());
+            CreateStorages();
+            CreateDatabaseIfNotExist();
+            LoadDataToStorages();
+            InitializeWrappers();
+        }
+
+        private void CreateStorages()
+        {
+            storagesByType = new Dictionary<Type, ILoadable>();
+            storagesByType.Add(typeof(Client), new ClientSqliteStorage());
+            storagesByType.Add(typeof(Lesson), new LessonSqliteStorage());
+            storagesByType.Add(typeof(Order), new OrderSqliteStorage());
             storagesByType.Add(typeof(Payment), new PaymentSqliteStorage());
             storagesByType.Add(typeof(Project), new ProjectSqliteStorage());
             storagesByType.Add(typeof(Student), new StudentSqliteStorage());
-            storagesByType.Add(typeof(Task),    new TaskSqliteStorage());
-
-            CreateDatabaseIfNotExist();
-            LoadDataToStorages();
+            storagesByType.Add(typeof(Task), new TaskSqliteStorage());
         }
-        public IStorage<T> Entities<T>()
+
+        private void InitializeWrappers()
         {
+            Client.SetupStorage(Entities<Client>());
+            Lesson.SetupStorage(Entities<Lesson>());
+            Order.SetupStorage(Entities<Order>());
+            Payment.SetupStorage(Entities<Payment>());
+            Project.SetupStorage(Entities<Project>());
+            Student.SetupStorage(Entities<Student>());
+            Task.SetupStorage(Entities<Task>());
+        }
+
+        public IStorage<T> Entities<T>()
+        {            
             if(!initialized)
                 throw new InvalidOperationException(
                     "Database is not initialized"
@@ -37,7 +55,7 @@ namespace Storage.SQLite
             throw new InvalidOperationException("Unknown entity type");
         }
 
-        private Dictionary<Type, Object> storagesByType;
+        private Dictionary<Type, ILoadable> storagesByType;
         private string pathToDbFile;
         private bool initialized;
 
@@ -243,7 +261,8 @@ namespace Storage.SQLite
 
         private void LoadDataToStorages()
         {
-            throw new NotImplementedException();
+            foreach(var storage in storagesByType.Values)
+                storage.Load(pathToDbFile);
         }
     }
 }

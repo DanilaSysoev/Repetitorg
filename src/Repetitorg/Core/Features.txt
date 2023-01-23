@@ -88,7 +88,7 @@
 5. Order subsystem
 	+ Creating order with name
 		+ Creating with null name throws error
-		- Create new add order to storage
+		+ Create new add order to storage
 	+ Add student to order with some cost
 		+ Add with null student throws error
 		+ Add with negative cost throws error
