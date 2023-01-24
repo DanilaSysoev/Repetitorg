@@ -8,7 +8,7 @@ namespace Storage.SQLite.Storages
 {
     class OrderSqliteStorage : IStorage<Order>, ILoadable
     {
-        public void Add(Order entity)
+        public long Add(Order entity)
         {
             throw new NotImplementedException();
         }

@@ -7,8 +7,9 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Client : StorageWrapper<Client>
+    public class Client : StorageWrapper<Client>, IId
     {
+        public long Id { get; private set; }
         public long BalanceInKopeks 
         {
             get
@@ -20,7 +21,7 @@ namespace Repetitorg.Core
         {
             get
             {
-                return Payment.Storage.Filter(p => p.Client.Equals(this));
+                return Payment.Storage.Filter(p => p.Client != null && p.Client.Equals(this));
             }
         }
         public Person PersonData
@@ -65,8 +66,7 @@ namespace Repetitorg.Core
             CheckConditionsForMakePayment(payment);
 
             balanceInKopeks += payment.SummInKopeks;
-            payment.Client = this;
-            Payment.Storage.Add(payment);
+            payment.Client = this;            
             storage.Update(this);
         }
         private static void CheckConditionsForMakePayment(Payment payment)
@@ -135,7 +135,7 @@ namespace Repetitorg.Core
             var client = new Client(fullName, phoneNumber);
             CheckConditionsForCreateNew(fullName, phoneNumber, client);
 
-            storage.Add(client);
+            client.Id = storage.Add(client);
             return client;
         }
         private static void CheckConditionsForCreateNew(

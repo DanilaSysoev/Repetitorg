@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Student : StorageWrapper<Student>
+    public class Student : StorageWrapper<Student>, IId
     {
         public Client Client
         {
@@ -22,6 +22,7 @@ namespace Repetitorg.Core
                 return personData;
             }
         }
+        public long Id { get; private set; }
 
         public override bool Equals(object obj)
         {
@@ -44,7 +45,7 @@ namespace Repetitorg.Core
             var student = new Student(fullName, phoneNumber, client);
             CheckConditionsForCreateNew(fullName, client, phoneNumber, student);
 
-            storage.Add(student);
+            student.Id = storage.Add(student);
             return student;
         }
 

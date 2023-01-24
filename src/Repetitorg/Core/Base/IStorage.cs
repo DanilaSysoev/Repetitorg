@@ -9,7 +9,7 @@ namespace Repetitorg.Core.Base
         IReadOnlyList<T> GetAll();
         IList<T> Filter(Predicate<T> predicate);
 
-        void Add(T entity);
+        long Add(T entity);
         void Update(T entity);
         void Remove(T entity);
     }

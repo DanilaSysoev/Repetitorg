@@ -8,7 +8,7 @@ namespace Storage.SQLite.Storages
 {
     class TaskSqliteStorage : IStorage<Task>, ILoadable
     {
-        public void Add(Task entity)
+        public long Add(Task entity)
         {
             throw new NotImplementedException();
         }

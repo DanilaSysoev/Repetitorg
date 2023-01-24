@@ -6,14 +6,14 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Project : StorageWrapper<Project>
+    public class Project : StorageWrapper<Project>, IId
     {
         public static Project CreateNew(string name)
         {
             Project project = new Project(name, false);
             CheckConditionsForCreateNew(name, project);
 
-            storage.Add(project);
+            project.Id = storage.Add(project);
 
             return project;
         }
@@ -50,7 +50,7 @@ namespace Repetitorg.Core
             storage.Update(this);
         }
 
-
+        public long Id { get; private set; }
         public string Name
         {
             get

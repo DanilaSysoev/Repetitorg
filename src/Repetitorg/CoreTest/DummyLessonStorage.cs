@@ -19,10 +19,11 @@ namespace Repetitorg.CoreTest
             UpdatesCount = 0;
             AddCount = 0;
         }
-        public void Add(Lesson lesson)
+        public long Add(Lesson lesson)
         {
             lessons.Add(lesson);
             AddCount += 1;
+            return lessons.Count;
         }
         public IReadOnlyList<Lesson> GetAll()
         {

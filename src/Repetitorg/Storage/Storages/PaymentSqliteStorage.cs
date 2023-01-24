@@ -8,7 +8,7 @@ namespace Storage.SQLite.Storages
 {
     class PaymentSqliteStorage : IStorage<Payment>, ILoadable
     {
-        public void Add(Payment entity)
+        public long Add(Payment entity)
         {
             throw new NotImplementedException();
         }

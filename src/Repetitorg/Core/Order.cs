@@ -6,8 +6,9 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Order : StorageWrapper<Order>
+    public class Order : StorageWrapper<Order>, IId
     {
+        public long Id { get; private set; }
         public string Name
         {
             get
@@ -99,7 +100,7 @@ namespace Repetitorg.Core
             Order order = new Order(name);
             CheckConditionsForCreateNew(name, order);
 
-            storage.Add(order);
+            order.Id = storage.Add(order);
             return order;
         }
         private static void CheckConditionsForCreateNew(string name, Order order)

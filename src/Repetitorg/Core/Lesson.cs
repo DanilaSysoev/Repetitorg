@@ -5,10 +5,11 @@ using System.Text;
 
 namespace Repetitorg.Core
 {
-    public class Lesson : StorageWrapper<Lesson>
+    public class Lesson : StorageWrapper<Lesson>, IId
     {
         private const int MinutesInHour = 60;
 
+        public long Id { get; private set; }
         public DateTime DateTime { get; private set; }
         public int LengthInMinutes { get; private set; }
         public Order Order { get; private set; } 
@@ -54,7 +55,7 @@ namespace Repetitorg.Core
             CheckConditionsForCreateNew(lengthInMinutes, order);
 
             Lesson lesson = new Lesson(dateTime, lengthInMinutes, order);
-            storage.Add(lesson);
+            lesson.Id = storage.Add(lesson);
             return lesson;
         }
         private static void CheckConditionsForCreateNew(

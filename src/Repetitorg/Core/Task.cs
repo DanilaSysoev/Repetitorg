@@ -5,14 +5,14 @@ using Repetitorg.Core.Base;
 
 namespace Repetitorg.Core
 {
-    public class Task : StorageWrapper<Task>
+    public class Task : StorageWrapper<Task>, IId
     {
         public static Task CreateNew(string taskName, DateTime date)
         {
             Task task = new Task(taskName, date.Date, false, null);
             CheckConditionsForCreateNew(taskName, date, task);
 
-            storage.Add(task);
+            task.Id = storage.Add(task);
             return task;
         }
         private static void CheckConditionsForCreateNew(string taskName, DateTime date, Task task)
@@ -92,6 +92,7 @@ namespace Repetitorg.Core
                 return project;
             }
         }
+        public long Id { get; private set; }
 
         public override bool Equals(object obj)
         {

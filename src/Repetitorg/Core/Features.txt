@@ -192,4 +192,13 @@
 
 7. Payment subsystem
 	+ Getting all payments
+	+ Creating Payment on some date, some value,
+	  some type and some documentId
+		+ Creating with non-positive value throws error
+		+ Creating with null documentId throws error		
+		+ Creating setup propertie correctly
+		+ Create new add payment to storage
+		+ Creating with existing date, doc type and doc id throws error
+	+ Equals two payments when date, doc type and doc id equals
+	+ ToString return "<Date>: <Summ>"
 	

@@ -19,10 +19,11 @@ namespace Repetitorg.CoreTest
             AddCount = 0;
         }
 
-        public void Add(Payment entity)
+        public long Add(Payment entity)
         {
             payments.Add(entity);
             AddCount += 1;
+            return payments.Count;
         }
 
         public IList<Payment> Filter(Predicate<Payment> predicate)

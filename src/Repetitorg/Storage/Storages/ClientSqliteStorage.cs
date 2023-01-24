@@ -9,7 +9,7 @@ namespace Storage.SQLite.Storages
 {
     public class ClientSqliteStorage : IStorage<Client>, ILoadable
     {
-        public void Add(Client entity)
+        public long Add(Client entity)
         {
             throw new NotImplementedException();
         }

@@ -20,10 +20,11 @@ namespace Repetitorg.CoreTest
             AddCount = 0;
         }
 
-        public void Add(Task task)
+        public long Add(Task task)
         {
             tasks.Add(task);
             AddCount += 1;
+            return tasks.Count;
         }
 
         public IReadOnlyList<Task> GetAll()

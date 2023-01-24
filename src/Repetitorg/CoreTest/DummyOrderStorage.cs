@@ -21,10 +21,11 @@ namespace Repetitorg.CoreTest
             AddCount = 0;
         }
 
-        public void Add(Order order)
+        public long Add(Order order)
         {
             orders.Add(order);
             AddCount += 1;
+            return orders.Count;
         }
 
         public IList<Order> Filter(Predicate<Order> predicate)

@@ -21,10 +21,11 @@ namespace Repetitorg.CoreTest
             AddCount = 0;
         }
 
-        public void Add(Project project)
+        public long Add(Project project)
         {
             projects.Add(project);
             AddCount += 1;
+            return projects.Count;
         }
 
         public IReadOnlyList<Project> GetAll()

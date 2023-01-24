@@ -21,10 +21,11 @@ namespace Repetitorg.CoreTest
             AddCount = 0;
         }
 
-        public void Add(T entity)
+        public long Add(T entity)
         {
             entities.Add(entity);
             AddCount += 1;
+            return entities.Count;
         }
 
         public IReadOnlyList<T> GetAll()

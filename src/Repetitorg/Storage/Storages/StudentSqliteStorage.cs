@@ -8,7 +8,7 @@ namespace Storage.SQLite.Storages
 {
     class StudentSqliteStorage : IStorage<Student>, ILoadable
     {
-        public void Add(Student entity)
+        public long Add(Student entity)
         {
             throw new NotImplementedException();
         }
