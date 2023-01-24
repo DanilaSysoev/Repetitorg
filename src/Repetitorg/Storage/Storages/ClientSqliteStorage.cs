@@ -26,7 +26,6 @@ namespace Storage.SQLite.Storages
 
         public void Load(string pathToDb)
         {
-            throw new NotImplementedException();
         }
 
         public void Remove(Client entity)

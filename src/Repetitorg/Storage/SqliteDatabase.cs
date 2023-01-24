@@ -63,6 +63,8 @@ namespace Storage.SQLite
         {
             if (!File.Exists(pathToDbFile))
             {
+                CreatePhoneNumberTable();
+                CreatePersonDataTable();
                 CreateClientsTable();
                 CreateStudentTable();
                 CreateOrderTable();
@@ -72,9 +74,9 @@ namespace Storage.SQLite
                 CreateTaskTable();
             }
         }
-        private void CreateClientsTable()
+        private void CreatePhoneNumberTable()
         {
-            using (var connection = 
+            using (var connection =
                 new SqliteConnection(string.Format("Data Source={0}", pathToDbFile))
             )
             {
@@ -87,16 +89,45 @@ namespace Storage.SQLite
                         "phoneCountryCode INTEGER NOT NULL, " +
                         "phoneOperatorCode INTEGER NOT NULL, " +
                         "phoneNumber INTEGER NOT NULL, " +
-                        "UNIQUE (phoneCountryCode, phoneOperatorCode, phoneNumber));\n" +
+                        "UNIQUE (phoneCountryCode, phoneOperatorCode, phoneNumber));";
+                command.ExecuteNonQuery();
+            }
+        }
+        private void CreatePersonDataTable()
+        {
+            using (var connection =
+                new SqliteConnection(string.Format("Data Source={0}", pathToDbFile))
+            )
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText =
+                    "CREATE TABLE IF NOT EXISTS " +
+                    "PersonData(" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "firstName TEXT NOT NULL, " +
+                        "lastName TEXT, " +
+                        "patronymic TEXT, " +
+                        "phoneNumberId INTEGER UNIQUE NOT NULL, " +
+                        "FOREIGN KEY (phoneNumberId) REFERENCES PhoneNumber (id) ON DELETE SET NULL)";
+                command.ExecuteNonQuery();
+            }
+        }
+        private void CreateClientsTable()
+        {
+            using (var connection = 
+                new SqliteConnection(string.Format("Data Source={0}", pathToDbFile))
+            )
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText =
                     "CREATE TABLE IF NOT EXISTS " +
                     "Client(" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "balabceInCopex INTEGER DEFAULT 0, " +
-                        "firstName TEXT NOT NULL, " +
-                        "lastName TEXT, " +
-                        "patronymic TEXT, " +
-                        "phoneNumberId INTEGER UNIQUE, " +
-                        "FOREIGN KEY (phoneNumberId) REFERENCES PhoneNumber (id) ON DELETE SET NULL)";
+                        "personDataId INTEGER UNIQUE NOT NULL, " +
+                        "FOREIGN KEY (personDataId) REFERENCES PersonData (id) ON DELETE RESTRICT)";
                 command.ExecuteNonQuery();
             }
         }
@@ -112,12 +143,9 @@ namespace Storage.SQLite
                     "CREATE TABLE IF NOT EXISTS " +
                     "Student(" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "firstName TEXT NOT NULL, " +
-                        "lastName TEXT, " +
-                        "patronymic TEXT, " +
-                        "phoneNumberId INTEGER UNIQUE, " +
-                        "clientId INTEGER, " +
-                        "FOREIGN KEY (phoneNumberId) REFERENCES PhoneNumber (id) ON DELETE SET NULL," +
+                        "personDataId INTEGER UNIQUE NOT NULL, " +
+                        "clientId INTEGER NOT NULL, " +
+                        "FOREIGN KEY (personDataId) REFERENCES PersonData (id) ON DELETE RESTRICT," +
                         "FOREIGN KEY (clientId) REFERENCES Client (id) ON DELETE RESTRICT)";
                 command.ExecuteNonQuery();
             }
@@ -204,7 +232,7 @@ namespace Storage.SQLite
                         "date TEXT NOT NULL, " +
                         "summInCopex INTEGER NOT NULL CHECK (summInCopex > 0), " +
                         "documentTypeId INTEGER NOT NULL, " +
-                        "documentNumber INTEGER NOT NULL, " +
+                        "documentId TEXT NOT NULL, " +
                         "clientId INTEGER NOT NULL, " +
                         "FOREIGN KEY(documentTypeId) REFERENCES PaymentDocument (id) ON DELETE RESTRICT, " +
                         "FOREIGN KEY(clientId) REFERENCES Client (id) ON DELETE RESTRICT);\n";
