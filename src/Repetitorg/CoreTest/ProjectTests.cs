@@ -130,6 +130,24 @@ namespace Repetitorg.CoreTest
             Assert.IsTrue(projects.Contains(p2));
             Assert.IsTrue(projects.Contains(p3));
         }
+        [TestCase]
+        public void Remove_RemoveIfExistingTasks_ThrowsError()
+        {
+            Project p1 = Project.CreateNew("Test Project 1");
+
+            Task t1 = Task.CreateNew("Test task 1", new DateTime(2022, 2, 1));
+            t1.AttachToProject(p1);
+
+            var exception = Assert.Throws<InvalidOperationException> (
+                () => Project.Remove(p1)
+            );
+
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't remove project, exist attached tasks"
+                )
+            );
+        }
 
         [TestCase]
         public void FindByName_FindByNull_ThrowsException()
@@ -204,6 +222,36 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(0, projects.UpdatesCount);
             p1.Complete();
             Assert.AreEqual(1, projects.UpdatesCount);
+        }
+        [TestCase]
+        public void Complete_CompleteWhenExistNonCompleteTasks_ThrowsError()
+        {
+            Project p1 = Project.CreateNew("Test Project 1");
+
+            Task t1 = Task.CreateNew("Test task 1", new DateTime(2022, 2, 1));
+            t1.AttachToProject(p1);
+
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => p1.Complete()
+            );
+
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains(
+                    "can't complete project, exist non-completed tasks"
+                )
+            );
+        }
+        [TestCase]
+        public void Complete_CompleteWhenExistCompleteTasks_CompleteOk()
+        {
+            Project p1 = Project.CreateNew("Test Project 1");
+
+            Task t1 = Task.CreateNew("Test task 1", new DateTime(2022, 2, 1));
+            t1.AttachToProject(p1);
+            t1.Complete();
+            p1.Complete();
+
+            Assert.IsTrue(p1.Completed);
         }
     }
 }

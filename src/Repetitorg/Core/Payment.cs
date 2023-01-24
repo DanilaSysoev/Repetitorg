@@ -43,7 +43,7 @@ namespace Repetitorg.Core
                      payment.SummInKopeks,
                      "Payment should has positive value. " +
                      "Can not create payment with non-positive value")
-                .Add(documentId => documentId == null,
+                .AddNull(
                      payment.DocumentId,
                      "Can not create payment with null document id")
                 .Add(payment => Storage.Filter((p) => p.Equals(payment)).Count > 0,

@@ -44,10 +44,33 @@ namespace Repetitorg.Core
                 Check();
         }
 
+        public new static void Remove(Project project)
+        {
+            CheckConditionsForRemove(project);
+            StorageWrapper<Project>.Remove(project);
+        }
+        public static void CheckConditionsForRemove(Project project)
+        {
+            new Checker()
+                .Add(p => Task.GetByProject(p).Count > 0,
+                     project,
+                     "Can't remove project, exist attached tasks")
+                .Check(message => new InvalidOperationException(message));
+        }
+
         public void Complete()
         {
+            CheckConditionsForComplete(this);            
             completed = true;
             storage.Update(this);
+        }
+        public static void CheckConditionsForComplete(Project project)
+        {
+            new Checker()
+                .Add(p => Task.GetByProject(p).Any(t => !t.Completed),
+                     project,
+                     "Can't complete project, exist non-completed tasks")
+                .Check(message => new InvalidOperationException(message));
         }
 
         public long Id { get; private set; }
