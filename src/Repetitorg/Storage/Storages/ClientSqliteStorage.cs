@@ -59,6 +59,7 @@ namespace Storage.SQLite.Storages
             List<ClientEntity> clientEntities
         )
         {
+
         }
 
         private static PhoneNumberEntity

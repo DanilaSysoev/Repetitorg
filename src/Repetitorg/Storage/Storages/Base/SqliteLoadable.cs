@@ -1,6 +1,9 @@
 ﻿using Microsoft.Data.Sqlite;
+using Repetitorg.Core.Base;
+using Storage.SQLite.DatabaseRawEntities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Storage.SQLite.Storages.Base

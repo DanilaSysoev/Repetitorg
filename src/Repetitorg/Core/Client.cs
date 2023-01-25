@@ -138,6 +138,16 @@ namespace Repetitorg.Core
             client.Id = storage.Add(client);
             return client;
         }
+        public static Client CreateAnExisting(
+            long id, long balanceInKopeks, string fullName, string phoneNumber
+        )
+        {
+            Client client = new Client(fullName, phoneNumber);
+            client.Id = id;
+            client.balanceInKopeks = balanceInKopeks;
+            return client;
+        }
+
         private static void CheckConditionsForCreateNew(
             string fullName, string phoneNumber, Client client
         )

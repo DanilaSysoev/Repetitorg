@@ -11,16 +11,13 @@ namespace Storage.SQLite
 {
     public class SqliteDatabase : IDatabase
     {
-        public static Type[] loadOrder =
-        {
-            typeof(Client),
-            typeof(Student),
-            typeof(Order),
-            typeof(Lesson),
-            typeof(Payment),
-            typeof(Project),
-            typeof(Task)
-        };
+        private ClientSqliteStorage clientStorage;
+        private StudentSqliteStorage studentStorage;
+        private OrderSqliteStorage orderStorage;
+        private LessonSqliteStorage lessonStorage;
+        private PaymentSqliteStorage paymentStorage;
+        private ProjectSqliteStorage projectStorage;
+        private TaskSqliteStorage taskStorage;
 
         public void Initialize(string pathToDbFile)
         {
@@ -28,31 +25,39 @@ namespace Storage.SQLite
             this.pathToDbFile = pathToDbFile;
             CreateStorages();
             CreateDatabaseIfNotExist();
-            LoadDataToStorages();
-            InitializeWrappers();
+            LoadData();
+            SetupStorages();
         }
 
         private void CreateStorages()
-        {
+        {            
+            clientStorage = new ClientSqliteStorage();
+            studentStorage = new StudentSqliteStorage();
+            orderStorage = new OrderSqliteStorage();
+            lessonStorage = new LessonSqliteStorage();
+            paymentStorage = new PaymentSqliteStorage();
+            projectStorage = new ProjectSqliteStorage();
+            taskStorage = new TaskSqliteStorage();
+
             storagesByType = new Dictionary<Type, ILoadable>();
-            storagesByType.Add(typeof(Client), new ClientSqliteStorage());
-            storagesByType.Add(typeof(Lesson), new LessonSqliteStorage());
-            storagesByType.Add(typeof(Order), new OrderSqliteStorage());
-            storagesByType.Add(typeof(Payment), new PaymentSqliteStorage());
-            storagesByType.Add(typeof(Project), new ProjectSqliteStorage());
-            storagesByType.Add(typeof(Student), new StudentSqliteStorage());
-            storagesByType.Add(typeof(Task), new TaskSqliteStorage());
+            storagesByType.Add(typeof(Client), clientStorage);
+            storagesByType.Add(typeof(Student), studentStorage);
+            storagesByType.Add(typeof(Order), orderStorage);
+            storagesByType.Add(typeof(Lesson), lessonStorage);
+            storagesByType.Add(typeof(Payment), paymentStorage);
+            storagesByType.Add(typeof(Project), projectStorage);
+            storagesByType.Add(typeof(Task), taskStorage);
         }
 
-        private void InitializeWrappers()
+        private void SetupStorages()
         {
-            Client.SetupStorage(Entities<Client>());
-            Lesson.SetupStorage(Entities<Lesson>());
-            Order.SetupStorage(Entities<Order>());
-            Payment.SetupStorage(Entities<Payment>());
-            Project.SetupStorage(Entities<Project>());
-            Student.SetupStorage(Entities<Student>());
-            Task.SetupStorage(Entities<Task>());
+            Client.SetupStorage(clientStorage);
+            Student.SetupStorage(studentStorage);
+            Order.SetupStorage(orderStorage);
+            Lesson.SetupStorage(lessonStorage);
+            Payment.SetupStorage(paymentStorage);
+            Project.SetupStorage(projectStorage);
+            Task.SetupStorage(taskStorage);
         }
 
         public IStorage<T> Entities<T>()
@@ -299,10 +304,15 @@ namespace Storage.SQLite
             }
         }
 
-        private void LoadDataToStorages()
+        private void LoadData()
         {
-            foreach(var type in loadOrder)
-                storagesByType[type].Load(pathToDbFile);
+            clientStorage.Load(pathToDbFile);
+            studentStorage.Load(pathToDbFile);
+            orderStorage.Load(pathToDbFile);
+            lessonStorage.Load(pathToDbFile);
+            paymentStorage.Load(pathToDbFile);
+            projectStorage.Load(pathToDbFile);
+            taskStorage.Load(pathToDbFile);
         }
     }
 }
