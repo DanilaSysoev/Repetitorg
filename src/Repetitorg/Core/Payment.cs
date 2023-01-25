@@ -36,6 +36,21 @@ namespace Repetitorg.Core
             return payment;
         }
 
+        public static Payment CreateLoaded(
+            long id,
+            DateTime date,
+            long valueInKopeks,
+            PaymentDocumentType documentType,
+            string documentId,
+            Client client
+        )
+        {
+            var payment = new Payment(date, valueInKopeks, documentType, documentId);
+            payment.Id = id;
+            payment.Client = client;
+            return payment;
+        }
+
         private static void CheckConditionsForCreateNew(Payment payment)
         {
             new Checker()

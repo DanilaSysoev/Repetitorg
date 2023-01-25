@@ -71,6 +71,29 @@ namespace Repetitorg.Core
                 .Check();
         }
 
+        public static Lesson CreateLoaded(
+            long id,
+            DateTime dateTime,
+            int lengthInMinutes,
+            Order order,
+            LessonStatus status
+        )
+        {
+            Lesson lesson = new Lesson(dateTime, lengthInMinutes, order);
+            lesson.Id = id;
+            lesson.Status = status;
+            return lesson;
+        }
+        public static void SetupMovedForLoaded(
+            Lesson lesson,
+            Lesson movedOn,
+            Lesson movedFrom
+        )
+        {
+            lesson.MovedOn = movedOn;
+            lesson.MovedFrom = movedFrom;
+        }
+
         public static IList<Lesson> GetIntersectionWithAll(Lesson lesson)
         {
             return storage.Filter(les =>

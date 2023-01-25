@@ -27,6 +27,15 @@ namespace Repetitorg.Core
                 .Check(message => new InvalidOperationException(message));
         }
 
+        public static Task CreateLoaded(
+            long id, string name, DateTime date, bool complete, Project project
+        )
+        {
+            Task task = new Task(name, date.Date, complete, project);
+            task.Id = id;
+            return task;
+        }
+
         public static IList<Task> GetByDate(DateTime date)
         {
             return storage.Filter(t => t.Date.Equals(date));

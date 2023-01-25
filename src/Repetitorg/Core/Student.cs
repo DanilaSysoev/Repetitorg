@@ -48,7 +48,6 @@ namespace Repetitorg.Core
             student.Id = storage.Add(student);
             return student;
         }
-
         private static void CheckConditionsForCreateNew(
             string fullName,
             Client client, 
@@ -72,6 +71,15 @@ namespace Repetitorg.Core
                      student,
                      "Creation student with same names and phone numbers is impossible")
                 .Check(message => new InvalidOperationException(message));
+        }
+
+        public static Student CreateLoaded(
+            long id, string fullName, Client client, string phoneNumber
+        )
+        {
+            var student = new Student(fullName, phoneNumber, client);
+            student.Id = id;
+            return student;
         }
 
         public static IReadOnlyList<Student> FilterByName(string condition)

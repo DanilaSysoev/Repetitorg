@@ -115,6 +115,16 @@ namespace Repetitorg.Core
                 .Check(message => new InvalidOperationException(message));
         }
 
+        public static Order CreateNew(
+            long id, string name, Dictionary<Student, long> studentsCosts
+        )
+        {
+            Order order = new Order(name);
+            order.Id = id;
+            order.studentsCosts = studentsCosts;
+            return order;
+        }
+
         private Dictionary<Student, long> studentsCosts;
         private string name;
 

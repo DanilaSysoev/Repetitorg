@@ -29,6 +29,15 @@ namespace Repetitorg.Core
                 .Check(message => new InvalidOperationException(message));
         }
 
+        public static Project CreateLoaded(
+            long id, string name, bool completed
+        )
+        {
+            Project project = new Project(name, completed);
+            project.Id = id;
+            return project;
+        }
+
         public static List<Project> FindByName(string subname)
         {
             CheckConditionsForFindByName(subname);

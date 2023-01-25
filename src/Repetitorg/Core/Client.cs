@@ -138,7 +138,7 @@ namespace Repetitorg.Core
             client.Id = storage.Add(client);
             return client;
         }
-        public static Client CreateAnExisting(
+        public static Client CreateLoaded(
             long id, long balanceInKopeks, string fullName, string phoneNumber
         )
         {
