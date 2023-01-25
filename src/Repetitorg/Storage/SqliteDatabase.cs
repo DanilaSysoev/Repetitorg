@@ -2,6 +2,7 @@
 using Repetitorg.Core;
 using Repetitorg.Core.Base;
 using Storage.SQLite.Storages;
+using Storage.SQLite.Storages.Base;
 using System;
 using System.Collections.Generic;
 using System.IO;

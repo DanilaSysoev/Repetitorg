@@ -1,12 +1,13 @@
 ﻿using Repetitorg.Core;
 using Repetitorg.Core.Base;
+using Storage.SQLite.Storages.Base;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Storage.SQLite.Storages
 {
-    class PaymentSqliteStorage : IStorage<Payment>, ILoadable
+    class PaymentSqliteStorage : SqliteLoadable, IStorage<Payment>
     {
         public long Add(Payment entity)
         {
@@ -23,7 +24,7 @@ namespace Storage.SQLite.Storages
             throw new NotImplementedException();
         }
 
-        public void Load(string pathToDb)
+        public override void Load(string pathToDb)
         {
         }
 

@@ -9,6 +9,6 @@ namespace Storage.SQLite.DatabaseRawEntities
         public long Id { get; set; }
         public int CountryCode { get; set; }
         public int OperatorCode { get; set; }
-        public int Number { get; set; }
+        public long Number { get; set; }
     }
 }
