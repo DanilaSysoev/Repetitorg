@@ -98,15 +98,15 @@ namespace Repetitorg.Core
         public static Order CreateNew(string name)
         {
             Order order = new Order(name);
-            CheckConditionsForCreateNew(name, order);
+            CheckConditionsForCreateNew(order);
 
             order.Id = storage.Add(order);
             return order;
         }
-        private static void CheckConditionsForCreateNew(string name, Order order)
+        private static void CheckConditionsForCreateNew(Order order)
         {
             new Checker()
-                .AddNull(name, "Can not create order with null name")
+                .AddNull(order.Name, "Can not create order with null name")
                 .Check();
             new Checker()
                 .Add(order => storage.GetAll().Contains(order),
@@ -115,7 +115,7 @@ namespace Repetitorg.Core
                 .Check(message => new InvalidOperationException(message));
         }
 
-        public static Order CreateNew(
+        public static Order CreateLoaded(
             long id, string name, Dictionary<Student, long> studentsCosts
         )
         {

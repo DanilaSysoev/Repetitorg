@@ -10,20 +10,20 @@ namespace Repetitorg.Core
         public static Task CreateNew(string taskName, DateTime date)
         {
             Task task = new Task(taskName, date.Date, false, null);
-            CheckConditionsForCreateNew(taskName, date, task);
+            CheckConditionsForCreateNew(task);
 
             task.Id = storage.Add(task);
             return task;
         }
-        private static void CheckConditionsForCreateNew(string taskName, DateTime date, Task task)
+        private static void CheckConditionsForCreateNew(Task task)
         {
             new Checker()
-                .AddNull(taskName, "Can't add task with NULL name")
+                .AddNull(task.Name, "Can't add task with NULL name")
                 .Check();
             new Checker()
-                .Add(task => storage.Filter(t => t.Date.Equals(date.Date)).Contains(task),
+                .Add(task => storage.Filter(t => t.Date.Equals(task.Date)).Contains(task),
                      task,
-                     string.Format("The task with name \"{0}\" has already been defined for date \"{1}\"", taskName, date))
+                     string.Format("The task with name \"{0}\" has already been defined for date \"{1}\"", task.Name, task.Date))
                 .Check(message => new InvalidOperationException(message));
         }
 

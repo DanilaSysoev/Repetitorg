@@ -11,21 +11,21 @@ namespace Repetitorg.Core
         public static Project CreateNew(string name)
         {
             Project project = new Project(name, false);
-            CheckConditionsForCreateNew(name, project);
+            CheckConditionsForCreateNew(project);
 
             project.Id = storage.Add(project);
 
             return project;
         }
-        private static void CheckConditionsForCreateNew(string name, Project project)
+        private static void CheckConditionsForCreateNew(Project project)
         {
             new Checker()
-                .AddNull(name, "Can't create project with NULL name")
+                .AddNull(project.Name, "Can't create project with NULL name")
                 .Check();
             new Checker()
                 .Add(project => storage.GetAll().Contains(project),
                      project,
-                     string.Format("Project with name \"{0}\" already exist", name))
+                     string.Format("Project with name \"{0}\" already exist", project.Name))
                 .Check(message => new InvalidOperationException(message));
         }
 

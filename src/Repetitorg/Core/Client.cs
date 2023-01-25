@@ -133,7 +133,7 @@ namespace Repetitorg.Core
         public static Client CreateNew(string fullName, string phoneNumber = "")
         {
             var client = new Client(fullName, phoneNumber);
-            CheckConditionsForCreateNew(fullName, phoneNumber, client);
+            CheckConditionsForCreateNew(client);
 
             client.Id = storage.Add(client);
             return client;
@@ -148,14 +148,12 @@ namespace Repetitorg.Core
             return client;
         }
 
-        private static void CheckConditionsForCreateNew(
-            string fullName, string phoneNumber, Client client
-        )
+        private static void CheckConditionsForCreateNew(Client client)
         {
             new Checker()
-                .AddNull(fullName,
+                .AddNull(client.PersonData.FullName,
                          string.Format("Can not create client with NULL name"))
-                .AddNull(phoneNumber,
+                .AddNull(client.PersonData.PhoneNumber,
                          string.Format("Can not create client with NULL phone number"))
                 .Check();
             new Checker()

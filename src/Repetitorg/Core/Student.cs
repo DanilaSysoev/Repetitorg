@@ -40,30 +40,27 @@ namespace Repetitorg.Core
         }
 
 
-        public static Student CreateNew(string fullName, Client client, string phoneNumber = "")
+        public static Student CreateNew(
+            string fullName, Client client, string phoneNumber = ""
+        )
         {
             var student = new Student(fullName, phoneNumber, client);
-            CheckConditionsForCreateNew(fullName, client, phoneNumber, student);
+            CheckConditionsForCreateNew(student);
 
             student.Id = storage.Add(student);
             return student;
         }
-        private static void CheckConditionsForCreateNew(
-            string fullName,
-            Client client, 
-            string phoneNumber,
-            Student student
-        )
+        private static void CheckConditionsForCreateNew(Student student)
         {
             new Checker()
                 .AddNull(
-                    fullName,
+                    student.PersonData.FullName,
                     "Can not create student with NULL name")
                 .AddNull(
-                    phoneNumber,
+                    student.PersonData.PhoneNumber,
                     "Can not create student with NULL phone number")
                 .AddNull(
-                    client,
+                    student.Client,
                     "Can not create student with NULL client")
                 .Check();
             new Checker()

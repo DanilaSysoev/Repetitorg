@@ -52,21 +52,20 @@ namespace Repetitorg.Core
             DateTime dateTime, int lengthInMinutes, Order order
         )
         {
-            CheckConditionsForCreateNew(lengthInMinutes, order);
-
             Lesson lesson = new Lesson(dateTime, lengthInMinutes, order);
+            CheckConditionsForCreateNew(lesson);
             lesson.Id = storage.Add(lesson);
             return lesson;
         }
         private static void CheckConditionsForCreateNew(
-            int lengthInMinutes, Order order
+            Lesson lesson
         )
         {
             new Checker()
                 .Add(v => v <= 0,
-                     lengthInMinutes,
+                     lesson.LengthInMinutes,
                      "Lesson length can't be non positive\n")
-                .AddNull(order,
+                .AddNull(lesson.Order,
                          "Order can't be null.\n")
                 .Check();
         }
