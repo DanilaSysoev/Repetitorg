@@ -10,6 +10,17 @@ namespace Storage.SQLite
 {
     public class SqliteDatabase : IDatabase
     {
+        public static Type[] loadOrder =
+        {
+            typeof(Client),
+            typeof(Student),
+            typeof(Order),
+            typeof(Lesson),
+            typeof(Payment),
+            typeof(Project),
+            typeof(Task)
+        };
+
         public void Initialize(string pathToDbFile)
         {
             initialized = true;
@@ -289,8 +300,8 @@ namespace Storage.SQLite
 
         private void LoadDataToStorages()
         {
-            foreach(var storage in storagesByType.Values)
-                storage.Load(pathToDbFile);
+            foreach(var type in loadOrder)
+                storagesByType[type].Load(pathToDbFile);
         }
     }
 }
