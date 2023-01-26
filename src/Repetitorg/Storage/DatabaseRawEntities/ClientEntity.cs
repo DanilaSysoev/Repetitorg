@@ -6,7 +6,7 @@ namespace Storage.SQLite.DatabaseRawEntities
 {
     class ClientEntity : EntityWithId
     {
-        public long BalanceInCopex { get; set; }
+        public long BalanceInKopeks { get; set; }
         public long PersonDataId { get; set; }
     }
 }

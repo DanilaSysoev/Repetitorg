@@ -57,6 +57,11 @@ namespace Repetitorg.Core
             return Name;
         }
 
+        public override int GetHashCode()
+        {
+            return System.HashCode.Combine(Id, Name);
+        }
+
         private PaymentDocumentType(string documentTypeName)
         {
             Name = documentTypeName;

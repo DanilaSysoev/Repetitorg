@@ -5,25 +5,34 @@ using Storage.SQLite.DatabaseRawEntities;
 using Storage.SQLite.Storages.Base;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Storage.SQLite.Storages
 {
     class ClientSqliteStorage : SqliteLoadable, IStorage<Client>
     {
+        private Dictionary<long, Client> clients;
+        private string pathToDb;
+
+        public ClientSqliteStorage()
+        {
+            clients = new Dictionary<long, Client>();
+        }
+
         public long Add(Client entity)
         {
-            throw new NotImplementedException();
+            return -1;
         }
 
         public IList<Client> Filter(Predicate<Client> predicate)
         {
-            throw new NotImplementedException();
+            return FilterByPredicate(clients.Values, predicate);
         }
 
         public IReadOnlyList<Client> GetAll()
         {
-            throw new NotImplementedException();
+            return new List<Client>(clients.Values);
         }
 
         public override void Load(string pathToDb)
@@ -33,10 +42,10 @@ namespace Storage.SQLite.Storages
             )
             {
                 connection.Open();
-                var phoneNumberEntities = ReadEntities(
+                var phoneNumberEntities = ReadEntitiesToDict(
                     "PhoneNumber", connection, BuildPhoneNumberEntity
                 );
-                var personDataEntities = ReadEntities(
+                var personDataEntities = ReadEntitiesToDict(
                     "PersonData", connection, BuildPersonDataEntity
                 );
                 var clientEntities = ReadEntities(
@@ -51,15 +60,31 @@ namespace Storage.SQLite.Storages
 
                 connection.Close();
             }
+
+            this.pathToDb = pathToDb;
         }
 
         private void CreateAndLinkObjects(
-            List<PhoneNumberEntity> phoneNumberEntities, 
-            List<PersonDataEntity> personDataEntities,
+            Dictionary<long, PhoneNumberEntity> phoneNumberEntities, 
+            Dictionary<long, PersonDataEntity> personDataEntities,
             List<ClientEntity> clientEntities
         )
         {
-
+            clients = new Dictionary<long, Client>();
+            foreach(var clientEntity in clientEntities)
+            {
+                clients.Add(
+                    clientEntity.Id,
+                    Client.CreateLoaded(
+                        clientEntity.Id,
+                        clientEntity.BalanceInKopeks,
+                        personDataEntities[clientEntity.PersonDataId].ToString(),
+                        phoneNumberEntities[
+                            personDataEntities[clientEntity.PersonDataId].PhoneNumberId
+                        ].ToString()
+                    )
+                );
+            }
         }
 
         private static PhoneNumberEntity
@@ -91,14 +116,14 @@ namespace Storage.SQLite.Storages
             return new ClientEntity
             {
                 Id = personDataReader.GetInt64(0),
-                BalanceInCopex = personDataReader.GetInt64(1),
+                BalanceInKopeks = personDataReader.GetInt64(1),
                 PersonDataId = personDataReader.GetInt64(2),
             };
         }
 
         public void Remove(Client entity)
         {
-            throw new NotImplementedException();
+            RemoveEntity(entity, "Client", pathToDb);
         }
 
         public void Update(Client entity)
