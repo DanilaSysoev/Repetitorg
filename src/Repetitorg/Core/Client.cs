@@ -130,7 +130,7 @@ namespace Repetitorg.Core
             return personData.ToString();
         }
 
-        public static Client CreateNew(string fullName, string phoneNumber = "")
+        public static Client CreateNew(FullName fullName, PhoneNumber phoneNumber = null)
         {
             var client = new Client(fullName, phoneNumber);
             CheckConditionsForCreateNew(client);
@@ -139,7 +139,7 @@ namespace Repetitorg.Core
             return client;
         }
         public static Client CreateLoaded(
-            long id, long balanceInKopeks, string fullName, string phoneNumber
+            long id, long balanceInKopeks, FullName fullName, PhoneNumber phoneNumber
         )
         {
             Client client = new Client(fullName, phoneNumber);
@@ -153,8 +153,6 @@ namespace Repetitorg.Core
             new Checker()
                 .AddNull(client.PersonData.FullName,
                          string.Format("Can not create client with NULL name"))
-                .AddNull(client.PersonData.PhoneNumber,
-                         string.Format("Can not create client with NULL phone number"))
                 .Check();
             new Checker()
                 .Add(client => storage.GetAll().Contains(client),
@@ -169,7 +167,7 @@ namespace Repetitorg.Core
 
             return
                 (from entity in storage.GetAll()
-                 where entity.personData.FullName.ToLower().Contains(condition.ToLower())
+                 where entity.personData.FullName.ToString().ToLower().Contains(condition.ToLower())
                  select entity).ToList();
         }
         private static void CheckConditionsForFilterByName(string condition)
@@ -179,7 +177,7 @@ namespace Repetitorg.Core
                 Check();
         }
 
-        private Client(string fullName, string phoneNumber)
+        private Client(FullName fullName, PhoneNumber phoneNumber)
         {
             balanceInKopeks = 0;
             personData = new Person(fullName, phoneNumber);

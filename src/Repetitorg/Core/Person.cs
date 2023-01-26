@@ -8,17 +8,17 @@ namespace Repetitorg.Core
 {
     public class Person
     {
-        private string fullName;
-        private string phoneNumber;
+        private FullName fullName;
+        private PhoneNumber phoneNumber;
 
-        public string FullName
+        public FullName FullName
         {
             get
             {
                 return fullName;
             }
         }
-        public string PhoneNumber
+        public PhoneNumber PhoneNumber
         {
             get
             {
@@ -32,7 +32,7 @@ namespace Repetitorg.Core
             }
         }
 
-        internal Person(string fullName, string phoneNumber)
+        internal Person(FullName fullName, PhoneNumber phoneNumber)
         {
             this.fullName = fullName;
             this.phoneNumber = phoneNumber;
@@ -43,8 +43,10 @@ namespace Repetitorg.Core
             if (obj is Person)
             {
                 Person person = (Person)obj;
-                return person.PhoneNumber == PhoneNumber && 
-                       person.FullName == FullName && 
+                return (person.PhoneNumber == null && PhoneNumber == null ||
+                        (person.PhoneNumber != null && PhoneNumber != null &&
+                         person.PhoneNumber.Equals(PhoneNumber))) && 
+                       person.FullName.Equals(FullName) && 
                        GetType().Equals(obj.GetType());
             }
             return false;
@@ -52,12 +54,12 @@ namespace Repetitorg.Core
 
         public override int GetHashCode()
         {
-            return (fullName.GetHashCode() + phoneNumber.GetHashCode()) * 31;
+            return System.HashCode.Combine(fullName, phoneNumber == null ? 0 : phoneNumber.GetHashCode());
         }
 
         public override string ToString()
         {
-            return string.Format("{0} {1}", fullName, phoneNumber);
+            return string.Format("{0}, {1}", fullName, phoneNumber == null ? "" : phoneNumber.ToString());
         }
     }
 }

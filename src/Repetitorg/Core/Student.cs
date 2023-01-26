@@ -41,7 +41,7 @@ namespace Repetitorg.Core
 
 
         public static Student CreateNew(
-            string fullName, Client client, string phoneNumber = ""
+            FullName fullName, Client client, PhoneNumber phoneNumber = null
         )
         {
             var student = new Student(fullName, phoneNumber, client);
@@ -57,9 +57,6 @@ namespace Repetitorg.Core
                     student.PersonData.FullName,
                     "Can not create student with NULL name")
                 .AddNull(
-                    student.PersonData.PhoneNumber,
-                    "Can not create student with NULL phone number")
-                .AddNull(
                     student.Client,
                     "Can not create student with NULL client")
                 .Check();
@@ -71,7 +68,7 @@ namespace Repetitorg.Core
         }
 
         public static Student CreateLoaded(
-            long id, string fullName, Client client, string phoneNumber
+            long id, FullName fullName, Client client, PhoneNumber phoneNumber
         )
         {
             var student = new Student(fullName, phoneNumber, client);
@@ -85,7 +82,7 @@ namespace Repetitorg.Core
 
             return
                 (from entity in storage.GetAll()
-                 where entity.personData.FullName.ToLower().Contains(condition.ToLower())
+                 where entity.personData.FullName.ToString().ToLower().Contains(condition.ToLower())
                  select entity).ToList();
         }
         private static void CheckConditionsForFilterByName(string condition)
@@ -95,7 +92,7 @@ namespace Repetitorg.Core
                 .Check();
         }
 
-        private Student(string fullName, string phoneNumber, Client client)
+        private Student(FullName fullName, PhoneNumber phoneNumber, Client client)
         {
             this.client = client;
             this.personData = new Person(fullName, phoneNumber);

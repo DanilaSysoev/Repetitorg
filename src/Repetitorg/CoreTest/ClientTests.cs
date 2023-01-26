@@ -19,6 +19,15 @@ namespace Repetitorg.CoreTest
 
         PaymentDocumentType paymentOrder;
 
+        PhoneNumber phoneNumber1;
+        PhoneNumber phoneNumber2;
+        PhoneNumber phoneNumber3;
+        PhoneNumber phoneNumber4;
+        PhoneNumber phoneNumber5;
+        FullName ivanovII;
+        FullName petrovPP;
+        FullName petrovaAI;
+
         [SetUp]
         public void Initialize()
         {
@@ -32,6 +41,56 @@ namespace Repetitorg.CoreTest
             PaymentDocumentType.SetupStorage(paymentDocuments);
 
             paymentOrder = PaymentDocumentType.CreateNew("PaymentOrder");
+
+            phoneNumber1 = new PhoneNumber
+            {
+                CountryCode = 7,
+                OperatorCode = 900,
+                Number = 1112233
+            };
+            phoneNumber2 = new PhoneNumber
+            {
+                CountryCode = 7,
+                OperatorCode = 999,
+                Number = 1234567
+            };
+            phoneNumber3 = new PhoneNumber
+            {
+                CountryCode = 7,
+                OperatorCode = 800,
+                Number = 0000000
+            };
+            phoneNumber4 = new PhoneNumber
+            {
+                CountryCode = 1,
+                OperatorCode = 234,
+                Number = 5678901
+            };
+            phoneNumber5 = new PhoneNumber
+            {
+                CountryCode = 2,
+                OperatorCode = 345,
+                Number = 6789012
+            };
+            ivanovII = new FullName
+            {
+                FirstName = "Иван",
+                LastName = "Иванов",
+                Patronymic = "Иванович"
+            };
+            petrovPP = new FullName
+            {
+                FirstName = "Петр",
+                LastName = "Петров",
+                Patronymic = "Петрович"
+            };
+            petrovaAI = new FullName
+            {
+                FirstName = "Анастасия",
+                LastName = "Петрова",
+                Patronymic = "Владимировна"
+            };
+
         }
 
         [TestCase]
@@ -50,23 +109,12 @@ namespace Repetitorg.CoreTest
             ));
         }
         [TestCase]
-        public void CreateNew_PhoneNumberIsNull_ThrowsException()
-        {
-            var exception =
-                Assert.Throws<ArgumentException>(
-                    () => Client.CreateNew("some name", null)
-                );
-            Assert.IsTrue(exception.Message.ToLower().Contains(
-                "can not create client with null phone number"
-            ));
-        }
-        [TestCase]
         public void CreateNew_CreateTwoWithSameNameAndPhoneNumber_ThrowsException()
         {
-            Client c1 = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
+            Client c1 = Client.CreateNew(ivanovII, phoneNumber2);
 
             var exception = Assert.Throws<InvalidOperationException>(
-                () => Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67")
+                () => Client.CreateNew(ivanovII, phoneNumber2)
             );
 
             Assert.IsTrue(exception.Message.ToLower().Contains(
@@ -83,8 +131,8 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetAll_CreateTwo_AllReturned()
         {
-            Client c1 = Client.CreateNew("Иванов Иван Иванович");
-            Client c2 = Client.CreateNew("Петров Петр Петрович");
+            Client c1 = Client.CreateNew(ivanovII);
+            Client c2 = Client.CreateNew(petrovPP);
 
             IReadOnlyList<Client> clients = Client.GetAll();
 
@@ -95,8 +143,8 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void GetAll_CreateTwo_ReturnedCopyOfCollection()
         {
-            Client c1 = Client.CreateNew("Иванов Иван Иванович");
-            Client c2 = Client.CreateNew("Петров Петр Петрович");
+            Client c1 = Client.CreateNew(ivanovII);
+            Client c2 = Client.CreateNew(petrovPP);
 
             IList<Client> clients_old = new List<Client>(Client.GetAll());
             clients_old.Remove(c1);
@@ -109,15 +157,15 @@ namespace Repetitorg.CoreTest
         [TestCase]
         public void Equals_DifferentObjectsWithSameNameAndDifferentPhonNumbers_IsDifferent()
         {
-            Client c1 = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
-            Client c2 = Client.CreateNew("Иванов Иван Иванович", "8-999-456-78-90");
+            Client c1 = Client.CreateNew(ivanovII, phoneNumber2);
+            Client c2 = Client.CreateNew(ivanovII, phoneNumber3);
             Assert.IsFalse(c1.Equals(c2));
         }
         [TestCase]
         public void Equals_EqualsWithStudentWitSameNameAndPhoneNumber_IsDifferent()
         {
-            Client c = Client.CreateNew("Иванов Иван Иванович", "8-999-123-45-67");
-            Student s = Student.CreateNew("Иванов Иван Иванович", c, "8-999-123-45-67");
+            Client c = Client.CreateNew(ivanovII, phoneNumber2);
+            Student s = Student.CreateNew(ivanovII, c, phoneNumber2);
             Assert.IsFalse(c.Equals(s));
         }
 
@@ -141,7 +189,7 @@ namespace Repetitorg.CoreTest
         public void FilterByName_UseLowercaseFullNameWithOneEntry_GettingOneObject()
         {
             var allClients = CreateClients();
-            var clients = Client.FilterByName("иванов иван иванович");
+            var clients = Client.FilterByName("Иванов Иван Иванович");
             Assert.AreEqual(1, clients.Count);
             Assert.AreEqual(allClients[0], clients[0]);
         }
@@ -452,35 +500,27 @@ namespace Repetitorg.CoreTest
         public void FullName_CreateNewClient_FullNameSetupCorrect()
         {
             var client = CreateClient();
-            Assert.AreEqual("Иванов Иван Иванович", client.PersonData.FullName);
+            Assert.AreEqual(ivanovII, client.PersonData.FullName);
         }
         [TestCase]
         public void PhoneNumber_CreateNewClientWithoutPhoneNumber_PhoneNumberIsEmpty()
         {
             var client = CreateClient();
-            Assert.AreEqual("", client.PersonData.PhoneNumber);
+            Assert.AreEqual(null, client.PersonData.PhoneNumber);
         }
         [TestCase]
         public void PhoneNumber_CreateNewClientWithPhoneNumber_PhoneNumberIsCorrect()
         {
             var client = CreateClientWithPhoneNumber();
-            Assert.AreEqual("+7(900)111-22-33", client.PersonData.PhoneNumber);
+            Assert.AreEqual(phoneNumber1, client.PersonData.PhoneNumber);
         }
         [TestCase]
         public void PhoneNumber_ChangePhoneNumber_PhoneNumberIsCorrect()
         {
             var client = CreateClient();
-            Assert.AreEqual("", client.PersonData.PhoneNumber);
-            client.PersonData.PhoneNumber = "+7(900)111-22-33";
-            Assert.AreEqual("+7(900)111-22-33", client.PersonData.PhoneNumber);
-        }
-        [TestCase]
-        public void PhoneNumber_PhoneNumberSetNull_ThrowsException()
-        {
-            var client = CreateClient();
-            Assert.AreEqual("", client.PersonData.PhoneNumber);
-            var exception = Assert.Throws<InvalidPhoneNumberException>(() => client.PersonData.PhoneNumber = null);
-            Assert.IsTrue(exception.Message.ToLower().Contains("phonenumber can't be null"));
+            Assert.AreEqual(null, client.PersonData.PhoneNumber);
+            client.PersonData.PhoneNumber = phoneNumber1;
+            Assert.AreEqual(phoneNumber1, client.PersonData.PhoneNumber);
         }
 
         [TestCase]
@@ -546,7 +586,7 @@ namespace Repetitorg.CoreTest
         private Client CreateClientWithPhoneNumber()
         {
             var c = Client.CreateNew(
-                "Иванов Иван Иванович", "+7(900)111-22-33"
+                ivanovII, phoneNumber1
             );
             return c;
         }
@@ -597,17 +637,17 @@ namespace Repetitorg.CoreTest
         }
         private Client CreateClient()
         {
-            var c = Client.CreateNew("Иванов Иван Иванович");
+            var c = Client.CreateNew(ivanovII);
             return c;
         }
         private List<Client> CreateClients()
         {
             List<Client> clients = new List<Client>();
 
-            clients.Add(Client.CreateNew("Иванов Иван Иванович"));
-            clients.Add(Client.CreateNew("Петров Петр Петрович", "Phone_1"));
-            clients.Add(Client.CreateNew("Петровa Aнастасия Владимировна"));
-            clients.Add(Client.CreateNew("Петров Петр Петрович", "Phone_2"));
+            clients.Add(Client.CreateNew(ivanovII));
+            clients.Add(Client.CreateNew(petrovPP, phoneNumber4));
+            clients.Add(Client.CreateNew(petrovaAI));
+            clients.Add(Client.CreateNew(petrovPP, phoneNumber5));
 
             return clients;
         }

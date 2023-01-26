@@ -73,15 +73,27 @@ namespace Storage.SQLite.Storages
             clients = new Dictionary<long, Client>();
             foreach(var clientEntity in clientEntities)
             {
+                var personData = personDataEntities[clientEntity.PersonDataId];
+                var phoneNumber = phoneNumberEntities[
+                    personDataEntities[clientEntity.PersonDataId].PhoneNumberId
+                ];
                 clients.Add(
                     clientEntity.Id,
                     Client.CreateLoaded(
                         clientEntity.Id,
                         clientEntity.BalanceInKopeks,
-                        personDataEntities[clientEntity.PersonDataId].ToString(),
-                        phoneNumberEntities[
-                            personDataEntities[clientEntity.PersonDataId].PhoneNumberId
-                        ].ToString()
+                        new FullName
+                        {
+                            FirstName = personData.FirstName,
+                            LastName = personData.LastName,
+                            Patronymic = personData.Patronymic,
+                        },
+                        new PhoneNumber
+                        {
+                            CountryCode = phoneNumber.CountryCode,
+                            OperatorCode = phoneNumber.OperatorCode,
+                            Number = phoneNumber.Number
+                        }
                     )
                 );
             }

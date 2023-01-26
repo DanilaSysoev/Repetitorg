@@ -16,6 +16,16 @@ namespace Repetitorg.CoreTest
         DummyPaymentStorage payments;
         DummyOrderStorage orders;
 
+        FullName testStudent1;
+        FullName testStudent2;
+        FullName testStudent3;
+        FullName testStudent4;
+        FullName testStudent5;
+        FullName testClient1;
+        FullName testClient2;
+        FullName testClient3;
+        FullName testClient4;
+
         [SetUp]
         public void Initialize()
         {
@@ -29,13 +39,68 @@ namespace Repetitorg.CoreTest
             Payment.SetupStorage(payments);
             Order.SetupStorage(orders);
 
-            Client c1 = Client.CreateNew("c1");
-            Client c2 = Client.CreateNew("c2");
-            Client c3 = Client.CreateNew("c3");
+            testStudent1 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = ""
+            };
+            testStudent2 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = "1"
+            };
+            testStudent3 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = "2"
+            };
+            testStudent4 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = "44"
+            };
+            testStudent5 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = "444"
+            };
+            testClient1 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = "3"
+            };
+            testClient2 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = "4"
+            };
+            testClient3 = new FullName
+            {
+                FirstName = "",
+                LastName = "c1",
+                Patronymic = ""
+            };
+            testClient4 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = "55"
+            };
 
-            Student.CreateNew("s1", c1);
-            Student.CreateNew("s2", c2);
-            Student.CreateNew("s3", c3);
+            Client c1 = Client.CreateNew(testClient1);
+            Client c2 = Client.CreateNew(testClient2);
+            Client c3 = Client.CreateNew(testClient3);
+
+            Student.CreateNew(testStudent1, c1);
+            Student.CreateNew(testStudent2, c2);
+            Student.CreateNew(testStudent3, c3);
         }
 
         [TestCase]
@@ -307,9 +372,9 @@ namespace Repetitorg.CoreTest
         public void GetCostPerHourFor_studentNotInOrder_throwsException()
         {
             var o1 = Order.CreateNew("o1");
-            var c1 = Client.CreateNew("tc2");
-            var s1 = Student.CreateNew("ts1", c1);
-            var s2 = Student.CreateNew("ts2", c1);
+            var c1 = Client.CreateNew(testClient4);
+            var s1 = Student.CreateNew(testStudent4, c1);
+            var s2 = Student.CreateNew(testStudent5, c1);
             o1.AddStudent(s2, 100000);
             var exception = Assert.Throws<ArgumentException>(
                 () => o1.GetCostPerHourFor(s1)
@@ -324,8 +389,8 @@ namespace Repetitorg.CoreTest
         public void GetCostPerHourFor_studentInOrder_returnCorrectCost()
         {
             var o1 = Order.CreateNew("o1");
-            var c1 = Client.CreateNew("tc1");
-            var s1 = Student.CreateNew("ts1", c1);
+            var c1 = Client.CreateNew(testClient4);
+            var s1 = Student.CreateNew(testStudent4, c1);
             o1.AddStudent(s1, 300000);
             Assert.AreEqual(300000, o1.GetCostPerHourFor(s1));
         }

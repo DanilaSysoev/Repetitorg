@@ -14,6 +14,14 @@ namespace Repetitorg.CoreTest
         private DummyLessonStorage lessons;
         private DummyPersonStorage<Client> clients;
         private DummyPersonStorage<Student> students;
+
+        FullName testStudent1;
+        FullName testStudent2;
+        FullName testStudent3;
+        FullName testClient1;
+        FullName testClient2;
+        FullName testClient3;
+
         [SetUp]
         public void Setup()
         {
@@ -25,6 +33,43 @@ namespace Repetitorg.CoreTest
             Lesson.SetupStorage(lessons);
             Client.SetupStorage(clients);
             Student.SetupStorage(students);
+
+            testStudent1 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = ""
+            };
+            testStudent2 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = "1"
+            };
+            testStudent3 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = "2"
+            };
+            testClient1 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = "3"
+            };
+            testClient2 = new FullName
+            {
+                FirstName = "Student",
+                LastName = "Test",
+                Patronymic = "4"
+            };
+            testClient3 = new FullName
+            {
+                FirstName = "",
+                LastName = "c1",
+                Patronymic = ""
+            };
         }
         
         #region CreateNew Tests
@@ -768,12 +813,12 @@ namespace Repetitorg.CoreTest
         {
             Order o1 = Order.CreateNew("test order 1");
             Order o2 = Order.CreateNew("test order 2");
-            Client c1 = Client.CreateNew("tc1");
-            Client c2 = Client.CreateNew("tc2");
-            Client c3 = Client.CreateNew("tc3");
-            Student s1 = Student.CreateNew("ts1", c1);
-            Student s2 = Student.CreateNew("ts2", c2);
-            Student s3 = Student.CreateNew("ts3", c3);
+            Client c1 = Client.CreateNew(testClient1);
+            Client c2 = Client.CreateNew(testClient2);
+            Client c3 = Client.CreateNew(testClient3);
+            Student s1 = Student.CreateNew(testStudent1, c1);
+            Student s2 = Student.CreateNew(testStudent2, c2);
+            Student s3 = Student.CreateNew(testStudent3, c3);
             o1.AddStudent(s1, 300000);
             o1.AddStudent(s3, 400000);
             o2.AddStudent(s2, 350000);
@@ -800,12 +845,12 @@ namespace Repetitorg.CoreTest
         {
             Order o1 = Order.CreateNew("test order 1");
             Order o2 = Order.CreateNew("test order 2");
-            Client c1 = Client.CreateNew("tc1");
-            Client c2 = Client.CreateNew("tc2");
-            Client c3 = Client.CreateNew("tc3");
-            Student s1 = Student.CreateNew("ts1", c1);
-            Student s2 = Student.CreateNew("ts2", c2);
-            Student s3 = Student.CreateNew("ts3", c3);
+            Client c1 = Client.CreateNew(testClient1);
+            Client c2 = Client.CreateNew(testClient2);
+            Client c3 = Client.CreateNew(testClient3);
+            Student s1 = Student.CreateNew(testStudent1, c1);
+            Student s2 = Student.CreateNew(testStudent2, c2);
+            Student s3 = Student.CreateNew(testStudent3, c3);
             o1.AddStudent(s1, 300000);
             o1.AddStudent(s3, 400000);
             o2.AddStudent(s2, 350000);
@@ -831,12 +876,12 @@ namespace Repetitorg.CoreTest
         {
             Order o1 = Order.CreateNew("test order 1");
             Order o2 = Order.CreateNew("test order 2");
-            Client c1 = Client.CreateNew("tc1");
-            Client c2 = Client.CreateNew("tc2");
-            Client c3 = Client.CreateNew("tc3");
-            Student s1 = Student.CreateNew("ts1", c1);
-            Student s2 = Student.CreateNew("ts2", c2);
-            Student s3 = Student.CreateNew("ts3", c3);
+            Client c1 = Client.CreateNew(testClient1);
+            Client c2 = Client.CreateNew(testClient2);
+            Client c3 = Client.CreateNew(testClient3);
+            Student s1 = Student.CreateNew(testStudent1, c1);
+            Student s2 = Student.CreateNew(testStudent2, c2);
+            Student s3 = Student.CreateNew(testStudent3, c3);
             o1.AddStudent(s1, 100);
             o1.AddStudent(s3, 200);
             o2.AddStudent(s2, 350000);
@@ -1471,12 +1516,12 @@ namespace Repetitorg.CoreTest
         {
             Order o1 = Order.CreateNew("test order 1");
             Order o2 = Order.CreateNew("test order 2");
-            Client c1 = Client.CreateNew("tc1");
-            Client c2 = Client.CreateNew("tc2");
-            Client c3 = Client.CreateNew("tc3");
-            Student s1 = Student.CreateNew("ts1", c1);
-            Student s2 = Student.CreateNew("ts2", c2);
-            Student s3 = Student.CreateNew("ts3", c3);
+            Client c1 = Client.CreateNew(testClient1);
+            Client c2 = Client.CreateNew(testClient2);
+            Client c3 = Client.CreateNew(testClient3);
+            Student s1 = Student.CreateNew(testStudent1, c1);
+            Student s2 = Student.CreateNew(testStudent2, c2);
+            Student s3 = Student.CreateNew(testStudent3, c3);
             o1.AddStudent(s1, 300000);
             o1.AddStudent(s3, 400000);
             o2.AddStudent(s2, 350000);
