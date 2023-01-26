@@ -201,4 +201,12 @@
 		+ Creating with existing date, doc type and doc id throws error
 	+ Equals two payments when date, doc type and doc id equals
 	+ ToString return "<Date>: <Summ>"
+	+ Payment document type
+	    + Creating with name
+		    + Empty name throws error
+			+ Null name throws error
+			+ Creating new add it to db
+			+ Creating with existing name throws error
+		+ Equals by names
+		+ ToString return name
 	

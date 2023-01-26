@@ -19,7 +19,7 @@ namespace Repetitorg.Core
         {
             Date = date;
             SummInKopeks = valueInKopeks;
-            documentType = DocumentType;
+            DocumentType = documentType;
             DocumentId = documentId;
         }
 

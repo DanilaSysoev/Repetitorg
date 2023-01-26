@@ -15,6 +15,7 @@ namespace Storage.SQLite
         private StudentSqliteStorage studentStorage;
         private OrderSqliteStorage orderStorage;
         private LessonSqliteStorage lessonStorage;
+        private PaymentDocumentTypeSqliteStorage paymentDocumentTypeStorage;
         private PaymentSqliteStorage paymentStorage;
         private ProjectSqliteStorage projectStorage;
         private TaskSqliteStorage taskStorage;
@@ -35,6 +36,7 @@ namespace Storage.SQLite
             studentStorage = new StudentSqliteStorage();
             orderStorage = new OrderSqliteStorage();
             lessonStorage = new LessonSqliteStorage();
+            paymentDocumentTypeStorage = new PaymentDocumentTypeSqliteStorage();
             paymentStorage = new PaymentSqliteStorage();
             projectStorage = new ProjectSqliteStorage();
             taskStorage = new TaskSqliteStorage();
@@ -44,6 +46,7 @@ namespace Storage.SQLite
             storagesByType.Add(typeof(Student), studentStorage);
             storagesByType.Add(typeof(Order), orderStorage);
             storagesByType.Add(typeof(Lesson), lessonStorage);
+            storagesByType.Add(typeof(PaymentDocumentType), paymentDocumentTypeStorage);
             storagesByType.Add(typeof(Payment), paymentStorage);
             storagesByType.Add(typeof(Project), projectStorage);
             storagesByType.Add(typeof(Task), taskStorage);
@@ -55,6 +58,7 @@ namespace Storage.SQLite
             Student.SetupStorage(studentStorage);
             Order.SetupStorage(orderStorage);
             Lesson.SetupStorage(lessonStorage);
+            PaymentDocumentType.SetupStorage(paymentDocumentTypeStorage);
             Payment.SetupStorage(paymentStorage);
             Project.SetupStorage(projectStorage);
             Task.SetupStorage(taskStorage);
@@ -86,6 +90,7 @@ namespace Storage.SQLite
                 CreateStudentTable();
                 CreateOrderTable();
                 CreateLessonTable();
+                CreatePaymentDocumentTypeTable();
                 CreatePaymentTable();
                 CreateProjectTable();
                 CreateTaskTable();
@@ -230,7 +235,7 @@ namespace Storage.SQLite
                 command.ExecuteNonQuery();
             }
         }
-        private void CreatePaymentTable()
+        private void CreatePaymentDocumentTypeTable()
         {
             using (var connection =
                 new SqliteConnection(string.Format("Data Source={0}", pathToDbFile))
@@ -242,7 +247,19 @@ namespace Storage.SQLite
                     "CREATE TABLE IF NOT EXISTS " +
                     "PaymentDocument(" +
                         "id INTEGER PRIMARY KEY, " +
-                        "documentType TEXT NOT NULL);\n" +
+                        "documentType TEXT NOT NULL);" +                    
+                command.ExecuteNonQuery();
+            }
+        }
+        private void CreatePaymentTable()
+        {
+            using (var connection =
+                new SqliteConnection(string.Format("Data Source={0}", pathToDbFile))
+            )
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText =
                     "CREATE TABLE IF NOT EXISTS " +
                     "Payment(" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -252,17 +269,7 @@ namespace Storage.SQLite
                         "documentId TEXT NOT NULL, " +
                         "clientId INTEGER NOT NULL, " +
                         "FOREIGN KEY(documentTypeId) REFERENCES PaymentDocument (id) ON DELETE RESTRICT, " +
-                        "FOREIGN KEY(clientId) REFERENCES Client (id) ON DELETE RESTRICT);\n";
-                var docTypes = Enum.GetNames(typeof(PaymentDocumentType));
-                for (int i = 0; i < docTypes.Length; ++i)
-                {
-                    command.CommandText +=
-                        string.Format(
-                            "INSERT INTO PaymentDocument (id, documentType) VALUES ({0}, '{1}');\n",
-                            i,
-                            docTypes[i]
-                        );
-                }
+                        "FOREIGN KEY(clientId) REFERENCES Client (id) ON DELETE RESTRICT);";
                 command.ExecuteNonQuery();
             }
         }
@@ -310,6 +317,7 @@ namespace Storage.SQLite
             studentStorage.Load(pathToDbFile);
             orderStorage.Load(pathToDbFile);
             lessonStorage.Load(pathToDbFile);
+            paymentDocumentTypeStorage.Load(pathToDbFile);
             paymentStorage.Load(pathToDbFile);
             projectStorage.Load(pathToDbFile);
             taskStorage.Load(pathToDbFile);

@@ -10,12 +10,19 @@ namespace Repetitorg.CoreTest
     class PaymentTests
     {
         DummyPaymentStorage payments;
+        DummyPaymentDocumentTypeStorage paymentDocuments;
+
+        PaymentDocumentType paymentOrder;
 
         [SetUp]
         public void Initialize()
         {
             payments = new DummyPaymentStorage();
+            paymentDocuments = new DummyPaymentDocumentTypeStorage();
             Payment.SetupStorage(payments);
+            PaymentDocumentType.SetupStorage(paymentDocuments);
+
+            paymentOrder = PaymentDocumentType.CreateNew("PaymentOrder");
         }
 
         [TestCase]
@@ -25,14 +32,14 @@ namespace Repetitorg.CoreTest
             Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 3920,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "123"
             );
             Assert.AreEqual(1, Payment.Count);
             Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 3920,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "111"
             );
             Assert.AreEqual(2, Payment.Count);
@@ -45,7 +52,7 @@ namespace Repetitorg.CoreTest
                     () => Payment.CreateNew(
                              new DateTime(2022, 02, 01),
                              0,
-                             PaymentDocumentType.PaymentOrder,
+                             paymentOrder,
                              "123"
                          )
                 );
@@ -61,7 +68,7 @@ namespace Repetitorg.CoreTest
                     () => Payment.CreateNew(
                              new DateTime(2022, 02, 01),
                              1000,
-                             PaymentDocumentType.PaymentOrder,
+                             paymentOrder,
                              null
                          )
                 );
@@ -76,7 +83,7 @@ namespace Repetitorg.CoreTest
             Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 1000,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "123"
             );
             Assert.AreEqual(addCnt + 1, payments.AddCount);
@@ -87,12 +94,12 @@ namespace Repetitorg.CoreTest
             var payment = Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 1000,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "123"
             );
             Assert.AreEqual(new DateTime(2022, 02, 01), payment.Date);
             Assert.AreEqual(1000, payment.SummInKopeks);
-            Assert.AreEqual(PaymentDocumentType.PaymentOrder, payment.DocumentType);
+            Assert.AreEqual(paymentOrder, payment.DocumentType);
             Assert.AreEqual("123", payment.DocumentId);
         }
         [TestCase]
@@ -101,7 +108,7 @@ namespace Repetitorg.CoreTest
             var payment = Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 1000,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "123"
             );
             var exception =
@@ -109,7 +116,7 @@ namespace Repetitorg.CoreTest
                     () => Payment.CreateNew(
                              new DateTime(2022, 02, 01),
                             1000,
-                            PaymentDocumentType.PaymentOrder,
+                            paymentOrder,
                             "123"
                          )
                 );
@@ -123,14 +130,14 @@ namespace Repetitorg.CoreTest
             var payment1 = Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 1000,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "123"
             );
             Payment.Remove(payment1);
             var payment2 = Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 1000,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "123"
             );
 
@@ -142,13 +149,13 @@ namespace Repetitorg.CoreTest
             var payment1 = Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 1000,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "123"
             );
             var payment2 = Payment.CreateNew(
                 new DateTime(2022, 03, 01),
                 1000,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "123"
             );
 
@@ -160,13 +167,13 @@ namespace Repetitorg.CoreTest
             var payment1 = Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 1000,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "123"
             );
             var payment2 = Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 10000,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "123"
             );
 
@@ -178,13 +185,13 @@ namespace Repetitorg.CoreTest
             var payment1 = Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 1000,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "123"
             );
             var payment2 = Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 1000,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "111"
             );
 
@@ -197,7 +204,7 @@ namespace Repetitorg.CoreTest
             var payment = Payment.CreateNew(
                 new DateTime(2022, 02, 01),
                 1000,
-                PaymentDocumentType.PaymentOrder,
+                paymentOrder,
                 "123"
             );
 
