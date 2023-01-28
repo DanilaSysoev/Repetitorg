@@ -43,53 +43,53 @@ namespace Repetitorg.CoreTest
             paymentOrder = PaymentDocumentType.CreateNew("PaymentOrder");
 
             phoneNumber1 = new PhoneNumber
-            {
-                CountryCode = 7,
-                OperatorCode = 900,
-                Number = 1112233
-            };
+            (
+                countryCode: 7,
+                operatorCode: 900,
+                number: 1112233
+            );
             phoneNumber2 = new PhoneNumber
-            {
-                CountryCode = 7,
-                OperatorCode = 999,
-                Number = 1234567
-            };
+            (
+                countryCode: 7,
+                operatorCode: 999,
+                number: 1234567
+            );
             phoneNumber3 = new PhoneNumber
-            {
-                CountryCode = 7,
-                OperatorCode = 800,
-                Number = 0000000
-            };
+            (
+                countryCode: 7,
+                operatorCode: 800,
+                number: 0000000
+            );
             phoneNumber4 = new PhoneNumber
-            {
-                CountryCode = 1,
-                OperatorCode = 234,
-                Number = 5678901
-            };
+            (
+                countryCode: 1,
+                operatorCode: 234,
+                number: 5678901
+            );
             phoneNumber5 = new PhoneNumber
-            {
-                CountryCode = 2,
-                OperatorCode = 345,
-                Number = 6789012
-            };
+            (
+                countryCode: 2,
+                operatorCode: 345,
+                number: 6789012
+            );
             ivanovII = new FullName
-            {
-                FirstName = "Иван",
-                LastName = "Иванов",
-                Patronymic = "Иванович"
-            };
+            (
+                firstName: "Иван",
+                lastName: "Иванов",
+                patronymic: "Иванович"
+            );
             petrovPP = new FullName
-            {
-                FirstName = "Петр",
-                LastName = "Петров",
-                Patronymic = "Петрович"
-            };
+            (
+                firstName: "Петр",
+                lastName: "Петров",
+                patronymic: "Петрович"
+            );
             petrovaAI = new FullName
-            {
-                FirstName = "Анастасия",
-                LastName = "Петрова",
-                Patronymic = "Владимировна"
-            };
+            (
+                firstName: "Анастасия",
+                lastName: "Петрова",
+                patronymic: "Владимировна"
+            );
 
         }
 
@@ -519,8 +519,33 @@ namespace Repetitorg.CoreTest
         {
             var client = CreateClient();
             Assert.AreEqual(null, client.PersonData.PhoneNumber);
-            client.PersonData.PhoneNumber = phoneNumber1;
+            client.PersonData.ChangePhoneNumber(phoneNumber1);
             Assert.AreEqual(phoneNumber1, client.PersonData.PhoneNumber);
+        }
+        [TestCase]
+        public void PhoneNumber_ChangePhoneNumber_ClientIsUpdated()
+        {
+            var client = CreateClient();
+            int updOld = clients.UpdatesCount;
+            client.PersonData.ChangePhoneNumber(phoneNumber1);
+            Assert.AreEqual(updOld + 1, clients.UpdatesCount);
+        }
+
+        [TestCase]
+        public void PhoneNumber_ChangeFullName_FullNameIsCorrect()
+        {
+            var client = CreateClient();
+            Assert.AreEqual(ivanovII, client.PersonData.FullName);
+            client.PersonData.ChangeFullName(petrovPP);
+            Assert.AreEqual(petrovPP, client.PersonData.FullName);
+        }
+        [TestCase]
+        public void PhoneNumber_ChangeFullName_ClientIsUpdated()
+        {
+            var client = CreateClient();
+            int updOld = clients.UpdatesCount;
+            client.PersonData.ChangeFullName(petrovPP);
+            Assert.AreEqual(updOld + 1, clients.UpdatesCount);
         }
 
         [TestCase]

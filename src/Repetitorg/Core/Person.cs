@@ -24,13 +24,9 @@ namespace Repetitorg.Core
             {
                 return phoneNumber;
             }
-            set
-            {
-                if (value == null)
-                    throw new InvalidPhoneNumberException("PhoneNumber can't be null");
-                phoneNumber = value;
-            }
         }
+
+        internal event Action Update;
 
         internal Person(FullName fullName, PhoneNumber phoneNumber)
         {
@@ -60,6 +56,24 @@ namespace Repetitorg.Core
         public override string ToString()
         {
             return string.Format("{0}, {1}", fullName, phoneNumber == null ? "" : phoneNumber.ToString());
+        }
+
+        public void ChangePhoneNumber(PhoneNumber newNumber)
+        {
+            phoneNumber = newNumber;
+            Update();
+        }
+        public void ChangeFullName(FullName newName)
+        {
+            CheckConditionsForChangeFullName(newName);
+            fullName = newName;
+            Update();
+        }
+        private void CheckConditionsForChangeFullName(FullName fullName)
+        {
+            new Checker()
+                .AddNull(fullName, "Full name can't be NULL")
+                .Check();
         }
     }
 }

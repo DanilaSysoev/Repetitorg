@@ -39,78 +39,78 @@ namespace Repetitorg.CoreTest
             Client.SetupStorage(clients);
 
             testStudent = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = ""
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: ""
+            );
             testStudent1 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "1"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "1"
+            );
             testStudent2 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "2"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "2"
+            );
             testStudent3 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "3"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "3"
+            );
             testStudent4 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "4"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "4"
+            );
             ivanovII = new FullName
-            {
-                FirstName = "Иван",
-                LastName = "Иванов",
-                Patronymic = "Иванович"
-            };
+            (
+                firstName: "Иван",
+                lastName: "Иванов",
+                patronymic: "Иванович"
+            );
             c1 = new FullName
-            {
-                FirstName = "",
-                LastName = "c1",
-                Patronymic = ""
-            };
+            (
+                firstName: "",
+                lastName: "c1",
+                patronymic: ""
+            );
 
             phoneNumber1 = new PhoneNumber
-            {
-                CountryCode = 7,
-                OperatorCode = 900,
-                Number = 1112233
-            };
+            (
+                countryCode: 7,
+                operatorCode: 900,
+                number: 1112233
+            );
             phoneNumber2 = new PhoneNumber
-            {
-                CountryCode = 7,
-                OperatorCode = 999,
-                Number = 1234567
-            };
+            (
+                countryCode: 7,
+                operatorCode: 999,
+                number: 1234567
+            );
             phoneNumber3 = new PhoneNumber
-            {
-                CountryCode = 7,
-                OperatorCode = 800,
-                Number = 0000000
-            };
+            (
+                countryCode: 7,
+                operatorCode: 800,
+                number: 0000000
+            );
             phoneNumber4 = new PhoneNumber
-            {
-                CountryCode = 1,
-                OperatorCode = 234,
-                Number = 5678901
-            };
+            (
+                countryCode: 1,
+                operatorCode: 234,
+                number: 5678901
+            );
             phoneNumber5 = new PhoneNumber
-            {
-                CountryCode = 2,
-                OperatorCode = 345,
-                Number = 6789012
-            };
+            (
+                countryCode: 2,
+                operatorCode: 345,
+                number: 6789012
+            );
 
         }
 

@@ -6,9 +6,20 @@ namespace Repetitorg.Core
 {
     public class PhoneNumber
     {
-        public long CountryCode { get; set; }
-        public long OperatorCode { get; set; }
-        public long Number { get; set; }
+        public long CountryCode { get; private set; }
+        public long OperatorCode { get; private set; }
+        public long Number { get; private set; }
+
+        public PhoneNumber(
+            long countryCode,
+            long operatorCode,
+            long number
+        )
+        {
+            CountryCode = countryCode;
+            OperatorCode = operatorCode;
+            Number = number;
+        }
 
         public override string ToString()
         {

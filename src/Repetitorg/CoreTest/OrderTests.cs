@@ -40,59 +40,59 @@ namespace Repetitorg.CoreTest
             Order.SetupStorage(orders);
 
             testStudent1 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = ""
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: ""
+            );
             testStudent2 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "1"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "1"
+            );
             testStudent3 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "2"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "2"
+            );
             testStudent4 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "44"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "44"
+            );
             testStudent5 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "444"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "444"
+            );
             testClient1 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "3"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "3"
+            );
             testClient2 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "4"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "4"
+            );
             testClient3 = new FullName
-            {
-                FirstName = "",
-                LastName = "c1",
-                Patronymic = ""
-            };
+            (
+                firstName: "",
+                lastName: "c1",
+                patronymic: ""
+            );
             testClient4 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "55"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "55"
+            );
 
             Client c1 = Client.CreateNew(testClient1);
             Client c2 = Client.CreateNew(testClient2);

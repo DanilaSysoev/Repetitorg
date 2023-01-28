@@ -96,6 +96,7 @@ namespace Repetitorg.Core
         {
             this.client = client;
             this.personData = new Person(fullName, phoneNumber);
+            personData.Update += () => storage.Update(this);
         }
 
         private Client client;

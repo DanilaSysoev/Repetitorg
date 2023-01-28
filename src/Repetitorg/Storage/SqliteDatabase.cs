@@ -108,10 +108,10 @@ namespace Storage.SQLite
                     "CREATE TABLE IF NOT EXISTS " +
                     "PhoneNumber(" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "phoneCountryCode INTEGER NOT NULL, " +
-                        "phoneOperatorCode INTEGER NOT NULL, " +
-                        "phoneNumber INTEGER NOT NULL, " +
-                        "UNIQUE (phoneCountryCode, phoneOperatorCode, phoneNumber));";
+                        "countryCode INTEGER NOT NULL, " +
+                        "operatorCode INTEGER NOT NULL, " +
+                        "number INTEGER NOT NULL, " +
+                        "UNIQUE (countryCode, operatorCode, number));";
                 command.ExecuteNonQuery();
             }
         }
@@ -130,7 +130,7 @@ namespace Storage.SQLite
                         "firstName TEXT NOT NULL, " +
                         "lastName TEXT, " +
                         "patronymic TEXT, " +
-                        "phoneNumberId INTEGER UNIQUE NOT NULL, " +
+                        "phoneNumberId INTEGER, " +
                         "FOREIGN KEY (phoneNumberId) REFERENCES PhoneNumber (id) ON DELETE SET NULL)";
                 command.ExecuteNonQuery();
             }
@@ -147,7 +147,7 @@ namespace Storage.SQLite
                     "CREATE TABLE IF NOT EXISTS " +
                     "Client(" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "balabceInCopex INTEGER DEFAULT 0, " +
+                        "balabceInKopeks INTEGER DEFAULT 0, " +
                         "personDataId INTEGER UNIQUE NOT NULL, " +
                         "FOREIGN KEY (personDataId) REFERENCES PersonData (id) ON DELETE RESTRICT)";
                 command.ExecuteNonQuery();

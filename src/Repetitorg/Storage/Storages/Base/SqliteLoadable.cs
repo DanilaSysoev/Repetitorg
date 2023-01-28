@@ -34,7 +34,7 @@ namespace Storage.SQLite.Storages.Base
             string tableName,
             SqliteConnection connection,
             Func<SqliteDataReader, T> entityBuilder
-        ) where T : EntityWithId
+        )where T : EntityWithId
         {
             var command = connection.CreateCommand();
             command.CommandText =
@@ -47,6 +47,33 @@ namespace Storage.SQLite.Storages.Base
                 entities.Add(entity.Id, entity);
             }
             return entities;
+        }
+
+        public static T ReadEntity<T>(
+            string tableName,
+            string pathToDb,
+            Func<SqliteDataReader, T> entityBuilder,
+            long id
+        )
+        {
+            T result;
+            using (var connection =
+                new SqliteConnection(string.Format("Data Source={0}", pathToDb))
+            )
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText =
+                    "SELECT * FROM " + tableName + " WHERE id=" + id + ";";
+                var reader = command.ExecuteReader();
+                var entities = new List<T>();
+                if (!reader.Read())
+                    result = default(T);
+                else 
+                    result = entityBuilder(reader);
+                connection.Close();
+            }
+            return result;
         }
 
         public static void RemoveEntity<T>(
@@ -86,8 +113,7 @@ namespace Storage.SQLite.Storages.Base
             string pathToDb
         )
         {
-            string columnsString = BuildArgumentList(columnNames);
-            string valuesString = BuildArgumentList(values);
+            string insertLine = BuildInsertList(columnNames, values);
             long id = -1;
             using (var connection =
                 new SqliteConnection(string.Format("Data Source={0}", pathToDb))
@@ -96,8 +122,7 @@ namespace Storage.SQLite.Storages.Base
                 connection.Open();
                 var command = connection.CreateCommand();
                 command.CommandText =
-                    "INSERT INTO " + tableName + " " + columnsString + " " +
-                    "VALUES " + valuesString + ";";
+                    "INSERT INTO " + tableName + " " + insertLine + ";";
                 if (command.ExecuteNonQuery() != 1)
                     throw new InvalidOperationException("Entity from " + tableName + " not removed");
 
@@ -110,12 +135,58 @@ namespace Storage.SQLite.Storages.Base
             return id;
         }
 
-        private static string BuildArgumentList(object[] values)
+        public static void UpdateSet(
+            string tableName,
+            string[] columnNames,
+            object[] values,
+            string pathToDb
+        )
+        {
+            string updateList = BuildUpdateList(columnNames, values);            
+            using (var connection =
+                new SqliteConnection(string.Format("Data Source={0}", pathToDb))
+            )
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText =
+                    "UPDATE " + tableName + " SET " + updateList + ";";
+                if (command.ExecuteNonQuery() != 1)
+                    throw new InvalidOperationException("Entity from " + tableName + " not removed");
+            }            
+        }
+
+        private static string BuildInsertList(string[] columns, object[] values)
         {
             StringBuilder resultString = new StringBuilder("(");
-            for (int i = 0; i < values.Length - 1; ++i)
-                resultString.Append(values[i]).Append(", ");
-            resultString.Append(values[values.Length - 1]).Append(')');
+            for (int i = 0; i < values.Length; ++i)
+            {
+                if(values[i] != null)
+                    resultString.Append(columns[i]).Append(", ");
+            }
+            resultString.Remove(resultString.Length - 2, 2);
+            resultString.Append(") VALUES (");
+
+            for (int i = 0; i < values.Length; ++i)
+            {
+                if (values[i] != null)
+                    resultString.Append("'").Append(values[i]).Append("', ");
+            }
+            resultString.Remove(resultString.Length - 2, 2);
+            resultString.Append(")");
+            return resultString.ToString();
+        }
+        private static string BuildUpdateList(string[] columns, object[] values)
+        {
+            StringBuilder resultString = new StringBuilder();
+            for (int i = 0; i < values.Length; ++i)
+            {
+                resultString.Append(columns[i])
+                            .Append(" = '")
+                            .Append(values[i])
+                            .Append("', ");
+            }
+            resultString.Remove(resultString.Length - 2, 2);
             return resultString.ToString();
         }
     }

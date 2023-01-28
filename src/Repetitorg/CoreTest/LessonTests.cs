@@ -35,41 +35,41 @@ namespace Repetitorg.CoreTest
             Student.SetupStorage(students);
 
             testStudent1 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = ""
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: ""
+            );
             testStudent2 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "1"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "1"
+            );
             testStudent3 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "2"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "2"
+            );
             testClient1 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "3"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "3"
+            );
             testClient2 = new FullName
-            {
-                FirstName = "Student",
-                LastName = "Test",
-                Patronymic = "4"
-            };
+            (
+                firstName: "Student",
+                lastName: "Test",
+                patronymic: "4"
+            );
             testClient3 = new FullName
-            {
-                FirstName = "",
-                LastName = "c1",
-                Patronymic = ""
-            };
+            (
+                firstName: "",
+                lastName: "c1",
+                patronymic: ""
+            );
         }
         
         #region CreateNew Tests

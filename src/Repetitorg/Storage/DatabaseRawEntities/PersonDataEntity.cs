@@ -9,7 +9,7 @@ namespace Storage.SQLite.DatabaseRawEntities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Patronymic { get; set; }
-        public long PhoneNumberId { get; set; }
+        public long? PhoneNumberId { get; set; }
 
         public override string ToString()
         {

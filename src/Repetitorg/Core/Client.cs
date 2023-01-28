@@ -181,6 +181,7 @@ namespace Repetitorg.Core
         {
             balanceInKopeks = 0;
             personData = new Person(fullName, phoneNumber);
+            personData.Update += () => storage.Update(this);
         }
 
         private long balanceInKopeks;

@@ -22,7 +22,72 @@ namespace Storage.SQLite.Storages
 
         public long Add(Client entity)
         {
-            return -1;
+            var phoneNumber = entity.PersonData.PhoneNumber;
+            var personData = entity.PersonData;
+            long personDataId = -1;
+            long? phoneNumberId = null;
+            if (phoneNumber != null)
+                phoneNumberId = InsertPhoneNumber(phoneNumber);
+            personDataId = InsertPersonData(personData, phoneNumberId);
+
+            return InsertClient(entity, personDataId);
+        }
+
+        private long InsertPhoneNumber(PhoneNumber phoneNumber)
+        {
+            return InsertInto(
+                       "PhoneNumber",
+                       new string[] {
+                           "countryCode",
+                           "operatorCode",
+                           "number"
+                       },
+                       new object[]
+                       {
+                           phoneNumber.CountryCode,
+                           phoneNumber.OperatorCode,
+                           phoneNumber.Number
+                       },
+                       pathToDb
+                   );
+        }
+        private long InsertPersonData(
+            Person personData, long? phoneNumberId
+        )
+        {
+            return InsertInto(
+                       "PersonData",
+                       new string[] {
+                           "firstName",
+                           "lastName",
+                           "patronymic",
+                           "phoneNumberId"
+                       },
+                       new object[]
+                       {
+                           personData.FullName.FirstName,
+                           personData.FullName.LastName,
+                           personData.FullName.Patronymic,
+                           phoneNumberId
+                       },
+                       pathToDb
+                   );
+        }
+        private long InsertClient(Client client, long personDataId)
+        {
+            return InsertInto(
+                       "Client",
+                       new string[] {
+                           "balabceInKopeks",
+                           "personDataId"
+                       },
+                       new object[]
+                       {
+                           client.BalanceInKopeks,
+                           personDataId
+                       },
+                       pathToDb
+                   );
         }
 
         public IList<Client> Filter(Predicate<Client> predicate)
@@ -74,26 +139,27 @@ namespace Storage.SQLite.Storages
             foreach(var clientEntity in clientEntities)
             {
                 var personData = personDataEntities[clientEntity.PersonDataId];
-                var phoneNumber = phoneNumberEntities[
-                    personDataEntities[clientEntity.PersonDataId].PhoneNumberId
-                ];
+                var phoneNumber = personData.PhoneNumberId.HasValue ?
+                    phoneNumberEntities[
+                        personData.PhoneNumberId.Value
+                    ] : null;
+
                 clients.Add(
                     clientEntity.Id,
                     Client.CreateLoaded(
                         clientEntity.Id,
                         clientEntity.BalanceInKopeks,
-                        new FullName
-                        {
-                            FirstName = personData.FirstName,
-                            LastName = personData.LastName,
-                            Patronymic = personData.Patronymic,
-                        },
-                        new PhoneNumber
-                        {
-                            CountryCode = phoneNumber.CountryCode,
-                            OperatorCode = phoneNumber.OperatorCode,
-                            Number = phoneNumber.Number
-                        }
+                        new FullName (
+                            personData.FirstName,
+                            personData.LastName,
+                            personData.Patronymic
+                        ),
+                        phoneNumber != null ?
+                        new PhoneNumber (
+                            phoneNumber.CountryCode,
+                            phoneNumber.OperatorCode,
+                            phoneNumber.Number
+                        ) : null
                     )
                 );
             }
@@ -113,14 +179,17 @@ namespace Storage.SQLite.Storages
         private static PersonDataEntity 
             BuildPersonDataEntity(SqliteDataReader personDataReader)
         {
-            return new PersonDataEntity
-            {
-                Id = personDataReader.GetInt64(0),
-                FirstName = personDataReader.GetString(1),
-                LastName = personDataReader.GetString(2),
-                Patronymic = personDataReader.GetString(3),
-                PhoneNumberId = personDataReader.GetInt64(4)
-            };
+            var personData = new PersonDataEntity
+                {
+                    Id = personDataReader.GetInt64(0),
+                    FirstName = personDataReader.GetString(1),
+                    LastName = personDataReader.GetString(2),
+                    Patronymic = personDataReader.GetString(3),
+                    PhoneNumberId = null
+                };
+            if (!personDataReader.IsDBNull(4))
+                personData.PhoneNumberId = personDataReader.GetInt64(4);
+            return personData;
         }
         private static ClientEntity
             BuildClientEntity(SqliteDataReader personDataReader)
@@ -140,7 +209,26 @@ namespace Storage.SQLite.Storages
 
         public void Update(Client entity)
         {
-            throw new NotImplementedException();
+            ClientEntity oldClient = 
+                ReadEntity("Client", pathToDb, BuildClientEntity, entity.Id);
+            PersonDataEntity oldPersonData = 
+                ReadEntity(
+                    "PersonDAta", 
+                    pathToDb, 
+                    BuildPersonDataEntity, 
+                    oldClient.PersonDataId
+                );
+            PhoneNumberEntity oldPhoneNumber = null;
+            if (oldPersonData.PhoneNumberId.HasValue)
+            {
+                oldPhoneNumber =
+                    ReadEntity(
+                        "PhoneNumber",
+                        pathToDb,
+                        BuildPhoneNumberEntity,
+                        oldPersonData.PhoneNumberId.Value
+                    );
+            }
         }
     }
 }
