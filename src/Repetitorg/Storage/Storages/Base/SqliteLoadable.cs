@@ -189,5 +189,15 @@ namespace Storage.SQLite.Storages.Base
             resultString.Remove(resultString.Length - 2, 2);
             return resultString.ToString();
         }
+
+        protected long? InsertNote(string note, string pathToDb)
+        {
+            return InsertInto(
+                "Note",
+                new string[] { "noteText" },
+                new object[] { note },
+                pathToDb
+            );
+        }
     }
 }

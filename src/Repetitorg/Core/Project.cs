@@ -122,6 +122,8 @@ namespace Repetitorg.Core
         {
             this.name = name;
             this.completed = completed;
+
+            NotesUpdated += () => storage.Update(this);
         }
     }
 }

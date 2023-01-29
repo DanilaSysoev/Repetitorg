@@ -10,14 +10,14 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class ProjectTests
     {
-        private DummyTasksStorage tasks;
-        private DummyProjectStorage projects;
+        private DummyStorage<Task> tasks;
+        private DummyStorage<Project> projects;
 
         [SetUp]
         public void Setup()
         {
-            tasks = new DummyTasksStorage();
-            projects = new DummyProjectStorage();
+            tasks = new DummyStorage<Task>();
+            projects = new DummyStorage<Project>();
             Task.SetupStorage(tasks);
             Project.SetupStorage(projects);
         }
@@ -30,7 +30,7 @@ namespace Repetitorg.CoreTest
             Project.CreateNew("Test Project 2");
             Project.CreateNew("Test Project 3");
 
-            Project.SetupStorage(new DummyProjectStorage());
+            Project.SetupStorage(new DummyStorage<Project>());
 
             Assert.AreEqual(0, Project.Count);
         }
@@ -117,7 +117,7 @@ namespace Repetitorg.CoreTest
         public void Remove_RemoveNonExistent_NothingHappens()
         {
             Project p1 = Project.CreateNew("Test Project 1");
-            Project.SetupStorage(new DummyProjectStorage());
+            Project.SetupStorage(new DummyStorage<Project>());
 
             Project p2 = Project.CreateNew("Test Project 2");
             Project p3 = Project.CreateNew("Test Project 3");
@@ -252,6 +252,15 @@ namespace Repetitorg.CoreTest
             p1.Complete();
 
             Assert.IsTrue(p1.Completed);
+        }
+
+        [TestCase]
+        public void UpdateNotes_UpdateWithNotNull_UpdatecountIncrease()
+        {
+            Project p1 = Project.CreateNew("Test Project 1");
+            int oldUpdCnt = projects.UpdatesCount;
+            p1.UpdateNote("new note");
+            Assert.AreEqual(oldUpdCnt + 1, projects.UpdatesCount);
         }
     }
 }

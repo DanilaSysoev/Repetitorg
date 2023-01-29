@@ -65,6 +65,8 @@ namespace Repetitorg.Core
         private PaymentDocumentType(string documentTypeName)
         {
             Name = documentTypeName;
+
+            NotesUpdated += () => storage.Update(this);
         }
     }
 }

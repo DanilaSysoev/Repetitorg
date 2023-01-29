@@ -10,6 +10,18 @@ namespace Storage.SQLite.Storages
     class PaymentDocumentTypeSqliteStorage :
         SqliteLoadable, IStorage<PaymentDocumentType>
     {
+        private Dictionary<long, PaymentDocumentType> paymentDocumentTypes;
+        private string pathToDb;
+        private NoteBufferSqliteStorage noteStorage;
+
+        public PaymentDocumentTypeSqliteStorage(
+            NoteBufferSqliteStorage noteStorage
+        )
+        {
+            paymentDocumentTypes = new Dictionary<long, PaymentDocumentType>();
+            this.noteStorage = noteStorage;
+        }
+
         public long Add(PaymentDocumentType entity)
         {
             throw new NotImplementedException();

@@ -11,10 +11,10 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class OrderTests
     {
-        DummyPersonStorage<Student> students;
-        DummyPersonStorage<Client> clients;
-        DummyPaymentStorage payments;
-        DummyOrderStorage orders;
+        DummyStorage<Student> students;
+        DummyStorage<Client> clients;
+        DummyStorage<Payment> payments;
+        DummyStorage<Order> orders;
 
         FullName testStudent1;
         FullName testStudent2;
@@ -29,10 +29,10 @@ namespace Repetitorg.CoreTest
         [SetUp]
         public void Initialize()
         {
-            students = new DummyPersonStorage<Student>();
-            clients = new DummyPersonStorage<Client>();
-            payments = new DummyPaymentStorage();
-            orders = new DummyOrderStorage();
+            students = new DummyStorage<Student>();
+            clients = new DummyStorage<Client>();
+            payments = new DummyStorage<Payment>();
+            orders = new DummyStorage<Order>();
 
             Student.SetupStorage(students);
             Client.SetupStorage(clients);
@@ -169,7 +169,7 @@ namespace Repetitorg.CoreTest
         {
             var clients = Client.GetAll();
             Order order1 = Order.CreateNew("o1");
-            Order.SetupStorage(new DummyOrderStorage());
+            Order.SetupStorage(new DummyStorage<Order>());
             Order order2 = Order.CreateNew("o1");
             Assert.IsTrue(order1.Equals(order2));
         }
@@ -393,6 +393,15 @@ namespace Repetitorg.CoreTest
             var s1 = Student.CreateNew(testStudent4, c1);
             o1.AddStudent(s1, 300000);
             Assert.AreEqual(300000, o1.GetCostPerHourFor(s1));
+        }
+
+        [TestCase]
+        public void UpdateNotes_UpdateWithNotNull_UpdatecountIncrease()
+        {
+            var o1 = Order.CreateNew("o1");
+            int oldUpdCnt = orders.UpdatesCount;
+            o1.UpdateNote("new note");
+            Assert.AreEqual(oldUpdCnt + 1, orders.UpdatesCount);
         }
     }
 }

@@ -9,6 +9,16 @@ namespace Storage.SQLite.Storages
 {
     class LessonSqliteStorage : SqliteLoadable, IStorage<Lesson>
     {
+        private Dictionary<long, Lesson> lessons;
+        private string pathToDb;
+        private NoteBufferSqliteStorage noteStorage;
+
+        public LessonSqliteStorage(NoteBufferSqliteStorage noteStorage)
+        {
+            lessons = new Dictionary<long, Lesson>();
+            this.noteStorage = noteStorage;
+        }
+
         public long Add(Lesson entity)
         {
             throw new NotImplementedException();

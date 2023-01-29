@@ -46,6 +46,8 @@ namespace Repetitorg.Core
             LengthInMinutes = lengthInMinutes;
             Order = order;
             Status = LessonStatus.NonActive;
+
+            NotesUpdated += () => storage.Update(this);
         }
 
         public static Lesson CreateNew(

@@ -10,10 +10,10 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class LessonTests
     {
-        private DummyOrderStorage orders;
-        private DummyLessonStorage lessons;
-        private DummyPersonStorage<Client> clients;
-        private DummyPersonStorage<Student> students;
+        private DummyStorage<Order> orders;
+        private DummyStorage<Lesson> lessons;
+        private DummyStorage<Client> clients;
+        private DummyStorage<Student> students;
 
         FullName testStudent1;
         FullName testStudent2;
@@ -25,10 +25,10 @@ namespace Repetitorg.CoreTest
         [SetUp]
         public void Setup()
         {
-            orders = new DummyOrderStorage();
-            lessons = new DummyLessonStorage();
-            clients = new DummyPersonStorage<Client>();
-            students = new DummyPersonStorage<Student>();
+            orders = new DummyStorage<Order>();
+            lessons = new DummyStorage<Lesson>();
+            clients = new DummyStorage<Client>();
+            students = new DummyStorage<Student>();
             Order.SetupStorage(orders);
             Lesson.SetupStorage(lessons);
             Client.SetupStorage(clients);
@@ -3635,6 +3635,18 @@ namespace Repetitorg.CoreTest
         }
 
         #endregion
+
+        [TestCase]
+        public void UpdateNotes_UpdateWithNotNull_UpdatecountIncrease()
+        {
+            var o1 = Order.CreateNew("o1");
+            var l0 = Lesson.CreateNew(
+                new DateTime(2021, 10, 9, 12, 0, 0), 90, o1
+            );
+            int oldUpdCnt = lessons.UpdatesCount;
+            l0.UpdateNote("new note");
+            Assert.AreEqual(oldUpdCnt + 1, lessons.UpdatesCount);
+        }
 
     }
 }

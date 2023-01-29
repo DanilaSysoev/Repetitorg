@@ -12,10 +12,10 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class ClientTests
     {
-        DummyPersonStorage<Student> students;
-        DummyPersonStorage<Client> clients;
-        DummyPaymentStorage payments;
-        DummyPaymentDocumentTypeStorage paymentDocuments;
+        DummyStorage<Student> students;
+        DummyStorage<Client> clients;
+        DummyStorage<Payment> payments;
+        DummyStorage<PaymentDocumentType> paymentDocuments;
 
         PaymentDocumentType paymentOrder;
 
@@ -31,10 +31,10 @@ namespace Repetitorg.CoreTest
         [SetUp]
         public void Initialize()
         {
-            students = new DummyPersonStorage<Student>();
-            clients = new DummyPersonStorage<Client>();
-            payments = new DummyPaymentStorage();
-            paymentDocuments = new DummyPaymentDocumentTypeStorage();
+            students = new DummyStorage<Student>();
+            clients = new DummyStorage<Client>();
+            payments = new DummyStorage<Payment>();
+            paymentDocuments = new DummyStorage<PaymentDocumentType>();
             Student.SetupStorage(students);
             Client.SetupStorage(clients);
             Payment.SetupStorage(payments);
@@ -606,6 +606,15 @@ namespace Repetitorg.CoreTest
             var uc = clients.UpdatesCount;
             client.IncreaseBalance(100000);
             Assert.AreEqual(uc + 1, clients.UpdatesCount);
+        }
+
+        [TestCase]
+        public void UpdateNotes_UpdateWithNotNull_UpdatecountIncrease()
+        {
+            var client = CreateClient();
+            int oldUpdCnt = clients.UpdatesCount;
+            client.UpdateNote("new note");
+            Assert.AreEqual(oldUpdCnt + 1, clients.UpdatesCount);
         }
 
         private Client CreateClientWithPhoneNumber()

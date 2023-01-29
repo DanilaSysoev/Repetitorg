@@ -9,11 +9,11 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class PaymentDocumentTypeTests
     {
-        private DummyPaymentDocumentTypeStorage storage;
+        private DummyStorage<PaymentDocumentType> storage;
         [SetUp]
         public void Initialize()
         {
-            storage = new DummyPaymentDocumentTypeStorage();
+            storage = new DummyStorage<PaymentDocumentType>();
             PaymentDocumentType.SetupStorage(storage);
         }
 
@@ -113,6 +113,13 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual("Test type", docType.ToString());
         }
 
-
+        [TestCase]
+        public void UpdateNotes_UpdateWithNotNull_UpdatecountIncrease()
+        {
+            var docType = PaymentDocumentType.CreateNew("Test type");
+            int oldUpdCnt = storage.UpdatesCount;
+            docType.UpdateNote("new note");
+            Assert.AreEqual(oldUpdCnt + 1, storage.UpdatesCount);
+        }
     }
 }

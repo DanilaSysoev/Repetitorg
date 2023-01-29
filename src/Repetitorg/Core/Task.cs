@@ -28,7 +28,8 @@ namespace Repetitorg.Core
         }
 
         public static Task CreateLoaded(
-            long id, string name, DateTime date, bool complete, Project project
+            long id, string name, DateTime date, 
+            bool complete, Project project
         )
         {
             Task task = new Task(name, date.Date, complete, project);
@@ -36,10 +37,6 @@ namespace Repetitorg.Core
             return task;
         }
 
-        public static IList<Task> GetByDate(DateTime date)
-        {
-            return storage.Filter(t => t.Date.Equals(date));
-        }
         public void Complete()
         {
             completed = true;
@@ -64,6 +61,10 @@ namespace Repetitorg.Core
                 .Check(message => new InvalidOperationException(message));
         }
 
+        public static IList<Task> GetByDate(DateTime date)
+        {
+            return storage.Filter(t => t.Date.Equals(date));
+        }
         public static IList<Task> GetByProject(Project project)
         {
             return storage.Filter(t => t.Project == project);
@@ -121,7 +122,6 @@ namespace Repetitorg.Core
             return Date.ToString() + ": " + Name;
         }
 
-
         private string taskName;
         private DateTime date;
         private bool completed;
@@ -133,6 +133,8 @@ namespace Repetitorg.Core
             this.date = date;
             this.completed = completed;
             this.project = project;
+
+            NotesUpdated += () => storage.Update(this);
         }
     }
 }

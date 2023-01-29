@@ -61,13 +61,13 @@ namespace Repetitorg.Core
         public void ChangePhoneNumber(PhoneNumber newNumber)
         {
             phoneNumber = newNumber;
-            Update();
+            Update?.Invoke();
         }
         public void ChangeFullName(FullName newName)
         {
             CheckConditionsForChangeFullName(newName);
             fullName = newName;
-            Update();
+            Update?.Invoke();
         }
         private void CheckConditionsForChangeFullName(FullName fullName)
         {

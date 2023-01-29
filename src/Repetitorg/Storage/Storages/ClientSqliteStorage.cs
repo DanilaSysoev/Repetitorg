@@ -14,21 +14,27 @@ namespace Storage.SQLite.Storages
     {
         private Dictionary<long, Client> clients;
         private string pathToDb;
+        private NoteBufferSqliteStorage noteStorage;
 
-        public ClientSqliteStorage()
+        public ClientSqliteStorage(NoteBufferSqliteStorage noteStorage)
         {
             clients = new Dictionary<long, Client>();
+            this.noteStorage = noteStorage;
         }
 
         public long Add(Client entity)
         {
             var phoneNumber = entity.PersonData.PhoneNumber;
             var personData = entity.PersonData;
+            var note = entity.Note;
             long personDataId = -1;
             long? phoneNumberId = null;
+            long? noteId = null;
             if (phoneNumber != null)
                 phoneNumberId = InsertPhoneNumber(phoneNumber);
-            personDataId = InsertPersonData(personData, phoneNumberId);
+            if (note != "")
+                noteId = InsertNote(note, pathToDb);
+            personDataId = InsertPersonData(personData, phoneNumberId, noteId);
 
             return InsertClient(entity, personDataId);
         }
@@ -52,7 +58,7 @@ namespace Storage.SQLite.Storages
                    );
         }
         private long InsertPersonData(
-            Person personData, long? phoneNumberId
+            Person personData, long? phoneNumberId, long? noteId
         )
         {
             return InsertInto(
@@ -61,14 +67,16 @@ namespace Storage.SQLite.Storages
                            "firstName",
                            "lastName",
                            "patronymic",
-                           "phoneNumberId"
+                           "phoneNumberId",
+                           "noteId"
                        },
                        new object[]
                        {
                            personData.FullName.FirstName,
                            personData.FullName.LastName,
                            personData.FullName.Patronymic,
-                           phoneNumberId
+                           phoneNumberId,
+                           noteId
                        },
                        pathToDb
                    );

@@ -39,9 +39,9 @@ namespace Repetitorg.Core
             return personData.ToString();
         }
 
-
         public static Student CreateNew(
-            FullName fullName, Client client, PhoneNumber phoneNumber = null
+            FullName fullName, Client client,
+            PhoneNumber phoneNumber = null
         )
         {
             var student = new Student(fullName, phoneNumber, client);
@@ -68,7 +68,8 @@ namespace Repetitorg.Core
         }
 
         public static Student CreateLoaded(
-            long id, FullName fullName, Client client, PhoneNumber phoneNumber
+            long id, FullName fullName, Client client, 
+            PhoneNumber phoneNumber
         )
         {
             var student = new Student(fullName, phoneNumber, client);
@@ -97,6 +98,8 @@ namespace Repetitorg.Core
             this.client = client;
             this.personData = new Person(fullName, phoneNumber);
             personData.Update += () => storage.Update(this);
+            
+            NotesUpdated += () => storage.Update(this);
         }
 
         private Client client;

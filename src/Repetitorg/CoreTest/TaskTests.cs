@@ -11,14 +11,14 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class TaskTests
     {
-        private DummyTasksStorage tasks;
-        private DummyProjectStorage projects;
+        private DummyStorage<Task> tasks;
+        private DummyStorage<Project> projects;
 
         [SetUp]
         public void Setup()
         {
-            tasks = new DummyTasksStorage();
-            projects = new DummyProjectStorage();
+            tasks = new DummyStorage<Task>();
+            projects = new DummyStorage<Project>();
             Task.SetupStorage(tasks);
             Project.SetupStorage(projects);
         }
@@ -181,7 +181,7 @@ namespace Repetitorg.CoreTest
         public void Remove_RemoveNonexistent_NothingHappens()
         {
             Task taskOld = Task.CreateNew("2020/12/30 test task 1", new DateTime(2020, 12, 30));
-            tasks = new DummyTasksStorage();
+            tasks = new DummyStorage<Task>();
             Task.SetupStorage(tasks);
 
             Task task1 = Task.CreateNew("NEW 2020/12/30 test task 1", new DateTime(2020, 12, 30));
@@ -377,6 +377,49 @@ namespace Repetitorg.CoreTest
             Assert.AreEqual(2, tasks.Count);
             Assert.IsTrue(tasks.Contains(task2));
             Assert.IsTrue(tasks.Contains(task3));
-        }        
+        }
+
+        [TestCase]
+        public void Note_CreateTask_NoteIsEmpty()
+        {
+            Task task1 = Task.CreateNew(
+                "2020/12/30 test task 1", new DateTime(2020, 12, 30)
+            );
+
+            Assert.AreEqual("", task1.Note);
+        }
+        [TestCase]
+        public void UpdateNotes_UpdateWithNull_ThrowsError()
+        {
+            Task task1 = Task.CreateNew(
+                "2020/12/30 test task 1", new DateTime(2020, 12, 30)
+            );
+            var exception = Assert.Throws<ArgumentException>(
+                () => task1.UpdateNote(null)
+            );
+            Assert.IsTrue(
+                exception.Message.ToLower().Contains("note can't be null")
+            );
+        }
+        [TestCase]
+        public void UpdateNotes_UpdateWithNotNull_ValueUpdated()
+        {
+            Task task1 = Task.CreateNew(
+                "2020/12/30 test task 1", new DateTime(2020, 12, 30)
+            );
+
+            task1.UpdateNote("new note");
+            Assert.AreEqual("new note", task1.Note);
+        }
+        [TestCase]
+        public void UpdateNotes_UpdateWithNotNull_UpdatecountIncrease()
+        {
+            Task task1 = Task.CreateNew(
+                "2020/12/30 test task 1", new DateTime(2020, 12, 30)
+            );
+            int oldUpdCnt = tasks.UpdatesCount;
+            task1.UpdateNote("new note");
+            Assert.AreEqual(oldUpdCnt + 1, tasks.UpdatesCount);
+        }
     }
 }

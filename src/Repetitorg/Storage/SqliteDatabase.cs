@@ -11,6 +11,8 @@ namespace Storage.SQLite
 {
     public class SqliteDatabase : IDatabase
     {
+        private NoteBufferSqliteStorage noteStorage;
+
         private ClientSqliteStorage clientStorage;
         private StudentSqliteStorage studentStorage;
         private OrderSqliteStorage orderStorage;
@@ -31,15 +33,17 @@ namespace Storage.SQLite
         }
 
         private void CreateStorages()
-        {            
-            clientStorage = new ClientSqliteStorage();
-            studentStorage = new StudentSqliteStorage();
-            orderStorage = new OrderSqliteStorage();
-            lessonStorage = new LessonSqliteStorage();
-            paymentDocumentTypeStorage = new PaymentDocumentTypeSqliteStorage();
-            paymentStorage = new PaymentSqliteStorage();
-            projectStorage = new ProjectSqliteStorage();
-            taskStorage = new TaskSqliteStorage();
+        {
+            noteStorage = new NoteBufferSqliteStorage();
+
+            clientStorage = new ClientSqliteStorage(noteStorage);
+            studentStorage = new StudentSqliteStorage(noteStorage);
+            orderStorage = new OrderSqliteStorage(noteStorage);
+            lessonStorage = new LessonSqliteStorage(noteStorage);
+            paymentDocumentTypeStorage = new PaymentDocumentTypeSqliteStorage(noteStorage);
+            paymentStorage = new PaymentSqliteStorage(noteStorage);
+            projectStorage = new ProjectSqliteStorage(noteStorage);
+            taskStorage = new TaskSqliteStorage(noteStorage);
 
             storagesByType = new Dictionary<Type, ILoadable>();
             storagesByType.Add(typeof(Client), clientStorage);
@@ -84,6 +88,7 @@ namespace Storage.SQLite
         {
             if (!File.Exists(pathToDbFile))
             {
+                CreateNoteTable();
                 CreatePhoneNumberTable();
                 CreatePersonDataTable();
                 CreateClientsTable();
@@ -94,6 +99,22 @@ namespace Storage.SQLite
                 CreatePaymentTable();
                 CreateProjectTable();
                 CreateTaskTable();
+            }
+        }
+        private void CreateNoteTable()
+        {
+            using (var connection =
+                new SqliteConnection(string.Format("Data Source={0}", pathToDbFile))
+            )
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText =
+                    "CREATE TABLE IF NOT EXISTS " +
+                    "Note(" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "noteText TEXT NOT NULL);";
+                command.ExecuteNonQuery();
             }
         }
         private void CreatePhoneNumberTable()
@@ -111,6 +132,8 @@ namespace Storage.SQLite
                         "countryCode INTEGER NOT NULL, " +
                         "operatorCode INTEGER NOT NULL, " +
                         "number INTEGER NOT NULL, " +
+                        "noteId INTEGER, " +
+                        "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL, " +
                         "UNIQUE (countryCode, operatorCode, number));";
                 command.ExecuteNonQuery();
             }
@@ -131,6 +154,8 @@ namespace Storage.SQLite
                         "lastName TEXT, " +
                         "patronymic TEXT, " +
                         "phoneNumberId INTEGER, " +
+                        "noteId INTEGER, " +
+                        "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL, " +
                         "FOREIGN KEY (phoneNumberId) REFERENCES PhoneNumber (id) ON DELETE SET NULL)";
                 command.ExecuteNonQuery();
             }
@@ -149,6 +174,8 @@ namespace Storage.SQLite
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "balabceInKopeks INTEGER DEFAULT 0, " +
                         "personDataId INTEGER UNIQUE NOT NULL, " +
+                        "noteId INTEGER, " +
+                        "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL, " +
                         "FOREIGN KEY (personDataId) REFERENCES PersonData (id) ON DELETE RESTRICT)";
                 command.ExecuteNonQuery();
             }
@@ -167,6 +194,8 @@ namespace Storage.SQLite
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "personDataId INTEGER UNIQUE NOT NULL, " +
                         "clientId INTEGER NOT NULL, " +
+                        "noteId INTEGER, " +
+                        "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL, " +
                         "FOREIGN KEY (personDataId) REFERENCES PersonData (id) ON DELETE RESTRICT," +
                         "FOREIGN KEY (clientId) REFERENCES Client (id) ON DELETE RESTRICT)";
                 command.ExecuteNonQuery();
@@ -184,7 +213,9 @@ namespace Storage.SQLite
                     "CREATE TABLE IF NOT EXISTS " +
                     "StudyOrder(" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "name TEXT NOT NULL);\n" +
+                        "name TEXT NOT NULL, " +
+                        "noteId INTEGER, " +
+                        "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL);\n" +
                     "CREATE TABLE IF NOT EXISTS " +
                     "StudentOrderCosts(" +
                         "studentId INTEGER NOT NULL, " +
@@ -218,6 +249,8 @@ namespace Storage.SQLite
                         "statusId INTEGER NOT NULL, " +
                         "movedOnId INTEGER, " +
                         "movedFromId INTEGER, " +
+                        "noteId INTEGER, " +
+                        "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL, " +
                         "FOREIGN KEY(orderId) REFERENCES StudyOrder (id) ON DELETE RESTRICT, " +
                         "FOREIGN KEY(statusId) REFERENCES LessonStatus (id) ON DELETE RESTRICT, " +
                         "FOREIGN KEY(movedOnId) REFERENCES Lesson (id) ON DELETE RESTRICT, " +
@@ -247,7 +280,9 @@ namespace Storage.SQLite
                     "CREATE TABLE IF NOT EXISTS " +
                     "PaymentDocument(" +
                         "id INTEGER PRIMARY KEY, " +
-                        "documentType TEXT NOT NULL);" +                    
+                        "documentType TEXT NOT NULL, " +
+                        "noteId INTEGER, " +
+                        "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL);" +
                 command.ExecuteNonQuery();
             }
         }
@@ -268,6 +303,8 @@ namespace Storage.SQLite
                         "documentTypeId INTEGER NOT NULL, " +
                         "documentId TEXT NOT NULL, " +
                         "clientId INTEGER NOT NULL, " +
+                        "noteId INTEGER, " +
+                        "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL, " +
                         "FOREIGN KEY(documentTypeId) REFERENCES PaymentDocument (id) ON DELETE RESTRICT, " +
                         "FOREIGN KEY(clientId) REFERENCES Client (id) ON DELETE RESTRICT);";
                 command.ExecuteNonQuery();
@@ -286,7 +323,9 @@ namespace Storage.SQLite
                     "Project(" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "name TEXT NOT NULL, " +
-                        "completed INTEGER NOT NULL);\n";                    
+                        "completed INTEGER NOT NULL, " +
+                        "noteId INTEGER, " +
+                        "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL);\n";
                 command.ExecuteNonQuery();
             }
         }
@@ -306,6 +345,8 @@ namespace Storage.SQLite
                         "date TEXT NOT NULL, " +
                         "completed INTEGER NOT NULL, " +
                         "projectId INTEGER NOT NULL, " +
+                        "noteId INTEGER, " +
+                        "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL, " +
                         "FOREIGN KEY (projectId) REFERENCES Project (id) ON DELETE CASCADE);\n";
                 command.ExecuteNonQuery();
             }
@@ -313,6 +354,8 @@ namespace Storage.SQLite
 
         private void LoadData()
         {
+            noteStorage.Load(pathToDbFile);
+
             clientStorage.Load(pathToDbFile);
             studentStorage.Load(pathToDbFile);
             orderStorage.Load(pathToDbFile);

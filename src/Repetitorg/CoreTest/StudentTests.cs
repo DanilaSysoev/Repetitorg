@@ -11,9 +11,9 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class StudentTests
     {
-        DummyPersonStorage<Student> students;
-        DummyPersonStorage<Client> clients;
-        DummyPaymentStorage payments;
+        DummyStorage<Student> students;
+        DummyStorage<Client> clients;
+        DummyStorage<Payment> payments;
 
         FullName testStudent;
         FullName testStudent1;
@@ -32,9 +32,9 @@ namespace Repetitorg.CoreTest
         [SetUp]
         public void Initialize()
         {
-            students = new DummyPersonStorage<Student>();
-            clients = new DummyPersonStorage<Client>();
-            payments = new DummyPaymentStorage();
+            students = new DummyStorage<Student>();
+            clients = new DummyStorage<Client>();
+            payments = new DummyStorage<Payment>();
             Student.SetupStorage(students);
             Client.SetupStorage(clients);
 
@@ -392,6 +392,16 @@ namespace Repetitorg.CoreTest
             Client client = Client.CreateNew(c1);
             Student s = Student.CreateNew(ivanovII, client);
             Assert.IsTrue(s.ToString().Contains("Иванов Иван Иванович"));
+        }
+
+        [TestCase]
+        public void UpdateNotes_UpdateWithNotNull_UpdatecountIncrease()
+        {
+            Client client = Client.CreateNew(c1);
+            Student s = Student.CreateNew(ivanovII, client);
+            int oldUpdCnt = students.UpdatesCount;
+            s.UpdateNote("new note");
+            Assert.AreEqual(oldUpdCnt + 1, students.UpdatesCount);
         }
     }
 }

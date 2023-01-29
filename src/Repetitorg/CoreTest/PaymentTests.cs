@@ -9,16 +9,16 @@ namespace Repetitorg.CoreTest
     [TestFixture]
     class PaymentTests
     {
-        DummyPaymentStorage payments;
-        DummyPaymentDocumentTypeStorage paymentDocuments;
+        DummyStorage<Payment> payments;
+        DummyStorage<PaymentDocumentType> paymentDocuments;
 
         PaymentDocumentType paymentOrder;
 
         [SetUp]
         public void Initialize()
         {
-            payments = new DummyPaymentStorage();
-            paymentDocuments = new DummyPaymentDocumentTypeStorage();
+            payments = new DummyStorage<Payment>();
+            paymentDocuments = new DummyStorage<PaymentDocumentType>();
             Payment.SetupStorage(payments);
             PaymentDocumentType.SetupStorage(paymentDocuments);
 
@@ -209,6 +209,20 @@ namespace Repetitorg.CoreTest
             );
 
             Assert.AreEqual("01.02.2022: 10.00", payment.ToString());
+        }
+
+        [TestCase]
+        public void UpdateNotes_UpdateWithNotNull_UpdatecountIncrease()
+        {
+            var payment = Payment.CreateNew(
+                new DateTime(2022, 02, 01),
+                1000,
+                paymentOrder,
+                "123"
+            );
+            int oldUpdCnt = payments.UpdatesCount;
+            payment.UpdateNote("new note");
+            Assert.AreEqual(oldUpdCnt + 1, payments.UpdatesCount);
         }
     }
 }

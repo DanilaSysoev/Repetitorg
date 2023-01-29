@@ -21,6 +21,8 @@ namespace Repetitorg.Core
             SummInKopeks = valueInKopeks;
             DocumentType = documentType;
             DocumentId = documentId;
+
+            NotesUpdated += () => storage.Update(this);
         }
 
         public static Payment CreateNew(

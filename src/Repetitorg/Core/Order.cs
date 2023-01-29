@@ -132,6 +132,8 @@ namespace Repetitorg.Core
         {
             this.name = name;
             studentsCosts = new Dictionary<Student, long>();
+
+            NotesUpdated += () => storage.Update(this);
         }
     }
 }
