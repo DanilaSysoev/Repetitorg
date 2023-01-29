@@ -139,12 +139,13 @@ namespace Repetitorg.Core
             return client;
         }
         public static Client CreateLoaded(
-            long id, long balanceInKopeks, FullName fullName, PhoneNumber phoneNumber
+            long id, long balanceInKopeks, FullName fullName, PhoneNumber phoneNumber, string note
         )
         {
             Client client = new Client(fullName, phoneNumber);
             client.Id = id;
             client.balanceInKopeks = balanceInKopeks;
+            client.Note = note;
             return client;
         }
 

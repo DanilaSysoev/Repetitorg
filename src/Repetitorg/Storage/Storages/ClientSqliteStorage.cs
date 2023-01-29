@@ -27,14 +27,13 @@ namespace Storage.SQLite.Storages
             var phoneNumber = entity.PersonData.PhoneNumber;
             var personData = entity.PersonData;
             var note = entity.Note;
-            long personDataId = -1;
             long? phoneNumberId = null;
             long? noteId = null;
             if (phoneNumber != null)
                 phoneNumberId = InsertPhoneNumber(phoneNumber);
             if (note != "")
                 noteId = InsertNote(note, pathToDb);
-            personDataId = InsertPersonData(personData, phoneNumberId, noteId);
+            long personDataId = InsertPersonData(personData, phoneNumberId, noteId);
 
             return InsertClient(entity, personDataId);
         }
@@ -151,6 +150,7 @@ namespace Storage.SQLite.Storages
                     phoneNumberEntities[
                         personData.PhoneNumberId.Value
                     ] : null;
+                var note = noteStorage.GetNote(clientEntity.NoteId);
 
                 clients.Add(
                     clientEntity.Id,
@@ -167,7 +167,9 @@ namespace Storage.SQLite.Storages
                             phoneNumber.CountryCode,
                             phoneNumber.OperatorCode,
                             phoneNumber.Number
-                        ) : null
+                        ) : null,
+                        note != null ?
+                        note.Text : ""
                     )
                 );
             }
@@ -212,31 +214,215 @@ namespace Storage.SQLite.Storages
 
         public void Remove(Client entity)
         {
-            RemoveEntity(entity, "Client", pathToDb);
+            ClientEntity clientEntity;
+            PersonDataEntity personData;
+            PhoneNumberEntity phoneNumber;
+            NoteEntity note;
+            ReadClientLinkedEntities(
+                entity,
+                out clientEntity,
+                out personData,
+                out phoneNumber,
+                out note
+            );
+
+            RemoveEntity(clientEntity.Id, "Client", pathToDb);
+            RemoveEntity(personData.Id, "PersonData", pathToDb);
+            if(phoneNumber != null)
+                RemoveEntity(phoneNumber.Id, "PhoneNumber", pathToDb);
+            if(note != null)
+                RemoveEntity(note.Id, "Note", pathToDb);
         }
 
         public void Update(Client entity)
         {
-            ClientEntity oldClient = 
-                ReadEntity("Client", pathToDb, BuildClientEntity, entity.Id);
-            PersonDataEntity oldPersonData = 
-                ReadEntity(
-                    "PersonDAta", 
-                    pathToDb, 
-                    BuildPersonDataEntity, 
-                    oldClient.PersonDataId
-                );
-            PhoneNumberEntity oldPhoneNumber = null;
-            if (oldPersonData.PhoneNumberId.HasValue)
+            ClientEntity oldClient;
+            PersonDataEntity oldPersonData;
+            PhoneNumberEntity oldPhoneNumber;
+            NoteEntity oldNote;
+            ReadClientLinkedEntities(
+                entity, 
+                out oldClient,
+                out oldPersonData, 
+                out oldPhoneNumber,
+                out oldNote
+            );
+
+            UpdateClientEntity(entity, oldClient);
+            UpdatePersonData(entity.PersonData, oldPersonData);
+            UpdatePhoneNumber(oldPersonData, entity.PersonData.PhoneNumber, oldPhoneNumber);
+            UpdateNote(entity, entity.Note, oldNote);
+
+        }
+
+        private void ReadClientLinkedEntities(
+            Client client,
+            out ClientEntity clientEntity,
+            out PersonDataEntity personData,
+            out PhoneNumberEntity phoneNumber,
+            out NoteEntity note
+        )
+        {
+            clientEntity = ReadEntity("Client", pathToDb, BuildClientEntity, client.Id);
+            personData = ReadEntity(
+                "PersonData",
+                pathToDb,
+                BuildPersonDataEntity,
+                clientEntity.PersonDataId
+            );
+            phoneNumber = null;
+            if (personData.PhoneNumberId.HasValue)
             {
-                oldPhoneNumber =
+                phoneNumber =
                     ReadEntity(
                         "PhoneNumber",
                         pathToDb,
                         BuildPhoneNumberEntity,
-                        oldPersonData.PhoneNumberId.Value
+                        personData.PhoneNumberId.Value
                     );
             }
+            note = noteStorage.GetNote(clientEntity.NoteId);
+        }
+
+        private void UpdateNote(
+            Client client, string note, NoteEntity oldNote
+        )
+        {
+            if (oldNote == null && note == "")
+                return;
+            if (oldNote == null)
+                InsertNewNoteAndUpdateNoteId(client, note);
+            else if(note == "")
+                RemoveEntity(oldNote.Id, "Note", pathToDb);
+            else
+                UpdateNoteData(note, oldNote);
+        }
+        private void UpdateNoteData(string note, NoteEntity oldNote)
+        {
+            if (note.Equals(oldNote.Text))
+                return;
+            UpdateSet(
+                oldNote.Id,
+                "Note",
+                new string[] { "noteText" },
+                new object[] { note },
+                pathToDb
+            );
+        }
+        private void InsertNewNoteAndUpdateNoteId(Client client, string note)
+        {
+            long noteId = InsertInto(
+                "Note",
+                new string[] { "noteText" },
+                new object[] { note },
+                pathToDb
+            );
+            UpdateSet(
+                client.Id,
+                "Client",
+                new string[] { "noteId" },
+                new object[] { noteId },
+                pathToDb
+            );
+        }
+
+        private void UpdatePhoneNumber(
+            PersonDataEntity personData, 
+            PhoneNumber phoneNumber, 
+            PhoneNumberEntity oldPhoneNumber
+        )
+        {
+            if (oldPhoneNumber == null && phoneNumber == null)
+                return;
+            if (oldPhoneNumber == null)
+                InsertNewPhoneNumberAndUpdatePhoneNumberId(
+                    personData, phoneNumber
+                );
+            else if (phoneNumber == null)
+                RemoveEntity(oldPhoneNumber.Id, "PhoneNumber", pathToDb);
+            else
+                UpdatePhoneNumberData(phoneNumber, oldPhoneNumber);
+        }
+        private void UpdatePhoneNumberData(
+            PhoneNumber phoneNumber, 
+            PhoneNumberEntity oldPhoneNumber
+        )
+        {
+            if (phoneNumber.CountryCode == oldPhoneNumber.CountryCode &&
+                phoneNumber.OperatorCode == oldPhoneNumber.OperatorCode &&
+                phoneNumber.Number == oldPhoneNumber.Number)
+                return;
+            UpdateSet(
+                oldPhoneNumber.Id,
+                "PhoneNumber",
+                new string[] { "countryCode", "operatorCode", "number" },
+                new object[] {
+                    phoneNumber.CountryCode,
+                    phoneNumber.OperatorCode,
+                    phoneNumber.Number
+                },
+                pathToDb
+            );
+        }
+        private void InsertNewPhoneNumberAndUpdatePhoneNumberId(
+            PersonDataEntity personData, PhoneNumber phoneNumber
+        )
+        {
+            long phoneId = InsertInto(
+                "PhoneNumber",
+                new string[] { "countryCode", "operatorCode", "number" },
+                new object[] {
+                    phoneNumber.CountryCode,
+                    phoneNumber.OperatorCode,
+                    phoneNumber.Number
+                },
+                pathToDb
+            );
+            UpdateSet(
+                personData.Id,
+                "PersonData",
+                new string[] { "phoneNumberId" },
+                new object[] { phoneId },
+                pathToDb
+            );
+        }
+
+        private void UpdatePersonData(
+            Person personData, PersonDataEntity oldPersonData
+        )
+        {
+            if (personData.FullName.FirstName.Equals(oldPersonData.FirstName) &&
+                personData.FullName.LastName.Equals(oldPersonData.LastName) &&
+                personData.FullName.Patronymic.Equals(oldPersonData.Patronymic))
+                return;
+            UpdateSet(
+                oldPersonData.Id,
+                "PersonData",
+                new string[] { "firstName", "lastName", "patronymic" },
+                new object[] {
+                    personData.FullName.FirstName,
+                    personData.FullName.LastName,
+                    personData.FullName.Patronymic
+                },
+                pathToDb
+            );
+        }
+
+        private void UpdateClientEntity(
+            Client client, ClientEntity oldClient
+        )
+        {
+            if (oldClient.BalanceInKopeks == client.BalanceInKopeks)
+                return;
+            UpdateSet(
+                oldClient.Id,
+                "Client",
+                new string[] { "balabceInKopeks" },
+                new object[] {
+                    client.BalanceInKopeks
+                },
+                pathToDb
+            );
         }
     }
 }

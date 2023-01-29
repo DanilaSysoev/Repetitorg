@@ -34,7 +34,7 @@ namespace Storage.SQLite.Storages.Base
             string tableName,
             SqliteConnection connection,
             Func<SqliteDataReader, T> entityBuilder
-        )where T : EntityWithId
+        )where T : DatabaseEntity
         {
             var command = connection.CreateCommand();
             command.CommandText =
@@ -76,11 +76,11 @@ namespace Storage.SQLite.Storages.Base
             return result;
         }
 
-        public static void RemoveEntity<T>(
-            T entity,
+        public static void RemoveEntity(
+            long id,
             string tableName,
             string pathToDb
-        ) where T : IId
+        )
         {
             using (var connection =
                 new SqliteConnection(string.Format("Data Source={0}", pathToDb))
@@ -90,7 +90,7 @@ namespace Storage.SQLite.Storages.Base
                 var command = connection.CreateCommand();
                 command.CommandText =
                     "DELETE FROM " + tableName + " " +
-                    "WHERE Id = " + entity.Id + ";";
+                    "WHERE Id = " + id + ";";
                 if (command.ExecuteNonQuery() != 1)
                     throw new InvalidOperationException("Entity from " + tableName + " not removed");
             }
@@ -136,6 +136,7 @@ namespace Storage.SQLite.Storages.Base
         }
 
         public static void UpdateSet(
+            long id,
             string tableName,
             string[] columnNames,
             object[] values,

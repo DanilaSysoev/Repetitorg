@@ -8,7 +8,7 @@ namespace Repetitorg.Core.Base
     {
         public event Action NotesUpdated;
 
-        public string Note { get; private set; }
+        public string Note { get; protected set; }
         public StorageWrapper()
         {
             Note = "";

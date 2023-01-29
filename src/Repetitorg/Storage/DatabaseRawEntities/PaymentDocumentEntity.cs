@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Storage.SQLite.DatabaseRawEntities
 {
-    class PaymentDocumentEntity : EntityWithId
+    class PaymentDocumentEntity : DatabaseEntity
     {
         public string DocumentType { get; set; }
     }

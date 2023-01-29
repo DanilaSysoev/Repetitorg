@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Storage.SQLite.DatabaseRawEntities
 {
-    class TaskEntity : EntityWithId
+    class TaskEntity : DatabaseEntity
     {
         public string Name { get; set; }
         public string Date { get; set; }

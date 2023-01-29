@@ -132,8 +132,6 @@ namespace Storage.SQLite
                         "countryCode INTEGER NOT NULL, " +
                         "operatorCode INTEGER NOT NULL, " +
                         "number INTEGER NOT NULL, " +
-                        "noteId INTEGER, " +
-                        "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL, " +
                         "UNIQUE (countryCode, operatorCode, number));";
                 command.ExecuteNonQuery();
             }
@@ -154,8 +152,6 @@ namespace Storage.SQLite
                         "lastName TEXT, " +
                         "patronymic TEXT, " +
                         "phoneNumberId INTEGER, " +
-                        "noteId INTEGER, " +
-                        "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL, " +
                         "FOREIGN KEY (phoneNumberId) REFERENCES PhoneNumber (id) ON DELETE SET NULL)";
                 command.ExecuteNonQuery();
             }

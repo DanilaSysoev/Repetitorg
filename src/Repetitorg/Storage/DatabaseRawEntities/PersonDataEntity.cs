@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Storage.SQLite.DatabaseRawEntities
 {
-    class PersonDataEntity : EntityWithId
+    class PersonDataEntity : DatabaseEntity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

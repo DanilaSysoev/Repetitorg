@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Storage.SQLite.DatabaseRawEntities
 {
-    class PhoneNumberEntity : EntityWithId
+    class PhoneNumberEntity : DatabaseEntity
     {
         public int CountryCode { get; set; }
         public int OperatorCode { get; set; }

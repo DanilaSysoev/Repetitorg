@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Storage.SQLite.DatabaseRawEntities
 {
-    class LessonEntity : EntityWithId
+    class LessonEntity : DatabaseEntity
     {
         public string DateTime { get; set; }
         public int LengthInMinutes { get; set; }

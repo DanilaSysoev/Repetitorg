@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Storage.SQLite.DatabaseRawEntities
 {
-    class StudyOrderEntity : EntityWithId
+    class StudyOrderEntity : DatabaseEntity
     {
         public string Name { get; set; }
     }

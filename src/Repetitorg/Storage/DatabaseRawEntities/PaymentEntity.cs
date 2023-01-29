@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Storage.SQLite.DatabaseRawEntities
 {
-    class PaymentEntity : EntityWithId
+    class PaymentEntity : DatabaseEntity
     {
         public string Date { get; set; }
         public long SummInCopex { get; set; }

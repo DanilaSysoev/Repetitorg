@@ -10,9 +10,12 @@ namespace Storage.SQLite.Storages
     class NoteBufferSqliteStorage : SqliteLoadable
     {
         private Dictionary<long, NoteEntity> notes;
-        public NoteEntity GetNote(long id)
+
+        public NoteEntity GetNote(long? id)
         {
-            return notes[id];
+            if (id == null)
+                return null;
+            return notes[id.Value];
         }
         public void UpdateNote(long id, string text)
         {
@@ -43,7 +46,7 @@ namespace Storage.SQLite.Storages
             }
         }
 
-        private EntityWithId BuildNoteEntity(SqliteDataReader reader)
+        private DatabaseEntity BuildNoteEntity(SqliteDataReader reader)
         {
             var note = new NoteEntity
             {
