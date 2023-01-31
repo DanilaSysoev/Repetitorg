@@ -34,7 +34,7 @@ namespace Storage.SQLite.Storages.Base
             string tableName,
             SqliteConnection connection,
             Func<SqliteDataReader, T> entityBuilder
-        )where T : DatabaseEntity
+        ) where T : DatabaseEntity
         {
             var command = connection.CreateCommand();
             command.CommandText =

@@ -129,9 +129,9 @@ namespace Storage.SQLite
                     "CREATE TABLE IF NOT EXISTS " +
                     "PhoneNumber(" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "countryCode INTEGER NOT NULL, " +
-                        "operatorCode INTEGER NOT NULL, " +
-                        "number INTEGER NOT NULL, " +
+                        "countryCode TEXT NOT NULL, " +
+                        "operatorCode TEXT NOT NULL, " +
+                        "number TEXT NOT NULL, " +
                         "UNIQUE (countryCode, operatorCode, number));";
                 command.ExecuteNonQuery();
             }

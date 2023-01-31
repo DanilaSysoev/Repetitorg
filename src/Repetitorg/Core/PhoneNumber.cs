@@ -6,14 +6,14 @@ namespace Repetitorg.Core
 {
     public class PhoneNumber
     {
-        public long CountryCode { get; private set; }
-        public long OperatorCode { get; private set; }
-        public long Number { get; private set; }
+        public string CountryCode { get; private set; }
+        public string OperatorCode { get; private set; }
+        public string Number { get; private set; }
 
         public PhoneNumber(
-            long countryCode,
-            long operatorCode,
-            long number
+            string countryCode,
+            string operatorCode,
+            string number
         )
         {
             CountryCode = countryCode;
@@ -31,9 +31,9 @@ namespace Repetitorg.Core
             if (!(obj is PhoneNumber) || obj == null)
                 return false;
             var other = obj as PhoneNumber;
-            return CountryCode == other.CountryCode &&
-                   OperatorCode == other.OperatorCode &&
-                   Number == other.Number;
+            return CountryCode.Equals(other.CountryCode) &&
+                   OperatorCode.Equals(other.OperatorCode) &&
+                   Number.Equals(other.Number);
         }
 
         public override int GetHashCode()

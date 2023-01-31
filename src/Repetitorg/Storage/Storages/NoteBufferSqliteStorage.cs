@@ -38,15 +38,15 @@ namespace Storage.SQLite.Storages
                )
             {
                 connection.Open();
-                var noteEntities = ReadEntitiesToDict(
-                    "PhoneNumber", connection, BuildNoteEntity
+                notes = ReadEntitiesToDict(
+                    "Note", connection, BuildNoteEntity
                 );
 
                 connection.Close();
             }
         }
 
-        private DatabaseEntity BuildNoteEntity(SqliteDataReader reader)
+        private NoteEntity BuildNoteEntity(SqliteDataReader reader)
         {
             var note = new NoteEntity
             {

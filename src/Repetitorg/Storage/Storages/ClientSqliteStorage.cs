@@ -35,7 +35,9 @@ namespace Storage.SQLite.Storages
                 noteId = InsertNote(note, pathToDb);
             long personDataId = InsertPersonData(personData, phoneNumberId, noteId);
 
-            return InsertClient(entity, personDataId);
+            long clientId = InsertClient(entity, personDataId);
+            clients.Add(clientId, entity);
+            return clientId;
         }
 
         private long InsertPhoneNumber(PhoneNumber phoneNumber)
@@ -181,9 +183,9 @@ namespace Storage.SQLite.Storages
             return new PhoneNumberEntity
             {
                 Id = phoneNumberReader.GetInt64(0),
-                CountryCode = phoneNumberReader.GetInt32(1),
-                OperatorCode = phoneNumberReader.GetInt32(2),
-                Number = phoneNumberReader.GetInt64(3)
+                CountryCode = phoneNumberReader.GetString(1),
+                OperatorCode = phoneNumberReader.GetString(2),
+                Number = phoneNumberReader.GetString(3)
             };
         }
         private static PersonDataEntity 
@@ -204,12 +206,15 @@ namespace Storage.SQLite.Storages
         private static ClientEntity
             BuildClientEntity(SqliteDataReader personDataReader)
         {
-            return new ClientEntity
+            var entity = new ClientEntity
             {
                 Id = personDataReader.GetInt64(0),
                 BalanceInKopeks = personDataReader.GetInt64(1),
-                PersonDataId = personDataReader.GetInt64(2),
+                PersonDataId = personDataReader.GetInt64(2)
             };
+            if(!personDataReader.IsDBNull(3))
+                entity.NoteId = personDataReader.GetInt64(3); 
+            return entity;
         }
 
         public void Remove(Client entity)
@@ -232,6 +237,8 @@ namespace Storage.SQLite.Storages
                 RemoveEntity(phoneNumber.Id, "PhoneNumber", pathToDb);
             if(note != null)
                 RemoveEntity(note.Id, "Note", pathToDb);
+
+            clients.Remove(entity.Id);
         }
 
         public void Update(Client entity)
@@ -252,7 +259,7 @@ namespace Storage.SQLite.Storages
             UpdatePersonData(entity.PersonData, oldPersonData);
             UpdatePhoneNumber(oldPersonData, entity.PersonData.PhoneNumber, oldPhoneNumber);
             UpdateNote(entity, entity.Note, oldNote);
-
+            clients[entity.Id] = entity;
         }
 
         private void ReadClientLinkedEntities(

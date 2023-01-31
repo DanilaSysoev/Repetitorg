@@ -44,33 +44,33 @@ namespace Repetitorg.CoreTest
 
             phoneNumber1 = new PhoneNumber
             (
-                countryCode: 7,
-                operatorCode: 900,
-                number: 1112233
+                countryCode: "7",
+                operatorCode: "900",
+                number: "1112233"
             );
             phoneNumber2 = new PhoneNumber
             (
-                countryCode: 7,
-                operatorCode: 999,
-                number: 1234567
+                countryCode: "7",
+                operatorCode: "999",
+                number: "1234567"
             );
             phoneNumber3 = new PhoneNumber
             (
-                countryCode: 7,
-                operatorCode: 800,
-                number: 0000000
+                countryCode: "7",
+                operatorCode: "800",
+                number: "0000000"
             );
             phoneNumber4 = new PhoneNumber
             (
-                countryCode: 1,
-                operatorCode: 234,
-                number: 5678901
+                countryCode: "1",
+                operatorCode: "234",
+                number: "5678901"
             );
             phoneNumber5 = new PhoneNumber
             (
-                countryCode: 2,
-                operatorCode: 345,
-                number: 6789012
+                countryCode: "2",
+                operatorCode: "345",
+                number: "6789012"
             );
             ivanovII = new FullName
             (

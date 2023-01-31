@@ -6,9 +6,9 @@ namespace Storage.SQLite.DatabaseRawEntities
 {
     class PhoneNumberEntity : DatabaseEntity
     {
-        public int CountryCode { get; set; }
-        public int OperatorCode { get; set; }
-        public long Number { get; set; }
+        public string CountryCode { get; set; }
+        public string OperatorCode { get; set; }
+        public string Number { get; set; }
 
         public override string ToString()
         {
