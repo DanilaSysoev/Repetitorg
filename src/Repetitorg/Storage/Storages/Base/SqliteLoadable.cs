@@ -10,7 +10,13 @@ namespace Storage.SQLite.Storages.Base
 {
     abstract class SqliteLoadable : ILoadable
     {
-        public abstract void Load(string pathToDb);
+        protected SqliteDatabase database;
+        public SqliteLoadable(SqliteDatabase database)
+        {
+            this.database = database;
+        }
+
+        public abstract void Load();
 
         public static List<T> ReadEntities<T>(
             string tableName,
@@ -49,16 +55,15 @@ namespace Storage.SQLite.Storages.Base
             return entities;
         }
 
-        public static T ReadEntity<T>(
+        public T ReadEntity<T>(
             string tableName,
-            string pathToDb,
             Func<SqliteDataReader, T> entityBuilder,
             long id
         )
         {
             T result;
             using (var connection =
-                new SqliteConnection(string.Format("Data Source={0}", pathToDb))
+                new SqliteConnection(string.Format("Data Source={0}", database.PathToDb))
             )
             {
                 connection.Open();
@@ -76,14 +81,13 @@ namespace Storage.SQLite.Storages.Base
             return result;
         }
 
-        public static void RemoveEntity(
+        public void RemoveEntity(
             long id,
-            string tableName,
-            string pathToDb
+            string tableName
         )
         {
             using (var connection =
-                new SqliteConnection(string.Format("Data Source={0}", pathToDb))
+                new SqliteConnection(string.Format("Data Source={0}", database.PathToDb))
             )
             {
                 connection.Open();
@@ -106,17 +110,16 @@ namespace Storage.SQLite.Storages.Base
                     select entity).ToList();
         }
 
-        public static long InsertInto(
+        public long InsertInto(
             string tableName,
             string[] columnNames,
-            object[] values,
-            string pathToDb
+            object[] values
         )
         {
             string insertLine = BuildInsertList(columnNames, values);
             long id = -1;
             using (var connection =
-                new SqliteConnection(string.Format("Data Source={0}", pathToDb))
+                new SqliteConnection(string.Format("Data Source={0}", database.PathToDb))
             )
             {
                 connection.Open();
@@ -135,17 +138,16 @@ namespace Storage.SQLite.Storages.Base
             return id;
         }
 
-        public static void UpdateSet(
+        public void UpdateSet(
             long id,
             string tableName,
             string[] columnNames,
-            object[] values,
-            string pathToDb
+            object[] values
         )
         {
             string updateList = BuildUpdateList(columnNames, values);            
             using (var connection =
-                new SqliteConnection(string.Format("Data Source={0}", pathToDb))
+                new SqliteConnection(string.Format("Data Source={0}", database.PathToDb))
             )
             {
                 connection.Open();
@@ -157,7 +159,10 @@ namespace Storage.SQLite.Storages.Base
             }            
         }
 
-        private static string BuildInsertList(string[] columns, object[] values)
+        private static string BuildInsertList(
+            string[] columns,
+            object[] values
+        )
         {
             StringBuilder resultString = new StringBuilder("(");
             for (int i = 0; i < values.Length; ++i)
@@ -177,7 +182,10 @@ namespace Storage.SQLite.Storages.Base
             resultString.Append(")");
             return resultString.ToString();
         }
-        private static string BuildUpdateList(string[] columns, object[] values)
+        private static string BuildUpdateList(
+            string[] columns, 
+            object[] values
+        )
         {
             StringBuilder resultString = new StringBuilder();
             for (int i = 0; i < values.Length; ++i)
@@ -191,13 +199,57 @@ namespace Storage.SQLite.Storages.Base
             return resultString.ToString();
         }
 
-        protected long? InsertNote(string note, string pathToDb)
+        protected long? InsertNote(string note)
         {
-            return InsertInto(
+            if (note != "")
+                return InsertInto(
+                    "Note",
+                    new string[] { "noteText" },
+                    new object[] { note }
+                );
+            return null;
+        }
+
+        protected void UpdateNote(
+            IId entity, string tableName, string note, NoteEntity oldNote
+        )
+        {
+            if (oldNote == null && note == "")
+                return;
+            if (oldNote == null)
+                InsertNewNoteAndUpdateNoteId(entity, tableName, note);
+            else if (note == "")
+                RemoveEntity(oldNote.Id, "Note");
+            else
+                UpdateNoteData(note, oldNote);
+        }
+        private void UpdateNoteData(string note, NoteEntity oldNote)
+        {
+            if (note.Equals(oldNote.Text))
+                return;
+            UpdateSet(
+                oldNote.Id,
                 "Note",
                 new string[] { "noteText" },
-                new object[] { note },
-                pathToDb
+                new object[] { note }
+            );
+        }
+        private void InsertNewNoteAndUpdateNoteId(
+            IId entity,
+            string tableName,
+            string note
+        )
+        {
+            long noteId = InsertInto(
+                "Note",
+                new string[] { "noteText" },
+                new object[] { note }
+            );
+            UpdateSet(
+                entity.Id,
+                tableName,
+                new string[] { "noteId" },
+                new object[] { noteId }
             );
         }
     }

@@ -10,13 +10,11 @@ namespace Storage.SQLite.Storages
     class ProjectSqliteStorage : SqliteLoadable, IStorage<Project>
     {
         private Dictionary<long, Project> projects;
-        private string pathToDb;
-        private NoteBufferSqliteStorage noteStorage;
 
-        public ProjectSqliteStorage(NoteBufferSqliteStorage noteStorage)
+        public ProjectSqliteStorage(SqliteDatabase database)
+            : base(database)
         {
             projects = new Dictionary<long, Project>();
-            this.noteStorage = noteStorage;
         }
 
         public long Add(Project entity)
@@ -33,8 +31,12 @@ namespace Storage.SQLite.Storages
         {
             throw new NotImplementedException();
         }
+        internal Project Get(long id)
+        {
+            return projects[id];
+        }
 
-        public override void Load(string pathToDb)
+        public override void Load()
         {
         }
 

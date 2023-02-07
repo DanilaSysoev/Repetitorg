@@ -13,13 +13,11 @@ namespace Storage.SQLite.Storages
     class ClientSqliteStorage : SqliteLoadable, IStorage<Client>
     {
         private Dictionary<long, Client> clients;
-        private string pathToDb;
-        private NoteBufferSqliteStorage noteStorage;
 
-        public ClientSqliteStorage(NoteBufferSqliteStorage noteStorage)
+        public ClientSqliteStorage(SqliteDatabase database)
+            : base(database)
         {
             clients = new Dictionary<long, Client>();
-            this.noteStorage = noteStorage;
         }
 
         public long Add(Client entity)
@@ -27,12 +25,12 @@ namespace Storage.SQLite.Storages
             var phoneNumber = entity.PersonData.PhoneNumber;
             var personData = entity.PersonData;
             var note = entity.Note;
-            long? phoneNumberId = null;
-            long? noteId = null;
+            long? phoneNumberId = null;            
             if (phoneNumber != null)
                 phoneNumberId = InsertPhoneNumber(phoneNumber);
-            if (note != "")
-                noteId = InsertNote(note, pathToDb);
+
+            long? noteId = InsertNote(note);
+
             long personDataId = InsertPersonData(personData, phoneNumberId, noteId);
 
             long clientId = InsertClient(entity, personDataId);
@@ -54,8 +52,7 @@ namespace Storage.SQLite.Storages
                            phoneNumber.CountryCode,
                            phoneNumber.OperatorCode,
                            phoneNumber.Number
-                       },
-                       pathToDb
+                       }
                    );
         }
         private long InsertPersonData(
@@ -78,8 +75,7 @@ namespace Storage.SQLite.Storages
                            personData.FullName.Patronymic,
                            phoneNumberId,
                            noteId
-                       },
-                       pathToDb
+                       }
                    );
         }
         private long InsertClient(Client client, long personDataId)
@@ -94,8 +90,7 @@ namespace Storage.SQLite.Storages
                        {
                            client.BalanceInKopeks,
                            personDataId
-                       },
-                       pathToDb
+                       }
                    );
         }
 
@@ -109,10 +104,10 @@ namespace Storage.SQLite.Storages
             return new List<Client>(clients.Values);
         }
 
-        public override void Load(string pathToDb)
+        public override void Load()
         {
             using (var connection =
-                new SqliteConnection(string.Format("Data Source={0}", pathToDb))
+                new SqliteConnection(string.Format("Data Source={0}", database.PathToDb))
             )
             {
                 connection.Open();
@@ -134,8 +129,6 @@ namespace Storage.SQLite.Storages
 
                 connection.Close();
             }
-
-            this.pathToDb = pathToDb;
         }
 
         private void CreateAndLinkObjects(
@@ -151,8 +144,7 @@ namespace Storage.SQLite.Storages
                 var phoneNumber = personData.PhoneNumberId.HasValue ?
                     phoneNumberEntities[
                         personData.PhoneNumberId.Value
-                    ] : null;
-                var note = noteStorage.GetNote(clientEntity.NoteId);
+                    ] : null;                
 
                 clients.Add(
                     clientEntity.Id,
@@ -170,8 +162,7 @@ namespace Storage.SQLite.Storages
                             phoneNumber.OperatorCode,
                             phoneNumber.Number
                         ) : null,
-                        note != null ?
-                        note.Text : ""
+                        database.NoteStorage.Get(clientEntity.NoteId)
                     )
                 );
             }
@@ -221,22 +212,20 @@ namespace Storage.SQLite.Storages
         {
             ClientEntity clientEntity;
             PersonDataEntity personData;
-            PhoneNumberEntity phoneNumber;
             NoteEntity note;
-            ReadClientLinkedEntities(
+            ReadClientLinkedEntitiesWithoutPhone(
                 entity,
                 out clientEntity,
                 out personData,
-                out phoneNumber,
                 out note
             );
 
-            RemoveEntity(clientEntity.Id, "Client", pathToDb);
-            RemoveEntity(personData.Id, "PersonData", pathToDb);
-            if(phoneNumber != null)
-                RemoveEntity(phoneNumber.Id, "PhoneNumber", pathToDb);
+            RemoveEntity(clientEntity.Id, "Client");
+            RemoveEntity(personData.Id, "PersonData");
+            if(personData.PhoneNumberId != null)
+                RemoveEntity(personData.PhoneNumberId.Value, "PhoneNumber");
             if(note != null)
-                RemoveEntity(note.Id, "Note", pathToDb);
+                RemoveEntity(note.Id, "Note");
 
             clients.Remove(entity.Id);
         }
@@ -258,7 +247,7 @@ namespace Storage.SQLite.Storages
             UpdateClientEntity(entity, oldClient);
             UpdatePersonData(entity.PersonData, oldPersonData);
             UpdatePhoneNumber(oldPersonData, entity.PersonData.PhoneNumber, oldPhoneNumber);
-            UpdateNote(entity, entity.Note, oldNote);
+            UpdateNote(entity, "Client", entity.Note, oldNote);
             clients[entity.Id] = entity;
         }
 
@@ -270,10 +259,11 @@ namespace Storage.SQLite.Storages
             out NoteEntity note
         )
         {
-            clientEntity = ReadEntity("Client", pathToDb, BuildClientEntity, client.Id);
+            clientEntity = ReadEntity(
+                "Client", BuildClientEntity, client.Id
+            );
             personData = ReadEntity(
                 "PersonData",
-                pathToDb,
                 BuildPersonDataEntity,
                 clientEntity.PersonDataId
             );
@@ -283,54 +273,28 @@ namespace Storage.SQLite.Storages
                 phoneNumber =
                     ReadEntity(
                         "PhoneNumber",
-                        pathToDb,
                         BuildPhoneNumberEntity,
                         personData.PhoneNumberId.Value
                     );
             }
-            note = noteStorage.GetNote(clientEntity.NoteId);
+            note = database.NoteStorage.GetEntity(clientEntity.NoteId);
         }
-
-        private void UpdateNote(
-            Client client, string note, NoteEntity oldNote
+        private void ReadClientLinkedEntitiesWithoutPhone(
+            Client client,
+            out ClientEntity clientEntity,
+            out PersonDataEntity personData,
+            out NoteEntity note
         )
         {
-            if (oldNote == null && note == "")
-                return;
-            if (oldNote == null)
-                InsertNewNoteAndUpdateNoteId(client, note);
-            else if(note == "")
-                RemoveEntity(oldNote.Id, "Note", pathToDb);
-            else
-                UpdateNoteData(note, oldNote);
-        }
-        private void UpdateNoteData(string note, NoteEntity oldNote)
-        {
-            if (note.Equals(oldNote.Text))
-                return;
-            UpdateSet(
-                oldNote.Id,
-                "Note",
-                new string[] { "noteText" },
-                new object[] { note },
-                pathToDb
+            clientEntity = ReadEntity(
+                "Client", BuildClientEntity, client.Id
             );
-        }
-        private void InsertNewNoteAndUpdateNoteId(Client client, string note)
-        {
-            long noteId = InsertInto(
-                "Note",
-                new string[] { "noteText" },
-                new object[] { note },
-                pathToDb
+            personData = ReadEntity(
+                "PersonData",
+                BuildPersonDataEntity,
+                clientEntity.PersonDataId
             );
-            UpdateSet(
-                client.Id,
-                "Client",
-                new string[] { "noteId" },
-                new object[] { noteId },
-                pathToDb
-            );
+            note = database.NoteStorage.GetEntity(clientEntity.NoteId);
         }
 
         private void UpdatePhoneNumber(
@@ -346,7 +310,7 @@ namespace Storage.SQLite.Storages
                     personData, phoneNumber
                 );
             else if (phoneNumber == null)
-                RemoveEntity(oldPhoneNumber.Id, "PhoneNumber", pathToDb);
+                RemoveEntity(oldPhoneNumber.Id, "PhoneNumber");
             else
                 UpdatePhoneNumberData(phoneNumber, oldPhoneNumber);
         }
@@ -367,8 +331,7 @@ namespace Storage.SQLite.Storages
                     phoneNumber.CountryCode,
                     phoneNumber.OperatorCode,
                     phoneNumber.Number
-                },
-                pathToDb
+                }
             );
         }
         private void InsertNewPhoneNumberAndUpdatePhoneNumberId(
@@ -382,15 +345,13 @@ namespace Storage.SQLite.Storages
                     phoneNumber.CountryCode,
                     phoneNumber.OperatorCode,
                     phoneNumber.Number
-                },
-                pathToDb
+                }
             );
             UpdateSet(
                 personData.Id,
                 "PersonData",
                 new string[] { "phoneNumberId" },
-                new object[] { phoneId },
-                pathToDb
+                new object[] { phoneId }
             );
         }
 
@@ -410,8 +371,7 @@ namespace Storage.SQLite.Storages
                     personData.FullName.FirstName,
                     personData.FullName.LastName,
                     personData.FullName.Patronymic
-                },
-                pathToDb
+                }
             );
         }
 
@@ -427,8 +387,7 @@ namespace Storage.SQLite.Storages
                 new string[] { "balabceInKopeks" },
                 new object[] {
                     client.BalanceInKopeks
-                },
-                pathToDb
+                }
             );
         }
     }
