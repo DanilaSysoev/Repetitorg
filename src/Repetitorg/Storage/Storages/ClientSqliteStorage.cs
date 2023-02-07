@@ -10,17 +10,14 @@ using System.Text;
 
 namespace Storage.SQLite.Storages
 {
-    class ClientSqliteStorage : SqliteLoadable, IStorage<Client>
+    class ClientSqliteStorage : SqliteLoadable<Client>
     {
-        private Dictionary<long, Client> clients;
-
         public ClientSqliteStorage(SqliteDatabase database)
             : base(database)
         {
-            clients = new Dictionary<long, Client>();
         }
 
-        public long Add(Client entity)
+        public override long Add(Client entity)
         {
             var phoneNumber = entity.PersonData.PhoneNumber;
             var personData = entity.PersonData;
@@ -34,7 +31,7 @@ namespace Storage.SQLite.Storages
             long personDataId = InsertPersonData(personData, phoneNumberId, noteId);
 
             long clientId = InsertClient(entity, personDataId);
-            clients.Add(clientId, entity);
+            entities.Add(clientId, entity);
             return clientId;
         }
 
@@ -94,16 +91,6 @@ namespace Storage.SQLite.Storages
                    );
         }
 
-        public IList<Client> Filter(Predicate<Client> predicate)
-        {
-            return FilterByPredicate(clients.Values, predicate);
-        }
-
-        public IReadOnlyList<Client> GetAll()
-        {
-            return new List<Client>(clients.Values);
-        }
-
         public override void Load()
         {
             using (var connection =
@@ -137,7 +124,7 @@ namespace Storage.SQLite.Storages
             List<ClientEntity> clientEntities
         )
         {
-            clients = new Dictionary<long, Client>();
+            entities = new Dictionary<long, Client>();
             foreach(var clientEntity in clientEntities)
             {
                 var personData = personDataEntities[clientEntity.PersonDataId];
@@ -146,7 +133,7 @@ namespace Storage.SQLite.Storages
                         personData.PhoneNumberId.Value
                     ] : null;                
 
-                clients.Add(
+                entities.Add(
                     clientEntity.Id,
                     Client.CreateLoaded(
                         clientEntity.Id,
@@ -208,7 +195,7 @@ namespace Storage.SQLite.Storages
             return entity;
         }
 
-        public void Remove(Client entity)
+        public override void Remove(Client entity)
         {
             ClientEntity clientEntity;
             PersonDataEntity personData;
@@ -227,10 +214,10 @@ namespace Storage.SQLite.Storages
             if(note != null)
                 RemoveEntity(note.Id, "Note");
 
-            clients.Remove(entity.Id);
+            entities.Remove(entity.Id);
         }
 
-        public void Update(Client entity)
+        public override void Update(Client entity)
         {
             ClientEntity oldClient;
             PersonDataEntity oldPersonData;
@@ -248,7 +235,7 @@ namespace Storage.SQLite.Storages
             UpdatePersonData(entity.PersonData, oldPersonData);
             UpdatePhoneNumber(oldPersonData, entity.PersonData.PhoneNumber, oldPhoneNumber);
             UpdateNote(entity, "Client", entity.Note, oldNote);
-            clients[entity.Id] = entity;
+            entities[entity.Id] = entity;
         }
 
         private void ReadClientLinkedEntities(

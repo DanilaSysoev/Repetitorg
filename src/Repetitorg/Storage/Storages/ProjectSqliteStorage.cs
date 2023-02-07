@@ -7,45 +7,48 @@ using System.Text;
 
 namespace Storage.SQLite.Storages
 {
-    class ProjectSqliteStorage : SqliteLoadable, IStorage<Project>
+    class ProjectSqliteStorage : SqliteLoadable<Project>
     {
-        private Dictionary<long, Project> projects;
-
         public ProjectSqliteStorage(SqliteDatabase database)
             : base(database)
         {
-            projects = new Dictionary<long, Project>();
         }
 
-        public long Add(Project entity)
+        public override long Add(Project entity)
         {
-            throw new NotImplementedException();
+            long? noteId = InsertNote(entity.Note);
+            long taskId = InsertProject(entity, noteId);
+            entities.Add(taskId, entity);
+            return taskId;
         }
-
-        public IList<Project> Filter(Predicate<Project> predicate)
+        private long InsertProject(Project entity, long? noteId)
         {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyList<Project> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-        internal Project Get(long id)
-        {
-            return projects[id];
+            return InsertInto(
+                "Project",
+                new string[] {
+                    "name",
+                    "completed",
+                    "noteId"
+                },
+                new object[]
+                {
+                    entity.Name,
+                    entity.Completed ? 1 : 0,
+                    noteId
+                }
+            );
         }
 
         public override void Load()
         {
         }
 
-        public void Remove(Project entity)
+        public override void Remove(Project entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Project entity)
+        public override void Update(Project entity)
         {
             throw new NotImplementedException();
         }

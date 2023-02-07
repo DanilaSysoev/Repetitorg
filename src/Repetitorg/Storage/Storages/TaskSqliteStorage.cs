@@ -10,21 +10,18 @@ using System.Text;
 
 namespace Storage.SQLite.Storages
 {
-    class TaskSqliteStorage : SqliteLoadable, IStorage<Task>
+    class TaskSqliteStorage : SqliteLoadable<Task>
     {
-        private Dictionary<long, Task> tasks;
-
         public TaskSqliteStorage(SqliteDatabase database)
             : base(database)
         {
-            tasks = new Dictionary<long, Task>();
         }
 
-        public long Add(Task entity)
+        public override long Add(Task entity)
         {
             long? noteId = InsertNote(entity.Note);
             long taskId = InsertTask(entity, noteId);
-            tasks.Add(taskId, entity);
+            entities.Add(taskId, entity);
             return taskId;
         }
         private long InsertTask(Task entity, long? noteId)
@@ -49,16 +46,6 @@ namespace Storage.SQLite.Storages
             );
         }
 
-        public IList<Task> Filter(Predicate<Task> predicate)
-        {
-            return FilterByPredicate(tasks.Values, predicate);
-        }
-
-        public IReadOnlyList<Task> GetAll()
-        {
-            return new List<Task>(tasks.Values);
-        }
-
         public override void Load()
         {
             using (var connection =
@@ -80,10 +67,10 @@ namespace Storage.SQLite.Storages
 
         private void CreateAndLinkObjects(List<TaskEntity> taskEntities)
         {
-            tasks = new Dictionary<long, Task>();
+            entities = new Dictionary<long, Task>();
             foreach(var taskEntity in taskEntities)
             {
-                tasks.Add(
+                entities.Add(
                     taskEntity.Id,
                     Task.CreateLoaded(
                         taskEntity.Id,
@@ -110,7 +97,7 @@ namespace Storage.SQLite.Storages
             };
         }
 
-        public void Remove(Task entity)
+        public override void Remove(Task entity)
         {
             TaskEntity taskEntity = ReadEntity("task", BuildTaskEntity, entity.Id);
 
@@ -118,17 +105,17 @@ namespace Storage.SQLite.Storages
             if (taskEntity.NoteId != null)
                 RemoveEntity(taskEntity.NoteId.Value, "Note");
 
-            tasks.Remove(entity.Id);
+            entities.Remove(entity.Id);
         }
 
-        public void Update(Task entity)
+        public override void Update(Task entity)
         {
             TaskEntity oldTask = ReadEntity("Task", BuildTaskEntity, entity.Id);
             NoteEntity oldNote = database.NoteStorage.GetEntity(oldTask.NoteId);
 
             UpdateTaskEntity(entity, oldTask);
             UpdateNote(entity, "Task", entity.Note, oldNote);
-            tasks[entity.Id] = entity;
+            entities[entity.Id] = entity;
         }
 
         private void UpdateTaskEntity(Task task, TaskEntity oldTask)

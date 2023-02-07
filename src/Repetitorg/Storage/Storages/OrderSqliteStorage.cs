@@ -7,27 +7,14 @@ using System.Text;
 
 namespace Storage.SQLite.Storages
 {
-    class OrderSqliteStorage : SqliteLoadable, IStorage<Order>
+    class OrderSqliteStorage : SqliteLoadable<Order>
     {
-        private Dictionary<long, Order> orders;
-
         public OrderSqliteStorage(SqliteDatabase database)
             : base(database)
         {
-            orders = new Dictionary<long, Order>();
         }
 
-        public long Add(Order entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<Order> Filter(Predicate<Order> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyList<Order> GetAll()
+        public override long Add(Order entity)
         {
             throw new NotImplementedException();
         }
@@ -36,12 +23,12 @@ namespace Storage.SQLite.Storages
         {
         }
 
-        public void Remove(Order entity)
+        public override void Remove(Order entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Order entity)
+        public override void Update(Order entity)
         {
             throw new NotImplementedException();
         }

@@ -8,27 +8,14 @@ using System.Text;
 namespace Storage.SQLite.Storages
 {
     class PaymentDocumentTypeSqliteStorage :
-        SqliteLoadable, IStorage<PaymentDocumentType>
+        SqliteLoadable<PaymentDocumentType>
     {
-        private Dictionary<long, PaymentDocumentType> paymentDocumentTypes;
-
         public PaymentDocumentTypeSqliteStorage(SqliteDatabase database)
             : base(database)
         {
-            paymentDocumentTypes = new Dictionary<long, PaymentDocumentType>();
         }
 
-        public long Add(PaymentDocumentType entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<PaymentDocumentType> Filter(Predicate<PaymentDocumentType> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyList<PaymentDocumentType> GetAll()
+        public override long Add(PaymentDocumentType entity)
         {
             throw new NotImplementedException();
         }
@@ -37,12 +24,12 @@ namespace Storage.SQLite.Storages
         {
         }
 
-        public void Remove(PaymentDocumentType entity)
+        public override void Remove(PaymentDocumentType entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(PaymentDocumentType entity)
+        public override void Update(PaymentDocumentType entity)
         {
             throw new NotImplementedException();
         }

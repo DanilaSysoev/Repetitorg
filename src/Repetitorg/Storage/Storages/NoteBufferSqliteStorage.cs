@@ -7,48 +7,48 @@ using System.Text;
 
 namespace Storage.SQLite.Storages
 {
-    class NoteBufferSqliteStorage : SqliteLoadable
+    class NoteBufferSqliteStorage : RawSqliteInterface, ILoadable
     {
-        private Dictionary<long, NoteEntity> notes;
-
+        protected Dictionary<long, NoteEntity> entities;
         public NoteBufferSqliteStorage(SqliteDatabase database)
             : base(database)
-        { }
+        {
+            this.database = database;
+        }
 
         public string Get(long? id)
         {
             if (id == null)
                 return "";
-            return notes[id.Value].Text;
+            return entities[id.Value].Text;
         }
         public NoteEntity GetEntity(long? id)
         {
             if (id == null)
                 return null;
-            return notes[id.Value];
+            return entities[id.Value];
         }
         public void UpdateNote(long id, string text)
         {
-            notes[id].Text = text;
+            entities[id].Text = text;
         }
         public void RemoveNote(long id)
         {
-            notes.Remove(id);
+            entities.Remove(id);
         }
         public void AddNote(NoteEntity note)
         {
-            notes.Add(note.Id, note);
+            entities.Add(note.Id, note);
         }
 
-
-        public override void Load()
+        public void Load()
         {
             using (var connection =
                    new SqliteConnection(string.Format("Data Source={0}", database.PathToDb))
                )
             {
                 connection.Open();
-                notes = ReadEntitiesToDict(
+                entities = ReadEntitiesToDict(
                     "Note", connection, BuildNoteEntity
                 );
 
