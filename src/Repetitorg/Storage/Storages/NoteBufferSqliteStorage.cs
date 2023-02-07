@@ -11,7 +11,17 @@ namespace Storage.SQLite.Storages
     {
         private Dictionary<long, NoteEntity> notes;
 
-        public NoteEntity GetNote(long? id)
+        public NoteBufferSqliteStorage(SqliteDatabase database)
+            : base(database)
+        { }
+
+        public string Get(long? id)
+        {
+            if (id == null)
+                return "";
+            return notes[id.Value].Text;
+        }
+        public NoteEntity GetEntity(long? id)
         {
             if (id == null)
                 return null;
@@ -31,10 +41,10 @@ namespace Storage.SQLite.Storages
         }
 
 
-        public override void Load(string pathToDb)
+        public override void Load()
         {
             using (var connection =
-                   new SqliteConnection(string.Format("Data Source={0}", pathToDb))
+                   new SqliteConnection(string.Format("Data Source={0}", database.PathToDb))
                )
             {
                 connection.Open();

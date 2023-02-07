@@ -29,11 +29,12 @@ namespace Repetitorg.Core
 
         public static Task CreateLoaded(
             long id, string name, DateTime date, 
-            bool complete, Project project
+            bool complete, Project project, string note
         )
         {
             Task task = new Task(name, date.Date, complete, project);
             task.Id = id;
+            task.Note = note;
             return task;
         }
 

@@ -12,7 +12,6 @@ namespace Storage.SQLite
     public class SqliteDatabase : IDatabase
     {
         private NoteBufferSqliteStorage noteStorage;
-
         private ClientSqliteStorage clientStorage;
         private StudentSqliteStorage studentStorage;
         private OrderSqliteStorage orderStorage;
@@ -21,6 +20,19 @@ namespace Storage.SQLite
         private PaymentSqliteStorage paymentStorage;
         private ProjectSqliteStorage projectStorage;
         private TaskSqliteStorage taskStorage;
+
+        internal NoteBufferSqliteStorage NoteStorage { get { return noteStorage; } }
+        internal ClientSqliteStorage ClientStorage { get { return clientStorage; } }
+        internal StudentSqliteStorage StudentStorage { get { return studentStorage; } }
+        internal OrderSqliteStorage OrderStorage { get { return orderStorage; } }
+        internal LessonSqliteStorage LessonStorage { get { return lessonStorage; } }
+        internal PaymentDocumentTypeSqliteStorage PaymentDocumentTypeStorage 
+                 { get { return paymentDocumentTypeStorage; } }
+        internal PaymentSqliteStorage PaymentStorage { get { return paymentStorage; } }
+        internal ProjectSqliteStorage ProjectStorage { get { return projectStorage; } }
+        internal TaskSqliteStorage TaskStorage { get { return taskStorage; } }
+
+        public string PathToDb { get { return pathToDbFile; } }
 
         public void Initialize(string pathToDbFile)
         {
@@ -34,16 +46,16 @@ namespace Storage.SQLite
 
         private void CreateStorages()
         {
-            noteStorage = new NoteBufferSqliteStorage();
+            noteStorage = new NoteBufferSqliteStorage(this);
 
-            clientStorage = new ClientSqliteStorage(noteStorage);
-            studentStorage = new StudentSqliteStorage(noteStorage);
-            orderStorage = new OrderSqliteStorage(noteStorage);
-            lessonStorage = new LessonSqliteStorage(noteStorage);
-            paymentDocumentTypeStorage = new PaymentDocumentTypeSqliteStorage(noteStorage);
-            paymentStorage = new PaymentSqliteStorage(noteStorage);
-            projectStorage = new ProjectSqliteStorage(noteStorage);
-            taskStorage = new TaskSqliteStorage(noteStorage);
+            clientStorage = new ClientSqliteStorage(this);
+            studentStorage = new StudentSqliteStorage(this);
+            orderStorage = new OrderSqliteStorage(this);
+            lessonStorage = new LessonSqliteStorage(this);
+            paymentDocumentTypeStorage = new PaymentDocumentTypeSqliteStorage(this);
+            paymentStorage = new PaymentSqliteStorage(this);
+            projectStorage = new ProjectSqliteStorage(this);
+            taskStorage = new TaskSqliteStorage(this);
 
             storagesByType = new Dictionary<Type, ILoadable>();
             storagesByType.Add(typeof(Client), clientStorage);
@@ -350,16 +362,15 @@ namespace Storage.SQLite
 
         private void LoadData()
         {
-            noteStorage.Load(pathToDbFile);
-
-            clientStorage.Load(pathToDbFile);
-            studentStorage.Load(pathToDbFile);
-            orderStorage.Load(pathToDbFile);
-            lessonStorage.Load(pathToDbFile);
-            paymentDocumentTypeStorage.Load(pathToDbFile);
-            paymentStorage.Load(pathToDbFile);
-            projectStorage.Load(pathToDbFile);
-            taskStorage.Load(pathToDbFile);
+            noteStorage.Load();
+            clientStorage.Load();
+            studentStorage.Load();
+            orderStorage.Load();
+            lessonStorage.Load();
+            paymentDocumentTypeStorage.Load();
+            paymentStorage.Load();
+            projectStorage.Load();
+            taskStorage.Load();
         }
     }
 }

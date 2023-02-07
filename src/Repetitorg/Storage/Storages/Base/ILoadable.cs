@@ -7,6 +7,6 @@ namespace Storage.SQLite.Storages.Base
 {
     interface ILoadable
     {
-        void Load(string pathToDb);
+        void Load();
     }
 }

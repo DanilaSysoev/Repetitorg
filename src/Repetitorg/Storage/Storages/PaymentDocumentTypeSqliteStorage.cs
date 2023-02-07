@@ -11,15 +11,11 @@ namespace Storage.SQLite.Storages
         SqliteLoadable, IStorage<PaymentDocumentType>
     {
         private Dictionary<long, PaymentDocumentType> paymentDocumentTypes;
-        private string pathToDb;
-        private NoteBufferSqliteStorage noteStorage;
 
-        public PaymentDocumentTypeSqliteStorage(
-            NoteBufferSqliteStorage noteStorage
-        )
+        public PaymentDocumentTypeSqliteStorage(SqliteDatabase database)
+            : base(database)
         {
             paymentDocumentTypes = new Dictionary<long, PaymentDocumentType>();
-            this.noteStorage = noteStorage;
         }
 
         public long Add(PaymentDocumentType entity)
@@ -37,7 +33,7 @@ namespace Storage.SQLite.Storages
             throw new NotImplementedException();
         }
 
-        public override void Load(string pathToDb)
+        public override void Load()
         {
         }
 

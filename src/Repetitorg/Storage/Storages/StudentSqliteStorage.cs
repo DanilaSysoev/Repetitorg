@@ -10,13 +10,11 @@ namespace Storage.SQLite.Storages
     class StudentSqliteStorage : SqliteLoadable, IStorage<Student>
     {
         private Dictionary<long, Student> students;
-        private string pathToDb;
-        private NoteBufferSqliteStorage noteStorage;
 
-        public StudentSqliteStorage(NoteBufferSqliteStorage noteStorage)
+        public StudentSqliteStorage(SqliteDatabase database)
+            : base(database)
         {
             students = new Dictionary<long, Student>();
-            this.noteStorage = noteStorage;
         }
 
         public long Add(Student entity)
@@ -34,7 +32,7 @@ namespace Storage.SQLite.Storages
             throw new NotImplementedException();
         }
 
-        public override void Load(string pathToDb)
+        public override void Load()
         {
         }
 

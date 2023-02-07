@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Storage.SQLite.DatabaseRawEntities
 {
-    abstract class DatabaseEntity
+    class DatabaseEntity
     {
         public long Id { get; set; }
     }

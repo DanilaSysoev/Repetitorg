@@ -10,5 +10,6 @@ namespace Storage.SQLite.DatabaseRawEntities
         public string Date { get; set; }
         public int Completed { get; set; }
         public long ProjectId { get; set; }
+        public long? NoteId { get; set; }
     }
 }

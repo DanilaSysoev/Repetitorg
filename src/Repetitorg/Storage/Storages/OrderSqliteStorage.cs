@@ -10,13 +10,11 @@ namespace Storage.SQLite.Storages
     class OrderSqliteStorage : SqliteLoadable, IStorage<Order>
     {
         private Dictionary<long, Order> orders;
-        private string pathToDb;
-        private NoteBufferSqliteStorage noteStorage;
 
-        public OrderSqliteStorage(NoteBufferSqliteStorage noteStorage)
+        public OrderSqliteStorage(SqliteDatabase database)
+            : base(database)
         {
             orders = new Dictionary<long, Order>();
-            this.noteStorage = noteStorage;
         }
 
         public long Add(Order entity)
@@ -34,7 +32,7 @@ namespace Storage.SQLite.Storages
             throw new NotImplementedException();
         }
 
-        public override void Load(string pathToDb)
+        public override void Load()
         {
         }
 
