@@ -11,11 +11,14 @@ namespace Storage.SQLite.Storages.Base
     abstract class SqliteLoadable<E> : RawSqliteInterface, ILoadable, IStorage<E>
     {
         protected Dictionary<long, E> entities;
+        protected string tableName;
+        protected const string NoteTableName = "Note";
 
-        public SqliteLoadable(SqliteDatabase database)
+        public SqliteLoadable(SqliteDatabase database, string tableName)
             : base(database)
         {
             entities = new Dictionary<long, E>();
+            this.tableName = tableName;
         }
 
         public IList<E> Filter(Predicate<E> predicate)

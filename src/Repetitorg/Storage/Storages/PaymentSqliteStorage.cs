@@ -10,7 +10,7 @@ namespace Storage.SQLite.Storages
     class PaymentSqliteStorage : SqliteLoadable<Payment>
     {
         public PaymentSqliteStorage(SqliteDatabase database)
-            : base(database)
+            : base(database, "Payment")
         {
         }
 

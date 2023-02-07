@@ -10,7 +10,7 @@ namespace Storage.SQLite.Storages
     class StudentSqliteStorage : SqliteLoadable<Student>
     {
         public StudentSqliteStorage(SqliteDatabase database)
-            : base(database)
+            : base(database, "Student")
         {
         }
 

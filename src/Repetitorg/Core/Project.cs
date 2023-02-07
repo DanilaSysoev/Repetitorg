@@ -30,7 +30,7 @@ namespace Repetitorg.Core
         }
 
         public static Project CreateLoaded(
-            long id, string name, bool completed
+            long id, string name, bool completed, string note
         )
         {
             Project project = new Project(name, completed);

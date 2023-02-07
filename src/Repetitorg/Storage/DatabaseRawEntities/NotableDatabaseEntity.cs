@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Storage.SQLite.DatabaseRawEntities
 {
-    class ProjectEntity : NotableDatabaseEntity
+    class NotableDatabaseEntity : DatabaseEntity
     {
-        public string Name { get; set; }
-        public int Completed { get; set; }
+        public long? NoteId { get; set; }
     }
 }

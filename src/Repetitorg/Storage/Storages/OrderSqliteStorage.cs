@@ -10,7 +10,7 @@ namespace Storage.SQLite.Storages
     class OrderSqliteStorage : SqliteLoadable<Order>
     {
         public OrderSqliteStorage(SqliteDatabase database)
-            : base(database)
+            : base(database, "StudyOrder")
         {
         }
 

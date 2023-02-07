@@ -4,10 +4,9 @@ using System.Text;
 
 namespace Storage.SQLite.DatabaseRawEntities
 {
-    class ClientEntity : DatabaseEntity
+    class ClientEntity : NotableDatabaseEntity
     {
         public long BalanceInKopeks { get; set; }
         public long PersonDataId { get; set; }
-        public long? NoteId { get; set; }
     }
 }

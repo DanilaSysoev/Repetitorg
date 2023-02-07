@@ -13,7 +13,7 @@ namespace Storage.SQLite.Storages
     class TaskSqliteStorage : SqliteLoadable<Task>
     {
         public TaskSqliteStorage(SqliteDatabase database)
-            : base(database)
+            : base(database, "Task")
         {
         }
 
@@ -27,7 +27,7 @@ namespace Storage.SQLite.Storages
         private long InsertTask(Task entity, long? noteId)
         {
             return InsertInto(
-                "Task",
+                tableName,
                 new string[] {
                     "name",
                     "date",
@@ -54,7 +54,7 @@ namespace Storage.SQLite.Storages
             {
                 connection.Open();
                 var taskEntities = ReadEntities(
-                    "Task", connection, BuildTaskEntity
+                    tableName, connection, BuildTaskEntity
                 );
 
                 CreateAndLinkObjects(
@@ -83,7 +83,6 @@ namespace Storage.SQLite.Storages
                 );
             }
         }
-
         private TaskEntity BuildTaskEntity(SqliteDataReader reader)
         {
             return new TaskEntity
@@ -99,25 +98,25 @@ namespace Storage.SQLite.Storages
 
         public override void Remove(Task entity)
         {
-            TaskEntity taskEntity = ReadEntity("task", BuildTaskEntity, entity.Id);
+            TaskEntity taskEntity = 
+                ReadEntity(tableName, BuildTaskEntity, entity.Id);
 
-            RemoveEntity(taskEntity.Id, "Task");
+            RemoveEntity(taskEntity.Id, tableName);
             if (taskEntity.NoteId != null)
-                RemoveEntity(taskEntity.NoteId.Value, "Note");
+                RemoveEntity(taskEntity.NoteId.Value, NoteTableName);
 
             entities.Remove(entity.Id);
         }
 
         public override void Update(Task entity)
         {
-            TaskEntity oldTask = ReadEntity("Task", BuildTaskEntity, entity.Id);
+            TaskEntity oldTask = ReadEntity(tableName, BuildTaskEntity, entity.Id);
             NoteEntity oldNote = database.NoteStorage.GetEntity(oldTask.NoteId);
 
             UpdateTaskEntity(entity, oldTask);
-            UpdateNote(entity, "Task", entity.Note, oldNote);
+            UpdateNote(entity, tableName, entity.Note, oldNote);
             entities[entity.Id] = entity;
         }
-
         private void UpdateTaskEntity(Task task, TaskEntity oldTask)
         {
             if (oldTask.Completed == (task.Completed ? 1 : 0) &&
@@ -125,7 +124,7 @@ namespace Storage.SQLite.Storages
                 return;
             UpdateSet(
                 oldTask.Id,
-                "Task",
+                tableName,
                 new string[] { "completed", "projectId" },
                 new object[] {
                     task.Completed ? 1 : 0,

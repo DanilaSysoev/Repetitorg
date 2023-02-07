@@ -9,6 +9,7 @@ namespace Storage.SQLite.Storages
 {
     class NoteBufferSqliteStorage : RawSqliteInterface, ILoadable
     {
+        protected const string NoteTableName = "Note";
         protected Dictionary<long, NoteEntity> entities;
         public NoteBufferSqliteStorage(SqliteDatabase database)
             : base(database)
@@ -49,7 +50,7 @@ namespace Storage.SQLite.Storages
             {
                 connection.Open();
                 entities = ReadEntitiesToDict(
-                    "Note", connection, BuildNoteEntity
+                    NoteTableName, connection, BuildNoteEntity
                 );
 
                 connection.Close();

@@ -11,7 +11,7 @@ namespace Storage.SQLite.Storages
         SqliteLoadable<PaymentDocumentType>
     {
         public PaymentDocumentTypeSqliteStorage(SqliteDatabase database)
-            : base(database)
+            : base(database, "PaymentDocument")
         {
         }
 

@@ -12,8 +12,11 @@ namespace Storage.SQLite.Storages
 {
     class ClientSqliteStorage : SqliteLoadable<Client>
     {
+        private const string PersonDataTableName = "PersonData";
+        private const string PhoneNumberTableName = "PhoneNumber";
+
         public ClientSqliteStorage(SqliteDatabase database)
-            : base(database)
+            : base(database, "Client")
         {
         }
 
@@ -38,7 +41,7 @@ namespace Storage.SQLite.Storages
         private long InsertPhoneNumber(PhoneNumber phoneNumber)
         {
             return InsertInto(
-                       "PhoneNumber",
+                       PhoneNumberTableName,
                        new string[] {
                            "countryCode",
                            "operatorCode",
@@ -57,7 +60,7 @@ namespace Storage.SQLite.Storages
         )
         {
             return InsertInto(
-                       "PersonData",
+                       PersonDataTableName,
                        new string[] {
                            "firstName",
                            "lastName",
@@ -78,7 +81,7 @@ namespace Storage.SQLite.Storages
         private long InsertClient(Client client, long personDataId)
         {
             return InsertInto(
-                       "Client",
+                       tableName,
                        new string[] {
                            "balabceInKopeks",
                            "personDataId"
@@ -99,13 +102,13 @@ namespace Storage.SQLite.Storages
             {
                 connection.Open();
                 var phoneNumberEntities = ReadEntitiesToDict(
-                    "PhoneNumber", connection, BuildPhoneNumberEntity
+                    PhoneNumberTableName, connection, BuildPhoneNumberEntity
                 );
                 var personDataEntities = ReadEntitiesToDict(
-                    "PersonData", connection, BuildPersonDataEntity
+                    PersonDataTableName, connection, BuildPersonDataEntity
                 );
                 var clientEntities = ReadEntities(
-                    "Client", connection, BuildClientEntity
+                    tableName, connection, BuildClientEntity
                 );
 
                 CreateAndLinkObjects(
@@ -207,12 +210,12 @@ namespace Storage.SQLite.Storages
                 out note
             );
 
-            RemoveEntity(clientEntity.Id, "Client");
-            RemoveEntity(personData.Id, "PersonData");
+            RemoveEntity(clientEntity.Id, tableName);
+            RemoveEntity(personData.Id, PersonDataTableName);
             if(personData.PhoneNumberId != null)
-                RemoveEntity(personData.PhoneNumberId.Value, "PhoneNumber");
+                RemoveEntity(personData.PhoneNumberId.Value, PhoneNumberTableName);
             if(note != null)
-                RemoveEntity(note.Id, "Note");
+                RemoveEntity(note.Id, NoteTableName);
 
             entities.Remove(entity.Id);
         }
@@ -234,7 +237,7 @@ namespace Storage.SQLite.Storages
             UpdateClientEntity(entity, oldClient);
             UpdatePersonData(entity.PersonData, oldPersonData);
             UpdatePhoneNumber(oldPersonData, entity.PersonData.PhoneNumber, oldPhoneNumber);
-            UpdateNote(entity, "Client", entity.Note, oldNote);
+            UpdateNote(entity, tableName, entity.Note, oldNote);
             entities[entity.Id] = entity;
         }
 
@@ -247,10 +250,10 @@ namespace Storage.SQLite.Storages
         )
         {
             clientEntity = ReadEntity(
-                "Client", BuildClientEntity, client.Id
+                tableName, BuildClientEntity, client.Id
             );
             personData = ReadEntity(
-                "PersonData",
+                PersonDataTableName,
                 BuildPersonDataEntity,
                 clientEntity.PersonDataId
             );
@@ -259,7 +262,7 @@ namespace Storage.SQLite.Storages
             {
                 phoneNumber =
                     ReadEntity(
-                        "PhoneNumber",
+                        PhoneNumberTableName,
                         BuildPhoneNumberEntity,
                         personData.PhoneNumberId.Value
                     );
@@ -274,10 +277,10 @@ namespace Storage.SQLite.Storages
         )
         {
             clientEntity = ReadEntity(
-                "Client", BuildClientEntity, client.Id
+                tableName, BuildClientEntity, client.Id
             );
             personData = ReadEntity(
-                "PersonData",
+                PersonDataTableName,
                 BuildPersonDataEntity,
                 clientEntity.PersonDataId
             );
@@ -297,7 +300,7 @@ namespace Storage.SQLite.Storages
                     personData, phoneNumber
                 );
             else if (phoneNumber == null)
-                RemoveEntity(oldPhoneNumber.Id, "PhoneNumber");
+                RemoveEntity(oldPhoneNumber.Id, PhoneNumberTableName);
             else
                 UpdatePhoneNumberData(phoneNumber, oldPhoneNumber);
         }
@@ -312,7 +315,7 @@ namespace Storage.SQLite.Storages
                 return;
             UpdateSet(
                 oldPhoneNumber.Id,
-                "PhoneNumber",
+                PhoneNumberTableName,
                 new string[] { "countryCode", "operatorCode", "number" },
                 new object[] {
                     phoneNumber.CountryCode,
@@ -326,7 +329,7 @@ namespace Storage.SQLite.Storages
         )
         {
             long phoneId = InsertInto(
-                "PhoneNumber",
+                PhoneNumberTableName,
                 new string[] { "countryCode", "operatorCode", "number" },
                 new object[] {
                     phoneNumber.CountryCode,
@@ -336,7 +339,7 @@ namespace Storage.SQLite.Storages
             );
             UpdateSet(
                 personData.Id,
-                "PersonData",
+                PersonDataTableName,
                 new string[] { "phoneNumberId" },
                 new object[] { phoneId }
             );
@@ -352,7 +355,7 @@ namespace Storage.SQLite.Storages
                 return;
             UpdateSet(
                 oldPersonData.Id,
-                "PersonData",
+                PersonDataTableName,
                 new string[] { "firstName", "lastName", "patronymic" },
                 new object[] {
                     personData.FullName.FirstName,
@@ -370,7 +373,7 @@ namespace Storage.SQLite.Storages
                 return;
             UpdateSet(
                 oldClient.Id,
-                "Client",
+                tableName,
                 new string[] { "balabceInKopeks" },
                 new object[] {
                     client.BalanceInKopeks
