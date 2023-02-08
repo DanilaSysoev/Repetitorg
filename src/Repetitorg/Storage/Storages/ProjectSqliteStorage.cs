@@ -44,12 +44,12 @@ namespace Storage.SQLite.Storages
         public override void Load()
         {
             using (var connection =
-                   new SqliteConnection(string.Format("Data Source={0}", database.PathToDb))
-               )
+                new SqliteConnection(string.Format("Data Source={0}", database.PathToDb))
+            )
             {
                 connection.Open();
                 var projectEntities = ReadEntities(
-                    "Task", connection, BuildProjectEntity
+                    tableName, connection, BuildProjectEntity
                 );
 
                 CreateAndLinkObjects(
@@ -77,12 +77,15 @@ namespace Storage.SQLite.Storages
         }
         private ProjectEntity BuildProjectEntity(SqliteDataReader reader)
         {
+            long? noteId = null;
+            if (!reader.IsDBNull(3))
+                noteId = reader.GetInt64(3);
             return new ProjectEntity
             {
                 Id = reader.GetInt64(0),
                 Name = reader.GetString(1),
                 Completed = reader.GetInt32(2),
-                NoteId = reader.GetInt64(3)
+                NoteId = noteId
             };
         }
 

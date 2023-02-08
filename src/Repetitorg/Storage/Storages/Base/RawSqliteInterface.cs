@@ -188,10 +188,18 @@ namespace Storage.SQLite.Storages.Base
             StringBuilder resultString = new StringBuilder();
             for (int i = 0; i < values.Length; ++i)
             {
-                resultString.Append(columns[i])
-                            .Append(" = '")
-                            .Append(values[i])
-                            .Append("', ");
+                if (values[i] == null)
+                {
+                    resultString.Append(columns[i])
+                                .Append(" = NULL ,");
+                }
+                else
+                {
+                    resultString.Append(columns[i])
+                                .Append(" = '")
+                                .Append(values[i])
+                                .Append("', ");
+                }
             }
             resultString.Remove(resultString.Length - 2, 2);
             return resultString.ToString();

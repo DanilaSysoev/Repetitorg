@@ -352,7 +352,7 @@ namespace Storage.SQLite
                         "name TEXT NOT NULL, " +
                         "date TEXT NOT NULL, " +
                         "completed INTEGER NOT NULL, " +
-                        "projectId INTEGER NOT NULL, " +
+                        "projectId INTEGER, " +
                         "noteId INTEGER, " +
                         "FOREIGN KEY (noteId) REFERENCES Note (id) ON DELETE SET NULL, " +
                         "FOREIGN KEY (projectId) REFERENCES Project (id) ON DELETE CASCADE);\n";

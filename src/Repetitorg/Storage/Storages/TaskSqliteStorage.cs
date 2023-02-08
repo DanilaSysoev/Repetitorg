@@ -20,11 +20,14 @@ namespace Storage.SQLite.Storages
         public override long Add(Task entity)
         {
             long? noteId = InsertNote(entity.Note);
-            long taskId = InsertTask(entity, noteId);
+            long? projectId = null;
+            if (entity.Project != null)
+                projectId = entity.Project.Id;
+            long taskId = InsertTask(entity, noteId, projectId);
             entities.Add(taskId, entity);
             return taskId;
         }
-        private long InsertTask(Task entity, long? noteId)
+        private long InsertTask(Task entity, long? noteId, long? projectId)
         {
             return InsertInto(
                 tableName,
@@ -40,7 +43,7 @@ namespace Storage.SQLite.Storages
                     entity.Name,
                     entity.Date.ToString("yyyyMMdd"),
                     entity.Completed ? 1 : 0,
-                    entity.Project.Id,
+                    projectId,
                     noteId
                 }
             );
@@ -70,6 +73,9 @@ namespace Storage.SQLite.Storages
             entities = new Dictionary<long, Task>();
             foreach(var taskEntity in taskEntities)
             {
+                Project project = null;
+                if (taskEntity.ProjectId != null)
+                    project = database.ProjectStorage.Get(taskEntity.ProjectId.Value);
                 entities.Add(
                     taskEntity.Id,
                     Task.CreateLoaded(
@@ -77,7 +83,7 @@ namespace Storage.SQLite.Storages
                         taskEntity.Name,
                         DateTime.ParseExact(taskEntity.Date, "yyyyMMdd", CultureInfo.InvariantCulture),
                         taskEntity.Completed == 1,
-                        database.ProjectStorage.Get(taskEntity.ProjectId),
+                        project,
                         database.NoteStorage.Get(taskEntity.NoteId)
                     )
                 );
@@ -85,14 +91,20 @@ namespace Storage.SQLite.Storages
         }
         private TaskEntity BuildTaskEntity(SqliteDataReader reader)
         {
+            long? noteId = null;
+            if (!reader.IsDBNull(5))
+                noteId = reader.GetInt64(5);
+            long? projectId = null;
+            if (!reader.IsDBNull(4))
+                projectId = reader.GetInt64(4);
             return new TaskEntity
             {
                 Id = reader.GetInt64(0),
                 Name = reader.GetString(1),
                 Date = reader.GetString(2),
                 Completed = reader.GetInt32(3),
-                ProjectId = reader.GetInt64(4),
-                NoteId = reader.GetInt64(5)
+                ProjectId = projectId,
+                NoteId = noteId
             };
         }
 
@@ -120,15 +132,20 @@ namespace Storage.SQLite.Storages
         private void UpdateTaskEntity(Task task, TaskEntity oldTask)
         {
             if (oldTask.Completed == (task.Completed ? 1 : 0) &&
-                oldTask.ProjectId == task.Project.Id)
+                (oldTask.ProjectId == null && task.Project == null ||
+                task.Project != null && oldTask.ProjectId == task.Project.Id))
                 return;
+
+            long? projectId = null;
+            if (task.Project != null)
+                projectId = task.Project.Id;
             UpdateSet(
                 oldTask.Id,
                 tableName,
                 new string[] { "completed", "projectId" },
                 new object[] {
                     task.Completed ? 1 : 0,
-                    task.Project.Id
+                    projectId
                 }
             );
         }

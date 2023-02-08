@@ -35,6 +35,7 @@ namespace Repetitorg.Core
         {
             Project project = new Project(name, completed);
             project.Id = id;
+            project.Note = note;
             return project;
         }
 
@@ -102,7 +103,8 @@ namespace Repetitorg.Core
         public override bool Equals(object obj)
         {
             if(obj is Project)
-                return ((Project)obj).Name == Name;
+                return ((Project)obj).Name == Name && 
+                       ((Project)obj).Completed == Completed;
             return false;
         }
         public override int GetHashCode()

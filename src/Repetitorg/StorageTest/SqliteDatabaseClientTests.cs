@@ -14,6 +14,7 @@ namespace Repetitorg.StorageTest
     {
         private SqliteDatabase database;
         private static int dbNumber = 0;
+        private static string dbName = "testClientDb";
         [SetUp]
         public void Initialize()
         {
@@ -25,18 +26,18 @@ namespace Repetitorg.StorageTest
         public void DestroyDatabased()
         {
             int i = 1;
-            var filename = "test" + i + ".sqlite";
+            var filename = dbName + i + ".sqlite";
             while (File.Exists(filename))
             {
                 File.Delete(filename);
                 ++i;
-                filename = "test" + i + ".sqlite";
+                filename = dbName + i + ".sqlite";
             }
         }
         private void InitializeDatabase()
         {
             database = new SqliteDatabase();
-            database.Initialize("test" + dbNumber + ".sqlite");
+            database.Initialize(dbName + dbNumber + ".sqlite");
         }
 
         [TestCase]
@@ -48,7 +49,7 @@ namespace Repetitorg.StorageTest
         public void AddClient_AddWithNullPhoneNumber_AddWithoutErrors()
         {            
             Assert.DoesNotThrow(
-            () => Client.CreateNew(
+                () => Client.CreateNew(
                     new FullName
                     (
                         firstName: "Danila",
@@ -69,13 +70,17 @@ namespace Repetitorg.StorageTest
                     patronymic: "Yurevich"
                 )
             );
-            InitializeDatabase();
+            Assert.DoesNotThrow(
+                () => InitializeDatabase()
+            );
         }
         [TestCase]
         public void InitializeNonEmptyDb_ClientWithPhone_InitializeWithoutErrors()
         {
             CreateOneClientWithFullData();
-            InitializeDatabase();
+            Assert.DoesNotThrow(
+                () => InitializeDatabase()
+            );
         }
 
         [TestCase]
@@ -130,6 +135,19 @@ namespace Repetitorg.StorageTest
                 newPhone
             );
             Assert.AreEqual(newPhone, Client.GetAll()[0].PersonData.PhoneNumber);
+            InitializeDatabase();
+            var clientsAfter = Client.GetAll();
+            Assert.True(clientsBefore[0].Equals(clientsAfter[0]));
+        }
+        [TestCase]
+        public void Update_ReconnectAfterCreatingAndUpdatingPhoneNumberOnNull_DatabaseCorrect()
+        {
+            CreateOneClientWithFullData();
+            var clientsBefore = Client.GetAll();
+            clientsBefore[0].PersonData.ChangePhoneNumber(
+                null
+            );
+            Assert.IsNull(Client.GetAll()[0].PersonData.PhoneNumber);
             InitializeDatabase();
             var clientsAfter = Client.GetAll();
             Assert.True(clientsBefore[0].Equals(clientsAfter[0]));
